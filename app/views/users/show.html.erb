@@ -266,10 +266,11 @@
                               <% if @c_scope == "kosten" %>
                                 <th align="right"><%= (I18n.t :betrag) %></th>
                               <% end %>
+                              <th></th>
                             </tr>
                           </thead>
                           <tbody>
-                          <% @activities = Timetrack.where('user_id=? and costortime=? and datum=?', @user.id, @c_scope, @c_datum).order(datum: :desc) %>
+                          <% @activities = Timetrack.where('user_id=? and costortime=? and datum=?', @user.id, @c_scope, @c_datum).order(datum: :desc, created_at: :desc) %>
                           <% @activities.each do |a| %>
                             <tr>
                               <td>
@@ -284,7 +285,13 @@
                               <td><%= showFirstImage2(:small, Mobject.find(a.mobject_id),Mobject.find(a.mobject_id).mdetails) %></td>
                               <td><%= Mobject.find(a.mobject_id).name %></td>
                               <td><%= a.activity %></td>
-                              <td align="right"><%= a.amount %></td>
+                              <% if @c_scope == "aufwand" %>
+                                <td align="right"><%= sprintf("%05.2f", a.amount) + " h" %></td>
+                              <% end %>
+                              <% if @c_scope == "kosten" %>
+                                <td align="right"><%= sprintf("%05.2f", a.amount) + " " + (I18n.t :waehrung) %></td>
+                              <% end %>
+                              <td></td>
                             </tr>
                           <% end %>
                           </tbody>
@@ -976,18 +983,20 @@
           <% @tts = Timetrack.select("mobject_id, sum(amount) as sum").where('user_id=? and costortime=? and datum >=? and datum <=?', @user.id, @c_scope, @date_start, @date_end).group("mobject_id") %>
       <% end %>
       window.datasetall = [['kategorie', 'anzahl']];
+      <% summe = 0 %>
       <% @tts.each do |ts| %>
         datasetall.push(['<%= Mobject.find(ts.mobject_id).name %>', <%= ts.sum %>]);
+        <% summe = summe + ts.sum %>
       <% end %>
       google.charts.setOnLoadCallback(drawChartall);
       function drawChartall() {
         var data = google.visualization.arrayToDataTable(datasetall);
         var options = {
           <% if @c_scope == "aufwand" %>
-          title: "<%= (I18n.t :rapportiertestunden) %>",
+          title: "<%= (I18n.t :rapportiertestunden) + " " + sprintf("%05.2f",summe) + " h"  %>",
           <% end %>
           <% if @c_scope == "kosten" %>
-          title: "<%= (I18n.t :rapportiertekosten) %>",
+          title: "<%= (I18n.t :rapportiertekosten) + " " + sprintf("%05.2f",summe) + " " + (I18n.t :waehrung) %>",
           <% end %>
           // colors: ['#ACC550'],
           // legend: { position: 'bottom' }

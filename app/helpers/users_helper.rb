@@ -1085,17 +1085,16 @@ def build_medialist2(items, cname, par)
                   #    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-blackboard")
                   #  end
                   # end
-                  if isowner(item)
-                    access = true
-                  end
                   if cname == "mobjects"
-                    if user_signed_in?
                       # if item.mtype == "projekte" and item.madvisors.where('role=? and user_id=?',item.mtype, current_user.id).count > 0
                       #   html_string = html_string + link_to(timetracks_path(:mobject_id => item.id)) do 
                       #     content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-pencil")
                       #   end
                       # end
-                    end
+                      if isowner(item) or isdeputy(item.owner)
+                        html_string = html_string + "TRUE??"
+                        access = true
+                      end
                     if item.mtype == "veranstaltungen" 
                       if item.eventpart
                         if @angemeldet
@@ -1145,6 +1144,7 @@ def build_medialist2(items, cname, par)
                   
                 when "nopartners"
                   access = true
+                  
                 when "deputies"
                   if isowner(item)
                     access = true
@@ -1153,15 +1153,17 @@ def build_medialist2(items, cname, par)
                   if item.user_id == current_user.id or isdeputy(item)
                     access = true
                   end
+
                 when "mdetails"
                   if item.document_file_name
       	            html_string = html_string + link_to(item.document.url, target: "_blank") do 
                       content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-cloud-download")
                     end
                   end
-                  if isowner(item.mobject)
+                  if isowner(item.mobject) or isdeputy(item.mobject.owner)
                     access = true
                   end
+
                 when "msponsors"
                   if item.company.user_id == current_user.id or isdeputy(item.company)
                     access = true
@@ -1585,13 +1587,13 @@ def navigate(object,item)
       when "objekte"
         html_string = html_string + build_nav("objekte",item,"objekte_info",item)
         if user_signed_in?
-          if isowner(item) or isdeputy(item)
+          if isowner(item) or isdeputy(item.owner)
             html_string = html_string + build_nav("objekte",item,"objekte_details",item.mdetails.where('mtype=?',"details").count > 0)
           end
         end 
         if item.mtype == "projekte"
           if user_signed_in?
-            if isowner(item) or isdeputy(item)
+            if isowner(item) or isdeputy(item.owner)
               html_string = html_string + build_nav("objekte",item,"objekte_substruktur", Mobject.where('parent=?',item.id).count > 0)
               html_string = html_string + build_nav("objekte",item,"objekte_projektberechtigungen", item.madvisors.where('role=?',item.mtype).count > 0)
             end
@@ -3404,7 +3406,7 @@ def isdeputy(item)
   else
     @deputies = item.deputies
     @deputies.each do |d|
-      if d.userid
+      if d.userid == current_user.id
         if d.date_from and d.date_to
           if d.date_from <= Date.today and d.date_to >= Date.today
             dep = true
