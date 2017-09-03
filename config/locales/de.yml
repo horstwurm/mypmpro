@@ -20,6 +20,8 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 de:
+  private: "nicht öffentlich"
+  public: "öffentlich"
   activity: "Aktivität"
   noprojects: "Keine Projektberechtigungen!"
   stellvertretungen: "Stellvertretungen"

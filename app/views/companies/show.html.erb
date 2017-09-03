@@ -76,7 +76,9 @@
           </div>
 
         <% when "institutionen_projekte" %>
-          <%= build_medialist2(@company.mobjects.where('mtype=? and parent=?',"projekte",0), "mobjects", nil) %>
+          <% moblist = zugriffsliste(@company.mobjects, current_user) %>
+          <% moblist %>
+          <%= build_medialist2(@company.mobjects.mobshow("projekte",moblist), "mobjects", nil) %>
 
         <% when "institutionen_kampagnen" %>
           <%= build_medialist2(@company.mobjects.where('mtype=?',"kampagnen"),"mobjects", nil) %>

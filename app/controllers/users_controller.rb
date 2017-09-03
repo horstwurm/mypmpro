@@ -126,8 +126,13 @@ class UsersController < ApplicationController
         if params[:mode]
           @c_mode = params[:mode]
         else
-          @c_mode = "Datum"
-          @c_datum = Date.today
+          if @topic == "personen_zeiterfassung"
+            @c_mode = "Datum"
+            @c_datum = Date.today
+          end
+          if @topic == "personen_ressourcenplanung"
+            @c_mode = "Jahr"
+          end
         end
         if params[:scope]
           @c_scope = params[:scope]

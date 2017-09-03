@@ -49,7 +49,7 @@ devise :database_authenticatable, :registerable,
     def self.search(filter, search)
         if filter
             @search = Search.find(filter)
-            where(@search.build_sql)
+            where(@search.build_sql(nil))
         else
             if search
                 where('status=? and anonymous=? and active=? and (name LIKE ? OR lastname LIKE ? OR email LIKE ?)', "OK", false, true, "%#{search}%","%#{search}%","%#{search}%")
@@ -67,12 +67,13 @@ devise :database_authenticatable, :registerable,
         [name, lastname, email].join(' ')        
     end
 
-      def self.find_first_by_auth_conditions warden_conditions
-        conditions = warden_conditions.dup
-        if (email = conditions.delete(:email)).present?
-          where(email: email.downcase).first
-        elsif conditions.has_key?(:reset_password_token)
-          where(reset_password_token: conditions[:reset_password_token]).first
-        end
+    def self.find_first_by_auth_conditions warden_conditions
+      conditions = warden_conditions.dup
+      if (email = conditions.delete(:email)).present?
+        where(email: email.downcase).first
+      elsif conditions.has_key?(:reset_password_token)
+        where(reset_password_token: conditions[:reset_password_token]).first
       end
+    end
+    
 end

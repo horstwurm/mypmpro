@@ -30,7 +30,7 @@ class Company < ActiveRecord::Base
       def self.search(filter, search)
         if filter
             @search = Search.find(filter)
-            where(@search.build_sql)
+            where(@search.build_sql(nil))
         else
           if search
               where('status=? and active=? and (stichworte LIKE ? OR name LIKE ?)', "OK", true, "%#{search}%", "%#{search}%")

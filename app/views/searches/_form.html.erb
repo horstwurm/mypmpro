@@ -24,7 +24,7 @@
                       <% end %>
                       <%= I18n.t :meineabfragen %><span class='badge'><%= @search.counter.to_s %></span>
                       <br>
-                      <% @search.build_sql %>
+                      <% @search.build_sql(current_user) %>
                       </li_header>
                     </div>
                 </div>

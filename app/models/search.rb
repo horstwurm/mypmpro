@@ -38,7 +38,7 @@ class Search < ActiveRecord::Base
         end
       end
 
-    def build_sql
+    def build_sql(user)
         sql_string = []
         sql_string[0] ="active=?"
         sql_string << true
@@ -113,6 +113,29 @@ class Search < ActiveRecord::Base
             self.sql_string = sql_string
 
         when "objekte"
+
+            sql_string[0] = sql_string[0] + " and (online_pub=? or id IN (?))"
+            sql_string << true
+            mlist = []
+            if user
+                user.madvisors.where('role=?',"projekte").each do |a|
+                    mlist << a.mobject_id
+                end
+                user.mobjects.each do |m|
+                    if !mlist.include?(m.id)
+                        mlist << m.id
+                    end
+                end
+                user.companies.each do |c|
+                    c.mobjects.each do |m|
+                        if !mlist.include?(m.id)
+                            mlist << m.id
+                        end
+                    end
+                end
+            end
+            sql_string << mlist
+
             case self.mtype
                 when "angebote"
                     if self.social == true

@@ -680,6 +680,12 @@ def build_medialist2(items, cname, par)
                       html_string = html_string + @comp.user.email + '<br>'
 
                     when "mobjects"
+                      if item.online_pub
+                        html_string = html_string + '<i class="glyphicon glyphicon-road"></i> ' + (I18n.t :public) + "<br>"
+                      else
+                        html_string = html_string + '<i class="glyphicon glyphicon-lock"></i> ' + (I18n.t :private) + "<br>"
+                      end
+
                       if item.sum_rating and item.sum_rating > 0
                         item.sum_rating.round.times do
                           html_string = html_string + '<i class="glyphicon glyphicon-star"></i> '
@@ -1092,7 +1098,6 @@ def build_medialist2(items, cname, par)
                       #   end
                       # end
                       if isowner(item) or isdeputy(item.owner)
-                        html_string = html_string + "TRUE??"
                         access = true
                       end
                     if item.mtype == "veranstaltungen" 
@@ -1150,7 +1155,7 @@ def build_medialist2(items, cname, par)
                     access = true
                   end
                  when "madvisors"
-                  if item.user_id == current_user.id or isdeputy(item)
+                  if item.user_id == current_user.id or isdeputy(item.mobject.owner)
                     access = true
                   end
 
@@ -1537,7 +1542,9 @@ def navigate(object,item)
         html_string = html_string + build_nav("personen",item,"personen_favoriten",item.favourits.count > 0)
         html_string = html_string + build_nav("personen",item,"personen_zugriffsberechtigungen", item.credentials.count > 0)
         html_string = html_string + build_nav("personen",item,"personen_stellvertretungen", item.deputies.count > 0)
-        html_string = html_string + build_nav("personen",item,"personen_charges", item.charges.count > 0)
+        if user_signed_in?
+          html_string = html_string + build_nav("personen",item,"personen_charges", item.charges.count > 0)
+        end
 
         ########################################################################################################################
         # inactive code
@@ -1573,7 +1580,9 @@ def navigate(object,item)
         html_string = html_string + build_nav("institutionen",item,"institutionen_crowdfunding", item.mobjects.where('mtype=?',"crowdfunding").count > 0)
         html_string = html_string + build_nav("institutionen",item,"institutionen_crowdfundingbeitraege", item.mstats.count > 0)
         html_string = html_string + build_nav("institutionen",item,"institutionen_stellvertretungen", item.deputies.count > 0)
-        html_string = html_string + build_nav("institutionen",item,"institutionen_charges", item.charges.count > 0)
+        if user_signed_in?
+          html_string = html_string + build_nav("institutionen",item,"institutionen_charges", item.charges.count > 0)
+        end
 
         ########################################################################################################################
         # inactive code
@@ -3399,35 +3408,6 @@ def subtopic(topic)
   return topic
 end
 
-def isdeputy(item)
-  dep = false
-  if current_user.superuser
-    dep = true
-  else
-    @deputies = item.deputies
-    @deputies.each do |d|
-      if d.userid == current_user.id
-        if d.date_from and d.date_to
-          if d.date_from <= Date.today and d.date_to >= Date.today
-            dep = true
-          end
-        else
-          dep = true
-        end
-      end
-    end
-  end
-  return dep
-end
-
-def isowner(mobject)
-  zugriff = false
-  if (mobject.owner_type == "User" and mobject.owner_id == current_user.id) or (mobject.owner_type == "Company" and mobject.owner.user_id == current_user.id)
-    zugriff = true
-  end
-  return zugriff
-end
-
 def import(email, name, lastname, project, activity, parent, anz, datum)
 
 @user = User.where('email=?',email).first
@@ -3485,6 +3465,56 @@ if @projekt and @user and datum != nil and datum != ""
     return true
   end
 end
+end
+
+def isowner(mobject)
+  zugriff = false
+  if (mobject.owner_type == "User" and mobject.owner_id == current_user.id) or (mobject.owner_type == "Company" and mobject.owner.user_id == current_user.id)
+    zugriff = true
+  end
+  return zugriff
+end
+
+def isdeputy(item)
+  zugriff = false
+  if current_user.superuser
+    zugriff = true
+  else
+    @deputies = item.deputies
+    @deputies.each do |d|
+      if d.userid == current_user.id
+        if d.date_from and d.date_to
+          if d.date_from <= Date.today and d.date_to >= Date.today
+            zugriff = true
+          end
+        else
+          zugriff = true
+        end
+      end
+    end
+  end
+  return zugriff
+end
+
+def zugriffsliste(mobjects, user)
+  array = []
+  if user_signed_in?
+      mobjects.each do |m|
+          #wenn Owner ok or deputy of Owner
+          if isowner(m) or isdeputy(m.owner)
+            array << m.id
+          end
+          #wenn Berechtigung ok
+          m.madvisors.where('role=?',"projekte").each do |a|
+            if current_user.id == a.user_id
+              if !array.include?(m.id)
+                array << m.id
+              end
+            end
+          end
+      end
+  end
+  return array
 end
 
 end    

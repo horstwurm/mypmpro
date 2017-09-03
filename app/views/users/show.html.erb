@@ -118,7 +118,12 @@
             <%= build_medialist2(@user.companies, "companies", nil) %>
 
         <% when "personen_projekte" %>
-          <%= build_medialist2(@user.mobjects.where('mtype=? and parent=?',"projekte",0), "mobjects", nil) %>
+          <% moblist = zugriffsliste(@user.mobjects, current_user) %>
+          <% moblist %>
+          <%= build_medialist2(@user.mobjects.mobshow("projekte",moblist), "mobjects", nil) %>
+          <% if false %>
+            <%= build_medialist2(@user.mobjects.where('mtype=? and parent=?',"projekte",0), "mobjects", nil) %>
+          <% end %>
 
         <% when "personen_gruppen" %>
           <%= build_medialist2(@user.mobjects.where('mtype=?',"gruppen"), "mobjects", nil) %>
@@ -326,14 +331,14 @@
                       <% btn_sc = "active" %>
                   <% end %>
                   
-                  <%= link_to user_path(:id => @user.id, :topic => "personen_ressourcenplanung", :year => @c_year, :scope => @c_scope)  do %>
+                  <%= link_to user_path(:id => @user.id, :topic => "personen_ressourcenplanung", :year => @c_year, :mode => @c_mode, :scope => @c_scope)  do %>
                     <span><i class="btn btn-active glyphicon glyphicon-calendar"> <%= @c_year %></i></span>
                   <% end %>
   
-                  <%= link_to user_path(:id => @user.id, :topic => "personen_ressourcenplanung", :year => @c_year, :scope => "kosten")  do %>
+                  <%= link_to user_path(:id => @user.id, :topic => "personen_ressourcenplanung", :year => @c_year, :mode => @c_mode, :scope => "kosten")  do %>
                     <span><i class="btn btn-<%= btn_sc %> glyphicon glyphicon-euro"></i></span>
                   <% end %>
-                   <%= link_to user_path(:id => @user.id, :topic => "personen_ressourcenplanung", :year => @c_year, :scope => "aufwand")  do %>
+                   <%= link_to user_path(:id => @user.id, :topic => "personen_ressourcenplanung", :year => @c_year, :mode => @c_mode, :scope => "aufwand")  do %>
                     <span><i class="btn btn-<%= btn_sa %> glyphicon glyphicon-time"></i></span>
                   <% end %>
                   

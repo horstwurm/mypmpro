@@ -47,8 +47,8 @@ class MobjectsController < ApplicationController
     else
       session[:parent] = nil
     end
-    
-    @mobjects = Mobject.search(nil, nil, params[:filter_id], session[:mtype], session[:msubtype], params[:search], params[:parent]).order(created_at: :desc).page(params[:page]).per_page(10)
+
+    @mobjects = Mobject.search(current_user, nil, nil, params[:filter_id], session[:mtype], session[:msubtype], params[:search], params[:parent]).order(created_at: :desc).page(params[:page]).per_page(10)
     @mobanz = @mobjects.count
     @mtype = session[:mtype]
     @msubtype = session[:msubtype]

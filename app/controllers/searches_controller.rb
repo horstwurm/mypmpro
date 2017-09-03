@@ -21,7 +21,7 @@ class SearchesController < ApplicationController
       if params[:generate]
         #userticket = UserTicket.where('ticket_id=? and status=?', params[:ticket_id], "Filter Kampagne").destroy_all
         @searches.each do |s|
-          @users = User.where(s.build_sql)
+          @users = User.where(s.build_sql, current_user)
           @users.each do |u|
             if UserTicket.where('user_id=? and ticket_id=?', u.id, params[:ticket_id]).count == 0
               userticket = UserTicket.new
@@ -124,7 +124,7 @@ class SearchesController < ApplicationController
   def create
     @search = Search.new(search_params)
     if @search.save
-        @search.build_sql
+        @search.build_sql(current_user)
         redirect_to searches_path(:user_id => current_user.id, :search_domain => @search.search_domain, :mtype => @search.mtype, :msubtype => @search.msubtype, :controller_name => @search.controller, :ticket_id => @search.ticket_id), notice: (I18n.t :act_create)
     else
       render :new

@@ -217,10 +217,6 @@
                       </div>
 
                   <% when "publikationen" %>
-                      <div class="form-group">
-                        <input type="checkbox" name="my-checkbox4" checked>
-                        <%= f.label I18n.t :onlinepublikation %>
-                      </div>
                   <% when "vermietungen" %>
                       <div class="form-group">
                         <%= f.label I18n.t :zeitvonbis %>
@@ -283,6 +279,10 @@
                 <div class="form-group">
                   <%= f.label I18n.t :stichworte %>
                   <%= f.text_field :keywords, class:"form-control"%>
+                </div>
+                <div class="form-group">
+                  <input type="checkbox" name="my-checkbox4" checked>
+                  <%= f.label I18n.t :onlinepublikation %>
                 </div>
                 <div class="form-group">
                   <input type="checkbox" name="my-checkbox1" checked>
