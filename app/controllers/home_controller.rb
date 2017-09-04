@@ -287,7 +287,7 @@ def dashboard_data
     end
 end
 
-def arduino_test
+def arduino
     respond_to do |format|
       format.json 
         msg = []
