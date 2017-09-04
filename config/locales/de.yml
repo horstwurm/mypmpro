@@ -20,6 +20,7 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 de:
+  sindsiesicher: "Wollen Sie wirklich löschen?"
   private: "nicht öffentlich"
   public: "öffentlich"
   activity: "Aktivität"
