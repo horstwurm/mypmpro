@@ -431,7 +431,7 @@
                   				        <%= link_to edit_planning_path(:id => plans[k][:id]) do %>
                                     <i class="btn btn-primary btn-xs glyphicon glyphicon-pencil"></i>
                                   <% end %>
-                  				        <%= link_to Planning.find(plans[k][:id]), method: :delete, data: { confirm: (I18n.t :sindsiesicher) } do %>
+                  				        <%= link_to Planning.find(plans[k][:id]), method: :delete, data: { confirm: (I18n.t :act_delete) } do %>
                                     <i class="btn btn-danger btn-xs glyphicon glyphicon-trash"></i>
                                   <% end %>
                                   <% @total[i] = @total[i] + plans[k][:kapa] %>
