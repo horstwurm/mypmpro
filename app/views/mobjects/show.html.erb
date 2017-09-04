@@ -865,7 +865,7 @@
                       <td></td>
                       <% for i in 0..@header.length-1 do %>
                         <td align="right">
-                        <%= @total[i].to_s + " " + ( I18n.t :personentage) %>
+                        <%= sprintf("%5.1f "+( I18n.t :personentage), @total[i]) %>
                         </td>
                       <% end %>
                     </tr>
