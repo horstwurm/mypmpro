@@ -287,6 +287,18 @@ def dashboard_data
     end
 end
 
+def arduino_test
+    respond_to do |format|
+      format.json 
+        msg = []
+        msg << {:kategorie => "UserOnline", :anzahl => User.where("updated_at > ?", 10.minutes.ago).count}
+        msg << {:kategorie => "Projekte", :anzahl => Mobject.where("mtype=?", "projekte").count}
+        msg << {:kategorie => "Zeiterfassung", :anzahl => Timetrack.count}
+        msg << {:kategorie => "Kapazitäten", :anzahl => Planning.count}
+        render :json => msg.to_json
+    end
+end
+
 def dashboard2_data
     respond_to do |format|
       format.json 

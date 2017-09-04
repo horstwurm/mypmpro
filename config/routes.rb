@@ -59,6 +59,7 @@ Rails.application.routes.draw do
   get 'home/index17'
   get 'home/index18'
   get 'home/import'
+  get 'home/arduino'
   get 'home/dashboard'
   get 'home/dashboard2'
   get 'home/dashboard_project'
