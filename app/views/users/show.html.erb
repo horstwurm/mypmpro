@@ -226,8 +226,10 @@
                       <div>
                         <%= header((I18n.t :projekte) + Mobject.find(t.mobject_id).name, false) %>
                         <% if Madvisor.where('mobject_id=? and role=?', t.mobject_id, t.mobject.mtype).count > 0 %>
-                          <%= link_to new_timetrack_path(:user_id => @user.id, :mobject_id => t.mobject_id, :scope => @c_scope) do %>
-                            <span><i class="btn btn-special %> glyphicon glyphicon-plus"></i></span>
+                          <% if Mobject.find(t.mobject_id).active %>
+                            <%= link_to new_timetrack_path(:user_id => @user.id, :mobject_id => t.mobject_id, :scope => @c_scope) do %>
+                              <span><i class="btn btn-special %> glyphicon glyphicon-plus"></i></span>
+                            <% end %>
                           <% end %>
                         <% end %>
                       </div>
@@ -242,7 +244,7 @@
                       <%= header((I18n.t :berechtigteprojekte) ,false) %>
                     </div>
                     <% @user.madvisors.where('role=?',"projekte").each do |m| %>
-                      <% if !@mob.include?(m.mobject_id) %>
+                      <% if !@mob.include?(m.mobject_id) and Mobject.find(m.mobject_id).active %>
                         <%= link_to new_timetrack_path(:user_id => @user.id, :mobject_id => m.mobject_id, :scope => @c_scope) do %>
                           <span><i class="btn btn-special glyphicon glyphicon-plus"><%= m.mobject.name %></i></span>
                         <% end %>
@@ -279,11 +281,13 @@
                           <% @activities.each do |a| %>
                             <tr>
                               <td>
-                                <%= link_to edit_timetrack_path(a) do %>
-                                  <i class="btn btn-primary btn btn-xs glyphicon glyphicon-wrench"></i>
-                                <% end %>
-                      	        <%= link_to a, method: :delete, data: { confirm: 'Are you sure?' } do %>
-                                  <i class="btn btn-danger btn-xs glyphicon glyphicon-trash"></i>
+                                <% if Mobject.find(a.mobject_id).active %>
+                                  <%= link_to edit_timetrack_path(a) do %>
+                                    <i class="btn btn-primary btn btn-xs glyphicon glyphicon-wrench"></i>
+                                  <% end %>
+                        	        <%= link_to a, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                                    <i class="btn btn-danger btn-xs glyphicon glyphicon-trash"></i>
+                                  <% end %>
                                 <% end %>
                               </td>
                               <td><%= a.datum.strftime('%d-%m-%Y') %></td>
@@ -436,8 +440,10 @@
                               <% end  %>
                               <% if !kapa %>
                                   <td>
-                  				        <%= link_to new_planning_path(:mobject_id => w.id, :user_id => @user.id, :month => @data[i], :year => @c_year, :scope => @c_scope) do %>
-                                    <i class="btn btn-primary btn-xs glyphicon glyphicon-plus"></i>
+                                  <% if w.active %>
+                    				        <%= link_to new_planning_path(:mobject_id => w.id, :user_id => @user.id, :month => @data[i], :year => @c_year, :scope => @c_scope) do %>
+                                      <i class="btn btn-primary btn-xs glyphicon glyphicon-plus"></i>
+                                    <% end %>
                                   <% end %>
                               <% end %>
                               </td>
@@ -673,7 +679,7 @@
                   	        <%= link_to ad.document.url, target: "_blank" do %>
                               <i class="btn btn-primary btn-xs glyphicon glyphicon-cloud-download"></i>
                             <% end %>
-            				        <%= link_to ad, method: :delete, data: { confirm: (I18n.t :sindsiesicher) } do %>
+            				        <%= link_to ad, method: :delete, data: { confirm: (I18n.t :act_delete) } do %>
                               <i class="btn btn-danger btn-xs glyphicon glyphicon-trash"></i>
                             <% end %>
                             <% ad.name %><br>  
