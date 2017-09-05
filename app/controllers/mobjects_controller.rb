@@ -230,7 +230,9 @@ class MobjectsController < ApplicationController
     end
 
     if @topic == "objekte_ressourcenplanung"
-
+        if params[:export]
+          @export = true
+        end
         if params[:year]
           @c_year = params[:year]
         else

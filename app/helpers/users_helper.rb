@@ -3217,7 +3217,7 @@ def current_period(p, item)
 end
 
 def exportWriter (mobject, istsoll, istsollkum, istsollau, iso)
-  filename = "public/workorder_" + DateTime.now.to_s + ".xls"
+  filename = "public/report_" + DateTime.now.to_s + ".xls"
   workbook = WriteExcel.new(filename)
         
   # Add worksheet(s)
@@ -3327,6 +3327,41 @@ def exportWriter (mobject, istsoll, istsollkum, istsollau, iso)
     row = row + 4
 
   end
+
+  workbook.close
+  return filename
+
+end
+
+def exportWriterRessourcen ()
+  filename = "public/report_" + DateTime.now.to_s + ".xls"
+  workbook = WriteExcel.new(filename)
+        
+  # Add worksheet(s)
+  worksheet  = workbook.add_worksheet
+
+  # header format
+  f_header0 = workbook.add_format
+  f_header0.set_bold  
+  # f_header0.set_color('blue')
+  f_header0.set_size(20)
+  # format.set_align('right')
+
+  f_header1 = workbook.add_format
+  f_header1.set_color('white')
+  #f_header1.set_bg_color('black')
+  f_header1.set_bg_color(57)
+
+  f_param = workbook.add_format
+  f_param.set_bold
+  f_param.set_color('red')
+
+  # col sizes
+  worksheet.set_column(0,20,20)
+  
+  row = 0
+  col = 0
+  worksheet.write(row, col, "hello", f_header0)
 
   workbook.close
   return filename

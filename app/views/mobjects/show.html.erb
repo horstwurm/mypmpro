@@ -640,6 +640,10 @@
                   <%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_ressourcenplanung", :dir => ">", :year => @c_year, :mode => @c_mode , :scope => @c_scope) do %>
                     <i class="btn btn-primary glyphicon glyphicon-chevron-right"></i>
                   <% end %>
+                  <%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_ressourcenplanung", :year => @c_year, :month => @c_month, :mode => @c_mode, :scope => @c_scope, :export => true) do %>
+                    <span><i class="btn btn-inactive glyphicon glyphicon-book"></i></span>
+                  <% end %>
+
                  <br><br>
                  
                  <% @gruppenmitglieder = @mobject.madvisors %>
@@ -922,6 +926,15 @@
                 
               </div>
             </div>
+
+            <% if @export %>
+              <% @filename = exportWriterRessourcen() %>
+              <% link_to @filename, @filename.remove("public") %>
+    	        <%= link_to @filename.remove("public") do %>
+                <span><i class="btn btn-active glyphicon glyphicon-cloud-download"></i></span>
+              <% end %>
+            <% end %>
+
           </div>
 
         <% when "objekte_auftragscontrolling" %>

@@ -291,10 +291,10 @@ def arduino
     respond_to do |format|
       format.json 
         msg = []
-        msg << {:kategorie => "UserOnline", :anzahl => User.where("updated_at > ?", 10.minutes.ago).count}
-        msg << {:kategorie => "Projekte", :anzahl => Mobject.where("mtype=?", "projekte").count}
-        msg << {:kategorie => "Aufwand", :anzahl => Timetrack.count}
-        msg << {:kategorie => "Kapa", :anzahl => Planning.count}
+        msg << {:user => User.where("updated_at > ?", 10.minutes.ago).count}
+        msg << {:projekte => Mobject.where("mtype=?", "projekte").count}
+        msg << {:aufwand => Timetrack.count}
+        msg << {:kapa => Planning.count}
         render :json => msg.to_json
     end
 end
