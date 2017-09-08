@@ -3333,7 +3333,7 @@ def exportWriter (mobject, istsoll, istsollkum, istsollau, iso)
 
 end
 
-def exportWriterRessourcen ()
+def exportWriterRessourcen (data, header)
   filename = "public/report_" + DateTime.now.to_s + ".xls"
   workbook = WriteExcel.new(filename)
         
@@ -3352,16 +3352,112 @@ def exportWriterRessourcen ()
   #f_header1.set_bg_color('black')
   f_header1.set_bg_color(57)
 
+  f_header2 = workbook.add_format
+  f_header2.set_bg_color('yellow')
+
+  f_header3 = workbook.add_format
+  f_header3.set_bg_color('red')
+
+  f_header4 = workbook.add_format
+  f_header4.set_bg_color('#00FF00')
+
+  f_header5 = workbook.add_format
+  f_header5.set_bg_color('orange')
+
+  f_highlight = workbook.add_format
+  #f_highlight.set_color('yellow')
+  f_highlight.set_bg_color('yellow')
+
   f_param = workbook.add_format
   f_param.set_bold
   f_param.set_color('red')
 
   # col sizes
-  worksheet.set_column(0,20,20)
+  worksheet.set_column(0,0,40)
+  worksheet.set_column(1,11,5)
   
   row = 0
   col = 0
-  worksheet.write(row, col, "hello", f_header0)
+  worksheet.write(row, col, (I18n.t :ressourcencontrolling) + " " + (I18n.l Date.today), f_header0)
+  row = row + 2
+  worksheet.write(row, col, (I18n.t :parameter), f_header1)
+  row = row + 1
+  worksheet.write(row, col, (I18n.t :periode))
+  worksheet.write(row, col+1, @c_mode, f_param)
+  row = row + 2
+  for i in 0..data.length-1 do
+
+      worksheet.write(row, 0, User.find(data[i][0]).fullname, f_header5)
+      worksheet.write(row+1, 0, (I18n.t :projekte), f_header1)
+      for j in 0..header.length-1 do
+        worksheet.write(row, j*2+1, header[j],f_header1)
+        worksheet.write(row, j*2+2, "",f_header1)
+        worksheet.write(row+1, j*2+1, "Plan",f_header1)
+        worksheet.write(row+1, j*2+2, "Ist",f_header1)
+      end
+      row = row + 2
+
+      mobs = data[i][1]
+      totalplan = []
+      totalist = []
+      for i in 0..11
+        totalplan << 0
+        totalist << 0
+      end
+      for k in 0..mobs.length-1 do
+        worksheet.write(row, 0, Mobject.find(mobs[k][0]).name)
+        p = mobs[k][1]
+        for l in 1..12
+          for z in 0..p.length-1
+            if p[z][0] == l
+              worksheet.write(row, l*2-1, sprintf("%5.2f",p[z][1]), f_header4)
+              totalplan[l-1] = totalplan[l-1] + p[z][1]
+            end
+          end
+        end
+        #row = row + 1
+        p = mobs[k][2]
+        for l in 1..12
+          for z in 0..p.length-1
+            if p[z][0] == l
+              worksheet.write(row, l*2, sprintf("%5.2f",p[z][1]), f_header4)
+              totalist[l-1] = totalist[l-1] + p[z][1]
+            end
+          end
+        end
+        row = row + 1
+      end
+
+      worksheet.write(row, 0, "Plan/Ist", f_header1)
+      for l in 1..12
+      
+          delta = (totalplan[l-1]-totalist[l-1]).abs
+          if totalplan[l-1] > totalist[l-1]
+            max = totalplan[l-1]
+          else
+            max = totalist[l-1]
+          end
+          if max > 0
+            abw = (delta/max).to_i*100
+          else
+            abw = 0
+          end
+          worksheet.write(row, l*2-1, sprintf("%5.2f",totalplan[l-1]), f_header1)
+          if abw < 20
+            worksheet.write(row, l*2, sprintf("%5.2f",totalist[l-1]), f_header1)
+          end
+          if abw >= 20 and abw < 50
+            worksheet.write(row, l*2, sprintf("%5.2f",totalist[l-1]), f_header2)
+          end
+          if abw > 50
+            worksheet.write(row, l*2, sprintf("%5.2f",totalist[l-1]), f_header3)
+          end
+
+      end
+
+      row=row + 2
+
+  end
 
   workbook.close
   return filename

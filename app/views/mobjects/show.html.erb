@@ -645,10 +645,15 @@
                   <% end %>
 
                  <br><br>
+                 <% @userdata = [] %>
                  
                  <% @gruppenmitglieder = @mobject.madvisors %>
 
                  <% @gruppenmitglieder.each do |gm| %>
+                 
+                 <% @tmpdata = [] %>
+                 <% @tmpdata << gm.user_id %>
+                 
                  <table class="table">
                     <tr>
                       <td></td>
@@ -680,8 +685,10 @@
                     <% end %>
                     <% @mymobjects = Mobject.where('mtype=? and id IN (?)',"projekte", myobs) %>
 
-                    <% @mymobjects.each do |w| %>
+                    <% @mobdata = [] %>
 
+                    <% @mymobjects.each do |w| %>
+                    
                       <tr>            
 
                         <% plans = [] %>
@@ -705,8 +712,9 @@
                           <%= w.name %>
                         </td>
 
+                        <% @plan = [] %>
                         <% for i in 0..@header.length-1 do %>
-
+                        
                           <% if @c_scope == "kosten" %>
                           
                             <% moto = 0 %>
@@ -716,7 +724,7 @@
                               <% end %>
                             <% end %>
                             
-                            <% if moto > 0%>
+                            <% if moto > 0 %>
                               <td class="color_kapa_booked" align="right">
                                 <% if false %>
                 				        <%= link_to new_planning_path(:mobject_id => w.id, :user_id => current_user.id, :month => @data[i], :year => @c_year, :scope => @c_scope) do %>
@@ -732,6 +740,9 @@
                                 <% end %>
                                 <% end %>
                             <% end %>
+                            
+                            <% @plan << [i, moto] %>
+
                             </td>
                           <% end %>
                         
@@ -741,6 +752,9 @@
                               <% if plans[k][:monat].to_i == @data[i].to_i %>
                                 <td class="color_kapa_booked" align="right">
                                 <%= plans[k][:kapa].to_s + " " + (I18n.t :personentage) %><br>
+
+                                <% @plan << [@data[i], plans[k][:kapa]] %>
+
                                 <% if false %>
                 				        <%= link_to edit_planning_path(:id => plans[k][:id]) do %>
                                   <i class="btn btn-primary btn-xs glyphicon glyphicon-pencil"></i>
@@ -762,6 +776,7 @@
                                 <% end %>
                             <% end %>
                             </td>
+
                           <% end %>
 
                         <% end %>
@@ -797,6 +812,7 @@
                           <% end %>
                         </td>
 
+                        <% @ist = [] %>
                         <% for i in 0..@header.length-1 do %>
 
                           <% if @c_scope == "kosten" %>
@@ -825,12 +841,16 @@
                                 <% end %>
                             <% end %>
                             </td>
+                            
+                            <% @ist << [@data[i], moto] %>
+
                           <% end %>
                         
                           <% if @c_scope == "aufwand" %>
                             <% kapa = false %>
                             <% for k in 0..tts.length-1 do %>
                               <% if tts[k][:monat].to_i == @data[i].to_i %>
+                                <% @ist << [@data[i], tts[k][:kapa]] %>
                                 <td class="color_kapa_booked" align="right">
                                 <%= sprintf("%5.1f "+(I18n.t :personentage), tts[k][:kapa]) %><br>
                                 <% if false %>
@@ -859,8 +879,12 @@
                         <% end %>
 
                       </tr>
+                      <% @mobdata << [w.id , @plan, @ist] %>
+
 
                     <% end %>
+                    <% @tmpdata << @mobdata %>
+                    <% @userdata << @tmpdata %>
 
                   <!-- finally add totals and progress bar-->
                   <% if @c_scope == "aufwand" %>
@@ -928,12 +952,14 @@
             </div>
 
             <% if @export %>
-              <% @filename = exportWriterRessourcen() %>
+              <% @filename = exportWriterRessourcen(@userdata, @header) %>
               <% link_to @filename, @filename.remove("public") %>
     	        <%= link_to @filename.remove("public") do %>
                 <span><i class="btn btn-active glyphicon glyphicon-cloud-download"></i></span>
               <% end %>
             <% end %>
+            
+            <% @userdata %>
 
           </div>
 
