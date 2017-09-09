@@ -3648,4 +3648,15 @@ def zugriffsliste(mobjects, user)
   return array
 end
 
+def contactChip(owner)
+  html = '<div class="chip">'
+  html = html + showImage2(:small,owner,true)
+  html = html + owner.name
+  if owner.class.name == "User"
+    html = html + " " + owner.lastname
+  end
+  html = html + '</div>'
+  return html.html_safe
+end
+
 end    

@@ -13,15 +13,7 @@
 
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 				<% if user_signed_in? %>
-					<%= link_to user_path(:id => current_user.id, :topic => "personen_info") do %>
-						<i class="glyphicon glyphicon-user" style="font-size:3em"></i>
-						<user_logged_in><%= current_user.name[0] + "." + current_user.lastname %></user_logged_in>
-					<% end %>
-				<% else %>
-					<% if false %>
-					<i class="glyphicon glyphicon-user" style="font-size:3em"></i>
-					<user_logged_in>kein Benutzer angemeldet!</user_logged_in>
-					<% end %>
+					<%= contactChip(current_user) %>
 				<% end %>
 			</div>
 			
@@ -51,7 +43,7 @@
 						</div>
 					<% end %>
 				<% end %>
-				<% if !flash.empty? %>
+				<% if !flash.empty? and false %>
 				    <% flash.each do |name, msg| %>
 				      <% content_tag(:div, msg, class:"alert alert-warning") %>
 				      <message><fade><%= msg %></fade></message> 

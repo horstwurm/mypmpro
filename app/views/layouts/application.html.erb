@@ -27,10 +27,13 @@
     <% I18n.locale = :de %>
 
     <%= render 'layouts/header' %>
-    
+    <% msg = "Holalidladi" %>    
     <div class='container-fluid testcontainer'>
         <% flash.each do |name, msg| %>
-          <% content_tag(:div, msg, class:"alert alert-warning") %>
+          <% if false %>
+            <% content_tag(:div, msg, class:"alert alert-warning") %>
+          <% end %>
+          <div id="snackbar"><%= msg %></div>
         <% end %>
 
         <!--<% render 'layouts/advertise' %>-->
@@ -42,3 +45,14 @@
     
   </body>
 </html>
+
+<script>
+function myFunction() {
+    var x = document.getElementById("snackbar")
+    x.className = "show";
+    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+}
+
+myFunction();
+
+</script>
