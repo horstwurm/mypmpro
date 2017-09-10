@@ -1,19 +1,18 @@
+<div class="row">
+  <header>
+    <%= header('<span onclick="openNav()"><i class="glyphicon glyphicon-align-justify"></span></i> ' + @company.name + " <b>" + getTopicName(@topic) + "</b>", true) %>
+  </header>
 
-  <div class="row">
-    <header>
-    <%= header("<navshow><i class='glyphicon glyphicon-menu-down'></i></navshow> " + @company.name + "<navhide><i class='glyphicon glyphicon-menu-up pull-right'></i></navhide>", true) %>
-    <nav>
-      <div class='col-xs-12'>
-          <%= navigate("institutionen", @company) %>
-      </div>
-    </nav>
-    </header>
-  </div>
-  
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <%= navigate2("institutionen", @company) %>
+</div>
+
+<div id="main">
   <div class="row">
       <div class='col-xs-12'>
 
-      <%= header3("institutionen", @company, @topic, false) %>
+      <%= action_buttons2("institutionen", @company, @topic) %>
       
        <% case @topic %>
         <% when "institutionen_info" %>
@@ -199,6 +198,7 @@
     
   </div>
 </div>
+</div>
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
@@ -238,33 +238,23 @@
 <% end %>
 
 <script>
-$(document).ready(function(){
-    $("nav").hide();
-    $("navhide").hide();
-    $("navhide").hide();
-
-    $("navshow").mouseover(function(){
-        $("nav").show();
-        $("navshow").hide();
-        $("navhide").show();
-
-    });
-    
-    $("navhide").mouseover(function(){
-        $("nav").hide();
-        $("navshow").show();
-        $("navhide").hide();
-    });
-
-    $("a").tooltip();
-    
-});
-</script>
-
-<script>
 <% case @topic %>
   <% when "institutionen_info" %>
       document.addEventListener("turbolinks:load", function() {init_map(0); drawChart();})
 
 <% end %>
+</script>
+
+<script>
+/* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
+function openNav() {
+    document.getElementById("mySidenav").style.width = "400px";
+    document.getElementById("main").style.marginLeft = "400px";
+}
+
+/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("main").style.marginLeft = "0";
+}
 </script>

@@ -1510,6 +1510,16 @@ def header3(objekt, item, topic, format)
   return html_string.html_safe
 end
 
+def getTopicName(topic)
+  pos = topic.to_s.index("_")
+  if pos > 0
+    infosymbol = (topic[pos+1..topic.length-1]).to_sym
+  else
+    infosymbol = topic
+  end
+  return (I18n.t infosymbol)
+end
+
 def navigate(object,item)
     
     html_string = ""
@@ -1545,7 +1555,6 @@ def navigate(object,item)
         if user_signed_in?
           html_string = html_string + build_nav("personen",item,"personen_charges", item.charges.count > 0)
         end
-
         ########################################################################################################################
         # inactive code
         ########################################################################################################################
@@ -1680,6 +1689,178 @@ def navigate(object,item)
     
 end
 
+def navigate2(object,item)
+
+  html_string = ""
+  case object
+    when "personen"
+
+      html_string=""
+      html_string = html_string + build_nav2("personen",item,"personen_info",1)
+      html_string = html_string + build_nav2("personen",item,"personen_angebote",item.mobjects.where('mtype=?',"angebote").count)
+      html_string = html_string + build_nav2("personen",item,"personen_projekte", item.mobjects.where('mtype=? and parent=?',"projekte",0).count)
+      html_string = html_string + build_nav2("personen",item,"personen_zeiterfassung", item.timetracks.count)
+      html_string = html_string + build_nav2("personen",item,"personen_ressourcenplanung", item.plannings.count)
+      html_string = html_string + build_nav2("personen",item,"personen_gruppen", item.mobjects.where('mtype=?',"gruppen").count)
+      html_string = html_string + build_nav2("personen",item,"personen_institutionen",item.companies.count)
+      html_string = html_string + build_nav2("personen",item,"personen_umfragen", item.mobjects.where('mtype=?',"umfragen").count)
+      html_string = html_string + build_nav2("personen",item,"personen_innovationswettbewerbe",item.mobjects.where('mtype=?',"innovationswettbewerbe").count)
+      html_string = html_string + build_nav2("personen",item,"personen_ideen",item.ideas.count)
+      html_string = html_string + build_nav2("personen",item,"personen_publikationen", item.mobjects.where('mtype=?',"publikationen").count)
+      html_string = html_string + build_nav2("personen",item,"personen_artikel", item.mobjects.where('mtype=?',"artikel").count)
+      html_string = html_string + build_nav2("personen",item,"personen_veranstaltungen",item.mobjects.where('mtype=?',"veranstaltungen").count)
+      html_string = html_string + build_nav2("personen",item,"personen_anmeldungen",item.madvisors.where('role=?',"eventteilnehmer").count)
+      html_string = html_string + build_nav2("personen",item,"personen_tickets",item.user_tickets.count)
+      html_string = html_string + build_nav2("personen",item,"personen_sensoren",item.mobjects.where('mtype=?',"sensoren").count)
+      html_string = html_string + build_nav2("personen",item,"personen_ausflugsziele",item.mobjects.where('mtype=?',"ausflugsziele").count)
+      html_string = html_string + build_nav2("personen",item,"personen_kleinanzeigen",item.mobjects.where('mtype=?',"kleinanzeigen").count)
+      html_string = html_string + build_nav2("personen",item,"personen_stellenanzeigen",item.mobjects.where('mtype=?',"stellenanzeigen").count)
+      html_string = html_string + build_nav2("personen",item,"personen_vermietungen",item.mobjects.where('mtype=?',"vermietungen").count)
+      html_string = html_string + build_nav2("personen",item,"personen_ausschreibungen",item.mobjects.where('mtype=?',"ausschreibungen").count)
+      html_string = html_string + build_nav2("personen",item,"personen_crowdfunding", item.mobjects.where('mtype=? ',"crowdfunding").count)
+      html_string = html_string + build_nav2("personen",item,"personen_crowdfundingbeitraege", item.mstats.count)
+      html_string = html_string + build_nav2("personen",item,"personen_bewertungen", item.mratings.count)
+      html_string = html_string + build_nav2("personen",item,"personen_favoriten",item.favourits.count)
+      html_string = html_string + build_nav2("personen",item,"personen_zugriffsberechtigungen", item.credentials.count)
+      html_string = html_string + build_nav2("personen",item,"personen_stellvertretungen", item.deputies.count)
+      if user_signed_in?
+        html_string = html_string + build_nav2("personen",item,"personen_charges", item.charges.count)
+      end
+
+        ########################################################################################################################
+        # inactive code
+        ########################################################################################################################
+        if false
+        html_string = html_string + build_nav2("personen",item,"personen_kalendereintraege", Appointment.where('user_id1=? or user_id2=?',item,item).count)
+        html_string = html_string + build_nav2("personen",item,"personen_ansprechpartner",item.madvisors.count)
+        html_string = html_string + build_nav2("personen",item,"personen_kundenbeziehungen", item.customers.count)
+        html_string = html_string + build_nav2("personen",item,"personen_transaktionen", item.transactions.where('ttype=?', "payment").count)
+        html_string = html_string + build_nav2("personen",item,"personen_emails", Email.where('m_to=? or m_from=?', item.id, item.id).count)
+        end
+
+      when "institutionen"
+        html_string = html_string + build_nav2("institutionen",item,"institutionen_info",1)
+        html_string = html_string + build_nav2("institutionen",item,"institutionen_projekte", item.mobjects.where('mtype=? and parent=?',"projekte",0).count)
+        if item.partner
+          html_string = html_string + build_nav2("institutionen",item,"institutionen_partnerlinks", item.partner_links.count)
+        end
+        html_string = html_string + build_nav2("institutionen",item,"institutionen_angebote",item.mobjects.where('mtype=? ',"angebote").count)
+        html_string = html_string + build_nav2("institutionen",item,"institutionen_kampagnen", item.mobjects.where('mtype=?',"kampagnen").count)
+        html_string = html_string + build_nav2("institutionen",item,"institutionen_standorte", item.mobjects.where('mtype=?',"standorte").count)
+        html_string = html_string + build_nav2("institutionen",item,"institutionen_umfragen", item.mobjects.where('mtype=?',"umfragen").count)
+        html_string = html_string + build_nav2("institutionen",item,"institutionen_innovationswettbewerbe",item.mobjects.where('mtype=?',"innovationswettbewerbe").count)
+        html_string = html_string + build_nav2("institutionen",item,"institutionen_publikationen", item.mobjects.where('mtype=?',"publikationen").count)
+        html_string = html_string + build_nav2("institutionen",item,"institutionen_veranstaltungen",item.mobjects.where('mtype=?',"veranstaltungen").count)
+        html_string = html_string + build_nav2("institutionen",item,"institutionen_sponsorenengagements",item.msponsors.count)
+        html_string = html_string + build_nav2("institutionen",item,"institutionen_sensoren",item.mobjects.where('mtype=?',"sensoren").count)
+        html_string = html_string + build_nav2("institutionen",item,"institutionen_ausflugsziele",item.mobjects.where('mtype=?',"ausflugsziele").count)
+        html_string = html_string + build_nav2("institutionen",item,"institutionen_kleinanzeigen",item.mobjects.where('mtype=?',"kleinanzeigen").count)
+        html_string = html_string + build_nav2("institutionen",item,"institutionen_stellenanzeigen",item.mobjects.where('mtype=?',"stellenanzeigen").count)
+        html_string = html_string + build_nav2("institutionen",item,"institutionen_vermietungen",item.mobjects.where('mtype=?',"vermietungen").count)
+        html_string = html_string + build_nav2("institutionen",item,"institutionen_ausschreibungen",item.mobjects.where('mtype=?',"ausschreibungen").count)
+        html_string = html_string + build_nav2("institutionen",item,"institutionen_crowdfunding", item.mobjects.where('mtype=?',"crowdfunding").count)
+        html_string = html_string + build_nav2("institutionen",item,"institutionen_crowdfundingbeitraege", item.mstats.count)
+        html_string = html_string + build_nav2("institutionen",item,"institutionen_stellvertretungen", item.deputies.count)
+        if user_signed_in?
+          html_string = html_string + build_nav2("institutionen",item,"institutionen_charges", item.charges.count)
+        end
+
+        ########################################################################################################################
+        # inactive code
+        ########################################################################################################################
+        if false
+        html_string = html_string + build_nav2("institutionen",item,"institutionen_kundenbeziehungen", item.customers.count)
+        html_string = html_string + build_nav2("institutionen",item,"institutionen_transaktionen",item.transactions.where('ttype=?', "payment").count)
+        html_string = html_string + build_nav2("institutionen",item,"institutionen_emails", Email.where('m_to=? or m_from=?', item.user.id, item.user.id).count)
+        end
+
+      when "objekte"
+        html_string = html_string + build_nav2("objekte",item,"objekte_info",1)
+        if user_signed_in?
+          if isowner(item) or isdeputy(item.owner)
+            html_string = html_string + build_nav2("objekte",item,"objekte_details",item.mdetails.where('mtype=?',"details").count)
+          end
+        end 
+        if item.mtype == "projekte"
+          if user_signed_in?
+            if isowner(item) or isdeputy(item.owner)
+              html_string = html_string + build_nav2("objekte",item,"objekte_substruktur", Mobject.where('parent=?',item.id).count)
+              html_string = html_string + build_nav2("objekte",item,"objekte_projektberechtigungen", item.madvisors.where('role=?',item.mtype).count)
+            end
+          end
+          html_string = html_string + build_nav2("objekte",item,"objekte_auftragscontrolling", item.timetracks.count)
+          html_string = html_string + build_nav2("objekte",item,"objekte_projektdashboard", item.timetracks.count)
+        end
+        if item.mtype == "gruppen"
+          html_string = html_string + build_nav2("objekte",item,"objekte_gruppenmitglieder", item.madvisors.where('role=?',item.mtype).count)
+          html_string = html_string + build_nav2("objekte",item,"objekte_ressourcenplanung", item.madvisors.where('role=?',item.mtype).count)
+        end
+        if item.mtype == "kampagnen"
+          html_string = html_string + build_nav2("objekte",item,"objekte_signcal", SignageCal.where('mkampagne=?', item.id).count)
+          html_string = html_string + build_nav2("objekte",item,"objekte_signkamshow", SignageCal.where('mkampagne=?', item.id).count)
+          html_string = html_string + build_nav2("objekte",item,"objekte_signstat", SignageCal.where('mkampagne=?', item.id).count)
+        end
+        if item.mtype == "standorte"
+          html_string = html_string + build_nav2("objekte",item,"objekte_signcal", SignageCal.where('mstandort=?', item.id).count)
+          html_string = html_string + build_nav2("objekte",item,"objekte_signlocshow", SignageCal.where('mstandort=?', item.id).count)
+          html_string = html_string + build_nav2("objekte",item,"objekte_signstat", SignageCal.where('mstandort=?', item.id).count)
+        end
+        if item.mtype == "umfragen"
+          if user_signed_in?
+            if isowner(item)
+              html_string = html_string + build_nav2("objekte",item,"objekte_fragen",item.questions.count)
+              html_string = html_string + build_nav2("objekte",item,"objekte_umfrageteilnehmer",User.count)
+            end
+          end
+        end
+        if item.mtype == "innovationswettbewerbe"
+          html_string = html_string + build_nav2("objekte",item,"objekte_preise", item.prices.count)
+          html_string = html_string + build_nav2("objekte",item,"objekte_bewertungskriterien", item.crits.count)
+          html_string = html_string + build_nav2("objekte",item,"objekte_jury", item.madvisors.count)
+          html_string = html_string + build_nav2("objekte",item,"objekte_ideen",item.ideas.count)
+        end
+        if item.mtype == "publikationen"
+          html_string = html_string + build_nav2("objekte",item,"objekte_ausgaben",item.editions.count)
+        end
+        if item.mtype == "sensoren"
+          html_string = html_string + build_nav2("objekte",item,"objekte_sensordaten",item.sensors.count)
+        end
+        if item.mtype == "veranstaltungen"
+          html_string = html_string + build_nav2("objekte",item,"objekte_eintrittskarten",item.tickets.count)
+          html_string = html_string + build_nav2("objekte",item,"objekte_sponsorenengagements",item.msponsors.count)
+          html_string = html_string + build_nav2("objekte",item,"objekte_teilnehmerveranstaltung",item.madvisors.where('role=?',"eventteilnehmer").count)
+        end
+        if item.mtype == "vermietungen"
+          html_string = html_string + build_nav2("objekte",item,"objekte_kalendervermietungen",item.mcalendars.count)
+        end
+        if item.mtype == "ausschreibungen"
+          html_string = html_string + build_nav2("objekte",item,"objekte_ausschreibungsangebote",item.mdetails.where('mtype=?',"ausschreibungsangebote").count)
+        end
+        if item.mtype == "crowdfunding"
+          html_string = html_string + build_nav2("objekte",item, "objekte_cfstatistik",item.mstats.count)
+          html_string = html_string + build_nav2("objekte",item, "objekte_cftransaktionen",item.mstats.count)
+        end
+
+        case item.mtype 
+          when "angebote", "ausflugsziele", "veranstaltungen"
+            html_string = html_string + build_nav2("objekte",item, "objekte_bewertungen" ,item.mratings.count)
+        end
+        
+        ########################################################################################################################
+        # inactive code
+        ########################################################################################################################
+        if false
+        if item.mtype == "angebote" or item.mtype == "stellenanzeigen"
+          html_string = html_string + build_nav2("objekte",item,"objekte_ansprechpartner",item.madvisors.count)
+        end
+        end
+
+    end
+    
+    return html_string.html_safe
+    
+end
+
 def build_nav(domain, item, domain2, condition)
   
   html_string=""
@@ -1697,19 +1878,51 @@ def build_nav(domain, item, domain2, condition)
     case domain
       when "personen"
         html_string = link_to(user_path(:id => item.id, :topic => domain2), title: getinfo2(infosymbol)["infotext"], 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip' ) do
-          content_tag(:i, nil, class:"btn btn-"+btn+" glyphicon glyphicon-" + getinfo2(infosymbol)["info"])
+          content_tag(:i, nil, class:"btn btn-lg btn-"+btn+" glyphicon glyphicon-" + getinfo2(infosymbol)["info"])
         end
       when "institutionen"
         html_string = link_to(company_path(:id => item.id, :topic => domain2), title: getinfo2(infosymbol)["infotext"], 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip' ) do
-          content_tag(:i, nil, class:"btn btn-"+btn+" glyphicon glyphicon-" + getinfo2(infosymbol)["info"])
+          content_tag(:i, nil, class:"btn btn-lg btn-"+btn+" glyphicon glyphicon-" + getinfo2(infosymbol)["info"])
         end
       when "objekte"
         html_string = link_to(mobject_path(:id => item.id, :topic => domain2), title: getinfo2(infosymbol)["infotext"], 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip' ) do
-          content_tag(:i, nil, class:"btn btn-"+btn+" glyphicon glyphicon-" + getinfo2(infosymbol)["info"])
+          content_tag(:i, nil, class:"btn btn-lg btn-"+btn+" glyphicon glyphicon-" + getinfo2(infosymbol)["info"])
         end
     end
   end
   
+  return html_string.html_safe
+end
+
+def build_nav2(domain, item, domain2, anz)
+  
+  html_string=""
+
+  if (!user_signed_in? and $activeapps.include?(domain2)) or (user_signed_in? and getUserCreds.include?(domain2)) or (user_signed_in? and current_user.superuser)
+    if anz > 0 
+      btn = "active"
+    else
+      btn = "inactive"
+    end
+
+    pos = domain2.index("_")
+    infosymbol = (domain2[pos+1..domain2.length-1]).to_sym
+    
+    case domain
+      when "personen"
+        html_string = link_to(user_path(:id => item.id, :topic => domain2)) do
+          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" glyphicon glyphicon-" + getinfo2(infosymbol)["info"]) 
+        end
+      when "institutionen"
+        html_string = link_to(company_path(:id => item.id, :topic => domain2)) do
+          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" glyphicon glyphicon-" + getinfo2(infosymbol)["info"]) 
+        end
+      when "objekte"
+        html_string = link_to(mobject_path(:id => item.id, :topic => domain2)) do
+          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" glyphicon glyphicon-" + getinfo2(infosymbol)["info"]) 
+        end
+    end
+  end
   return html_string.html_safe
 end
 
@@ -3651,9 +3864,11 @@ end
 def contactChip(owner)
   html = '<div class="chip">'
   html = html + showImage2(:small,owner,true)
-  html = html + owner.name
   if owner.class.name == "User"
-    html = html + " " + owner.lastname
+    html = html + owner.name[0] + "." + owner.lastname
+  end
+  if owner.class.name == "Company"
+    html = html + " " + owner.name
   end
   html = html + '</div>'
   return html.html_safe

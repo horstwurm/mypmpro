@@ -1,5 +1,14 @@
-  <% @mobject.mtype %><br>
-  <% @topic %>
+<div class="row">
+  <header>
+    <%= header('<span onclick="openNav()"><i class="glyphicon glyphicon-align-justify"></span></i> ' + @mobject.name + " <b>" + getTopicName(@topic) + "</b>", true) %>
+  </header>
+
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <%= navigate2("objekte", @mobject) %>
+</div>
+
+<div id="main">
   
   <% if @edition_id %>
     <div class="row">
@@ -11,20 +20,9 @@
   <% end %>
 
   <div class="row">
-    <header>
-    <%= header("<navshow><i class='glyphicon glyphicon-menu-down'></i></navshow>" + (I18n.t @mobject.mtype) + " " + @mobject.msubtype.to_s + " " + @mobject.name + "<navhide><i class='glyphicon glyphicon-menu-up pull-right'></i></navhide>", true) %>
-    <nav>
-      <div class='col-xs-12'>
-          <%= navigate("objekte", @mobject) %>
-      </div>
-    </nav>
-    </header>
-  </div>
-  
-  <div class="row">
       <div class='col-xs-12'>
         
-      <%= header3("objekte", @mobject, @topic, false) %>
+      <%= action_buttons2("objekte", @mobject, @topic) %>
 
       <% case @topic %>
         <% when "objekte_info" %>
@@ -387,13 +385,7 @@
                <% end %>
 
               <b><%= I18n.t :verantwortlich %></b><br>
-              <%= showImage2(:small, @mobject.owner, true) %><br>
-              <% if @mobject.owner_type == "User" %>
-                <%= @mobject.owner.name + " " + @mobject.owner.lastname %>
-              <% end %>
-              <% if @mobject.owner_type == "Company" %>
-                <%= @mobject.owner.name %>
-              <% end %>
+              <%= contactChip(@mobject.owner) %>
         			<br><br>
               <%= @mobject.created_at.strftime("%d.%m.%Y") %>
               </div>
@@ -1461,6 +1453,7 @@
     </div>
     
   </div>
+</div>
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
@@ -1898,21 +1891,6 @@ $(document).ready(function(){
       }
     <% end %>
 
-    $("nav").hide();
-    $("navhide").hide();
-    $("navhide").hide();
-    $("navshow").mouseover(function(){
-        $("nav").show();
-        $("navshow").hide();
-        $("navhide").show();
-    });
-
-    $("navhide").mouseover(function(){
-        $("nav").hide();
-        $("navshow").show();
-        $("navhide").hide();
-    });
-
     <% if @topic == "objekte_kalendervermietungen" %>
       $('#calendar').fullCalendar({
           now: '<%= DateTime.now %>',
@@ -2037,4 +2015,18 @@ $(document).ready(function(){
       document.addEventListener("turbolinks:load", function() {drawSign1();drawSign2();})
 
 <% end %>
+</script>
+
+<script>
+/* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
+function openNav() {
+    document.getElementById("mySidenav").style.width = "400px";
+    document.getElementById("main").style.marginLeft = "400px";
+}
+
+/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("main").style.marginLeft = "0";
+}
 </script>

@@ -10,6 +10,7 @@
  $tkb_light_green: #ACC550;         /* hellgruen */
 
  $color1: $tkb_light_green;
+ /* $color1: $blaugruen;        only Test */
  $color2: #2E6B33;         /* dunkelgruen */
  $color3: white;
  $color4: #F5F5F5;         /* hellgrau */
@@ -876,6 +877,19 @@ visit-us {
     border-radius: 50%;
 }
 
+.closebtn {
+    padding-left: 10px;
+    color: #888;
+    font-weight: bold;
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.closebtn:hover {
+    color: #000;
+}
+
 #snackbar {
     visibility: hidden;
     min-width: 250px;
@@ -916,6 +930,52 @@ visit-us {
 @keyframes fadeout {
     from {bottom: 30px; opacity: 1;}
     to {bottom: 0; opacity: 0;}
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 100;
+    left: 0;
+    background-color: #F5F5F5;
+    font-size: 12px!important;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: grey;
+    background-color: lightgrey;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+@media screen and (max-height: 50px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+#main {
+    transition: margin-left .5s;
+    padding: 20px;
 }
 
 @import "*";

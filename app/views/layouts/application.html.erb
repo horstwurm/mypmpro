@@ -27,12 +27,10 @@
     <% I18n.locale = :de %>
 
     <%= render 'layouts/header' %>
-    <% msg = "Holalidladi" %>    
+    
     <div class='container-fluid testcontainer'>
         <% flash.each do |name, msg| %>
-          <% if false %>
-            <% content_tag(:div, msg, class:"alert alert-warning") %>
-          <% end %>
+          <% content_tag(:div, msg, class:"alert alert-warning") %>
           <div id="snackbar"><%= msg %></div>
         <% end %>
 
