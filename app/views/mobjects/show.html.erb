@@ -1,6 +1,8 @@
+<%= action_buttons3("objekte", @mobject, @topic) %>
+
 <div class="row">
   <header>
-    <%= header('<span onclick="openNav()"><i class="glyphicon glyphicon-align-justify"></span></i> ' + @mobject.name + " <b>" + getTopicName(@topic) + "</b>", true) %>
+    <%= header('<span onclick="openNav()"><i class="btn btn-header glyphicon glyphicon-align-justify"></span></i> ' + @mobject.name + " <b>" + getTopicName(@topic) + "</b>"+ " " + '<span onclick="openNavRight()"><i class="btn btn-header glyphicon glyphicon-wrench pull-right"></span></i> ', true) %>
   </header>
 
 <div id="mySidenav" class="sidenav">
@@ -14,16 +16,20 @@
     <div class="row">
       <action>
         <% @edition = Edition.find(@edition_id) %>
+        <% if false %>
         <%= action_buttons2("Edition", @edition, "Info") %>
+        <% end %>
       </action> 
     </div>
   <% end %>
 
   <div class="row">
       <div class='col-xs-12'>
-        
+      
+      <% if false %>  
       <%= action_buttons2("objekte", @mobject, @topic) %>
-
+      <% end %>
+      
       <% case @topic %>
         <% when "objekte_info" %>
 
@@ -430,7 +436,7 @@
 
         <% when "objekte_jury" %>
           <div class="panel-body">
-            <%= build_medialist2(@mobject.madvisors, "madvisors", "user") %>
+            <%= build_medialist2(@mobject.madvisors.where('grade=? or grade=?', "Jury-Mitglied", "Jury-Vorsitz"), "madvisors", "user") %>
           </div>
 
         <% when "objekte_preise" %>
@@ -1440,9 +1446,26 @@
         <% when "objekte_sensordaten" %>
           <div class="panel-body">
             <div class="row">
-              <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
-                <div id="sensorgauge"></div>
-              </div>
+              <% if @mobject.mcategory.name == "Wert" %>
+
+                <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                  <div id="sensorgauge"></div>
+                </div>
+
+              <% else %>
+
+                <% if @mobject.sensors.last %>
+                <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                  <% if @mobject.sensors.last.value > 0 %>
+                    <%= image_tag("switch_on.jpg", size: "130x130") %>
+                  <% else %>
+                    <%= image_tag("switch_off.jpg", size: "130x130") %>
+                  <% end %>
+                  <br><br>
+                </div>
+                <% end %>
+              <% end %>
+
               <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 col-xl-9">
                 <div id="sensorchart"></div>
               </div>
@@ -1771,7 +1794,11 @@ $(document).ready(function(){
       <% dataset = [["Datum", "Alarm", "Wert"]] %>
       <% @iots = @mobject.sensors %>
       <% @iots.each do |i| %>
-        <% dataset << [i.created_at.to_s, @mobject.alert, i.value] %>
+        <% if @mobject.mcategory.name == "Wert" %>
+          <% dataset << [i.created_at.to_s, @mobject.alert, i.value] %>
+        <% else %>
+          <% dataset << [i.created_at.to_s, 0, i.value] %>
+        <% end %>
       <% end %>
   
       window.sensordataset = <%= raw dataset %>;
@@ -1784,10 +1811,15 @@ $(document).ready(function(){
           curveType: 'function',
           legend: { position: 'bottom' }
         };
-        var chart = new google.visualization.LineChart(document.getElementById('sensorchart'));
+        <% if @mobject.mcategory.name == "Wert" %>
+          var chart = new google.visualization.LineChart(document.getElementById('sensorchart'));
+        <% else %>
+          var chart = new google.visualization.ColumnChart(document.getElementById('sensorchart'));
+        <% end %>
         chart.draw(data, options);
       }
 
+      <% if @mobject.mcategory.name == "Wert" %>
       google.charts.load('current', {'packages':['gauge']});
       <% m = @mobject %>
       <% if m.sensors.last %>
@@ -1834,7 +1866,7 @@ $(document).ready(function(){
         <% greent = max %>
       <% end %>
 
-      <% lastsensordata = [["Datum", "Wert"],[dat,wert]] %>
+      lastsensordata = [["Datum", "Wert"],["2H", <%= wert %> ]];
       google.charts.setOnLoadCallback(lastsensorwert);
       function lastsensorwert() {
         var data = google.visualization.arrayToDataTable(lastsensordata);
@@ -1849,6 +1881,7 @@ $(document).ready(function(){
         var chart = new google.visualization.Gauge(document.getElementById("sensorgauge"));
         chart.draw(data, options);
       };
+      <% end %>
 
       window.setInterval(callme, 5000);
 
@@ -2020,13 +2053,27 @@ $(document).ready(function(){
 <script>
 /* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
 function openNav() {
-    document.getElementById("mySidenav").style.width = "400px";
-    document.getElementById("main").style.marginLeft = "400px";
+    document.getElementById("mySidenav").style.width = "250px";
+    document.getElementById("main").style.marginLeft = "250px";
 }
 
 /* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
 function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
     document.getElementById("main").style.marginLeft = "0";
+}
+</script>
+
+<script>
+/* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
+function openNavRight() {
+    document.getElementById("mysidenavright").style.width = "400px";
+    document.getElementById("main").style.marginRight = "400px";
+}
+
+/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
+function closeNavRight() {
+    document.getElementById("mysidenavright").style.width = "0";
+    document.getElementById("main").style.marginRight = "0";
 }
 </script>

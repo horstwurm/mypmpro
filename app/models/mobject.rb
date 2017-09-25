@@ -49,7 +49,7 @@ def self.search(user, cw, year, filter, mtype, msubtype, search, parent)
 #     else
         mlist = []
         if user
-            user.madvisors.where('role=?',"projekte").each do |a|
+            user.madvisors.where('role=?',mtype).each do |a|
                 mlist << a.mobject_id
             end
             user.mobjects.each do |m|

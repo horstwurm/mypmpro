@@ -56,23 +56,14 @@ class MobjectsController < ApplicationController
     @search = params[:search]
 
      counter = 0 
-     @locs = "["
-     @wins = "["
+     @locs = []
+     @wins = []
      @mobjects.each do |u|
 
         if u.longitude and u.latitude and u.geo_address
        
-          @locs = @locs + "["
-          @locs = @locs + "'" + u.name + "', "
-          @locs = @locs + u.latitude.to_s + ", "
-          @locs = @locs + u.longitude.to_s
-          if counter+1 == @mobanz
-            @locs = @locs + "]"
-          else
-            @locs = @locs + "],"
-          end
-  
-          @wins = @wins + "["
+          @locs << [u.name, u.latitude, u.longitude]
+
           if u.mdetails.count > 0
             if u.mdetails.first.avatar_file_name 
               img = url_for(u.mdetails.first.avatar(:small))
@@ -82,24 +73,21 @@ class MobjectsController < ApplicationController
           else
             img = File.join(Rails.root, "/app/assets/images/no_pic.jpg")
           end
-          @wins = @wins + "'<img src=" + img + " <br><h3>" + u.name + "</h3><p>" + u.geo_address + "</p>'"
-          if counter+1 == @mobanz
-            @wins = @wins + "]"
-          else
-            @wins = @wins + "],"
-          end
+          @wins << ["'<img src=" + img + " <br><h3>" + u.name + "</h3><p>" + u.geo_address + "</p>'"]
 
         end
 
         counter = counter + 1
       end
-      @locs = @locs + "]"
-      @wins = @wins + "]"
 
   end
 
   # GET /mobjects/1
   def show
+    if params[:delsensordata]
+      @mobject.sensors.destroy_all
+    end
+    
     if !params[:topic]
       if @mobject.mtype == "publikationen"
         @topic = "objekte_ausgaben"
@@ -501,7 +489,7 @@ class MobjectsController < ApplicationController
     @mobject.time_to = 18
     @mobject.amount = 10000.00
     @mobject.price = 100.00
-    @mobject.reward = "Belohnung..."
+    @mobject.reward = ""
     @mobject.interest_rate = 5
     @mobject.due_date = Date.today + 365
     @mobject.sum_amount = 0
@@ -571,9 +559,9 @@ class MobjectsController < ApplicationController
     @msubtype = @mobject.msubtype
     @mobject.destroy
     if @ownertype == "User"
-      redirect_to user_path(:id => @ownerid), notice: (I18n.t :act_delete)
+      redirect_to user_path(:id => @ownerid, :topic => "personen_"+@mtype), notice: (I18n.t :act_delete)
     else
-      redirect_to company_path(:id => @ownerid), notice: (I18n.t :act_delete)
+      redirect_to company_path(:id => @ownerid, :topic => "institutionen_"+@mtype), notice: (I18n.t :act_delete)
     end
   end
 

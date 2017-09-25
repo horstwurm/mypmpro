@@ -69,7 +69,7 @@
         						<% if current_user.id == 1 %>
             						<%= link_to "Mailgun aktivieren", home_index17_path(:mailgunflag => true) %><br>
             						<%= link_to "Mailgun deaktivieren", home_index17_path(:mailgunflag => false) %><br><br>
-            						<%= link_to (I18n.t :dataload), home_import_path %><br><br>
+            						<% link_to (I18n.t :dataload), home_import_path %><br><br>
             						<%= link_to (I18n.t :test), home_index18_path %><br><br>
         					    <% end %>
     					   <% end %>

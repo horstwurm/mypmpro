@@ -1,3 +1,4 @@
+
   <div class="row">
     <header>
     <%= header("<queryshow><i class='glyphicon glyphicon-filter', style='font-size:2em'></i></queryshow> " + @mtype.to_s + " " + @msubtype.to_s + " " + @filter_id.to_s + " " + @search.to_s + "<span class='badge'>" + @mobanz.to_s + "</span><queryhide><i class='glyphicon glyphicon-menu-up pull-right'></i></queryhide>", true) %>
@@ -33,7 +34,7 @@
     </div>
   </div>
 
-  <%= build_medialist2(@mobjects, "mobjects", session[:edition_id]) %>
+  <%= build_medialist2(@mobjects, "mobjects", "panel") %>
   
   <div class="panel-body">
     <div class="row">
@@ -43,79 +44,6 @@
       </div>
     </div>
   </div>
-
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
-<script>
-  google.charts.load('current', {'packages':['gauge']});
-  <% case @mtype %>
-    <% when "sensoren" %>
-        <% no = 0 %>
-        <% @mobjects.each do |m| %>
-          <% if m.sensors.last %>
-            <% dat = m.sensors.last.created_at.strftime("%m.%d.%Y-%H:%m") %>
-            <% wert = m.sensors.last.value %>
-            <% if m.mini %>
-              <% min = m.mini %>
-            <% else %>
-              <% mini = 0 %>
-            <% end %>
-            <% if m.maxi %>
-              <% max = m.maxi %>
-            <% else %>
-              <% max = 100 %>
-            <% end %>
-            <% if m.alert %>
-              <% alert = m.alert %>
-            <% else %>
-              <% alert = 80 %>
-            <% end %>
-          <% else %>
-            <% dat = "nodata" %>
-            <% wert = 0 %>
-            <% min = 0 %>
-            <% max = 100 %>
-            <% alert = 80 %>
-          <% end %>
-
-          <% if !m.alertlow %>
-            <% redf = alert %>
-            <% redt = max %>
-            <% diff = alert - min %>
-            <% yellowf = (alert - (diff * 0.2).to_i) %>
-            <% yellowt = alert %>
-            <% greenf = min %>
-            <% greent = yellowf %>
-          <% else %>
-            <% redf = min %>
-            <% redt = alert %>
-            <% diff = max - alert %>
-            <% yellowf = redt %>
-            <% yellowt = (alert + (diff * 0.2)).to_i %>
-            <% greenf = yellowt %>
-            <% greent = max %>
-          <% end %>
-
-          <% @data = [["Datum", "Wert"],[dat,wert]] %>
-          google.charts.setOnLoadCallback(drawsensor<%= no %>);
-          function drawsensor<%= no %>() {
-            var data = google.visualization.arrayToDataTable(<%= raw @data %>);
-            var options = {
-              min: <%= min %>,
-              max: <%= max %>,
-              redFrom: <%= redf %>, redTo: <%= redt %>,
-              yellowFrom: <%= yellowf %>, yellowTo: <%= yellowt %>,
-              greenFrom: <%= greenf %>, greenTo: <%= greent %>,
-              minorTicks: 5
-            };
-            var chart = new google.visualization.Gauge(document.getElementById("sensorchart<%= no %>"));
-            chart.draw(data, options);
-          };
-          <% no = no + 1 %>
-        <% end %>
-
-  <% end %>
-</script>
 
 <script>
 function initMap() {

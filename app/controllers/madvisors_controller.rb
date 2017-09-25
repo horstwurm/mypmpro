@@ -14,6 +14,17 @@ class MadvisorsController < ApplicationController
       session[:page] = params[:page]
     end
     
+    if params[:maccess_id]
+      @madvisor = Madvisor.where('mobject_id=? and user_id=?', session[:mobject_id], params[:maccess_id]).first
+      if !@madvisor
+        @madvisor = Madvisor.new
+        @madvisor.user_id = params[:maccess_id]
+        @madvisor.mobject_id = session[:mobject_id]
+        @madvisor.role = @mobject.mtype
+        @madvisor.grade = "berechtigt"
+      end
+      @madvisor.save
+    end
     if params[:madvisor_id]
       @madvisor = Madvisor.where('mobject_id=? and user_id=?', session[:mobject_id], params[:madvisor_id]).first
       if !@madvisor
@@ -23,7 +34,7 @@ class MadvisorsController < ApplicationController
         @madvisor.role = @mobject.mtype
         case @mobject.mtype
           when "projekte"
-            @madvisor.grade = "berechtigt"
+            @madvisor.grade = "Projektmitarbeiter"
             @madvisor.rate = User.find(@madvisor.user_id).rate
           when "angebote"
             @madvisor.grade = "Berater"
@@ -51,7 +62,7 @@ class MadvisorsController < ApplicationController
           when "gruppen"
             @madvisor.grade = "Gruppenlead"
           when "innovationswettbewerbe"
-            @madvisor.grade = "Vorsitz Jury"
+            @madvisor.grade = "Jury-Vorsitz"
         end
       end
       @madvisor.save

@@ -15,6 +15,9 @@ class McategoriesController < ApplicationController
   # GET /mcategories/new
   def new
     @mcategory = Mcategory.new
+    if params[:ctype]
+      @mcategory.ctype = params[:ctype]
+    end
   end
 
   # GET /mcategories/1/edit
@@ -43,7 +46,7 @@ class McategoriesController < ApplicationController
 
   # DELETE /mcategories/1
   def destroy
-    @ctype = mcategory.ctype
+    @ctype = @mcategory.ctype
     @mcategory.destroy
 
     redirect_to mcategories_path(:ctype => @ctype), notice: (I18n.t :act_delete)

@@ -1,12 +1,80 @@
+
+<div class="col-mediacontainer">
+    
+    <% User.all.each do |u| %>
+
+
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
+            
+            <div class="mediacard">
+
+              <div class="overlayimage">
+                  <%= showImage2(:medium, u, true) %>
+              </div>
+              <div class="overlay">
+                <div class="overlaytext">
+
+
+                </div>
+              </div>
+
+              <h2><%= u.name + " " + u.lastname %></h2>
+
+              <i class="glyphicon glyphicon-home"></i>
+              <% if u.address1 and u.address3.length > 0 %>
+                 <%= u.address1 %>
+              <% end %>
+              <% if u.address2 and u.address3.length > 0 %>
+                 <%= u.address2 %>
+              <% end %>
+              <% if u.address3 and u.address3.length > 0 %>
+                 <%= u.address3 %> 
+              <% end %>
+              <br><br>
+
+              <i class="glyphicon glyphicon-phone-alt"></i>
+              <% if u.phone1 and u.phone1.length > 0 %>
+                 <%= u.phone1  %>
+              <% end %>
+              <% if u.phone2 and u.phone2.length > 0 %>
+                 <%= u.phone2 %>
+              <% end %>
+              <br><br>
+
+              <i class="glyphicon glyphicon-envelope"></i>
+              <%= u.email %>
+
+              <div class="mediabuttonpanel">
+                  <div class="mediabutton">
+                      <%= link_to users_path do %>
+                         <i class="glyphicon glyphicon-info-sign mediabutton"></i>                      
+                      <% end %>
+                      <%= link_to users_path do %>
+                         <i class="glyphicon glyphicon-envelope mediabutton"></i>                      
+                      <% end %>
+                  </div>
+              </div>              
+            </div>
+
+        </div>
+
+    <% end %>
+
+</div>
+
+
+<%= contactChip(User.find(1)) %>
+
+
 <div class="owl-carousel owl-theme">
-    <div><%= video_tag("sample.mp4", :size => "500x500") %></div>
-    <div><%= video_tag("sample.mp4", :size => "500x500") %></div>
-    <div><%= video_tag("sample.mp4", :size => "500x500") %></div>
+    <div><%= video_tag("small.mp4") %></div>
+    <div><%= video_tag("waterscape_49.mp4") %></div>
 </div>
 
 <script>
 $('.owl-carousel').owlCarousel({
         items:1,
+        autoplay:true,
         merge:true,
         loop:true,
         margin:10,
@@ -20,7 +88,10 @@ $('.owl-carousel').owlCarousel({
             600:{
                 items:4
             }
-        }
+        },
+    afterAction: function(current) {
+        current.find('video').get(0).play();
+    }
     })
 </script>
 

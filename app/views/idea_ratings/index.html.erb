@@ -1,12 +1,30 @@
+  <div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <%= link_to(mobject_path(:id => @idea.mobject.id, :topic => "objekte_ideen")) do %>
+        <% content_tag(:i, " " + (I18n.t :ideen), class:"glyphicon glyphicon-list") %>
+    <% end %>
+  </div>
 
   <div class="row">
-      <%= header((I18n.t :rating) + " " + @idea.header, true) %>
+    <header>
+      <%= header('<span onclick="openNav()"><i class="btn btn-header glyphicon glyphicon-align-justify"></span></i> ' + (I18n.t :rating) + " " + @idea.header, true) %>
+    </header>
   </div>
   
-  <%= action_buttons2("ideenbewertung", @idea, nil) %>
-
-  <%= build_medialist2(@idea.mobject.crits, "crits", @idea.id) %>
-
+  <main>
+    <%= build_medialist2(@idea.mobject.crits, "crits", @idea.id) %>
+  </main>
+  
 <script>
-  document.addEventListener("turbolinks:load", function() {initMap()})
+/* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
+function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+    document.getElementById("main").style.marginLeft = "250px";
+}
+
+/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("main").style.marginLeft = "0";
+}
 </script>

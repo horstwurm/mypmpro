@@ -1,21 +1,28 @@
+<% if false %>
 <% getUserCreds %>
+<% end %>
+
+<%= action_buttons3("personen", @user, @topic) %>
 
 <div class="row">
   <header>
-    <%= header('<span onclick="openNav()"><i class="glyphicon glyphicon-align-justify"></span></i> ' + @user.name + " " + @user.lastname + " <b>" + getTopicName(@topic) + "</b>", true) %>
+    <%= header('<span onclick="openNav()"><i class="btn btn-header glyphicon glyphicon-align-justify"></span></i> ' + @user.name + " " + @user.lastname + " <b>" + getTopicName(@topic) + "</b>"+ " " + '<span onclick="openNavRight()"><i class="btn btn-header glyphicon glyphicon-wrench pull-right"></span></i> ', true) %>
   </header>
+</div>
 
 <div id="mySidenav" class="sidenav">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
   <%= navigate2("personen", @user) %>
 </div>
 
+
 <div id="main">
 <div class="row">
   <div class='col-xs-12'>
 
-      <%= action_buttons2("personen", @user, @topic) %>
-      
+      <% if false %>
+        <%= action_buttons2("personen", @user, @topic) %>
+      <% end %>
       <% case @topic %>
         <% when "personen_info" %>
 
@@ -128,6 +135,179 @@
         <% when "personen_gruppen" %>
           <%= build_medialist2(@user.mobjects.where('mtype=?',"gruppen"), "mobjects", nil) %>
   
+        <% when "personen_export" %>
+          <div class="row">
+            <div class='col-xs-12'>
+              <div class='panel-body'>
+                
+                <% case @c_mode %>
+                  <% when "Monat" %>
+                    <% btn_m = "active" %>
+                    <% btn_y = "inactive" %>
+                  <% when "Jahr" %>
+                    <% btn_y = "active" %>
+                    <% btn_m = "inactive" %>
+                <% end %>
+                <% @date_start %>
+                <% @date_end %>
+                
+                <%= link_to user_path(:id => @user.id, :topic => "personen_export",  :year => @c_year, :month => @c_month, :mode => "Monat", :scope => @c_scope, :tdatum => @c_datum) do %>
+                  <span><i class="btn btn-<%= btn_m %> glyphicon glyphicon-calendar"> <%= @c_month %></i></span>
+                <% end %>
+                <%= link_to user_path(:id => @user.id, :topic => "personen_export",  :year => @c_year, :month => @c_month, :mode => "Jahr", :scope => @c_scope, :tdatum => @c_datum)  do %>
+                  <span><i class="btn btn-<%= btn_y %> glyphicon glyphicon-calendar"> <%= @c_year %></i></span>
+                <% end %>
+                <%= link_to user_path(:id => @user.id, :topic => "personen_export", :dir => "<", :year => @c_year, :month => @c_month, :mode => @c_mode, :scope => @c_scope, :tdatum => @c_datum)  do %>
+                  <i class="btn btn-primary glyphicon glyphicon-chevron-left"></i>
+                <% end %>
+                <%= link_to user_path(:id => @user.id, :topic => "personen_export", :dir => ">", :year => @c_year, :month => @c_month, :mode => @c_mode, :scope => @c_scope, :tdatum => @c_datum) do %>
+                  <i class="btn btn-primary glyphicon glyphicon-chevron-right"></i>
+                <% end %>
+                <% if @filename %>
+        	        <%= link_to @filename.remove("public") do %>
+                    <span><i class="btn btn-active glyphicon glyphicon-cloud-download"></i></span>
+                  <% end %>
+                <% end %>
+
+               <br><br>
+               <table class="table table-striped">
+
+                 <thead>
+                   <th>
+                     Periodizität
+                   </th>
+                   <th>
+                     Periode
+                   </th>
+                   <th>
+                     Projekt
+                   </th>
+                   <th>
+                     P-KST
+                   </th>
+                   <th>
+                     P-Auftragsnummer
+                   </th>
+                   <th>
+                     Mitarbeiter
+                   </th>
+                   <th>
+                     eMail
+                   </th>
+                   <th>
+                     M-KST
+                   </th>
+                   <th align="right">
+                     h-Satz STD
+                   </th>
+                   <th align="right">
+                     h-Satz Projekt
+                   </th>
+                   <th align="right">
+                     Aufwand in h
+                   </th>
+                   <th align="right">
+                     Aufwand in Kosten
+                   </th>
+                   <th align="right">
+                     Kosten
+                   </th>
+                 </thead>
+                 
+                 <% @export = [] %>
+                 <% @projects = @user.mobjects.where('mtype=?',"projekte") %>
+                 <% @projects.each do |p| %>
+                 
+                   <% @employees = p.timetracks.select("user_id").distinct %>
+
+                   <% @employees.each do |e| %>
+
+                     <% @repuser = User.find(e.user_id) %>
+                     <% aufwand = @repuser.timetracks.where('mobject_id=? and costortime=? and datum >=? and datum <=?', p.id, "aufwand", @date_start, @date_end).sum(:amount) %>
+                     <% if !aufwand %>
+                       <% aufwand = 0 %>
+                     <% end %>
+                     <% kosten = @repuser.timetracks.where('mobject_id=? and costortime=? and datum >=? and datum <=?', p.id, "kosten", @date_start, @date_end).sum(:amount) %>
+                     <% if !kosten %>
+                       <% kosten = 0 %>
+                     <% end %>
+
+                     <% if aufwand != 0 or kosten != 0 %>
+                       <% @export_row = Hash.new %>
+                       
+                       <tr>
+                         <td><%= @c_mode %></td>
+                         <% if @c_mode == "Jahr" %>
+                           <td><%=  @c_year %></td>
+                           <% @per = @c_year %>
+                         <% end %>
+                         <% if @c_mode == "Monat" %>
+                           <td><%=  @c_month.to_s + "/" + @c_year.to_s %></td>
+                           <% @per = @c_month.to_s + "/" + @c_year.to_s %>
+                         <% end %>
+                         <td><%= p.name %></td>
+                         <% if p.costinfo and p.costinfo.length > 0 %>
+                           <td><%= p.costinfo %></td>
+                        <% else %>
+                           <td class="color_issue"></td>
+                         <% end %>
+                         <% if p.reward and p.reward.length > 0 %>
+                           <td><%= p.reward %></td>
+                        <% else %>
+                           <td class="color_issue"></td>
+                         <% end %>
+                     
+  
+                         <td><%= @repuser.name + " " + @repuser.lastname %></td>
+                         <td><%= @repuser.email %></td>
+                         <td><%= @repuser.costinfo %></td>
+                         
+                         <% if @repuser.rate %>
+                           <td align="right"><%= sprintf("%5.2f",@repuser.rate) %></td>
+                         <% else %>
+                           <td class="color_issue"></td>
+                         <% end %>
+                         <% @projectrate = @repuser.madvisors.where('role=? and mobject_id=?', "projekte", p.id).first.rate %>
+                         <% if @projectrate %>
+                           <td align="right"><%= sprintf("%5.2f", @projectrate) %></td>
+                         <% else %>
+                           <td></td>
+                         <% end %>
+                         <% if @projectrate %>
+                           <% @rate = @projectrate %>
+                         <% else %>
+                           <% if @repuser.rate %>
+                             <% @rate = @repuser.rate %>
+                             <% if !@rate %>
+                               <% @rate = 0 %>
+                             <% end %>
+                           <% else %>
+                             <% @rate = 0 %>
+                           <% end %>
+                        <% end %>
+    
+                         <td align="right"><%= sprintf("%5.2f", aufwand) %></td>
+                         <td align="right"><%= sprintf("%5.2f", (aufwand * @rate)) %></td>
+                         <td align="right"><%= sprintf("%5.2f",kosten) %></td>
+  
+                         <% @export_row = {:periodicity => @c_mode, :period => @per, :projekt_name => p.name, :projekt_kst => p.costinfo, :projekt_auftragsnr => p.reward, :mitarbeiter_name => @repuser.name + " " + @repuser.lastname, :mitarbeiter_email => @repuser.email, :mitarbeiter_kst => @repuser.costinfo, :mitarbeiter_rate => @repuser.rate, :mitarbeiter_prate => @projectrate, :aufwand_h => aufwand, :aufwand_k => aufwand*@rate, :kosten => kosten} %>
+                         <% @export << @export_row %>
+                         
+                      </tr>
+                    <% end %>
+                   
+                   <% end %>
+  
+                 <% end %>
+
+               </table>               
+             </div>
+            </div>
+          </div>
+          <% if @filename %>
+            <% exportdata(@export, @filename) %>
+          <% end %>
+
         <% when "personen_zeiterfassung" %>
           <div class="row">
               <div class='col-xs-12'>
@@ -166,7 +346,7 @@
                   <% @date_start %>
                   <% @date_end %>
 
-                  <%= link_to new_timetrack_path(:user_id => @user.id, :scope => @c_scope) do %>
+                  <%= link_to new_timetrack_path(:user_id => @user.id, :scope => @c_scope, :datum => @c_datum) do %>
                     <span><i class="btn btn-special %> glyphicon glyphicon-plus"></i></span>
                   <% end %>
 
@@ -227,7 +407,7 @@
                         <%= header((I18n.t :projekte) + Mobject.find(t.mobject_id).name, false) %>
                         <% if Madvisor.where('mobject_id=? and role=?', t.mobject_id, t.mobject.mtype).count > 0 %>
                           <% if Mobject.find(t.mobject_id).active %>
-                            <%= link_to new_timetrack_path(:user_id => @user.id, :mobject_id => t.mobject_id, :scope => @c_scope) do %>
+                            <%= link_to new_timetrack_path(:user_id => @user.id, :mobject_id => t.mobject_id, :scope => @c_scope, :datum => @c_datum) do %>
                               <span><i class="btn btn-special %> glyphicon glyphicon-plus"></i></span>
                             <% end %>
                           <% end %>
@@ -245,7 +425,7 @@
                     </div>
                     <% @user.madvisors.where('role=?',"projekte").each do |m| %>
                       <% if !@mob.include?(m.mobject_id) and Mobject.find(m.mobject_id).active %>
-                        <%= link_to new_timetrack_path(:user_id => @user.id, :mobject_id => m.mobject_id, :scope => @c_scope) do %>
+                        <%= link_to new_timetrack_path(:user_id => @user.id, :mobject_id => m.mobject_id, :scope => @c_scope, :datum => @c_datum) do %>
                           <span><i class="btn btn-special glyphicon glyphicon-plus"><%= m.mobject.name %></i></span>
                         <% end %>
                       <% end %>
@@ -1104,13 +1284,25 @@
 <script>
 /* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
 function openNav() {
-    document.getElementById("mySidenav").style.width = "400px";
-    document.getElementById("main").style.marginLeft = "400px";
+    document.getElementById("mySidenav").style.width = "270px";
+    document.getElementById("main").style.marginLeft = "270px";
 }
 
 /* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
 function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
     document.getElementById("main").style.marginLeft = "0";
+}
+</script>
+
+<script>
+/* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
+function openNavRight() {
+    document.getElementById("mysidenavright").style.width = "300px";
+}
+
+/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
+function closeNavRight() {
+    document.getElementById("mysidenavright").style.width = "0";
 }
 </script>

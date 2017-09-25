@@ -3,40 +3,50 @@
     <div class="row">
       <div class="col-md-12">
         <div class="digg_pagination">
-            <% case @mobject.mtype %>
-            <% when "angebote" %>
-              <%= link_to(mobject_path(:id => @mobject.id, :topic => "objekte_ansprechpartner")) do %>
-                <i class="btn btn-primary glyphicon glyphicon-list"></i>
-              <% end %>
-            <% when "projekte" %>
-              <%= link_to(mobject_path(:id => @mobject.id, :topic => "objekte_projektberechtigungen")) do %>
-                <i class="btn btn-primary glyphicon glyphicon-list"></i>
-              <% end %>
-            <% when "gruppen" %>
-              <%= link_to(mobject_path(:id => @mobject.id, :topic => "objekte_gruppenmitglieder")) do %>
-                <i class="btn btn-primary glyphicon glyphicon-list"></i>
-              <% end %>
-            <% when "innovationswettbewerbe" %>
-              <%= link_to(mobject_path(:id => @mobject.id, :topic => "objekte_jury")) do %>
-                <i class="btn btn-primary glyphicon glyphicon-list"></i>
-              <% end %>
-            <% end %>
             <%= will_paginate @users, :container => false, previous_label: "<", next_label: ">" %>
         </div>
       </div>
     </div>
   </div>
-
+          
+  <div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <% case @mobject.mtype %>
+        <% when "angebote" %>
+          <%= link_to(mobject_path(:id => @mobject.id, :topic => "objekte_ansprechpartner")) do %>
+            <% content_tag(:i, " " + (I18n.t :ansprechpartner), class:"glyphicon glyphicon-list") %>
+          <% end %>
+        <% when "projekte" %>
+          <%= link_to(mobject_path(:id => @mobject.id, :topic => "objekte_projektberechtigungen")) do %>
+            <% content_tag(:i, " " + (I18n.t :projektberechtigungen), class:"glyphicon glyphicon-list") %>
+          <% end %>
+        <% when "gruppen" %>
+          <%= link_to(mobject_path(:id => @mobject.id, :topic => "objekte_gruppenmitglieder")) do %>
+            <% content_tag(:i, " " + (I18n.t :gruppenmitglieder), class:"glyphicon glyphicon-list") %>
+          <% end %>
+        <% when "innovationswettbewerbe" %>
+          <%= link_to(mobject_path(:id => @mobject.id, :topic => "objekte_projektberechtigungen")) do %>
+            <% content_tag(:i, " " + (I18n.t :projektberechtigungen), class:"glyphicon glyphicon-list") %>
+          <% end %>
+        <% else %>
+          <%= link_to(mobject_path(:id => @mobject.id, :topic => "objekte_projektberechtigungen")) do %>
+            <% content_tag(:i, " " + (I18n.t :projektberechtigungen), class:"glyphicon glyphicon-list") %>
+          <% end %>
+      <% end %>
+  </div>
+  
   <div class="row">
       <% case @mobject.mtype %>
         <% when "angebote" %>
-          <%= header((I18n.t :ansprechpartner) + " " + @mobject.name + "<span class='badge'>" + @adpanz.to_s + "</span>", true) %>
+          <%= header('<span onclick="openNav()"><i class="btn btn-header glyphicon glyphicon-align-justify"></span></i> ' + (I18n.t :ansprechpartner) + " " + @mobject.name + "<span class='badge'>" + @adpanz.to_s + "</span>", true) %>
         <% when "projekte" %>
-          <%= header((I18n.t :projektberechtigungen) + " " + @mobject.name + "<span class='badge'>" + @adpanz.to_s + "</span>", true) %>
+          <%= header('<span onclick="openNav()"><i class="btn btn-header glyphicon glyphicon-align-justify"></span></i> ' + (I18n.t :projektberechtigungen) + " " + @mobject.name + "<span class='badge'>" + @adpanz.to_s + "</span>", true) %>
         <% when "gruppen" %>
-          <%= header((I18n.t :gruppenmitglieder)  + " " + @mobject.name + "<span class='badge'>" + @adpanz.to_s + "</span>", true) %>
+          <%= header('<span onclick="openNav()"><i class="btn btn-header glyphicon glyphicon-align-justify"></span></i> ' + (I18n.t :gruppenmitglieder)  + " " + @mobject.name + "<span class='badge'>" + @adpanz.to_s + "</span>", true) %>
         <% when "innovationswettbewerbe" %>
-          <%= header((I18n.t :jury) + " " + @mobject.name + "<span class='badge'>" + @adpanz.to_s + "</span>", true) %>
+          <%= header('<span onclick="openNav()"><i class="btn btn-header glyphicon glyphicon-align-justify"></span></i> ' + (I18n.t :jury) + " " + @mobject.name + "<span class='badge'>" + @adpanz.to_s + "</span>", true) %>
+        <% else %>
+          <%= header('<span onclick="openNav()"><i class="btn btn-header glyphicon glyphicon-align-justify"></span></i> ' + (I18n.t :projektberechtigungen) + " " + @mobject.name + "<span class='badge'>" + @adpanz.to_s + "</span>", true) %>
       <% end %>
   </div>
   
@@ -46,7 +56,7 @@
         <thead>
           <tr>
             <th colspan=2><%= (I18n.t :status) %></th>
-            <th colspan=3><%= (I18n.t :personen) %></th>
+            <th colspan=2><%= (I18n.t :personen) %></th>
           </tr>
         </thead>
         <tbody>
@@ -61,15 +71,21 @@
                     <% grade = @array[i]["grade"] %>
                   <% end %>
                 <% end %>
+                <% if !grade %>
+                  <%= link_to madvisors_path :maccess_id => u.id, :page => session[:page], :mobject_id => @mobject.id  do %>
+                    <i class="btn btn-primary glyphicon glyphicon-lock"></i>
+                  <% end %>
+                <% end %>
                 <% case @mobject.mtype %>
                   <% when "angebote" %>
-                    <%= link_to madvisors_path :senior_madvisor_id => u.id, :page => session[:page], :mobject_id => @mobject.id do %>
-                      <i class="btn btn-primary glyphicon glyphicon-tags"></i>
-                    <% end %>
-                    <%= link_to madvisors_path :madvisor_id => u.id, :page => session[:page], :mobject_id => @mobject.id do %>
-                      <i class="btn btn-primary glyphicon glyphicon-tag"></i>
-                    <% end %>
-                    <% if grade %>
+                    <% if !grade %>
+                      <%= link_to madvisors_path :senior_madvisor_id => u.id, :page => session[:page], :mobject_id => @mobject.id do %>
+                        <i class="btn btn-primary glyphicon glyphicon-tags"></i>
+                      <% end %>
+                      <%= link_to madvisors_path :madvisor_id => u.id, :page => session[:page], :mobject_id => @mobject.id do %>
+                        <i class="btn btn-primary glyphicon glyphicon-tag"></i>
+                      <% end %>
+                    <% else %>
                       <%= link_to madvisors_path :delete_madvisor_id => u.id, :page => session[:page], :mobject_id => @mobject.id do %>
                         <i class="btn btn-danger glyphicon glyphicon-remove-sign"></i>
                       <% end %>
@@ -115,6 +131,13 @@
                         <i class="btn btn-danger glyphicon glyphicon-remove-sign"></i>
                       <% end %>
                     <% end %>
+                  <% else %>
+                    <% if !grade %>
+                    <% else %>
+                      <%= link_to madvisors_path :delete_madvisor_id => u.id, :page => session[:page], :mobject_id => @mobject.id do %>
+                        <i class="btn btn-danger glyphicon glyphicon-remove-sign"></i>
+                      <% end %>
+                    <% end %>
                 <% end %>
               </td>
               <td>
@@ -123,10 +146,7 @@
                 <% end %>
               </td>
               <td>
-                <%= showImage2(:small, u, true) %>
-              </td>
-              <td>
-                <%= u.name + " " + u.lastname %>            
+                <%= contactChip(u) %>
               </td>
               <td>
                 <%= u.email %>
@@ -137,3 +157,17 @@
       </table>
     </div>
   </div>
+
+<script>
+/* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
+function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+    document.getElementById("main").style.marginLeft = "250px";
+}
+
+/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("main").style.marginLeft = "0";
+}
+</script>

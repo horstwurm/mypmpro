@@ -30,8 +30,8 @@ h2 {
 }
 
 .testcontainer {
-    margin: 0px!important;
-    padding: 0px!important;
+    margin: 0px;
+    padding: 0px;
 }
 
 .column-gapper{
@@ -215,6 +215,13 @@ a:active {
    box-shadow: 2px 2px 10px #B1B1B1;
 }
 
+.btn-header {
+   background-color: $color1!important;
+   border-color: $color1!important;
+   color: white!important;
+   box-shadow: 0px 0px 0px #B1B1B1;
+}
+
 /*******************************************************************************************************/
 /* Text Elements */
 /*******************************************************************************************************/
@@ -268,6 +275,10 @@ angebote_options, stellenanzeigen_options, kleinanzeigen_options, crowdfunding_o
     color: white;
 }
 
+.color_issue {
+    background-color:#F6CECE;
+}
+
 .color_kapa_booked {
     background-color:$color1;
     color: white;
@@ -299,6 +310,13 @@ restlaufzeit, preis, rating, fire {
   font-size: 200%;
   color: red;
 }
+
+analogwert {
+  font-size: 400%;
+  color: red;
+  font-weight: bold;
+}
+
 restlaufzeits, preiss, ticketstatuss, betrag {
   color: red;
 }
@@ -939,17 +957,17 @@ visit-us {
     z-index: 1;
     top: 100;
     left: 0;
-    background-color: #F5F5F5;
-    font-size: 12px!important;
+    background-color: $color4;
+    font-size: 16px!important;
     overflow-x: hidden;
     transition: 0.5s;
-    padding-top: 60px;
+    padding-top: 40px;
 }
 
 .sidenav a {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
-    font-size: 25px;
+    font-size: 16px!important;
     color: #818181;
     display: block;
     transition: 0.3s;
@@ -957,7 +975,7 @@ visit-us {
 
 .sidenav a:hover {
     color: grey;
-    background-color: #F5F5F5;
+    background-color: lightgrey;
 }
 
 .sidenav .closebtn {
@@ -968,7 +986,7 @@ visit-us {
     margin-left: 50px;
 }
 
-@media screen and (max-height: 50px) {
+@media screen and (max-height: 450px) {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
 }
@@ -976,6 +994,168 @@ visit-us {
 #main {
     transition: margin-left .5s;
     padding: 20px;
+}
+
+.sidenavright {
+    height: 50%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 100;
+    right: 0;
+    background-color: #F5DA81;
+    font-size: 16px!important;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 40px;
+}
+
+.sidenavright a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 16px!important;
+    background-color: #F5DA81;
+    color: white;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenavright a:hover {
+    color: #F5DA81;
+    background-color: #FACC2E;
+}
+
+.sidenavright .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenavright {padding-top: 15px;}
+  .sidenavright a {font-size: 18px;}
+}
+
+.red {
+    color: red!important;
+}
+.orange {
+    color: orange!important;
+}
+
+.col-mediacontainer {
+    display: table; /* Make the container element behave like a table */
+    width: 100%; /* Set full-width to expand the whole page */
+    color:$color5;
+}
+
+.mediacol {
+    display: table-cell; /* Make elements inside the container behave like table cells */
+}
+
+.mediacard {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 250px;
+  height:600px;
+  margin: auto;
+  margin:10px;
+  text-align: center;
+  font-family: arial;
+  h3 {
+      color:grey!important;
+  }
+}
+
+.overlayimage {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.mediacard:hover .overlay {
+  top: 0;
+  height: 42%;
+  width:250px;
+}
+
+.overlay {
+  opacity:0.7;
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  background-color: #008CBA;
+  overflow: hidden;
+  width: 100%;
+  height:0;
+  transition: .5s ease;
+}
+
+.overlaytext {
+  white-space: nowrap; 
+  color: white;
+  font-size: 20px;
+  //position: absolute;
+  overflow: hidden;
+  top: 0px;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+
+.mediacard:hover {
+  border-color: $color3!important;
+  box-shadow: 2px 2px 10px #B1B1B1;
+}
+
+.mediatitle {
+  color: grey;
+  font-size: 18px;
+}
+
+.mediabuttonpanel {
+    position:absolute;
+    background-color:grey;
+    width:250px;
+    height:40px;
+    bottom:0px;
+    color:red;
+    text-align: center;
+    padding:10px;
+}
+
+.mediabutton {
+    font-size:20px;
+    color:lightgrey!important;
+}
+
+.mediabuttonred {
+    font-size:20px;
+    color:red!important;
+}
+
+.mediabutton a:hover{
+    color:white!important;
+    background-color:grey!important;
+}
+
+.mediabuttonred a:hover{
+    background-color:white!important;
+}
+
+.padded {
+    border-spacing:10;
+}
+
+media a {
+  text-decoration: none;
+  font-size: 22px;
+  color: black;
+}
+
+mediabutton:hover, a:hover {
+  opacity: 0.7;
 }
 
 @import "*";

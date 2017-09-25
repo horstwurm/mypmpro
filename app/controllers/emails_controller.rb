@@ -27,9 +27,14 @@ class EmailsController < ApplicationController
 
   # POST /emails
   def create
+
     @email = Email.new(email_params)
+    if $usemailgun
+      UserMailer.send_email(User.find(@email.m_to), User.find(@email.m_from), @email.header, @email.body).deliver_now
+    end
     if @email.save
-      redirect_to user_path(:id => @email.m_from, :topic => "Email"), notice: (I18n.t :act_create)
+      #redirect_to user_path(:id => @email.m_from, :topic => "Email"), notice: (I18n.t :act_create)
+      redirect_to @email.back_url
     else
       render :new
     end

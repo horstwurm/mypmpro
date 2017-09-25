@@ -86,7 +86,7 @@
                        <%= f.text_field :costinfo, class:"form-control" %>
                        <%= f.label I18n.t :standardstundensatz %>
                         <div class="input-group">                          
-                          <%= f.number_field :rate, :value => number_with_precision(@user.rate, :precision => 2), :style => "text-align: Right", class:"form-control" %>
+                          <%= f.number_field :rate, :style => "text-align: Right", class:"form-control" %>
                           <div class="input-group-addon"><%= I18n.t :waehrung %></div>
                         </div>
                        <%= f.label I18n.t :organisation %>
@@ -193,4 +193,6 @@
 <script>
   document.addEventListener("turbolinks:load", function() {init_map(0);datepicker()})
 </script>
+
+
 

@@ -51,6 +51,70 @@ class CompaniesController < ApplicationController
       end
     end
 
+    if @topic ==   "institutionen_export"
+
+        if params[:writeexcel]
+          @filename = "public/projectreport_company"+@company.id.to_s+".xls"
+        else
+          @filename = nil
+        end
+
+        if params[:year]
+          @c_year = params[:year]
+        else
+          @c_year = Date.today.year
+        end
+        if params[:month]
+          @c_month = params[:month]
+        else
+          @c_month = Date.today.month
+        end
+
+        if params[:mode]
+          @c_mode = params[:mode]
+        else
+          if @topic == "institutionen_export"
+            @c_mode = "Monat"
+          end
+        end
+
+        if params[:dir] == ">"
+          if @c_mode == "Monat"
+            if @c_month.to_i == 12
+              @c_month =  1
+              @c_year = @c_year.to_i + 1
+            else
+              @c_month = @c_month.to_i + 1
+            end
+          end
+          if @c_mode == "Jahr"
+            @c_year = @c_year.to_i + 1
+          end
+        end
+        if params[:dir] == "<"
+          if @c_mode == "Monat"
+            if @c_month.to_i == 1
+              @c_month =  12
+              @c_year = @c_year.to_i - 1
+            else
+              @c_month = @c_month.to_i - 1
+            end
+          end
+          if @c_mode == "Jahr"
+            @c_year = @c_year.to_i - 1
+          end
+        end
+        case @c_mode
+          when "Monat"
+            @date_start = Date.new(@c_year.to_i,@c_month.to_i,1)
+            @date_end = @date_start.end_of_month
+          when "Jahr"
+            @date_start = Date.new(@c_year.to_i,1,1)
+            @date_end = Date.new(@c_year.to_i,12,31)
+        end
+        
+    end
+
   end
 
   # GET /companies/new

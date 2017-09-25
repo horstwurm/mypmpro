@@ -89,7 +89,7 @@
                     <% when "ausschreibungen", "stellenanzeigen" %>
                       <%= f.collection_select :mcategory_id, Mcategory.where('ctype=?',"branche").order(:name), :id, :name, {}, :readonly => true, class:"form-control" %>
                   <% else %>
-                    <%= f.collection_select :mcategory_id, Mcategory.where('ctype=?',@mobject.mtype).order(:name), :id, :name, {}, :readonly => true, class:"form-control" %>
+                    <%= f.collection_select :mcategory_id, Mcategory.where('ctype=?',@mobject.mtype).order(:name), :id, :name, {}, :readonly => true, id:"cat", class:"form-control", :onchange => "showdata2();" %>
                   <% end %>
                 </div>
                 <div class="form-group">
@@ -178,10 +178,10 @@
                             <%= f.number_field :sum_paufwand_plan, :value => number_with_precision(@mobject.sum_paufwand_plan, :precision => 0), :style => "text-align: Right", class:"form-control" %>
                             <div class="input-group-addon"><%= (I18n.t :personentage) %></div>
                           </div>
-                          <% if @mobject.mtype == "projekte" %>
-                            <%= f.label I18n.t :kostenstelle %>
-                              <%= f.text_field :costinfo, class:"form-control"%>
-                          <% end %>
+                          <%= f.label I18n.t :kostenstelle %>
+                          <%= f.text_field :costinfo, class:"form-control"%>
+                          <%= f.label I18n.t :auftragsnummer %>
+                          <%= f.text_field :reward, class:"form-control"%>
                         </div>
                     <% end %>
 
@@ -198,6 +198,7 @@
                     <% end %>
 
                   <% when "sensoren" %>
+                    <div class="werte">
                       <%= f.label I18n.t :wertebereich %>
                       <div class="input-group">
                         <%= f.text_field :mini, :value => (@mobject.mini), :style => "text-align: Right", class:"form-control" %>
@@ -212,9 +213,10 @@
                         <%= f.text_field :alert, :value => (@mobject.alert), :style => "text-align: Right", class:"form-control" %>
                         <div class="input-group-addon"> <%= (I18n.t :alarmierung) %></div><br>
                       </div>
-                      <div class="form-group">
-                        <input type="checkbox" name="my-checkbox5" checked><%= f.label I18n.t :textalertlow %>
-                      </div>
+                    </div>
+                    <div class="form-group">
+                      <input type="checkbox" name="my-checkbox5" checked><%= f.label I18n.t :textalertlow %>
+                    </div>
 
                   <% when "publikationen" %>
                   <% when "vermietungen" %>
@@ -433,6 +435,23 @@
         if ($("#mobject_msubtype").val() == "zinsen") {
           $(".zinsen").show();
           $(".belohnungen").hide();
+        }
+    <% end %>
+  }
+</script>
+
+<script>
+  function showdata2() {
+
+    var e = document.getElementById("cat");
+    var txt = e.options[e.selectedIndex].text;
+    <% case @mobject.mtype %>
+      <% when "sensoren" %>
+        if (txt == "Wert") {
+          $(".werte").show();
+        }
+        if (txt == "Schalter") {
+          $(".werte").hide();
         }
     <% end %>
   }

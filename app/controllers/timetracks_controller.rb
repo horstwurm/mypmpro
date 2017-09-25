@@ -103,7 +103,11 @@ class TimetracksController < ApplicationController
     else
       @timetrack.costortime = "aufwand"
     end
-    @timetrack.datum=Date.today.strftime('%Y-%m-%d')
+    if params[:datum]
+      @timetrack.datum=params[:datum]
+    else
+      @timetrack.datum=Date.today.strftime('%Y-%m-%d')
+    end
     if @timetrack.costortime == "aufwand"
       @timetrack.amount = 8.0
       @timetrack.activity = "Aktivität..."
@@ -126,7 +130,7 @@ class TimetracksController < ApplicationController
     respond_to do |format|
       if @timetrack.save
         #format.html { redirect_to timetracks_path(:mobject_id => @timetrack.mobject_id, :scope => @timetrack.costortime), notice: (I18n.t :act_create) }
-        format.html { redirect_to user_path(:id => @timetrack.user_id, :topic => "personen_zeiterfassung", :scope => @timetrack.costortime), notice: (I18n.t :act_create) }
+        format.html { redirect_to user_path(:id => @timetrack.user_id, :topic => "personen_zeiterfassung", :scope => @timetrack.costortime, :tdatum => @timetrack.datum), notice: (I18n.t :act_create) }
         format.json { render :show, status: :created, location: @timetrack }
       else
         format.html { render :new }
@@ -141,7 +145,7 @@ class TimetracksController < ApplicationController
     respond_to do |format|
       if @timetrack.update(timetrack_params)
         #format.html { redirect_to timetracks_path(:mobject_id => @timetrack.mobject_id), notice: 'Timetrack was successfully updated.' }
-        format.html { redirect_to user_path(:id => @timetrack.user_id, :topic => "personen_zeiterfassung", :scope => @timetrack.costortime), notice: (I18n.t :act_update) }
+        format.html { redirect_to user_path(:id => @timetrack.user_id, :topic => "personen_zeiterfassung", :scope => @timetrack.costortime, :tdatum => @timetrack.datum), notice: (I18n.t :act_update) }
         format.json { render :show, status: :ok, location: @timetrack }
       else
         format.html { render :edit }
@@ -156,10 +160,11 @@ class TimetracksController < ApplicationController
     #@timetrack_mobject_id = @timetrack.mobject_id
     @timetrack_user_id = @timetrack.user_id
     @timetrack_costorid = @timetrack.costortime
+    @timetrack_datum = @timetrack.datum
     @timetrack.destroy
     respond_to do |format|
       #format.html { redirect_to timetracks_path(:mobject_id => @timetrack_mobject_id), notice: (I18n.t act_de) }
-      format.html { redirect_to user_path(:id => @timetrack_user_id, :topic => "personen_zeiterfassung", :scope => @timetrack_costortime), notice: (I18n.t :act_delete) }
+      format.html { redirect_to user_path(:id => @timetrack_user_id, :topic => "personen_zeiterfassung", :scope => @timetrack_costortime, :tdatum => @timetrack_datum), notice: (I18n.t :act_delete) }
       format.json { head :no_content }
     end
   end

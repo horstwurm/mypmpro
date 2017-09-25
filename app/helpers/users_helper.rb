@@ -149,8 +149,13 @@ def build_medialist2(items, cname, par)
 
   priceAnz = 0
   sensorAnz = 0
-  html_string = "<br>"
-      html_string = html_string + '<div class="row">'
+
+  html_string = ""
+  if par == "panel"
+    html_string = html_string + '<div class="panel-body">'
+  end
+  html_string = html_string + '<div class="col-mediacontainer">'
+
   items.each do |item|
     
     show = true
@@ -168,1255 +173,1318 @@ def build_medialist2(items, cname, par)
     
     if item and show
       
-      html_string = html_string + '<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">'
-        html_string = html_string + '<div class="thumbnail thumbnail-list">'
-        
-          html_string = html_string + '<div class="panel-body panel-listhead">'
+      html_string = html_string + '<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">'
+        html_string = html_string + '<div class="mediacard">'
+          html_string = html_string + '<div class="overlayimage">'
 
             case items.table_name
-                when "deputies"
-                  html_string = html_string + User.find(item.userid).fullname
-                when "appparams"
-                  html_string = html_string + (I18n.t item.right.to_sym)
-                when "charges"
-                  html_string = html_string + (I18n.t item.appparam.right.to_sym)
-                when "prices"
-                  html_string = html_string + item.sequence.to_s + (I18n.t :nterpreis)
-                when "crits"
-                  html_string = html_string + item.name
-                when "ideas"
-                  priceAnz = priceAnz + 1
-                  if priceAnz <= item.mobject.prices.count
-                    html_string = html_string + '<fire><i class="glyphicon glyphicon-fire"></fire></i> '
+              when "deputies"
+                  html_string = html_string + showImage2(:medium, User.find(item.userid), true)
+               when "appparams"
+                  html_string = html_string + image_tag(item.right+".png", :size => "100x100")
+              when "prices"
+                  html_string = html_string + showImage2(:medium, item, true)
+              when "crits"
+                  html_string = html_string + image_tag("kriterien.png", :size => "250x250")
+                  html_string = html_string + "<br><br>"
+                  if !par
+                    html_string = html_string + "<rating>" + item.rating.to_s + "</rating>" 
                   end
-                  html_string = html_string + item.header
-                when "questions"
-                  html_string = html_string + item.name
-                when "edition_arcticles"
-                  html_string = html_string + item.mobject.name
-                when "editions"
-                  html_string = html_string + item.name
-                when "comments", "idea_crowdratings"
-                  html_string = html_string + item.user.name + " " + item.user.lastname + " am " + item.created_at.strftime("%d.%m.%Y um %k:%M Uhr")
-                when "tickets"
-                  html_string = html_string + " " + item.name.to_s
-                when "users"
-                  html_string = html_string + item.name + " " + item.lastname
-                when "companies", "mobjects", "mdetails"
-                  html_string = html_string + item.name
-                when "searches"
-                  html_string = html_string + item.name
-                when "customers"
-                  @comp = Company.find(item.partner_id)
-                  html_string = html_string + @comp.name
-                when "madvisors", "mratings"
-                  if par == "user"
-                    html_string = html_string + item.user.name + " " + item.user.lastname
-                  end
-                  if par == "objekte"
-                    html_string = html_string + item.mobject.name
-                  end
-                when "msponsors"
-                  if par == "company"
-                    html_string = html_string + item.company.name
-                  end
-                  if par == "objekte"
-                    html_string = html_string + item.mobject.name
-                  end
-                when "favourits"
-                  @item = Object.const_get(item.object_name).find(item.object_id)
-                  if Object.const_get(item.object_name).to_s == "User"
-                      html_string = html_string + @item.name + " " + @item.lastname 
-                  end
-                  if Object.const_get(item.object_name).to_s == "Company"
-                      html_string = html_string + @item.name 
-                  end
-                when "transactions"
-                  @ac_ver = Account.find(item.account_ver)
-                  @customer = @ac_ver.customer
-                  if @ac_ver.customer.owner_type == "User"
-                      html_string = html_string + @customer.owner.name + " " + @customer.owner.lastname 
-                  end
-                  if @ac_ver.customer.owner_type == "Company"
-                      html_string = html_string + @customer.owner.name 
-                  end
-                when "mstats"
-                  if par == "cf"
-                        html_string = html_string + item.mobject.name 
-                  end
-                  if par == "owner"
-                    if item.owner_type == "User"
-                        html_string = html_string + item.owner.name + " " + item.owner.lastname 
-                    end
-                    if item.owner_type == "Company"
-                        html_string = html_string + item.owner.name 
-                    end
-                  end
-            end
-
-          html_string = html_string + '</div>'
-
-          html_string = html_string + '<div class="row">'
-            html_string = html_string + '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">'
-              html_string = html_string + '<div class="panel-header">'
-
-                case items.table_name
-                  when "deputies"
-                      html_string = html_string + showImage2(:medium, User.find(item.userid), true)
-                   when "appparams"
-                      html_string = html_string + image_tag(item.right+".png", :size => "100x100")
-                  when "prices"
-                      html_string = html_string + showImage2(:medium, item, true)
-                  when "crits"
-                      if par
-                        html_string = html_string + ""
-                      else
-                        html_string = html_string + "<rating>" + item.rating.to_s + "</rating>" 
-                      end
-                  when "ideas"
-                    if par == "user"
-                      html_string = html_string + showImage2(:medium, item.user, true)
-                    end
-                    if par == "idee"
-                      html_string = html_string + showFirstImage2(:medium, item.mobject, item.mobject.mdetails)
-                    end
-                  when "edition_arcticles"
-                    html_string = html_string + showFirstImage2(:medium, item.mobject, item.mobject.mdetails)
-                  when "editions"
-                    html_string = html_string + showImage2(:medium, item, true)
-                  when "tickets"
-                    html_string = html_string + showFirstImage2(:medium, item, item.owner.mdetails)
-                  when "signage_camps"
-                    html_string = html_string + showFirstImage2(:medium, item, item.signages)
-                  when "comments", "idea_crowdratings"
-                    html_string = html_string + showImage2(:medium, item.user, true)
-                  when "users", "companies", "signages", "signage_locs", "articles"
-                    html_string = html_string + showImage2(:medium, item, true)
-                  when "mdetails"
-                    html_string = html_string + showImage2(:medium, item, false)
-                  when "msponsors"
-                    if par == "company"
-                      html_string = html_string + showImage2(:medium, item.company, true)
-                    end
-                    if par == "objekte"
-                      html_string = html_string + showFirstImage2(:medium, item.mobject, item.mobject.mdetails)
-                    end
-                  when "mobjects"
-                    html_string = html_string + showFirstImage2(:medium, item, item.mdetails)
-                  when "mstats"
-                    if par == "cf"
-                      html_string = html_string + showFirstImage2(:medium, item.mobject, item.mobject.mdetails)
-                    end
-                    if par == "owner"
-                      html_string = html_string + showImage2(:medium, item.owner, true)
-                    end
-                  when "madvisors", "mratings"
-                    if par == "objekte"
-                      html_string = html_string + showFirstImage2(:medium, item.mobject, item.mobject.mdetails)
-                    end
-                    if par == "user"
-                      html_string = html_string + showImage2(:medium, item.user, true)
-                    end
-                  when "favourits"
-                    @item = Object.const_get(item.object_name).find(item.object_id)
-                    if @item
-                      html_string = html_string + showImage2(:medium, @item, true)
-                    end
-                  when "customers"
-                      if @comp
-                        html_string = html_string + showImage2(:medium, @comp, true)
-                      end
-                  when "searches"
-                      if par != nil and par != ""
-                        html_string = html_string + link_to(showcal_index_path(:filter_id => item.id, :dom => par)) do
-                          content_tag(:i, nil, class:"glyphicon glyphicon-" + getinfo(item.mtype.to_sym)["info"], style:"font-size:8em") 
-                        end
-                      else
-                        html_string = html_string + "<soft_padding>"
-                        case item.search_domain
-                          when "personen"
-                            html_string = html_string + link_to(users_path(:filter_id => item.id)) do
-                              content_tag(:i, nil, class:"glyphicon glyphicon-question-sign", style:"font-size:8em") 
-                            end
-                          when "objekte"
-                            html_string = html_string + link_to(mobjects_path(:filter_id => item.id)) do
-                              content_tag(:i, nil, class:"glyphicon glyphicon-question-sign", style:"font-size:8em") 
-                            end
-                          when "tickets"
-                              content_tag(:i, nil, class:"glyphicon glyphicon-question-sign", style:"font-size:8em") 
-                              html_string = html_string + image_tag(image_def("personen", item.mtype, item.msubtype))
-                          when "institutionen"
-                            html_string = html_string + link_to(companies_path(:filter_id => item.id)) do
-                              content_tag(:i, nil, class:"glyphicon glyphicon-question-sign", style:"font-size:8em") 
-                            end
-                        end
-                        html_string = html_string + "</soft_padding>"
-                      end
-                  when "transactions"
-                    html_string = html_string + showImage2(:medium, @ac_ver.customer.owner, true)
+              when "ideas"
+                if par == "user"
+                  html_string = html_string + showImage2(:medium, item.user, true)
                 end
-
-              html_string = html_string + '</div>'
-            html_string = html_string + '</div>'
-
-            html_string = html_string + '<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">'
-              html_string = html_string + '<div class="panel-header panel-media"><list>'
-                case items.table_name
-                    when "appparams"
-
-                      html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i>'+ (I18n.t :abo) + '<br><br>'
-
-                      if par == "user"
-                        @charges = item.charges.where('owner_id=? and owner_type=?', current_user.id, "User").order(created_at: :desc)
-                      else
-                        @charges = item.charges.where('owner_id=? and owner_type=?', current_user.id, "Company").order(created_at: :desc)
-                      end
-                      startdatum = Date.today
-                      @charges.each do |c|
-
-                        html_string = html_string + '<i class="glyphicon glyphicon-calendar"></i> '
-                        html_string = html_string + c.date_from.strftime("%d-%m-%Y") + "-" + c.date_to.strftime("%d-%m-%Y")
-                        
-                        if c.date_to > startdatum
-                          startdatum = c.date_to
-                        end
-                        if c.date_to < Date.today
-                          proc = 0
-                        end  
-                        if c.date_from > Date.today
-                          proc = 100
-                        end
-                        if c.date_from <= Date.today and c.date_to >= Date.today
-                          days = c.date_to - c.date_from
-                          days_used = c.date_to - Date.today
-                          proc = (days_used/days*100).to_i
-                        end
-                        if proc > 0
-                          if proc >= 30
-                            progresscolor = "success"
-                          end
-                          if proc > 10 and proc < 30
-                            progresscolor = "warning"
-                          end
-                          if proc <= 10 
-                            progresscolor = "danger"
-                          end
-                          html_string = html_string + '<div class="progress">'
-                          html_string = html_string + '<div class="progress-bar progress-bar-' + progresscolor + ' progress-bar-striped" role="progressbar2" aria-valuenow="' + proc.to_s + '" aria-valuemin="0" aria-valuemax="100" style="width:' + proc.to_s + '%">'
-                          html_string = html_string + '<span class="sr-only">40% Complete (success)</span>'
-                          html_string = html_string + '</div>'
-                          html_string = html_string + '</div>'
-                        end
-                      end
-                      
-                      if item.fee
-                        html_string = html_string + link_to(new_charge_path(:user_id => current_user.id, :appparam_id => item.id, :datum => startdatum, :plan => "monthly")) do
-                          content_tag(:i, content_tag(:div,sprintf("%05.2f CHF/m",item.fee/100)), class:"btn btn-special")
-                        end
-                        #html_string = html_string + " " + sprintf("%05.2f CHF/Monat",item.fee/100) 
-                        #html_string = html_string + "<br><br>"
-                        html_string = html_string + link_to(new_charge_path(:user_id => current_user.id, :appparam_id => item.id, :datum => startdatum, :plan => "yearly")) do
-                          content_tag(:i, content_tag(:div,sprintf("%05.2f CHF/y",item.fee/10)), class:"btn btn-special")
-                        end
-                        #html_string = html_string + " " + sprintf("%05.2f CHF/y",item.fee/10) 
-                      end
-
-                    when "deputies"
-                      html_string = html_string + '<i class="glyphicon glyphicon-calendar"></i> '
-                      if item.date_from and item.date_to
-                        html_string = html_string + item.date_from.strftime("%d-%m-%Y") + "-" + item.date_to.strftime("%d-%m-%Y")
-                      else
-                        html_string = html_string + (I18n.t :unlimited)
-                      end
-
-                    when "charges"
-                      html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '
-                      html_string = html_string + item.plan + "<br>"
-                      html_string = html_string + '<i class="glyphicon glyphicon-calendar"></i> '
-                      html_string = html_string + item.created_at.strftime("%d-%m-%Y") + "-"
-                      if item.plan == "yearly"
-                        offset = 365
-                      else
-                        offset = 30
-                      end
-                      html_string = html_string + (item.created_at.to_date + offset).strftime("%d-%m-%Y") + "<br>"
-                      html_string = html_string + '<i class="glyphicon glyphicon-euro"></i> '
-                      html_string = html_string + sprintf("%05.2f CHF",item.amount)  + "<br>"
-                      proc = (item.created_at.to_date.jd+offset - Date.today.jd)*100/offset
-                      html_string = html_string + proc.to_s  + "%<br>"
-                      if proc > 0
-                        if proc >= 30
-                          progresscolor = "success"
-                        end
-                        if proc > 10 and proc < 30
-                          progresscolor = "warning"
-                        end
-                        if proc <= 10 
-                          progresscolor = "danger"
-                        end
-                        html_string = html_string + '<div class="progress">'
-                        html_string = html_string + '<div class="progress-bar progress-bar-' + progresscolor + ' progress-bar-striped" role="progressbar2" aria-valuenow="' + proc.to_s + '" aria-valuemin="0" aria-valuemax="100" style="width:' + proc.to_s + '%">'
-                        html_string = html_string + '<span class="sr-only">40% Complete (success)</span>'
-                        html_string = html_string + '</div>'
-                        html_string = html_string + '</div>'
-                      end
-
-                    when "idea_crowdratings"
-                      if item.rating and item.rating > 0
-                        item.rating.round.times do
-                          html_string = html_string + '<i class="glyphicon glyphicon-star"></i> '
-                        end
-                        html_string = html_string + ' (' + sprintf("%.1f",item.rating) + ')<br>'
-                      end
-                      html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '
-                      html_string = html_string + "<b>" + item.rating_text + "</b><br>"
-
-                    when "prices"
-                      html_string = html_string + '<i class="glyphicon glyphicon-gift"></i> '
-                      html_string = html_string + item.name + "<br>"
-                      html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '
-                      html_string = html_string + "<b>" + item.description + "</b><br>"
-
-                    when "crits"
-                      if item.rating and item.rating > 0
-                        html_string = html_string + '<div class="progress">'
-                        html_string = html_string + '<div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar2" aria-valuenow="' + item.rating.to_s + '" aria-valuemin="0" aria-valuemax="100" style="width:' + item.rating.to_s + '%">'
-                        html_string = html_string + '<span class="sr-only">40% Complete (success)</span>'
-                        html_string = html_string + '</div>'
-                        html_string = html_string + '</div>'
-                      end
-                      if par #Idea_id
-                        @idearating = IdeaRating.where('user_id=? and idea_id=? and crit_id=?', current_user.id, par, item.id).first
-                        if !@idearating
-                          @idearating = IdeaRating.new
-                          @idearating.idea_id = par
-                          @idearating.crit_id = item.id
-                          @idearating.user_id = current_user.id
-                          @idearating.rating = 0
-                          @idearating.rating_text = "..."
-                          @idearating.save
-                        end
-                        if @idearating and @idearating.rating > 0
-                          html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '
-                          html_string = html_string + '<div class="progress">'
-                          html_string = html_string + '<div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar2" aria-valuenow="' + @idearating.rating.to_s + '" aria-valuemin="0" aria-valuemax="100" style="width:' + @idearating.rating.to_s + '%">'
-                          html_string = html_string + '<span class="sr-only">40% Complete (success)</span>'
-                          html_string = html_string + '</div>'
-                          html_string = html_string + '</div>'
-                        end
-                      end
-                      html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '
-                      html_string = html_string + "<b>" + item.description + "</b><br>"
-
-                    when "ideas"
-                      if item.crowdrating and item.crowdrating > 0
-                        html_string = html_string + '<i class="glyphicon glyphicon-star"></i> '
-                        html_string = html_string + "<rating>" 
-                        item.crowdrating.round.times do
-                          html_string = html_string + '<i class="glyphicon glyphicon-star"></i> '
-                        end
-                        html_string = html_string + "</rating>" 
-                        html_string = html_string + sprintf("(%3.1f)",item.crowdrating) + "<br>" 
-                      end
-                      if item.rating
-                        html_string = html_string + '<i class="glyphicon glyphicon-education"></i> '
-                        html_string = html_string + "<rating>" + sprintf("%3.1f",item.rating) + "</rating><br>" 
-                      end
-                      
-                      html_string = html_string + '<i class="glyphicon glyphicon-user"></i> '
-                      html_string = html_string + item.user.name + " " + item.user.lastname + "<br>"
-                      html_string = html_string + "<b>" + item.description + "</b><br>"
-                      # html_string = html_string + showImage2(:small, item, false)
-                      if item.avatar_file_name
-                        #html_string = html_string + "Weitere Informationen: "
-                        html_string = html_string + link_to(item.avatar.url, target: "_blank") do 
-                          content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-picture")
-                        end
-                      end
-                      if item.document_file_name
-                        #html_string = html_string + "Weitere Informationen: "
-                        html_string = html_string + link_to(item.document.url, target: "_blank") do 
-                          content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-book")
-                        end
-                      end
-
-                    when "edition_arcticles"
-                      html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '
-                      html_string = html_string + item.mobject.owner.name + " " + item.mobject.owner.lastname
-
-                    when "editions"
-                      html_string = html_string + '<i class="glyphicon glyphicon-calendar"></i> '
-                      if item.release_date 
-                        html_string = html_string +  item.release_date.strftime("%d.%m.%Y") + '<br>'
-                      end 
-                      html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '
-                      html_string = html_string + item.description + "<br><br>"
-                      item.edition_arcticles.order(:sequence).each do |ea|
-                        #html_string = html_string + link_to(mobject_path(:id => ea.mobject.id)) do 
-                        #  content_tag(:i, nil, class:"glyphicon glyphicon-text-background")
-                        #end
-                        html_string = html_string + "<div class='row'>"
-                          html_string = html_string + '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">'
-                            html_string = html_string + showFirstImage2(:small, ea.mobject, ea.mobject.mdetails)
-                          html_string = html_string + "</div>"
-                          html_string = html_string + '<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">'
-                            html_string = html_string + " " + ea.mobject.name + "<br>"
-                          html_string = html_string + "</div>"
-                        html_string = html_string + "</div>"
-                      end
-                      
-                    when "comments"
-                      html_string = html_string + "<blog>'" + item.description + "'</blog>"
-
-                    when "questions"
-                      html_string = html_string + '<i class="glyphicon glyphicon-folder-open"></i> '
-                      html_string = html_string + item.mcategory.name + '<br><br>'
-                      
-                      if item.mcategory.name == "single".downcase or item.mcategory.name == "multiple".downcase 
-
-          	            html_string = html_string + link_to(new_answer_path(:question_id => item.id)) do 
-                          content_tag(:i, nil, class:"btn btn-primary btn-xs glyphicon glyphicon-plus")
-                        end
-                        html_string = html_string + (I18n.t :antwortoptionen) + '<br><br>'
-                        item.answers.each do |a|
-  
-                          html_string = html_string + "<div class='row'>"
-                          html_string = html_string + '<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">'
-                          case item.mcategory.name
-                            when "text"
-                              html_string = html_string + a.name
-                            when "numerisch"
-                              html_string = html_string + a.name 
-                            when "multiple"
-                              html_string = html_string + a.name 
-                            when "single"
-                              html_string = html_string + a.name 
-                            end
-                            html_string = html_string + "</div>"
-                            html_string = html_string + '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">'
-              	            html_string = html_string + link_to(a, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                              content_tag(:i, nil, class:"btn btn-danger btn-xs glyphicon glyphicon-trash pull-right")
-                            end
-              	            html_string = html_string + link_to(edit_answer_path(:id => a)) do 
-                              content_tag(:i, nil, class:"btn btn-primary btn-xs glyphicon glyphicon-wrench pull-right")
-                            end
-                            html_string = html_string + "</div>"
-                            html_string = html_string + "</div>"
-                          
-                        end
-
-                      end
-                      
-                    when "articles"
-                      html_string = html_string + '<i class="glyphicon glyphicon-folder-open"></i> '
-                      html_string = html_string + item.mcategory.name + '<br>'
-                      html_string = html_string + '<i class="glyphicon glyphicon-exclamation-sign"></i> '
-                      html_string = html_string + item.status.to_s + '<br>'
-
-                    when "tickets"
-                      html_string = html_string + '<i class="glyphicon glyphicon-folder-open"></i> '
-                      html_string = html_string + item.mcategory.name + '<br>'
-                      html_string = html_string + '<i class="glyphicon glyphicon-euro"></i> '
-                      html_string = html_string + item.amount.to_s+ '<br>'
-                      html_string = html_string + '<i class="glyphicon glyphicon-exclamation-sign"></i> '
-                      html_string = html_string + item.contingent.to_s + ' verfügbar <br>'
-                      html_string = html_string + '<i class="glyphicon glyphicon-warning-sign"></i> '
-                      html_string = html_string + item.user_tickets.count.to_s + ' verkauft <br>'
-
-                    when "mdetails"
-                      html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '
-                      html_string = html_string + item.description + '<br>'
-
-                    when "users"
-                      html_string = html_string + '<i class="glyphicon glyphicon-home"></i> '
-                      if item.address1 and item.address1.length > 0 
-                        html_string = html_string + item.address1 + '<br>' 
-                      end
-                      if item.address2 and item.address2.length > 0 
-                        html_string = html_string + item.address2 + '<br>' 
-                      end
-                      if item.address3 and item.address3.length > 0 
-                        html_string = html_string + item.address3 + '<br>' 
-                      end
-                      html_string = html_string + '<i class="glyphicon glyphicon-phone-alt"></i> '
-                      if item.phone1 and item.phone1.length > 0 
-                        html_string = html_string + item.phone1 + '<br>' 
-                      end
-                      if item.phone2 and item.phone2.length > 0 
-                        html_string = html_string + item.phone2 + '<br>' 
-                      end
-                      html_string = html_string + '<br><i class="glyphicon glyphicon-envelope"></i> '
-                      html_string = html_string +  item.email
-
-                    when "companies"
-                      html_string = html_string + '<i class="glyphicon glyphicon-folder-open"></i> '
-                      html_string = html_string + item.mcategory.name + '<br>'
-                      html_string = html_string + '<i class="glyphicon glyphicon-home"></i> '
-                      if item.address1 and item.address1.length > 0 
-                        html_string = html_string + item.address1 + '<br>' 
-                      end
-                      if item.address2 and item.address2.length > 0 
-                        html_string = html_string + item.address2 + '<br>' 
-                      end
-                      if item.address3 and item.address3.length > 0 
-                        html_string = html_string + item.address3 + '<br>' 
-                      end
-                      html_string = html_string + '<i class="glyphicon glyphicon-phone-alt"></i> '
-                      if item.phone1 and item.phone1.length > 0 
-                        html_string = html_string + item.phone1 + '<br>' 
-                      end
-                      if item.phone2 and item.phone2.length > 0 
-                        html_string = html_string + item.phone2 + '<br>' 
-                      end
-                      html_string = html_string + '<br><i class="glyphicon glyphicon-envelope"></i> '
-                      html_string = html_string + item.user.email
-
-                    when "customers"
-                      html_string = html_string + '<i class="glyphicon glyphicon-folder-open"></i> '
-                      html_string = html_string + @comp.mcategory.name + '<br>'
-                      html_string = html_string + '<i class="glyphicon glyphicon-home"></i> '
-                      html_string = html_string + @comp.geo_address + '<br>'
-                      html_string = html_string + '<i class="glyphicon glyphicon-envelope"></i> '
-                      html_string = html_string + @comp.user.email + '<br>'
-
-                    when "mobjects"
-                      if item.online_pub
-                        html_string = html_string + '<i class="glyphicon glyphicon-road"></i> ' + (I18n.t :public) + "<br>"
-                      else
-                        html_string = html_string + '<i class="glyphicon glyphicon-lock"></i> ' + (I18n.t :private) + "<br>"
-                      end
-
-                      if item.sum_rating and item.sum_rating > 0
-                        item.sum_rating.round.times do
-                          html_string = html_string + '<i class="glyphicon glyphicon-star"></i> '
-                        end
-                        html_string = html_string + ' (' + sprintf("%.1f",item.sum_rating) + ')<br>'
-                      end
-                      
-                      html_string = html_string + '<i class="glyphicon glyphicon-folder-open"></i> '
-                      html_string = html_string + item.mcategory.name + '<br>'
-                      if item.msubtype == "belohnungen"
-                        html_string = html_string + '<i class="glyphicon glyphicon-gift"></i> '
-                        html_string = html_string + item.reward + '<br>'
-                      end
-                      if item.msubtype == "zinsen"
-                        html_string = html_string + '<i class="glyphicon glyphicon-signal"></i> '
-                        html_string = html_string + sprintf("%3.1f %",item.interest_rate)  + '<br>'
-                      end
-                      if item.owner_type == "Company"
-                          html_string = html_string + '<i class="glyphicon glyphicon-copyright-mark"></i> '
-                          html_string = html_string + item.owner.name + "<br>"
-                      end
-                      if item.owner_type == "User"
-                          html_string = html_string + '<i class="glyphicon glyphicon-user"></i> '
-                          html_string = html_string + item.owner.name + " "+ item.owner.lastname + "<br>"
-                      end
-
-                      case item.mtype
-                        when "sensoren"
-                          #html_string = html_string + '<i class="glyphicon glyphicon-user"></i> '
-                          #html_string = html_string + '<div class="panel-body">'
-                            html_string = html_string +'<div id="sensorchart'+sensorAnz.to_s+'"></div>'
-                          #html_string = html_string + '</div>'
-                          sensorAnz = sensorAnz + 1
-                          
-                        when "kampagnen" 
-
-                        when "standorte" 
-
-                        when "veranstaltungen" 
-                          if item.eventpart
-                            html_string = html_string + '<i class="glyphicon glyphicon-info-sign"></i> '+(I18n.t :anmeldungerforderlich) + "<br>"
-                          else
-                            html_string = html_string + '<i class="glyphicon glyphicon-info-sign"></i> ' + (I18n.t :keineanmeldungerforderlich) + "<br>"
-                          end
-                          @angemeldet = nil
-                          if user_signed_in?
-                            @angemeldet = current_user.madvisors.where('mobject_id=? and role=?', item.id, "eventteilnehmer").first
-                            if @angemeldet
-                              html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '+(I18n.t :angemeldet)+ "<br>"
-                            end
-                          end
-                          html_string = html_string + '<i class="glyphicon glyphicon-calendar"></i> '
-                          html_string = html_string +  item.date_from.strftime("%d.%m.%Y") + " - " + item.date_to.strftime("%d.%m.%Y") + '<br>'
-                          soll = (item.date_to.to_date - item.date_from.to_date).to_i
-                          ist = (DateTime.now.to_date - item.date_from.to_date).to_i
-                          if soll > 0 and ist > 0
-                            html_string = html_string + '<div class="progress">'
-                            html_string = html_string + '<div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar2" aria-valuenow="' + ist.to_s + '" aria-valuemin="0" aria-valuemax="' + soll.to_s + '" style="width:' + (ist*100/soll).to_s + '%">'
-                            html_string = html_string + '<span class="sr-only">40% Complete (success)</span>'
-                            html_string = html_string + '</div>'
-                            html_string = html_string + '</div>'
-                          end
-
-                        when "publikationen"
-                            item.editions.order(release_date: :desc).each do |e|
-                              html_string = html_string + link_to(edition_path(:id => e.id, :topic => "artikel_info")) do
-                                content_tag(:div, showImage2(:small, e, false)) + content_tag(:div, e.name)
-                                #html_string = html_string + e.name + "<br>"
-                              end
-                            end
-
-                        when "projekte"
-                          if !item.date_from
-                            item.date_from = Date.today
-                          end
-                          if !item.date_to
-                            item.date_to = Date.today
-                          end
-                          if !item.risk
-                            item.risk = "tief"
-                          end
-                          if !item.quality
-                            item.quality = "hoch"
-                          end
-
-                          html_string = html_string + "<br>"
-                          html_string = html_string + "<div class='row'>"
-                            html_string = html_string + "<div class='col-xs-4'>"
-                              html_string = html_string + (I18n.t :termin) +"<br>" + item.date_to.strftime("%d.%m.%Y")
-                            html_string = html_string + "</div>"
-                            html_string = html_string + "<div class='col-xs-8'>"
-                              soll = (item.date_to.to_date - item.date_from.to_date).to_i
-                              ist = (DateTime.now.to_date - item.date_from.to_date).to_i
-                              if soll > 0 and ist > 0
-                                html_string = html_string + '<div class="progress">'
-                                html_string = html_string + '<div class="progress-bar progress-bar-warning" role="progressbar2" aria-valuenow="' + ist.to_s + '" aria-valuemin="0" aria-valuemax="' + soll.to_s + '" style="width:' + (ist*100/soll).to_s + '%">'
-                                html_string = html_string + '<span class="sr-only">40% Complete (success)</span>'
-                                html_string = html_string + '</div>'
-                                html_string = html_string + '</div>'
-                              end
-                            html_string = html_string + "</div>"
-                          html_string = html_string + "</div>"
-
-                          if !item.sum_pkosten_plan
-                            item.sum_pkosten_plan = 0.0
-                          end
-                          if !item.sum_paufwand_plan
-                            item.sum_paufwand_plan = 0.0
-                          end
-
-                          html_string = html_string + "<div class='row'>"
-                            html_string = html_string + "<div class='col-xs-4'>"
-                              html_string = html_string + (I18n.t :kosten) +"<br>"+ sprintf("%5.2f "+(I18n.t :waehrung),item.sum_pkosten_plan)
-                            html_string = html_string + "</div>"
-                            html_string = html_string + "<div class='col-xs-8'>"
-                              if item.sum_pkosten_plan and item.sum_pkosten_ist
-                                html_string = html_string + '<div class="progress">'
-                                html_string = html_string + '<div class="progress-bar progress-bar-warning" role="progressbar2" aria-valuenow="' + item.sum_pkosten_ist.to_s + '" aria-valuemin="0" aria-valuemax="' + item.sum_pkosten_plan.to_s + '" style="width:' + (item.sum_pkosten_ist*100/item.sum_pkosten_plan).to_s + '%">'
-                                html_string = html_string + '<span class="sr-only">40% Complete (success)</span>'
-                                html_string = html_string + '</div>'
-                                html_string = html_string + '</div>'
-                              end
-                            html_string = html_string + "</div>"
-                          html_string = html_string + "</div>"
-
-                          html_string = html_string + "<div class='row'>"
-                            html_string = html_string + "<div class='col-xs-4'>"
-                              html_string = html_string + (I18n.t :aufwand) + "<br>"+sprintf("%5.1f "+(I18n.t :personentage),item.sum_paufwand_plan)
-                            html_string = html_string + "</div>"
-                            html_string = html_string + "<div class='col-xs-8'>"
-                              if item.sum_paufwand_plan and item.sum_paufwand_ist
-                                html_string = html_string + '<div class="progress">'
-                                html_string = html_string + '<div class="progress-bar progress-bar-warning" role="progressbar2" aria-valuenow="' + item.sum_paufwand_ist.to_s + '" aria-valuemin="0" aria-valuemax="' + item.sum_paufwand_plan.to_s + '" style="width:' + (item.sum_paufwand_ist*100/item.sum_paufwand_plan).to_s + '%">'
-                                html_string = html_string + '<span class="sr-only">40% Complete (success)</span>'
-                                html_string = html_string + '</div>'
-                                html_string = html_string + '</div>'
-                              end
-                            html_string = html_string + "</div>"
-                          html_string = html_string + "</div>"
-
-                          html_string = html_string + "<div class='row'>"
-                            html_string = html_string + "<div class='col-xs-4'>"
-                            html_string = html_string + "</div>"
-                            html_string = html_string + "<div class='col-xs-8'>"
-                              html_string = html_string + "<div class='col-xs-6' align='center' >"
-                                html_string = html_string + "Qualität"
-                              html_string = html_string + "</div>"
-                              html_string = html_string + "<div class='col-xs-6' align='center' >"
-                                html_string = html_string + "Risiko"
-                              html_string = html_string + "</div>"
-                            html_string = html_string + "</div>"
-                          html_string = html_string + "</div>"
-
-                          html_string = html_string + "<div class='row'>"
-                            html_string = html_string + "<div class='col-xs-4'>"
-                            html_string = html_string + "</div>"
-                            html_string = html_string + "<div class='col-xs-8'>"
-                              html_string = html_string + "<div class='col-xs-6' align='center' style='font-size:4em'>"
-                                html_string = html_string + "<div class='quality"+ item.quality + "'>"
-                                  html_string = html_string + '<i class="glyphicon glyphicon-stop"></i>'
-                                html_string = html_string + "</div>"
-                              html_string = html_string + "</div>"
-                              html_string = html_string + "<div class='col-xs-6' align='center' style='font-size:4em'>"
-                                html_string = html_string + "<div class='risk"+ item.risk + "'>"
-                                  html_string = html_string + '<i class="glyphicon glyphicon-stop"></i>'
-                                html_string = html_string + "</div>"
-                              html_string = html_string + "</div>"
-                            html_string = html_string + "</div>"
-                          html_string = html_string + "</div>"
-
-                        when "ausschreibungen", "kleinanzeigen", "stellenanzeigen", "crowdfunding", "innovationswettbewerbe"
-                          html_string = html_string + '<i class="glyphicon glyphicon-calendar"></i> '
-                          html_string = html_string +  item.date_from.strftime("%d.%m.%Y") + " - " + item.date_to.strftime("%d.%m.%Y") + '<br>'
-                          soll = (item.date_to.to_date - item.date_from.to_date).to_i
-                          ist = (DateTime.now.to_date - item.date_from.to_date).to_i
-                          if soll > 0 and ist > 0
-                            html_string = html_string + '<div class="progress">'
-                            html_string = html_string + '<div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar2" aria-valuenow="' + ist.to_s + '" aria-valuemin="0" aria-valuemax="' + soll.to_s + '" style="width:' + (ist*100/soll).to_s + '%">'
-                            html_string = html_string + '<span class="sr-only">40% Complete (success)</span>'
-                            html_string = html_string + '</div>'
-                            html_string = html_string + '</div>'
-                          end
-                          if item.mtype == "crowdfunding"
-                            if item.sum_amount and item.sum_amount > 0 and item.amount and item.amount > 0
-                              html_string = html_string + '<i class="glyphicon glyphicon-euro"></i> '+ sprintf("%05.2f CHF", item.sum_amount) + " / " + sprintf("%05.2f CHF", item.amount) + "<br>"
-                              html_string = html_string + '<div class="progress">'
-                              html_string = html_string + '<div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="' + item.sum_amount.to_s + '" aria-valuemin="0" aria-valuemax="' + item.amount.to_s + '" style="width:' + (item.sum_amount/item.amount*100).to_s + '%">'
-                              html_string = html_string + '<span class="sr-only">40% Complete (success)</span>'
-                              html_string = html_string + '</div>'
-                              html_string = html_string + '</div>'
-                            end
-                          end
-
-                        when "angebote"
-                          html_string = html_string + '<i class="glyphicon glyphicon-folder"></i> '
-                          html_string = html_string +  item.msubtype + "<br>" 
-                          if item.msubtype == "standard"
-                            if item.price_reg
-                              html_string = html_string + '<i class="glyphicon glyphicon-euro"></i> '
-                              html_string = html_string +  sprintf("%05.2f CHF",item.price_reg) 
-                            end
-                          end
-                          if item.msubtype == "aktion"
-                            if item.price_new
-                              html_string = html_string + '<i class="glyphicon glyphicon-euro"></i> '
-                              html_string = html_string +  sprintf("%05.2f CHF",item.price_new) 
-                            end
-                            if item.price_reg
-                              html_string = html_string + " statt " + sprintf("%05.2f CHF",item.price_reg) + '<br>'
-                            end
-
-                            html_string = html_string + '<i class="glyphicon glyphicon-calendar"></i> '
-                            html_string = html_string +  item.date_from.strftime("%d.%m.%Y") + " - " + item.date_to.strftime("%d.%m.%Y") + '<br>'
-                            soll = (item.date_to.to_date - item.date_from.to_date).to_i
-                            ist = (DateTime.now.to_date - item.date_from.to_date).to_i
-                            if soll > 0 and ist > 0
-                              html_string = html_string + '<div class="progress">'
-                              html_string = html_string + '<div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar2" aria-valuenow="' + ist.to_s + '" aria-valuemin="0" aria-valuemax="' + soll.to_s + '" style="width:' + (ist*100/soll).to_s + '%">'
-                              html_string = html_string + '<span class="sr-only">40% Complete (success)</span>'
-                              html_string = html_string + '</div>'
-                              html_string = html_string + '</div>'
-                            end
-
-                          end
-                      end
-
-                      when "madvisors"
-                          html_string = html_string + '<i class="glyphicon glyphicon-folder-open"></i> '
-                          html_string = html_string + item.grade + "<br>"
-                          if item.mobject.mtype == "projekte"
-                            html_string = html_string + '<i class="glyphicon glyphicon-euro"></i> '
-                            if !item.rate
-                              item.rate = 0
-                            end
-                            html_string = html_string + sprintf("%5.2f",item.rate) + "<br>"
-                          end
-                          if item.mobject.mtype == "veranstaltungen"
-                            html_string = html_string + '<i class="glyphicon glyphicon-time"></i> '
-                            html_string = html_string + item.created_at.strftime("%d.%m.%Y") 
-                          end
-
-                      when "mstats"
-                        if item.owner_type == "Company"
-                            html_string = html_string + '<i class="glyphicon glyphicon-copyright-mark"></i> '
-                            html_string = html_string + item.owner.name + "<br>"
-                        end
-                        if item.owner_type == "User"
-                            html_string = html_string + '<i class="glyphicon glyphicon-user"></i> '
-                            html_string = html_string + item.owner.name + " "+ item.owner.lastname + "<br>"
-                        end
-                        html_string = html_string + '<i class="glyphicon glyphicon-euro"></i> '
-                        html_string = html_string + sprintf("%05.2f CHF",item.amount) + '<br>'
-                        html_string = html_string + '<i class="glyphicon glyphicon-calendar"></i> '
-                        html_string = html_string +  item.created_at.strftime("%d.%m.%Y") + '<br>'
-
-                    when "msponsors"
-                        if items.table_name == "msponsors"
-                          case item.slevel
-                            when "1"
-                              html_string = html_string + image_tag("Sponsor_gold.jpg", :size => "100x100", class:"img-rounded")
-              				      when "2"
-                              html_string = html_string + image_tag("Sponsor_silver.jpg", :size => "100x100", class:"img-rounded")
-              				      when "3"
-                              html_string = html_string + image_tag("Sponsor_bronze.jpg", :size => "100x100", class:"img-rounded")
-                          end
-                        end
-                        
-                    when "favourits"
-                      html_string = html_string + @item.geo_address + '<br>'
-    
-                    when "searches"
-                      html_string = html_string + "<anzeigetext>" + item.name + "</anzeigetext><br>"
-                      if item.search_domain == "object"
-                        html_string = html_string + '<i class="glyphicon glyphicon-folder-open"></i> '
-                        html_string = html_string + item.mtype + "<br>" 
-                        html_string = html_string + item.msubtype.to_s + '<br>'
-                      end
-                      html_string = html_string + '<i class="glyphicon glyphicon-question-sign"></i> '
-                      html_string = html_string + 'Anzahl ' + item.counter.to_s + '<br>'
-                      
-                    when "transactions"
-                      html_string = html_string + '<i class="glyphicon glyphicon-euro"></i> '
-                      html_string = html_string + sprintf("%05.2f CHF",item.amount) + '<br>'
-                      html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '
-                      html_string = html_string +  item.ref + '<br>'
-                      html_string = html_string + '<i class="glyphicon glyphicon-calendar"></i> '
-                      html_string = html_string +  item.trx_date.strftime("%d.%m.%Y") + '<br>'
-                      html_string = html_string + '<i class="glyphicon glyphicon-inbox"></i> '
-                      html_string = html_string +  item.status + '<br>'
-
-                    when "mratings"
-                      item.rating.times do
-                        html_string = html_string + '<i class="glyphicon glyphicon-star"></i>'
-                      end
-                      html_string = html_string + "<br>"
-                      html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '
-                      html_string = html_string +  item.comment + '<br>'
-                      html_string = html_string + '<i class="glyphicon glyphicon-time"></i> '
-                      html_string = html_string + item.created_at.strftime("%d.%m.%Y") 
-
+                if par == "idee"
+                  html_string = html_string + showFirstImage2(:medium, item.mobject, item.mobject.mdetails)
                 end
-              html_string = html_string + '</list></div>'
-            html_string = html_string + '</div>'
-          html_string = html_string + '</div>'
-
-          html_string = html_string + '<div class="panel panel-listfoot">'
-
-            if (Date.today - item.created_at.to_date).to_i < 5
-                html_string = html_string + (image_tag 'neu.png', :size => '30x30', class:'img-rounded')
-            end 
-            #html_string = html_string + item.created_at.strftime("%d.%m.%Y")
-
-            #check credentials
-            access = false
-            if user_signed_in?
-              case cname
-                when "prices"
-                  if isowner(item.mobject)
-                    access = true
+              when "edition_arcticles"
+                html_string = html_string + showFirstImage2(:medium, item.mobject, item.mobject.mdetails)
+              when "editions"
+                html_string = html_string + showImage2(:medium, item, true)
+              when "tickets"
+                html_string = html_string + showFirstImage2(:medium, item, item.owner.mdetails)
+              when "signage_camps"
+                html_string = html_string + showFirstImage2(:medium, item, item.signages)
+              when "comments", "idea_crowdratings"
+                html_string = html_string + showImage2(:medium, item.user, true)
+              when "users", "companies", "signages", "signage_locs", "articles"
+                html_string = html_string + showImage2(:medium, item, true)
+              when "mdetails"
+                html_string = html_string + showImage2(:medium, item, false)
+              when "msponsors"
+                if par == "company"
+                  html_string = html_string + showImage2(:medium, item.company, true)
+                end
+                if par == "objekte"
+                  html_string = html_string + showFirstImage2(:medium, item.mobject, item.mobject.mdetails)
+                end
+              when "mobjects"
+                html_string = html_string + showFirstImage2(:medium, item, item.mdetails)
+              when "mstats"
+                if par == "cf"
+                  html_string = html_string + showFirstImage2(:medium, item.mobject, item.mobject.mdetails)
+                end
+                if par == "owner"
+                  html_string = html_string + showImage2(:medium, item.owner, true)
+                end
+              when "madvisors", "mratings"
+                if par == "objekte"
+                  html_string = html_string + showFirstImage2(:medium, item.mobject, item.mobject.mdetails)
+                end
+                if par == "user"
+                  html_string = html_string + showImage2(:medium, item.user, true)
+                end
+              when "favourits"
+                @item = Object.const_get(item.object_name).find(item.object_id)
+                if @item
+                  html_string = html_string + showImage2(:medium, @item, true)
+                end
+              when "customers"
+                  if @comp
+                    html_string = html_string + showImage2(:medium, @comp, true)
                   end
-                when "crits"
-                  if par
-                    array = []
-                    item.mobject.madvisors.each do |m|
-                      array << m.user_id
-                    end
-                    if array.include?(current_user.id)
-                      access = true
+              when "searches"
+                  if par != nil and par != ""
+                    html_string = html_string + link_to(showcal_index_path(:filter_id => item.id, :dom => par)) do
+                      content_tag(:i, nil, class:"glyphicon glyphicon-" + getinfo(item.mtype.to_sym)["info"], style:"font-size:8em") 
                     end
                   else
-                    if isowner(item.mobject)
-                      access = true
+                    html_string = html_string + "<soft_padding>"
+                    case item.search_domain
+                      when "personen"
+                        html_string = html_string + link_to(users_path(:filter_id => item.id)) do
+                          content_tag(:i, nil, class:"glyphicon glyphicon-question-sign", style:"font-size:8em") 
+                        end
+                      when "objekte"
+                        html_string = html_string + link_to(mobjects_path(:filter_id => item.id)) do
+                          content_tag(:i, nil, class:"glyphicon glyphicon-question-sign", style:"font-size:8em") 
+                        end
+                      when "tickets"
+                          content_tag(:i, nil, class:"glyphicon glyphicon-question-sign", style:"font-size:8em") 
+                          html_string = html_string + image_tag(image_def("personen", item.mtype, item.msubtype))
+                      when "institutionen"
+                        html_string = html_string + link_to(companies_path(:filter_id => item.id)) do
+                          content_tag(:i, nil, class:"glyphicon glyphicon-question-sign", style:"font-size:8em") 
+                        end
+                    end
+                    html_string = html_string + "</soft_padding>"
+                  end
+              when "transactions"
+                html_string = html_string + showImage2(:medium, @ac_ver.customer.owner, true)
+            end
+          html_string = html_string + '</div>'
+
+          html_string = html_string + '<h3>'
+            case items.table_name
+              when "deputies"
+                html_string = html_string + User.find(item.userid).name + " " + User.find(item.userid).lastname
+              when "appparams"
+                html_string = html_string + (I18n.t item.right.to_sym)
+              when "charges"
+                html_string = html_string + (I18n.t item.appparam.right.to_sym)
+              when "prices"
+                html_string = html_string + item.sequence.to_s + (I18n.t :nterpreis)
+              when "crits"
+                html_string = html_string + item.name
+              when "ideas"
+                priceAnz = priceAnz + 1
+                if priceAnz <= item.mobject.prices.count
+                  html_string = html_string + '<fire><i class="glyphicon glyphicon-fire"></fire></i> '
+                end
+                html_string = html_string + item.header
+              when "questions"
+                html_string = html_string + item.name
+              when "edition_arcticles"
+                html_string = html_string + item.mobject.name
+              when "editions"
+                html_string = html_string + item.name
+              when "comments", "idea_crowdratings"
+                html_string = html_string + item.user.name + " " + item.user.lastname + " am " + item.created_at.strftime("%d.%m.%Y um %k:%M Uhr")
+              when "tickets"
+                html_string = html_string + " " + item.name.to_s
+              when "users"
+                html_string = html_string + item.name + " " + item.lastname
+              when "companies", "mdetails"
+                html_string = html_string + item.name
+              when "mobjects"
+                if item.online_pub
+                  html_string = html_string + '<i class="glyphicon glyphicon-road"></i>'
+                else
+                  html_string = html_string + '<i class="glyphicon glyphicon-lock"></i>'
+                end
+                html_string = html_string + " " + item.name
+              when "searches"
+                html_string = html_string + item.name
+              when "customers"
+                @comp = Company.find(item.partner_id)
+                html_string = html_string + @comp.name
+              when "madvisors", "mratings"
+                if par == "user"
+                  html_string = html_string + item.user.name + " " + item.user.lastname
+                end
+                if par == "objekte"
+                  html_string = html_string + item.mobject.name
+                end
+              when "msponsors"
+                if par == "company"
+                  html_string = html_string + item.company.name
+                end
+                if par == "objekte"
+                  html_string = html_string + item.mobject.name
+                end
+              when "favourits"
+                @item = Object.const_get(item.object_name).find(item.object_id)
+                if Object.const_get(item.object_name).to_s == "User"
+                    html_string = html_string + @item.name + " " + @item.lastname 
+                end
+                if Object.const_get(item.object_name).to_s == "Company"
+                    html_string = html_string + @item.name 
+                end
+              when "transactions"
+                @ac_ver = Account.find(item.account_ver)
+                @customer = @ac_ver.customer
+                if @ac_ver.customer.owner_type == "User"
+                    html_string = html_string + @customer.owner.name + " " + @customer.owner.lastname 
+                end
+                if @ac_ver.customer.owner_type == "Company"
+                    html_string = html_string + @customer.owner.name 
+                end
+              when "mstats"
+                if par == "cf"
+                      html_string = html_string + item.mobject.name 
+                end
+                if par == "owner"
+                  if item.owner_type == "User"
+                      html_string = html_string + item.owner.name + " " + item.owner.lastname 
+                  end
+                  if item.owner_type == "Company"
+                      html_string = html_string + item.owner.name 
+                  end
+                end
+            end
+          html_string = html_string + '</h3>'
+
+          case items.table_name
+              when "appparams"
+
+                html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i>'+ (I18n.t :abo) + '<br><br>'
+
+                if par == "user"
+                  @charges = item.charges.where('owner_id=? and owner_type=?', current_user.id, "User").order(created_at: :desc)
+                else
+                  @charges = item.charges.where('owner_id=? and owner_type=?', current_user.id, "Company").order(created_at: :desc)
+                end
+                startdatum = Date.today
+                @charges.each do |c|
+
+                  html_string = html_string + '<i class="glyphicon glyphicon-calendar"></i> '
+                  html_string = html_string + c.date_from.strftime("%d-%m-%Y") + "-" + c.date_to.strftime("%d-%m-%Y")
+                  
+                  if c.date_to > startdatum
+                    startdatum = c.date_to
+                  end
+                  if c.date_to < Date.today
+                    proc = 0
+                  end  
+                  if c.date_from > Date.today
+                    proc = 100
+                  end
+                  if c.date_from <= Date.today and c.date_to >= Date.today
+                    days = c.date_to - c.date_from
+                    days_used = c.date_to - Date.today
+                    proc = (days_used/days*100).to_i
+                  end
+                  if proc > 0
+                    if proc >= 30
+                      progresscolor = "success"
+                    end
+                    if proc > 10 and proc < 30
+                      progresscolor = "warning"
+                    end
+                    if proc <= 10 
+                      progresscolor = "danger"
+                    end
+                    html_string = html_string + '<div class="progress">'
+                    html_string = html_string + '<div class="progress-bar progress-bar-' + progresscolor + ' progress-bar-striped" role="progressbar2" aria-valuenow="' + proc.to_s + '" aria-valuemin="0" aria-valuemax="100" style="width:' + proc.to_s + '%">'
+                    html_string = html_string + '<span class="sr-only">40% Complete (success)</span>'
+                    html_string = html_string + '</div>'
+                    html_string = html_string + '</div>'
+                  end
+                end
+                
+                if item.fee
+                  html_string = html_string + link_to(new_charge_path(:user_id => current_user.id, :appparam_id => item.id, :datum => startdatum, :plan => "monthly")) do
+                    content_tag(:i, content_tag(:div,sprintf("%05.2f CHF/m",item.fee/100)), class:"btn btn-special")
+                  end
+                  #html_string = html_string + " " + sprintf("%05.2f CHF/Monat",item.fee/100) 
+                  #html_string = html_string + "<br><br>"
+                  html_string = html_string + link_to(new_charge_path(:user_id => current_user.id, :appparam_id => item.id, :datum => startdatum, :plan => "yearly")) do
+                    content_tag(:i, content_tag(:div,sprintf("%05.2f CHF/y",item.fee/10)), class:"btn btn-special")
+                  end
+                  #html_string = html_string + " " + sprintf("%05.2f CHF/y",item.fee/10) 
+                end
+
+              when "deputies"
+                html_string = html_string + '<i class="glyphicon glyphicon-calendar"></i> '
+                if item.date_from and item.date_to
+                  html_string = html_string + item.date_from.strftime("%d-%m-%Y") + "-" + item.date_to.strftime("%d-%m-%Y")
+                else
+                  html_string = html_string + (I18n.t :unlimited)
+                end
+
+              when "charges"
+                html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '
+                html_string = html_string + item.plan + "<br>"
+                html_string = html_string + '<i class="glyphicon glyphicon-calendar"></i> '
+                html_string = html_string + item.created_at.strftime("%d-%m-%Y") + "-"
+                if item.plan == "yearly"
+                  offset = 365
+                else
+                  offset = 30
+                end
+                html_string = html_string + (item.created_at.to_date + offset).strftime("%d-%m-%Y") + "<br>"
+                html_string = html_string + '<i class="glyphicon glyphicon-euro"></i> '
+                html_string = html_string + sprintf("%05.2f CHF",item.amount)  + "<br>"
+                proc = (item.created_at.to_date.jd+offset - Date.today.jd)*100/offset
+                html_string = html_string + proc.to_s  + "%<br>"
+                if proc > 0
+                  if proc >= 30
+                    progresscolor = "success"
+                  end
+                  if proc > 10 and proc < 30
+                    progresscolor = "warning"
+                  end
+                  if proc <= 10 
+                    progresscolor = "danger"
+                  end
+                  html_string = html_string + '<div class="progress">'
+                  html_string = html_string + '<div class="progress-bar progress-bar-' + progresscolor + ' progress-bar-striped" role="progressbar2" aria-valuenow="' + proc.to_s + '" aria-valuemin="0" aria-valuemax="100" style="width:' + proc.to_s + '%">'
+                  html_string = html_string + '<span class="sr-only">40% Complete (success)</span>'
+                  html_string = html_string + '</div>'
+                  html_string = html_string + '</div>'
+                end
+
+              when "idea_crowdratings"
+                if item.rating and item.rating > 0
+                  item.rating.round.times do
+                    html_string = html_string + '<i class="glyphicon glyphicon-star"></i> '
+                  end
+                  html_string = html_string + ' (' + sprintf("%.1f",item.rating) + ')<br>'
+                end
+                html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '
+                html_string = html_string + "<b>" + item.rating_text + "</b><br>"
+
+              when "prices"
+                html_string = html_string + '<preis><i class="glyphicon glyphicon-gift"></i> '
+                html_string = html_string +  item.name + "</preis><br><br>"
+                #html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i>
+                if item.description.length > 300
+                  html_string = html_string + "<b>" + item.description[0..300] + "</b><br>"
+                else
+                  html_string = html_string + "<b>" + item.description + "</b><br>"
+                end
+
+              when "crits"
+                if item.rating and item.rating > 0
+                  html_string = html_string + '<div class="progress">'
+                  html_string = html_string + '<div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar2" aria-valuenow="' + item.rating.to_s + '" aria-valuemin="0" aria-valuemax="100" style="width:' + item.rating.to_s + '%">'
+                  html_string = html_string + '<span class="sr-only">40% Complete (success)</span>'
+                  html_string = html_string + '</div>'
+                  html_string = html_string + '</div>'
+                end
+                if par #Idea_id
+                  @idearating = IdeaRating.where('user_id=? and idea_id=? and crit_id=?', current_user.id, par, item.id).first
+                  if !@idearating
+                    @idearating = IdeaRating.new
+                    @idearating.idea_id = par
+                    @idearating.crit_id = item.id
+                    @idearating.user_id = current_user.id
+                    @idearating.rating = 0
+                    @idearating.rating_text = "..."
+                    @idearating.save
+                  end
+                  if @idearating and @idearating.rating > 0
+                    #html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '
+                    html_string = html_string + '<div class="progress">'
+                    html_string = html_string + '<div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar2" aria-valuenow="' + @idearating.rating.to_s + '" aria-valuemin="0" aria-valuemax="100" style="width:' + @idearating.rating.to_s + '%">'
+                    html_string = html_string + '<span class="sr-only">40% Complete (success)</span>'
+                    html_string = html_string + '</div>'
+                    html_string = html_string + '</div>'
+                  end
+                  html_string = html_string + "<preis>" + (item.rating * @idearating.rating).to_s + "</preis>"
+                end
+                #html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '
+                html_string = html_string + "<br><b>" + item.description + "</b><br>"
+
+              when "ideas"
+                if item.crowdrating and item.crowdrating > 0
+                  html_string = html_string + '<i class="glyphicon glyphicon-star"></i> '
+                  html_string = html_string + "<rating>" 
+                  item.crowdrating.round.times do
+                    html_string = html_string + '<i class="glyphicon glyphicon-star"></i> '
+                  end
+                  html_string = html_string + "</rating>" 
+                  html_string = html_string + sprintf("(%3.1f)",item.crowdrating) + "<br>" 
+                end
+                if item.rating
+                  html_string = html_string + '<i class="glyphicon glyphicon-education"></i> '
+                  html_string = html_string + "<rating>" + sprintf("%3.1f",item.rating) + "</rating><br>" 
+                end
+                
+                html_string = html_string + '<i class="glyphicon glyphicon-user"></i> '
+                html_string = html_string + item.user.name + " " + item.user.lastname + "<br><br>"
+                if item.description.length > 200
+                  html_string = html_string + "<b>" + item.description[0..200] + "...</b><br>"
+                else
+                  html_string = html_string + "<b>" + item.description + "</b><br>"
+                end
+                # html_string = html_string + showImage2(:small, item, false)
+                if false
+                  if item.avatar_file_name
+                    #html_string = html_string + "Weitere Informationen: "
+                    html_string = html_string + link_to(item.avatar.url, target: "_blank") do 
+                      content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-picture")
                     end
                   end
-
-                when "ideas"
-      	          html_string = html_string + link_to(idea_crowdratings_path(:idea_id => item)) do 
-                      content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-star")
+                  if item.document_file_name
+                    #html_string = html_string + "Weitere Informationen: "
+                    html_string = html_string + link_to(item.document.url, target: "_blank") do 
+                      content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-book")
                     end
+                  end
+                end
+
+              when "edition_arcticles"
+                html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '
+                html_string = html_string + item.mobject.owner.name + " " + item.mobject.owner.lastname
+
+              when "editions"
+                html_string = html_string + '<i class="glyphicon glyphicon-calendar"></i> '
+                if item.release_date 
+                  html_string = html_string +  item.release_date.strftime("%d.%m.%Y") + '<br>'
+                end 
+                html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '
+                html_string = html_string + item.description + "<br><br>"
+                item.edition_arcticles.order(:sequence).each do |ea|
+                  #html_string = html_string + link_to(mobject_path(:id => ea.mobject.id)) do 
+                  #  content_tag(:i, nil, class:"glyphicon glyphicon-text-background")
+                  #end
+                  html_string = html_string + "<div class='row'>"
+                    html_string = html_string + '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">'
+                      html_string = html_string + showFirstImage2(:small, ea.mobject, ea.mobject.mdetails)
+                    html_string = html_string + "</div>"
+                    html_string = html_string + '<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">'
+                      html_string = html_string + " " + ea.mobject.name + "<br>"
+                    html_string = html_string + "</div>"
+                  html_string = html_string + "</div>"
+                end
+                
+              when "comments"
+                html_string = html_string + "<blog>'" + item.description + "'</blog>"
+
+              when "questions"
+                html_string = html_string + '<i class="glyphicon glyphicon-folder-open"></i> '
+                html_string = html_string + item.mcategory.name + '<br><br>'
+                
+                if item.mcategory.name == "single".downcase or item.mcategory.name == "multiple".downcase 
+
+    	            html_string = html_string + link_to(new_answer_path(:question_id => item.id)) do 
+                    content_tag(:i, nil, class:"btn btn-primary btn-xs glyphicon glyphicon-plus")
+                  end
+                  html_string = html_string + (I18n.t :antwortoptionen) + '<br><br>'
+                  item.answers.each do |a|
+
+                    html_string = html_string + "<div class='row'>"
+                    html_string = html_string + '<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">'
+                    case item.mcategory.name
+                      when "text"
+                        html_string = html_string + a.name
+                      when "numerisch"
+                        html_string = html_string + a.name 
+                      when "multiple"
+                        html_string = html_string + a.name 
+                      when "single"
+                        html_string = html_string + a.name 
+                      end
+                      html_string = html_string + "</div>"
+                      html_string = html_string + '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">'
+        	            html_string = html_string + link_to(a, method: :delete, data: { confirm: 'Are you sure?' }) do 
+                        content_tag(:i, nil, class:"btn btn-danger btn-xs glyphicon glyphicon-trash pull-right")
+                      end
+        	            html_string = html_string + link_to(edit_answer_path(:id => a)) do 
+                        content_tag(:i, nil, class:"btn btn-primary btn-xs glyphicon glyphicon-wrench pull-right")
+                      end
+                      html_string = html_string + "</div>"
+                      html_string = html_string + "</div>"
+                    
+                  end
+
+                end
+                
+              when "articles"
+                html_string = html_string + '<i class="glyphicon glyphicon-folder-open"></i> '
+                html_string = html_string + item.mcategory.name + '<br>'
+                html_string = html_string + '<i class="glyphicon glyphicon-exclamation-sign"></i> '
+                html_string = html_string + item.status.to_s + '<br>'
+
+              when "tickets"
+                html_string = html_string + '<i class="glyphicon glyphicon-folder-open"></i> '
+                html_string = html_string + item.mcategory.name + '<br>'
+                html_string = html_string + '<i class="glyphicon glyphicon-euro"></i> '
+                html_string = html_string + item.amount.to_s+ '<br>'
+                html_string = html_string + '<i class="glyphicon glyphicon-exclamation-sign"></i> '
+                html_string = html_string + item.contingent.to_s + ' verfügbar <br>'
+                html_string = html_string + '<i class="glyphicon glyphicon-warning-sign"></i> '
+                html_string = html_string + item.user_tickets.count.to_s + ' verkauft <br>'
+
+              when "mdetails"
+                html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '
+                html_string = html_string + item.description + '<br>'
+
+              when "users"
+                html_string = html_string + '<i class="glyphicon glyphicon-home"></i> '
+                if item.address1 and item.address1.length > 0 
+                  html_string = html_string + item.address1 + " "
+                end
+                if item.address2 and item.address2.length > 0 
+                  html_string = html_string + item.address2 + " "
+                end
+                if item.address3 and item.address3.length > 0 
+                  html_string = html_string + item.address3 + " "
+                end
+                html_string = html_string + "<br><br>"
+
+                html_string = html_string + '<i class="glyphicon glyphicon-phone-alt"></i> '
+                if item.phone1 and item.phone1.length > 0 
+                  html_string = html_string + item.phone1 + " "
+                end
+                if item.phone2 and item.phone2.length > 0 
+                  html_string = html_string + item.phone2 
+                end
+                html_string = html_string + "<br><br>"
+
+                html_string = html_string + '<br><i class="glyphicon glyphicon-envelope"></i> '
+                html_string = html_string +  item.email
+
+              when "companies"
+                html_string = html_string + '<i class="glyphicon glyphicon-folder-open"></i> '
+                html_string = html_string + item.mcategory.name + '<br><br>'
+                html_string = html_string + '<i class="glyphicon glyphicon-home"></i> '
+                if item.address1 and item.address1.length > 0 
+                  html_string = html_string + item.address1 + ' ' 
+                end
+                if item.address2 and item.address2.length > 0 
+                  html_string = html_string + item.address2 + ' ' 
+                end
+                if item.address3 and item.address3.length > 0 
+                  html_string = html_string + item.address3 + '' 
+                end
+                html_string = html_string + '<br><br>'
+                html_string = html_string + '<i class="glyphicon glyphicon-phone-alt"></i> '
+                if item.phone1 and item.phone1.length > 0 
+                  html_string = html_string + item.phone1 + ' ' 
+                end
+                if item.phone2 and item.phone2.length > 0 
+                  html_string = html_string + item.phone2 + ' ' 
+                end
+                html_string = html_string + '<br><br>'
+                html_string = html_string + contactChip(item.user)
+
+              when "customers"
+                html_string = html_string + '<i class="glyphicon glyphicon-folder-open"></i> '
+                html_string = html_string + @comp.mcategory.name + '<br>'
+                html_string = html_string + '<i class="glyphicon glyphicon-home"></i> '
+                html_string = html_string + @comp.geo_address + '<br>'
+                html_string = html_string + '<i class="glyphicon glyphicon-envelope"></i> '
+                html_string = html_string + @comp.user.email + '<br>'
+
+              when "mobjects"
+
+                if item.sum_rating and item.sum_rating > 0
+                  item.sum_rating.round.times do
+                    html_string = html_string + '<i class="glyphicon glyphicon-star"></i> '
+                  end
+                  html_string = html_string + ' (' + sprintf("%.1f",item.sum_rating) + ')<br>'
+                end
+                
+                html_string = html_string + '<i class="glyphicon glyphicon-folder-open"></i> '
+                html_string = html_string + " " + item.mcategory.name + "<br><br>"
+
+                case item.mtype
+                  when "sensoren"
+                    if item.mcategory.name == "Wert"
+                      if item.sensors.last
+                        html_string = html_string + '<br>'
+                        html_string = html_string + "<analogwert>" + item.sensors.last.value.to_s + "</analogwert>"
+                        html_string = html_string + '<br><br>'
+                      end
+                    end
+                    if item.mcategory.name == "Schalter"
+                      if item.sensors.last
+                        if item.sensors.last.value > 0
+                          html_string = html_string + image_tag("switch_on.jpg", size: "80x80")
+                        else
+                          html_string = html_string + image_tag("switch_off.jpg", size: "80x80")
+                        end
+                        html_string = html_string + '<br><br>'
+                      end
+                    end
+                  when "kampagnen" 
+
+                  when "standorte" 
+
+                  when "veranstaltungen" 
+                    if item.eventpart
+                      html_string = html_string + '<i class="glyphicon glyphicon-info-sign"></i> '+(I18n.t :anmeldungerforderlich) + "<br>"
+                    else
+                      html_string = html_string + '<i class="glyphicon glyphicon-info-sign"></i> ' + (I18n.t :keineanmeldungerforderlich) + "<br>"
+                    end
+                    @angemeldet = nil
+                    if user_signed_in?
+                      @angemeldet = current_user.madvisors.where('mobject_id=? and role=?', item.id, "eventteilnehmer").first
+                      if @angemeldet
+                        html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '+(I18n.t :angemeldet)+ "<br>"
+                      end
+                    end
+                    html_string = html_string + '<i class="glyphicon glyphicon-calendar"></i> '
+                    html_string = html_string +  item.date_from.strftime("%d.%m.%Y") + " - " + item.date_to.strftime("%d.%m.%Y") + '<br>'
+                    soll = (item.date_to.to_date - item.date_from.to_date).to_i
+                    ist = (DateTime.now.to_date - item.date_from.to_date).to_i
+                    if soll > 0 and ist > 0
+                      html_string = html_string + '<div class="progress">'
+                      html_string = html_string + '<div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar2" aria-valuenow="' + ist.to_s + '" aria-valuemin="0" aria-valuemax="' + soll.to_s + '" style="width:' + (ist*100/soll).to_s + '%">'
+                      html_string = html_string + '<span class="sr-only">40% Complete (success)</span>'
+                      html_string = html_string + '</div>'
+                      html_string = html_string + '</div>'
+                    end
+
+                  when "publikationen"
+                      item.editions.order(release_date: :desc).each do |e|
+                        html_string = html_string + link_to(edition_path(:id => e.id, :topic => "artikel_info")) do
+                          content_tag(:div, showImage2(:small, e, false)) + content_tag(:div, e.name)
+                          #html_string = html_string + e.name + "<br>"
+                        end
+                      end
+
+                  when "projekte"
+                    if !item.date_from
+                      item.date_from = Date.today
+                    end
+                    if !item.date_to
+                      item.date_to = Date.today
+                    end
+                    if !item.risk
+                      item.risk = "tief"
+                    end
+                    if !item.quality
+                      item.quality = "hoch"
+                    end
+
+                    html_string = html_string + "<div class='row' style='padding-right:20px'>"
+                      html_string = html_string + "<div class='col-xs-4'>"
+                        html_string = html_string + item.date_to.strftime("%d.%m.%Y")
+                      html_string = html_string + "</div>"
+                      html_string = html_string + "<div class='col-xs-8'>"
+                        soll = (item.date_to.to_date - item.date_from.to_date).to_i
+                        ist = (DateTime.now.to_date - item.date_from.to_date).to_i
+                        if soll > 0 and ist > 0
+                          html_string = html_string + '<div class="progress">'
+                          html_string = html_string + '<div class="progress-bar progress-bar-warning" role="progressbar2" aria-valuenow="' + ist.to_s + '" aria-valuemin="0" aria-valuemax="' + soll.to_s + '" style="width:' + (ist*100/soll).to_s + '%">'
+                          html_string = html_string + '<span class="sr-only">40% Complete (success)</span>'
+                          html_string = html_string + '</div>'
+                          html_string = html_string + '</div>'
+                        end
+                      html_string = html_string + "</div>"
+                    html_string = html_string + "</div>"
+
+                    if !item.sum_pkosten_plan
+                      item.sum_pkosten_plan = 0.0
+                    end
+                    if !item.sum_paufwand_plan
+                      item.sum_paufwand_plan = 0.0
+                    end
+                    if !item.sum_pkosten_ist
+                      item.sum_pkosten_ist = 0.0
+                    end
+                    if !item.sum_paufwand_ist
+                      item.sum_paufwand_ist = 0.0
+                    end
+
+                    html_string = html_string + "<div class='row' style='padding-right:20px'>"
+                      html_string = html_string + "<div class='col-xs-4'>"
+                        html_string = html_string + sprintf("%5.0f K"+(I18n.t :waehrung),item.sum_pkosten_plan/1000)
+                      html_string = html_string + "</div>"
+                      html_string = html_string + "<div class='col-xs-8'>"
+                        if item.sum_pkosten_plan and item.sum_pkosten_ist
+                          html_string = html_string + '<div class="progress">'
+                          html_string = html_string + '<div class="progress-bar progress-bar-warning" role="progressbar2" aria-valuenow="' + item.sum_pkosten_ist.to_s + '" aria-valuemin="0" aria-valuemax="' + item.sum_pkosten_plan.to_s + '" style="width:' + (item.sum_pkosten_ist*100/item.sum_pkosten_plan).to_s + '%">'
+                          html_string = html_string + '<span class="sr-only">40% Complete (success)</span>'
+                          html_string = html_string + '</div>'
+                          html_string = html_string + '</div>'
+                        end
+                      html_string = html_string + "</div>"
+                    html_string = html_string + "</div>"
+
+                    html_string = html_string + "<div class='row' style='padding-right:20px'>"
+                      html_string = html_string + "<div class='col-xs-4'>"
+                        html_string = html_string + sprintf("%5.0f "+(I18n.t :personentage),item.sum_paufwand_plan)
+                      html_string = html_string + "</div>"
+                      html_string = html_string + "<div class='col-xs-8'>"
+                        if item.sum_paufwand_plan and item.sum_paufwand_ist
+                          html_string = html_string + '<div class="progress">'
+                          html_string = html_string + '<div class="progress-bar progress-bar-warning" role="progressbar2" aria-valuenow="' + item.sum_paufwand_ist.to_s + '" aria-valuemin="0" aria-valuemax="' + item.sum_paufwand_plan.to_s + '" style="width:' + (item.sum_paufwand_ist*100/item.sum_paufwand_plan).to_s + '%">'
+                          html_string = html_string + '<span class="sr-only">40% Complete (success)</span>'
+                          html_string = html_string + '</div>'
+                          html_string = html_string + '</div>'
+                        end
+                      html_string = html_string + "</div>"
+                    html_string = html_string + "</div>"
+
+                    html_string = html_string + "<div class='row'>"
+                      html_string = html_string + "<div class='col-xs-4'>"
+                      html_string = html_string + "</div>"
+                      html_string = html_string + "<div class='col-xs-8'>"
+                        html_string = html_string + "<div class='col-xs-6' align='center' >"
+                          html_string = html_string + "Qualität"
+                        html_string = html_string + "</div>"
+                        html_string = html_string + "<div class='col-xs-6' align='center' >"
+                          html_string = html_string + "Risiko"
+                        html_string = html_string + "</div>"
+                      html_string = html_string + "</div>"
+                    html_string = html_string + "</div>"
+
+                    html_string = html_string + "<div class='row'>"
+                      html_string = html_string + "<div class='col-xs-4'>"
+                      html_string = html_string + "</div>"
+                      html_string = html_string + "<div class='col-xs-8'>"
+                        html_string = html_string + "<div class='col-xs-6' align='center' style='font-size:4em'>"
+                          html_string = html_string + "<div class='quality"+ item.quality + "'>"
+                            html_string = html_string + '<i class="glyphicon glyphicon-stop"></i>'
+                          html_string = html_string + "</div>"
+                        html_string = html_string + "</div>"
+                        html_string = html_string + "<div class='col-xs-6' align='center' style='font-size:4em'>"
+                          html_string = html_string + "<div class='risk"+ item.risk + "'>"
+                            html_string = html_string + '<i class="glyphicon glyphicon-stop"></i>'
+                          html_string = html_string + "</div>"
+                        html_string = html_string + "</div>"
+                      html_string = html_string + "</div>"
+                    html_string = html_string + "</div>"
+
+                    html_string = html_string + "<br>"
+                    
+                  when "ausschreibungen", "kleinanzeigen", "stellenanzeigen", "crowdfunding", "innovationswettbewerbe"
+                    html_string = html_string + '<i class="glyphicon glyphicon-calendar"></i> '
+                    html_string = html_string +  item.date_from.strftime("%d.%m.%Y") + " - " + item.date_to.strftime("%d.%m.%Y") + '<br>'
+                    soll = (item.date_to.to_date - item.date_from.to_date).to_i
+                    ist = (DateTime.now.to_date - item.date_from.to_date).to_i
+                    if soll > 0 and ist > 0
+                      html_string = html_string + '<div class="row" style="padding:10%">'
+                        html_string = html_string + '<div class="progress">'
+                          html_string = html_string + '<div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar2" aria-valuenow="' + ist.to_s + '" aria-valuemin="0" aria-valuemax="' + soll.to_s + '" style="width:' + (ist*100/soll).to_s + '%">'
+                            html_string = html_string + '<span class="sr-only">40% Complete (success)</span>'
+                          html_string = html_string + '</div>'
+                        html_string = html_string + '</div>'
+                      html_string = html_string + '</div>'
+                    end
+                    
+                    if item.mtype == "innovationswettbewerbe"
+                      html_string = html_string + link_to(mobject_path(:id => item.id, :topic => "objekte_ideen")) do
+                        content_tag(:i, nil, class:"glyphicon glyphicon-info-sign mediabuttonred")
+                      end
+                      html_string = html_string + " <fire>" + item.ideas.count.to_s + " " + (I18n.t :ideen)
+                      html_string = html_string + '</fire><br><br>'
+                    end
+
+                    if item.mtype == "crowdfunding"
+
+                      #if item.msubtype == "belohnungen"
+                      #  html_string = html_string + '<i class="glyphicon glyphicon-gift"></i> '
+                      #  html_string = html_string + item.reward + '<br>'
+                      #end
+                      #if item.msubtype == "zinsen"
+                        #html_string = html_string + '<i class="glyphicon glyphicon-signal"></i> '
+                        #html_string = html_string + sprintf("%3.1f %",item.interest_rate)  + '<br>'
+                      #end
+                      #html_string = html_string + '<br><br>'
+
+                      if item.sum_amount and item.sum_amount > 0 and item.amount and item.amount > 0
+                        html_string = html_string + '<i class="glyphicon glyphicon-euro"></i> '+ sprintf("%05.2f CHF", item.sum_amount) + " / " + sprintf("%05.2f CHF", item.amount) + "<br>"
+                        html_string = html_string + '<div class="progress">'
+                        html_string = html_string + '<div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="' + item.sum_amount.to_s + '" aria-valuemin="0" aria-valuemax="' + item.amount.to_s + '" style="width:' + (item.sum_amount/item.amount*100).to_s + '%">'
+                        html_string = html_string + '<span class="sr-only">40% Complete (success)</span>'
+                        html_string = html_string + '</div>'
+                        html_string = html_string + '</div>'
+                      end
+                    end
+
+                  when "angebote"
+                    html_string = html_string + '<i class="glyphicon glyphicon-folder"></i> '
+                    html_string = html_string +  item.msubtype + "<br>" 
+                    if item.msubtype == "standard"
+                      if item.price_reg
+                        html_string = html_string + '<i class="glyphicon glyphicon-euro"></i> '
+                        html_string = html_string +  sprintf("%05.2f CHF",item.price_reg) 
+                      end
+                    end
+                    if item.msubtype == "aktion"
+                      if item.price_new
+                        html_string = html_string + '<i class="glyphicon glyphicon-euro"></i> '
+                        html_string = html_string +  sprintf("%05.2f CHF",item.price_new) 
+                      end
+                      if item.price_reg
+                        html_string = html_string + " statt " + sprintf("%05.2f CHF",item.price_reg) + '<br>'
+                      end
+
+                      html_string = html_string + '<i class="glyphicon glyphicon-calendar"></i> '
+                      html_string = html_string +  item.date_from.strftime("%d.%m.%Y") + " - " + item.date_to.strftime("%d.%m.%Y") + '<br>'
+                      soll = (item.date_to.to_date - item.date_from.to_date).to_i
+                      ist = (DateTime.now.to_date - item.date_from.to_date).to_i
+                      if soll > 0 and ist > 0
+                        html_string = html_string + '<div class="progress">'
+                        html_string = html_string + '<div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar2" aria-valuenow="' + ist.to_s + '" aria-valuemin="0" aria-valuemax="' + soll.to_s + '" style="width:' + (ist*100/soll).to_s + '%">'
+                        html_string = html_string + '<span class="sr-only">40% Complete (success)</span>'
+                        html_string = html_string + '</div>'
+                        html_string = html_string + '</div>'
+                      end
+
+                    end
+                end
+                html_string = html_string + contactChip(item.owner)
+
+                when "madvisors"
+                    html_string = html_string + '<i class="glyphicon glyphicon-folder-open"></i> '
+                    html_string = html_string + item.grade + "<br>"
+                    if item.mobject.mtype == "projekte"
+                      html_string = html_string + '<i class="glyphicon glyphicon-euro"></i> '
+                      if !item.rate
+                        item.rate = 0
+                      end
+                      html_string = html_string + sprintf("%5.2f",item.rate) + "<br>"
+                    end
+                    if item.mobject.mtype == "veranstaltungen"
+                      html_string = html_string + '<i class="glyphicon glyphicon-time"></i> '
+                      html_string = html_string + item.created_at.strftime("%d.%m.%Y") 
+                    end
+
+                when "mstats"
+                  if item.owner_type == "Company"
+                      html_string = html_string + '<i class="glyphicon glyphicon-copyright-mark"></i> '
+                      html_string = html_string + item.owner.name + "<br>"
+                  end
+                  if item.owner_type == "User"
+                      html_string = html_string + '<i class="glyphicon glyphicon-user"></i> '
+                      html_string = html_string + item.owner.name + " "+ item.owner.lastname + "<br>"
+                  end
+                  html_string = html_string + '<i class="glyphicon glyphicon-euro"></i> '
+                  html_string = html_string + sprintf("%05.2f CHF",item.amount) + '<br>'
+                  html_string = html_string + '<i class="glyphicon glyphicon-calendar"></i> '
+                  html_string = html_string +  item.created_at.strftime("%d.%m.%Y") + '<br>'
+
+              when "msponsors"
+                  if items.table_name == "msponsors"
+                    case item.slevel
+                      when "1"
+                        html_string = html_string + image_tag("Sponsor_gold.jpg", :size => "100x100", class:"img-rounded")
+        				      when "2"
+                        html_string = html_string + image_tag("Sponsor_silver.jpg", :size => "100x100", class:"img-rounded")
+        				      when "3"
+                        html_string = html_string + image_tag("Sponsor_bronze.jpg", :size => "100x100", class:"img-rounded")
+                    end
+                  end
+                  
+              when "favourits"
+                html_string = html_string + @item.geo_address + '<br>'
+
+              when "searches"
+                html_string = html_string + "<anzeigetext>" + item.name + "</anzeigetext><br>"
+                if item.search_domain == "object"
+                  html_string = html_string + '<i class="glyphicon glyphicon-folder-open"></i> '
+                  html_string = html_string + item.mtype + "<br>" 
+                  html_string = html_string + item.msubtype.to_s + '<br>'
+                end
+                html_string = html_string + '<i class="glyphicon glyphicon-question-sign"></i> '
+                html_string = html_string + 'Anzahl ' + item.counter.to_s + '<br>'
+                
+              when "transactions"
+                html_string = html_string + '<i class="glyphicon glyphicon-euro"></i> '
+                html_string = html_string + sprintf("%05.2f CHF",item.amount) + '<br>'
+                html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '
+                html_string = html_string +  item.ref + '<br>'
+                html_string = html_string + '<i class="glyphicon glyphicon-calendar"></i> '
+                html_string = html_string +  item.trx_date.strftime("%d.%m.%Y") + '<br>'
+                html_string = html_string + '<i class="glyphicon glyphicon-inbox"></i> '
+                html_string = html_string +  item.status + '<br>'
+
+              when "mratings"
+                item.rating.times do
+                  html_string = html_string + '<i class="glyphicon glyphicon-star"></i>'
+                end
+                html_string = html_string + "<br>"
+                html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '
+                html_string = html_string +  item.comment + '<br>'
+                html_string = html_string + '<i class="glyphicon glyphicon-time"></i> '
+                html_string = html_string + item.created_at.strftime("%d.%m.%Y") 
+          end
+
+          html_string = html_string + '<div class="mediabuttonpanel">'
+          #if (Date.today - item.created_at.to_date).to_i < 5
+          #    html_string = html_string + '<i class="glyphicon glyphicon-calendar mediabutton"></i> '
+          #end 
+
+          #check credentials
+          access = false
+          if user_signed_in?
+            case cname
+              when "prices"
+                if isowner(item.mobject)
+                  access = true
+                end
+              when "crits"
+                if par
                   array = []
                   item.mobject.madvisors.each do |m|
                     array << m.user_id
                   end
                   if array.include?(current_user.id)
-      	            html_string = html_string + link_to(idea_ratings_path(:idea_id => item)) do 
-                      content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-education")
+                    access = true
+                  end
+                else
+                  if isowner(item.mobject)
+                    access = true
+                  end
+                end
+
+              when "ideas"
+    	          #html_string = html_string + link_to(idea_crowdratings_path(:idea_id => item)) do 
+                #    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-star")
+                #end
+                array = []
+                item.mobject.madvisors.each do |m|
+                  array << m.user_id
+                end
+                if array.include?(current_user.id)
+    	            html_string = html_string + link_to(idea_ratings_path(:idea_id => item)) do 
+                    content_tag(:i, nil, class:"glyphicon glyphicon-education mediabutton")
+                  end
+                end
+                if (item.user_id == current_user.id) or isdeputy(item.user)
+                  access = true
+                end
+                if item.avatar_file_name
+                  #html_string = html_string + "Weitere Informationen: "
+                  html_string = html_string + link_to(item.avatar.url, target: "_blank") do 
+                    content_tag(:i, nil, class:"glyphicon glyphicon-picture mediabutton")
+                  end
+                end
+                if item.document_file_name
+                  #html_string = html_string + "Weitere Informationen: "
+                  html_string = html_string + link_to(item.document.url, target: "_blank") do 
+                    content_tag(:i, nil, class:"glyphicon glyphicon-book mediabutton")
+                  end
+                end
+
+              when "idea_crowdratings"
+                if (item.user_id == current_user.id) or isdeputy(item.user)
+                  access = true
+                end
+
+              when "questions"
+                if isowner(item.mobject)
+                  access = true
+                end
+
+              when "edition_arcticles"
+                if isowner(item.mobject)
+                  access = true
+                end
+
+              when "editions"
+  	            html_string = html_string + link_to(edition_arcticles_path(:edition_id => item)) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-text-background mediabutton")
+                end
+                if isowner(item.mobject)
+                  access = true
+                end
+
+              when "tickets"
+                if item.owner_type == "Mobject"
+                  if isowner(item.mobject)
+                    access = true
+                  end
+                  if item.user_tickets and item.contingent
+                    if item.user_tickets.count < item.contingent
+        	            html_string = html_string + link_to(new_user_ticket_path(:ticket_id => item.id, :user_id => current_user.id)) do 
+                        content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-shopping-cart")
+                      end
                     end
                   end
-                  if (item.user_id == current_user.id) or isdeputy(item.user)
-                    access = true
-                  end
+                end
 
-                when "idea_crowdratings"
-                  if (item.user_id == current_user.id) or isdeputy(item.user)
-                    access = true
-                  end
+              when "users"
+  	            html_string = html_string + link_to(new_email_path(:m_to_id => item.id, :m_from_id => current_user.id)) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-envelope mediabutton")
+                end
+                if item.id == current_user.id or isdeputy(item)
+                  access=true
+                end 
 
-                when "questions"
-                  if isowner(item.mobject)
-                    access = true
-                  end
+              when "companies"
+                if item.user_id == current_user.id or isdeputy(item.user)
+                  access=true
+                end 
 
-                when "edition_arcticles"
-                  if isowner(item.mobject)
-                    access = true
-                  end
+              when "favourits", "searches", "mratings", "comments"
+                if item.user_id == current_user.id or isdeputy(item)
+                  access=true
+                end 
 
-                when "editions"
-    	            html_string = html_string + link_to(edition_arcticles_path(:edition_id => item)) do 
-                    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-text-background")
-                  end
-                  if isowner(item.mobject)
-                    access = true
-                  end
-
-                when "tickets"
-                  if item.owner_type == "Mobject"
-                  if isowner(item.mobject)
+              when "mobjects", "partners", "mstats", "transactions"
+                #if cname == "signage_locs"
+    	          #   html_string = html_string + link_to(home_index11_path(:loc_id => item.id)) do 
+                #    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-blackboard")
+                #  end
+                # end
+                if cname == "mobjects"
+                    # if item.mtype == "projekte" and item.madvisors.where('role=? and user_id=?',item.mtype, current_user.id).count > 0
+                    #   html_string = html_string + link_to(timetracks_path(:mobject_id => item.id)) do 
+                    #     content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-pencil")
+                    #   end
+                    # end
+                    if isowner(item) or isdeputy(item.owner)
                       access = true
                     end
-                    if item.user_tickets and item.contingent
-                      if item.user_tickets.count < item.contingent
-          	            html_string = html_string + link_to(new_user_ticket_path(:ticket_id => item.id, :user_id => current_user.id)) do 
-                          content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-shopping-cart")
+                  if item.mtype == "veranstaltungen" 
+                    if item.eventpart
+                      if @angemeldet
+          	            html_string = html_string + link_to(mobjects_path(:del_part_id => item.id, :topic => :veranstaltung)) do 
+                          content_tag(:i, nil, class:"glyphicon glyphicon-pencil mediabutton")
+                        end
+                      else
+          	            html_string = html_string + link_to(mobjects_path(:set_part_id => item.id, :topic => :veranstaltung)) do 
+                          content_tag(:i, nil, class:"glyphicon glyphicon-pencilmediabutton")
                         end
                       end
                     end
                   end
-
-                when "users"
-                  if item.id == current_user.id or isdeputy(item)
-                    access=true
-                  end 
-
-                when "favourits", "searches", "mratings", "comments"
-                  if item.user_id == current_user.id or isdeputy(item)
-                    access=true
-                  end 
-
-                when "mobjects", "partners", "mstats", "transactions"
-                  #if cname == "signage_locs"
-      	          #   html_string = html_string + link_to(home_index11_path(:loc_id => item.id)) do 
-                  #    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-blackboard")
-                  #  end
-                  # end
-                  if cname == "mobjects"
-                      # if item.mtype == "projekte" and item.madvisors.where('role=? and user_id=?',item.mtype, current_user.id).count > 0
-                      #   html_string = html_string + link_to(timetracks_path(:mobject_id => item.id)) do 
-                      #     content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-pencil")
-                      #   end
-                      # end
-                      if isowner(item) or isdeputy(item.owner)
-                        access = true
-                      end
-                    if item.mtype == "veranstaltungen" 
-                      if item.eventpart
-                        if @angemeldet
-            	            html_string = html_string + link_to(mobjects_path(:del_part_id => item.id, :topic => :veranstaltung)) do 
-                            content_tag(:i, nil, class:"btn btn-danger glyphicon glyphicon-pencil")
-                          end
-                        else
-            	            html_string = html_string + link_to(mobjects_path(:set_part_id => item.id, :topic => :veranstaltung)) do 
-                            content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-pencil")
-                          end
-                        end
+                  if item.mtype == "artikel"
+                    if par #Artikelauswahl für Edition
+                      html_string = html_string + link_to(new_edition_arcticle_path(:edition_id => par, :article_id => item.id)) do
+                        content_tag(:i, nil, class:"glyphicon glyphicon-pencil mediabutton")
                       end
                     end
-                    if item.mtype == "artikel"
-                      if par #Artikelauswahl für Edition
-                        html_string = html_string + link_to(new_edition_arcticle_path(:edition_id => par, :article_id => item.id)) do
-                          content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-pencil")
-                        end
-                      end
+                  end
+                  if item.mtype == "umfragen"
+                    html_string = html_string + link_to(user_answers_path(:mobject_id => item.id, :user_id => current_user.id)) do
+                      content_tag(:i, nil, class:"glyphicon glyphicon-pencil mediabutton")
                     end
-                    if item.mtype == "umfragen"
-                      html_string = html_string + link_to(user_answers_path(:mobject_id => item.id, :user_id => current_user.id)) do
-                        content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-pencil")
-                      end
-                      #html_string = html_string + link_to(home_index17_path(:mobject_id => item.id)) do
-                      #  content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-stats")
-                      #end
-                    end
+                    #html_string = html_string + link_to(home_index17_path(:mobject_id => item.id)) do
+                    #  content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-stats")
+                    #end
+                  end
 
-                    if item.mtype == "kampagnen"
-                      html_string = html_string + link_to(signage_cals_path(:kam_id => item.id)) do
-                        content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-calendar")
-                      end
-                       html_string = html_string + link_to(home_index11_path(:kam_id => item.id), title: (I18n.t :kampagnenshow), 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip') do
-                        content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-film")
-                       end
+                  if item.mtype == "kampagnen"
+                    html_string = html_string + link_to(signage_cals_path(:kam_id => item.id)) do
+                      content_tag(:i, nil, class:"glyphicon glyphicon-calendar mediabutton")
                     end
-                    if item.mtype == "standorte"
-                      html_string = html_string + link_to(signage_cals_path(:loc_id => item.id)) do
-                        content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-calendar")
-                      end
-                       html_string = html_string + link_to(home_index11_path(:loc_id => item.id), title: (I18n.t :standortshow), 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip') do
-                        content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-film")
-                       end
+                     html_string = html_string + link_to(home_index11_path(:kam_id => item.id), title: (I18n.t :kampagnenshow), 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip') do
+                      content_tag(:i, nil, class:"bglyphicon glyphicon-film mediabutton")
                      end
                   end
-                  
-                when "nopartners"
+                  if item.mtype == "standorte"
+                    html_string = html_string + link_to(signage_cals_path(:loc_id => item.id)) do
+                      content_tag(:i, nil, class:"glyphicon glyphicon-calendar mediabutton")
+                    end
+                     html_string = html_string + link_to(home_index11_path(:loc_id => item.id), title: (I18n.t :standortshow), 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip') do
+                      content_tag(:i, nil, class:"glyphicon glyphicon-film mediabutton")
+                     end
+                   end
+                end
+                
+              when "nopartners"
+                access = true
+                
+              when "deputies"
+                if isowner(item)
                   access = true
-                  
-                when "deputies"
-                  if isowner(item)
-                    access = true
-                  end
-                 when "madvisors"
-                  if item.user_id == current_user.id or isdeputy(item.mobject.owner)
-                    access = true
-                  end
+                end
+               when "madvisors"
+                if item.user_id == current_user.id or isdeputy(item.mobject.owner)
+                  access = true
+                end
 
-                when "mdetails"
-                  if item.document_file_name
-      	            html_string = html_string + link_to(item.document.url, target: "_blank") do 
-                      content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-cloud-download")
-                    end
+              when "mdetails"
+                if item.document_file_name
+    	            html_string = html_string + link_to(item.document.url, target: "_blank") do 
+                    content_tag(:i, nil, class:"glyphicon glyphicon-cloud-download mediabutton")
                   end
-                  if isowner(item.mobject) or isdeputy(item.mobject.owner)
-                    access = true
-                  end
+                end
+                if isowner(item.mobject) or isdeputy(item.mobject.owner)
+                  access = true
+                end
 
-                when "msponsors"
-                  if item.company.user_id == current_user.id or isdeputy(item.company)
-                    access = true
-                  end
-                 
-               end
-            end
-
-            #html_string = html_string + link_to(item, :topic => "info") do 
-            #  content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-info-sign")
-            #end
- 
-            if access
-              case cname 
-                when "prices"
-    	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                    content_tag(:i, nil, class:"btn btn-danger glyphicon glyphicon-trash pull-right")
-                  end
-    	            html_string = html_string + link_to(edit_price_path(:id => item)) do 
-                    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-wrench")
-                  end
-                when "crits"
-                  if par 
-      	            html_string = html_string + link_to(edit_idea_rating_path(:id => @idearating.id)) do 
-                      content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-pencil")
-                    end
-                  else
-      	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                      content_tag(:i, nil, class:"btn btn-danger glyphicon glyphicon-trash pull-right")
-                    end
-      	            html_string = html_string + link_to(edit_crit_path(:id => item)) do 
-                      content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-wrench")
-                    end
-                  end
-                when "ideas"
-    	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                    content_tag(:i, nil, class:"btn btn-danger glyphicon glyphicon-trash pull-right")
-                  end
-    	            html_string = html_string + link_to(edit_idea_path(:id => item)) do 
-                    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-wrench")
-                  end
-                when "idea_crowdratings"
-    	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                    content_tag(:i, nil, class:"btn btn-danger glyphicon glyphicon-trash pull-right")
-                  end
-    	            html_string = html_string + link_to(edit_idea_crowdrating_path(:id => item)) do 
-                    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-wrench")
-                  end
-                when "edition_arcticles"
-    	            html_string = html_string + link_to(edition_arcticles_path(:edition_id => item.edition_id, :dir => "left", :d_id => item.id)) do 
-                    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-chevron-left")
-                  end
-    	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                    content_tag(:i, nil, class:"btn btn-danger glyphicon glyphicon-trash pull-right")
-                  end
-    	            html_string = html_string + link_to(edit_edition_arcticle_path(:id => item)) do 
-                    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-wrench")
-                  end
-                when "editions"
-    	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                    content_tag(:i, nil, class:"btn btn-danger glyphicon glyphicon-trash pull-right")
-                  end
-    	            html_string = html_string + link_to(edit_edition_path(:id => item)) do 
-                    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-wrench")
-                  end
-    	            #html_string = html_string + link_to(edition_arcticles_path(:edition_id => item)) do 
-                  #  content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-book")
-                  #end
-                when "comments"
-    	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                    content_tag(:i, nil, class:"btn btn-danger glyphicon glyphicon-trash pull-right")
-                  end
-    	            html_string = html_string + link_to(edit_comment_path(:id => item)) do 
-                    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-wrench")
-                  end
-                when "tickets"
-    	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                    content_tag(:i, nil, class:"btn btn-danger glyphicon glyphicon-trash pull-right")
-                  end
-    	            html_string = html_string + link_to(edit_ticket_path(:id => item)) do 
-                    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-wrench")
-                  end
-                 when "favourits"
-    	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                    content_tag(:i, nil, class:"btn btn-danger glyphicon glyphicon-trash pull-right")
-                  end
-                when "madvisors"
-                  # if par == "User"
-      	           # html_string = html_string + link_to(user_path(:id => item.user_id, :topic => "Kalendereintraege")) do 
-                  #     content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-calendar")
-                  #   end
-      	           # html_string = html_string + link_to(new_email_path(:m_from_id => current_user.id, :m_to_id => item.user_id)) do 
-                  #     content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-envelope")
-                  #   end
-                  # end
-    	            html_string = html_string + link_to(edit_madvisor_path(:id => item)) do 
-                    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-wrench")
-                  end
-    	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                    content_tag(:i, nil, class:"btn btn-danger glyphicon glyphicon-trash pull-right")
-                  end
-
-                when "deputies"
-    	            html_string = html_string + link_to(edit_deputy_path(:id => item)) do 
-                    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-wrench")
-                  end
-    	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                    content_tag(:i, nil, class:"btn btn-danger glyphicon glyphicon-trash pull-right")
-                  end
-
-                when "partners"
-    	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                    content_tag(:i, nil, class:"btn btn-danger glyphicon glyphicon-trash pull-right")
-                  end
-    	            html_string = html_string + link_to(edit_customer_path(:id => item)) do 
-                    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-wrench")
-                  end
-    	            html_string = html_string + link_to(accounts_path(:customer_id => item)) do 
-                    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-list")
-                  end
-                when "mstats"
-    	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                    content_tag(:i, nil, class:"btn btn-danger glyphicon glyphicon-trash pull-right")
-                  end
-    	            html_string = html_string + link_to(edit_mstat_path(:id => item)) do 
-                    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-wrench")
-                  end
-    	            html_string = html_string + link_to(accounts_path(:customer_id => item)) do 
-                    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-euro")
-                  end
-                when "nopartners"
-                  if par[:user_id]
-      	            html_string = html_string + link_to(new_customer_path(:user_id => par[:user_id], :partner_id => item)) do 
-                      content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-pencil")
-                    end
-                  end
-                  if par[:company_id]
-      	            html_string = html_string + link_to(new_customer_path(:company_id => par[:company_id], :partner_id => item)) do 
-                      content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-pencil")
-                    end
-                  end
-                when "searches"
-    	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                    content_tag(:i, nil, class:"btn btn-danger glyphicon glyphicon-trash pull-right")
-                  end
-    	            html_string = html_string + link_to(edit_search_path(:id => item)) do 
-                    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-wrench")
-                  end
-                when "msponsors"
-    	            html_string = html_string + link_to(tickets_path :msponsor_id => item.id) do 
-                    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-barcode")
-                  end
-    	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                    content_tag(:i, nil, class:"btn btn-danger glyphicon glyphicon-trash pull-right")
-                  end
-    	            html_string = html_string + link_to(edit_msponsor_path(:id => item)) do 
-                    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-wrench")
-                  end
-                when "mdetails"
-    	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                    content_tag(:i, nil, class:"btn btn-danger glyphicon glyphicon-trash pull-right")
-                  end
-                  if item.mobject.mtype == "artikel"
-      	            html_string = html_string + link_to(mobject_path(:id => item.mobject_id, :topic => "objekte_details", :dir => "left", :d_id => item.id)) do 
-                      content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-chevron-left")
-                    end
-                  end
-    	            html_string = html_string + link_to(edit_mdetail_path(:id => item)) do 
-                    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-wrench")
-                  end
-                when "questions"
-    	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                    content_tag(:i, nil, class:"btn btn-danger glyphicon glyphicon-trash pull-right")
-                  end
-    	            html_string = html_string + link_to(mobject_path(:id => item.mobject_id, :topic => "objekte_fragen", :dir => "left", :q_id => item.id)) do 
-                    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-chevron-left")
-                  end
-    	            html_string = html_string + link_to(edit_question_path(:id => item)) do 
-                    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-wrench")
-                  end
-                  if item.mcategory.name == "multiple" or item.mcategory.name == "single"  
-                    html_string = html_string + link_to(home_index16_path(:question_id => item.id)) do 
-                      content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-stats")
-                    end
-                  end
-
-                when "mratings"
-    	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                    content_tag(:i, nil, class:"btn btn-danger glyphicon glyphicon-trash pull-right")
-                  end
-    	            html_string = html_string + link_to(edit_mrating_path(:id => item)) do 
-                    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-wrench")
-                  end
-                 when "transactions"
-                  if item.status == "erfasst"
-                    #if @customer.owner_type == "User"
-                    #  html_string = html_string + link_to(user_path(:id => @customer.owner_id, :trx_status_ok_id => t.id, :topic => "Transaktionen")) do
-                    #    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-ok")
-                    #  end
-                    #end
-                    #if @customer.owner_type == "Company"
-                    #  html_string = html_string + link_to(company_path(:id => @customer.owner_id, :trx_status_ok_id => t.id, :topic => "Transaktionen")) do
-                    #    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-ok")
-                    #  end
-                    #end
-      	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                      content_tag(:i, nil, class:"btn btn-danger glyphicon glyphicon-trash pull-right")
-                    end
-      	            html_string = html_string + link_to(edit_transaction_path(:id => item)) do 
-                      content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-wrench")
-                    end
-                  end
-                  if item.status == "freigegeben"
-                    #if @customer.owner_type == "User"
-                    #  html_string = html_string + link_to(user_path(:id => @customer.owner_id, :trx_status_ausgefuehrt_id => t.id, :topic => "Transaktionen")) do
-                    #    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-ok")
-                    #  end
-                    #end
-                    #if @customer.owner_type == "Company"
-                    #  html_string = html_string + link_to(company_path(:id => @customer.owner_id, :trx_status_ausgefuehrt_id => t.id, :topic => "Transaktionen")) do
-                    #    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-ok")
-                    #  end
-                    #end
-                  end
-                 when "mobjects"
-    	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                    content_tag(:i, nil, class:"btn btn-danger glyphicon glyphicon-trash pull-right")
-                  end
-    	            html_string = html_string + link_to(edit_mobject_path(:id => item)) do 
-                    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-wrench")
-                  end
-                   #if item.mtype == "artikel"
-                   #    html_string = html_string + link_to(user_path(:id => item.owner_id, :topic => "Artikel", :article_id => item.id)) do
-                   #     content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-copy")
-                   #  end
-                   #end
-
-              end
+              when "msponsors"
+                if item.company.user_id == current_user.id or isdeputy(item.company)
+                  access = true
+                end
+               
+             end
           end
 
-          html_string = html_string + '</div>'
+          html_string = html_string + link_to(item, :topic => "info") do 
+            content_tag(:i, nil, class:"glyphicon glyphicon-info-sign mediabutton")
+          end
+ 
+          if access
+            case cname 
+              when "companies"
+  	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                end
+  	            html_string = html_string + link_to(edit_company_path(:id => item)) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                end
+              when "users"
+  	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                end
+  	            html_string = html_string + link_to(edit_user_path(:id => item)) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                end
+              when "prices"
+  	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                end
+  	            html_string = html_string + link_to(edit_price_path(:id => item)) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                end
+              when "crits"
+                if par 
+    	            html_string = html_string + link_to(edit_idea_rating_path(:id => @idearating.id)) do 
+                    content_tag(:i, nil, class:"glyphicon glyphicon-pencil mediabutton")
+                  end
+                else
+    	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
+                    content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                  end
+    	            html_string = html_string + link_to(edit_crit_path(:id => item)) do 
+                    content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                  end
+                end
+              when "ideas"
+  	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                end
+  	            html_string = html_string + link_to(edit_idea_path(:id => item)) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                end
+              when "idea_crowdratings"
+  	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                end
+  	            html_string = html_string + link_to(edit_idea_crowdrating_path(:id => item)) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                end
+              when "edition_arcticles"
+  	            html_string = html_string + link_to(edition_arcticles_path(:edition_id => item.edition_id, :dir => "left", :d_id => item.id)) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-chevron-left mediabutton")
+                end
+  	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                end
+  	            html_string = html_string + link_to(edit_edition_arcticle_path(:id => item)) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                end
+              when "editions"
+  	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                end
+  	            html_string = html_string + link_to(edit_edition_path(:id => item)) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                end
+  	            #html_string = html_string + link_to(edition_arcticles_path(:edition_id => item)) do 
+                #  content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-book")
+                #end
+              when "comments"
+  	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                end
+  	            html_string = html_string + link_to(edit_comment_path(:id => item)) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                end
+              when "tickets"
+  	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                end
+  	            html_string = html_string + link_to(edit_ticket_path(:id => item)) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                end
+               when "favourits"
+  	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                end
+              when "madvisors"
+                # if par == "User"
+    	           # html_string = html_string + link_to(user_path(:id => item.user_id, :topic => "Kalendereintraege")) do 
+                #     content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-calendar")
+                #   end
+    	           # html_string = html_string + link_to(new_email_path(:m_from_id => current_user.id, :m_to_id => item.user_id)) do 
+                #     content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-envelope")
+                #   end
+                # end
+  	            html_string = html_string + link_to(edit_madvisor_path(:id => item)) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                end
+  	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                end
 
+              when "deputies"
+  	            html_string = html_string + link_to(edit_deputy_path(:id => item)) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                end
+  	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                end
+
+              when "partners"
+  	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                end
+  	            html_string = html_string + link_to(edit_customer_path(:id => item)) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                end
+  	            html_string = html_string + link_to(accounts_path(:customer_id => item)) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-list mediabutton")
+                end
+              when "mstats"
+  	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                end
+  	            html_string = html_string + link_to(edit_mstat_path(:id => item)) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                end
+  	            html_string = html_string + link_to(accounts_path(:customer_id => item)) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-euro mediabutton")
+                end
+              when "nopartners"
+                if par[:user_id]
+    	            html_string = html_string + link_to(new_customer_path(:user_id => par[:user_id], :partner_id => item)) do 
+                    content_tag(:i, nil, class:"glyphicon glyphicon-pencil mediabutton")
+                  end
+                end
+                if par[:company_id]
+    	            html_string = html_string + link_to(new_customer_path(:company_id => par[:company_id], :partner_id => item)) do 
+                    content_tag(:i, nil, class:"glyphicon glyphicon-pencil mediabutton")
+                  end
+                end
+              when "searches"
+  	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                end
+  	            html_string = html_string + link_to(edit_search_path(:id => item)) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                end
+              when "msponsors"
+  	            html_string = html_string + link_to(tickets_path :msponsor_id => item.id) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-barcode mediabutton")
+                end
+  	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                end
+  	            html_string = html_string + link_to(edit_msponsor_path(:id => item)) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                end
+              when "mdetails"
+  	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                end
+                if item.mobject.mtype == "artikel"
+    	            html_string = html_string + link_to(mobject_path(:id => item.mobject_id, :topic => "objekte_details", :dir => "left", :d_id => item.id)) do 
+                    content_tag(:i, nil, class:"glyphicon glyphicon-chevron-left mediabutton")
+                  end
+                end
+  	            html_string = html_string + link_to(edit_mdetail_path(:id => item)) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                end
+              when "questions"
+  	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                end
+  	            html_string = html_string + link_to(mobject_path(:id => item.mobject_id, :topic => "objekte_fragen", :dir => "left", :q_id => item.id)) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-chevron-left mediabutton")
+                end
+  	            html_string = html_string + link_to(edit_question_path(:id => item)) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                end
+                if item.mcategory.name == "multiple" or item.mcategory.name == "single"  
+                  html_string = html_string + link_to(home_index16_path(:question_id => item.id)) do 
+                    content_tag(:i, nil, class:"glyphicon glyphicon-stats mediabutton")
+                  end
+                end
+
+              when "mratings"
+  	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                end
+  	            html_string = html_string + link_to(edit_mrating_path(:id => item)) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                end
+              when "transactions"
+                if item.status == "erfasst"
+                  #if @customer.owner_type == "User"
+                  #  html_string = html_string + link_to(user_path(:id => @customer.owner_id, :trx_status_ok_id => t.id, :topic => "Transaktionen")) do
+                  #    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-ok")
+                  #  end
+                  #end
+                  #if @customer.owner_type == "Company"
+                  #  html_string = html_string + link_to(company_path(:id => @customer.owner_id, :trx_status_ok_id => t.id, :topic => "Transaktionen")) do
+                  #    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-ok")
+                  #  end
+                  #end
+    	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
+                    content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                  end
+    	            html_string = html_string + link_to(edit_transaction_path(:id => item)) do 
+                    content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                  end
+                end
+                if item.status == "freigegeben"
+                  #if @customer.owner_type == "User"
+                  #  html_string = html_string + link_to(user_path(:id => @customer.owner_id, :trx_status_ausgefuehrt_id => t.id, :topic => "Transaktionen")) do
+                  #    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-ok")
+                  #  end
+                  #end
+                  #if @customer.owner_type == "Company"
+                  #  html_string = html_string + link_to(company_path(:id => @customer.owner_id, :trx_status_ausgefuehrt_id => t.id, :topic => "Transaktionen")) do
+                  #    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-ok")
+                  #  end
+                  #end
+                end
+              when "mobjects"
+  	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-trash mediabutton")
+                end
+  	            html_string = html_string + link_to(edit_mobject_path(:id => item)) do 
+                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                end
+                 #if item.mtype == "artikel"
+                 #    html_string = html_string + link_to(user_path(:id => item.owner_id, :topic => "Artikel", :article_id => item.id)) do
+                 #     content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-copy")
+                 #  end
+                 #end
+
+            end
+          end
+          html_string = html_string + '</div>'
         html_string = html_string + '</div>'
       html_string = html_string + '</div>'
 
     end
   end
   html_string = html_string + '</div>'
+  if par == "panel"
+    html_string = html_string + '</div>'
+  end
   return html_string.html_safe
 end
 
@@ -1520,182 +1588,17 @@ def getTopicName(topic)
   return (I18n.t infosymbol)
 end
 
-def navigate(object,item)
-    
-    html_string = ""
-    case object
-      when "personen"
-        html_string = html_string + build_nav("personen",item,"personen_info",item)
-        html_string = html_string + build_nav("personen",item,"personen_angebote",item.mobjects.where('mtype=?',"angebote").count > 0)
-        html_string = html_string + build_nav("personen",item,"personen_projekte", item.mobjects.where('mtype=? and parent=?',"projekte",0).count > 0)
-        html_string = html_string + build_nav("personen",item,"personen_zeiterfassung", item.timetracks.count > 0)
-        html_string = html_string + build_nav("personen",item,"personen_ressourcenplanung", item.plannings.count > 0)
-        html_string = html_string + build_nav("personen",item,"personen_gruppen", item.mobjects.where('mtype=?',"gruppen").count > 0)
-        html_string = html_string + build_nav("personen",item,"personen_institutionen",item.companies.count > 0)
-        html_string = html_string + build_nav("personen",item,"personen_umfragen", item.mobjects.where('mtype=?',"umfragen").count > 0)
-        html_string = html_string + build_nav("personen",item,"personen_innovationswettbewerbe",item.mobjects.where('mtype=?',"innovationswettbewerbe").count > 0)
-        html_string = html_string + build_nav("personen",item,"personen_ideen",item.ideas.count > 0)
-        html_string = html_string + build_nav("personen",item,"personen_publikationen", item.mobjects.where('mtype=?',"publikationen").count > 0)
-        html_string = html_string + build_nav("personen",item,"personen_artikel", item.mobjects.where('mtype=?',"artikel").count > 0)
-        html_string = html_string + build_nav("personen",item,"personen_veranstaltungen",item.mobjects.where('mtype=?',"veranstaltungen").count > 0)
-        html_string = html_string + build_nav("personen",item,"personen_anmeldungen",item.madvisors.where('role=?',"eventteilnehmer").count > 0)
-        html_string = html_string + build_nav("personen",item,"personen_tickets",item.user_tickets.count > 0)
-        html_string = html_string + build_nav("personen",item,"personen_sensoren",item.mobjects.where('mtype=?',"sensoren").count > 0)
-        html_string = html_string + build_nav("personen",item,"personen_ausflugsziele",item.mobjects.where('mtype=?',"ausflugsziele").count > 0)
-        html_string = html_string + build_nav("personen",item,"personen_kleinanzeigen",item.mobjects.where('mtype=?',"kleinanzeigen").count > 0)
-        html_string = html_string + build_nav("personen",item,"personen_stellenanzeigen",item.mobjects.where('mtype=?',"stellenanzeigen").count > 0)
-        html_string = html_string + build_nav("personen",item,"personen_vermietungen",item.mobjects.where('mtype=?',"vermietungen").count > 0)
-        html_string = html_string + build_nav("personen",item,"personen_ausschreibungen",item.mobjects.where('mtype=?',"ausschreibungen").count > 0)
-        html_string = html_string + build_nav("personen",item,"personen_crowdfunding", item.mobjects.where('mtype=? ',"crowdfunding").count > 0)
-        html_string = html_string + build_nav("personen",item,"personen_crowdfundingbeitraege", item.mstats.count > 0)
-        html_string = html_string + build_nav("personen",item,"personen_bewertungen", item.mratings.count > 0)
-        html_string = html_string + build_nav("personen",item,"personen_favoriten",item.favourits.count > 0)
-        html_string = html_string + build_nav("personen",item,"personen_zugriffsberechtigungen", item.credentials.count > 0)
-        html_string = html_string + build_nav("personen",item,"personen_stellvertretungen", item.deputies.count > 0)
-        if user_signed_in?
-          html_string = html_string + build_nav("personen",item,"personen_charges", item.charges.count > 0)
-        end
-        ########################################################################################################################
-        # inactive code
-        ########################################################################################################################
-        if false
-        html_string = html_string + build_nav("personen",item,"personen_kalendereintraege", Appointment.where('user_id1=? or user_id2=?',item,item).count > 0)
-        html_string = html_string + build_nav("personen",item,"personen_ansprechpartner",item.madvisors.count > 0)
-        html_string = html_string + build_nav("personen",item,"personen_kundenbeziehungen", item.customers.count > 0)
-        html_string = html_string + build_nav("personen",item,"personen_transaktionen", item.transactions.where('ttype=?', "payment").count > 0)
-        html_string = html_string + build_nav("personen",item,"personen_emails", Email.where('m_to=? or m_from=?', item.id, item.id).count > 0)
-        end
-
-      when "institutionen"
-        html_string = html_string + build_nav("institutionen",item,"institutionen_info",item)
-        html_string = html_string + build_nav("institutionen",item,"institutionen_projekte", item.mobjects.where('mtype=? and parent=?',"projekte",0).count > 0)
-        if item.partner
-          html_string = html_string + build_nav("institutionen",item,"institutionen_partnerlinks", item.partner_links.count > 0)
-        end
-        html_string = html_string + build_nav("institutionen",item,"institutionen_angebote",item.mobjects.where('mtype=? ',"angebote").count > 0)
-        html_string = html_string + build_nav("institutionen",item,"institutionen_kampagnen", item.mobjects.where('mtype=?',"kampagnen").count > 0)
-        html_string = html_string + build_nav("institutionen",item,"institutionen_standorte", item.mobjects.where('mtype=?',"standorte").count > 0)
-        html_string = html_string + build_nav("institutionen",item,"institutionen_umfragen", item.mobjects.where('mtype=?',"umfragen").count > 0)
-        html_string = html_string + build_nav("institutionen",item,"institutionen_innovationswettbewerbe",item.mobjects.where('mtype=?',"innovationswettbewerbe").count > 0)
-        html_string = html_string + build_nav("institutionen",item,"institutionen_publikationen", item.mobjects.where('mtype=?',"publikationen").count > 0)
-        html_string = html_string + build_nav("institutionen",item,"institutionen_veranstaltungen",item.mobjects.where('mtype=?',"veranstaltungen").count > 0)
-        html_string = html_string + build_nav("institutionen",item,"institutionen_sponsorenengagements",item.msponsors.count > 0)
-        html_string = html_string + build_nav("institutionen",item,"institutionen_sensoren",item.mobjects.where('mtype=?',"sensoren").count > 0)
-        html_string = html_string + build_nav("institutionen",item,"institutionen_ausflugsziele",item.mobjects.where('mtype=?',"ausflugsziele").count > 0)
-        html_string = html_string + build_nav("institutionen",item,"institutionen_kleinanzeigen",item.mobjects.where('mtype=?',"kleinanzeigen").count > 0)
-        html_string = html_string + build_nav("institutionen",item,"institutionen_stellenanzeigen",item.mobjects.where('mtype=?',"stellenanzeigen").count > 0)
-        html_string = html_string + build_nav("institutionen",item,"institutionen_vermietungen",item.mobjects.where('mtype=?',"vermietungen").count > 0)
-        html_string = html_string + build_nav("institutionen",item,"institutionen_ausschreibungen",item.mobjects.where('mtype=?',"ausschreibungen").count > 0)
-        html_string = html_string + build_nav("institutionen",item,"institutionen_crowdfunding", item.mobjects.where('mtype=?',"crowdfunding").count > 0)
-        html_string = html_string + build_nav("institutionen",item,"institutionen_crowdfundingbeitraege", item.mstats.count > 0)
-        html_string = html_string + build_nav("institutionen",item,"institutionen_stellvertretungen", item.deputies.count > 0)
-        if user_signed_in?
-          html_string = html_string + build_nav("institutionen",item,"institutionen_charges", item.charges.count > 0)
-        end
-
-        ########################################################################################################################
-        # inactive code
-        ########################################################################################################################
-        if false
-        html_string = html_string + build_nav("institutionen",item,"institutionen_kundenbeziehungen", item.customers.count > 0)
-        html_string = html_string + build_nav("institutionen",item,"institutionen_transaktionen",item.transactions.where('ttype=?', "payment").count > 0)
-        html_string = html_string + build_nav("institutionen",item,"institutionen_emails", Email.where('m_to=? or m_from=?', item.user.id, item.user.id).count > 0)
-        end
-
-      when "objekte"
-        html_string = html_string + build_nav("objekte",item,"objekte_info",item)
-        if user_signed_in?
-          if isowner(item) or isdeputy(item.owner)
-            html_string = html_string + build_nav("objekte",item,"objekte_details",item.mdetails.where('mtype=?',"details").count > 0)
-          end
-        end 
-        if item.mtype == "projekte"
-          if user_signed_in?
-            if isowner(item) or isdeputy(item.owner)
-              html_string = html_string + build_nav("objekte",item,"objekte_substruktur", Mobject.where('parent=?',item.id).count > 0)
-              html_string = html_string + build_nav("objekte",item,"objekte_projektberechtigungen", item.madvisors.where('role=?',item.mtype).count > 0)
-            end
-          end
-          html_string = html_string + build_nav("objekte",item,"objekte_auftragscontrolling", item.timetracks.count > 0)
-          html_string = html_string + build_nav("objekte",item,"objekte_projektdashboard", item.timetracks.count > 0)
-        end
-        if item.mtype == "gruppen"
-          html_string = html_string + build_nav("objekte",item,"objekte_gruppenmitglieder", item.madvisors.where('role=?',item.mtype).count > 0)
-          html_string = html_string + build_nav("objekte",item,"objekte_ressourcenplanung", item.madvisors.where('role=?',item.mtype).count > 0)
-        end
-        if item.mtype == "kampagnen"
-          html_string = html_string + build_nav("objekte",item,"objekte_signcal", SignageCal.where('mkampagne=?', item.id))
-          html_string = html_string + build_nav("objekte",item,"objekte_signkamshow", SignageCal.where('mkampagne=?', item.id))
-          html_string = html_string + build_nav("objekte",item,"objekte_signstat", SignageCal.where('mkampagne=?', item.id))
-        end
-        if item.mtype == "standorte"
-          html_string = html_string + build_nav("objekte",item,"objekte_signcal", SignageCal.where('mstandort=?', item.id))
-          html_string = html_string + build_nav("objekte",item,"objekte_signlocshow", SignageCal.where('mstandort=?', item.id))
-          html_string = html_string + build_nav("objekte",item,"objekte_signstat", SignageCal.where('mstandort=?', item.id))
-        end
-        if item.mtype == "umfragen"
-          if user_signed_in?
-            if isowner(item)
-              html_string = html_string + build_nav("objekte",item,"objekte_fragen",item.questions.count > 0)
-              html_string = html_string + build_nav("objekte",item,"objekte_umfrageteilnehmer",User.count > 0)
-            end
-          end
-        end
-        if item.mtype == "innovationswettbewerbe"
-          html_string = html_string + build_nav("objekte",item,"objekte_preise", item.prices.count > 0)
-          html_string = html_string + build_nav("objekte",item,"objekte_bewertungskriterien", item.crits.count > 0)
-          html_string = html_string + build_nav("objekte",item,"objekte_jury", item.madvisors.count > 0)
-          html_string = html_string + build_nav("objekte",item,"objekte_ideen",item.ideas.count > 0)
-        end
-        if item.mtype == "publikationen"
-          html_string = html_string + build_nav("objekte",item,"objekte_ausgaben",item.editions.count > 0)
-        end
-        if item.mtype == "sensoren"
-          html_string = html_string + build_nav("objekte",item,"objekte_sensordaten",item.sensors.count > 0)
-        end
-        if item.mtype == "veranstaltungen"
-          html_string = html_string + build_nav("objekte",item,"objekte_eintrittskarten",item.tickets.count > 0)
-          html_string = html_string + build_nav("objekte",item,"objekte_sponsorenengagements",item.msponsors.count > 0)
-          html_string = html_string + build_nav("objekte",item,"objekte_teilnehmerveranstaltung",item.madvisors.where('role=?',"eventteilnehmer").count > 0)
-        end
-        if item.mtype == "vermietungen"
-          html_string = html_string + build_nav("objekte",item,"objekte_kalendervermietungen",item.mcalendars.count > 0)
-        end
-        if item.mtype == "ausschreibungen"
-          html_string = html_string + build_nav("objekte",item,"objekte_ausschreibungsangebote",item.mdetails.where('mtype=?',"ausschreibungsangebote").count > 0)
-        end
-        if item.mtype == "crowdfunding"
-          html_string = html_string + build_nav("objekte",item, "objekte_cfstatistik",item.mstats.count > 0)
-          html_string = html_string + build_nav("objekte",item, "objekte_cftransaktionen",item.mstats.count > 0)
-        end
-
-        case item.mtype 
-          when "angebote", "ausflugsziele", "veranstaltungen"
-            html_string = html_string + build_nav("objekte",item, "objekte_bewertungen" ,item.mratings.count > 0)
-        end
-        
-        ########################################################################################################################
-        # inactive code
-        ########################################################################################################################
-        if false
-        if item.mtype == "angebote" or item.mtype == "stellenanzeigen"
-          html_string = html_string + build_nav("objekte",item,"objekte_ansprechpartner",item.madvisors.count > 0)
-        end
-        end
-
-    end
-    
-    return html_string.html_safe
-    
-end
-
 def navigate2(object,item)
 
   html_string = ""
   case object
+    when "tabellen"
+      html_string = html_string + build_nav2("tabellen",item,"tabellen_kategorien",1)
+      
+    when "ideenbewertung"
+      html_string = html_string + build_nav2("ideenbewertung",item,"ideenbewertung",1)
+      
     when "personen"
-
-      html_string=""
       html_string = html_string + build_nav2("personen",item,"personen_info",1)
       html_string = html_string + build_nav2("personen",item,"personen_angebote",item.mobjects.where('mtype=?',"angebote").count)
       html_string = html_string + build_nav2("personen",item,"personen_projekte", item.mobjects.where('mtype=? and parent=?',"projekte",0).count)
@@ -1775,6 +1678,12 @@ def navigate2(object,item)
         end
 
       when "objekte"
+        if item.owner_type == "User"
+          html_string = html_string + build_nav2("personen",item.owner,"personen_"+item.mtype,1)
+        end
+        if item.owner_type == "Company"
+          html_string = html_string + build_nav2("institutionen",item.owner,"institutionen_"+item.mtype,1)
+        end
         html_string = html_string + build_nav2("objekte",item,"objekte_info",1)
         if user_signed_in?
           if isowner(item) or isdeputy(item.owner)
@@ -1785,7 +1694,7 @@ def navigate2(object,item)
           if user_signed_in?
             if isowner(item) or isdeputy(item.owner)
               html_string = html_string + build_nav2("objekte",item,"objekte_substruktur", Mobject.where('parent=?',item.id).count)
-              html_string = html_string + build_nav2("objekte",item,"objekte_projektberechtigungen", item.madvisors.where('role=?',item.mtype).count)
+              #html_string = html_string + build_nav2("objekte",item,"objekte_projektberechtigungen", item.madvisors.where('role=?',item.mtype).count)
             end
           end
           html_string = html_string + build_nav2("objekte",item,"objekte_auftragscontrolling", item.timetracks.count)
@@ -1816,7 +1725,7 @@ def navigate2(object,item)
         if item.mtype == "innovationswettbewerbe"
           html_string = html_string + build_nav2("objekte",item,"objekte_preise", item.prices.count)
           html_string = html_string + build_nav2("objekte",item,"objekte_bewertungskriterien", item.crits.count)
-          html_string = html_string + build_nav2("objekte",item,"objekte_jury", item.madvisors.count)
+          #html_string = html_string + build_nav2("objekte",item,"objekte_jury", item.madvisors.count)
           html_string = html_string + build_nav2("objekte",item,"objekte_ideen",item.ideas.count)
         end
         if item.mtype == "publikationen"
@@ -1854,44 +1763,16 @@ def navigate2(object,item)
           html_string = html_string + build_nav2("objekte",item,"objekte_ansprechpartner",item.madvisors.count)
         end
         end
+        if user_signed_in?
+          if isowner(item) or isdeputy(item.owner)
+            html_string = html_string + build_nav2("objekte",item,"objekte_projektberechtigungen", item.madvisors.where('role=?',item.mtype).count)
+          end
+        end
 
     end
     
     return html_string.html_safe
     
-end
-
-def build_nav(domain, item, domain2, condition)
-  
-  html_string=""
-
-  if (!user_signed_in? and $activeapps.include?(domain2)) or (user_signed_in? and getUserCreds.include?(domain2)) or (user_signed_in? and current_user.superuser)
-    if condition
-      btn = "active"
-    else
-      btn = "inactive"
-    end
-
-    pos = domain2.index("_")
-    infosymbol = (domain2[pos+1..domain2.length-1]).to_sym
-    
-    case domain
-      when "personen"
-        html_string = link_to(user_path(:id => item.id, :topic => domain2), title: getinfo2(infosymbol)["infotext"], 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip' ) do
-          content_tag(:i, nil, class:"btn btn-lg btn-"+btn+" glyphicon glyphicon-" + getinfo2(infosymbol)["info"])
-        end
-      when "institutionen"
-        html_string = link_to(company_path(:id => item.id, :topic => domain2), title: getinfo2(infosymbol)["infotext"], 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip' ) do
-          content_tag(:i, nil, class:"btn btn-lg btn-"+btn+" glyphicon glyphicon-" + getinfo2(infosymbol)["info"])
-        end
-      when "objekte"
-        html_string = link_to(mobject_path(:id => item.id, :topic => domain2), title: getinfo2(infosymbol)["infotext"], 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip' ) do
-          content_tag(:i, nil, class:"btn btn-lg btn-"+btn+" glyphicon glyphicon-" + getinfo2(infosymbol)["info"])
-        end
-    end
-  end
-  
-  return html_string.html_safe
 end
 
 def build_nav2(domain, item, domain2, anz)
@@ -1921,87 +1802,113 @@ def build_nav2(domain, item, domain2, anz)
         html_string = link_to(mobject_path(:id => item.id, :topic => domain2)) do
           content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" glyphicon glyphicon-" + getinfo2(infosymbol)["info"]) 
         end
+      when "tabellen"
+        html_string = link_to home_index9_path do
+          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" glyphicon glyphicon-" + getinfo2(infosymbol)["info"]) 
+        end
     end
   end
   return html_string.html_safe
 end
 
-def action_buttons2(object_type, item, topic)
+def action_buttons3(object_type, item, topic)
 
-  html_string = ""
+  html_string = '<div id="mysidenavright" class="sidenavright">'
+  html_string = html_string + '<a href="javascript:void(0)" class="closebtn" onclick="closeNavRight()">&times;</a>'
+
   case object_type 
-    when "kategorie"
-      html_string = html_string + link_to(home_index9_path) do
-        content_tag(:i, nil, class: "btn btn-primary glyphicon glyphicon-list")
-      end
+    when "kategorien"
+      #html_string = html_string + link_to(home_index9_path) do
+        #content_tag(:i, nil, class: "glyphicon glyphicon-list")
+      #end
       html_string = html_string + link_to(new_mcategory_path(:ctype => item)) do
-        content_tag(:i, content_tag(:b, (I18n.t :hinzufuegen)), class: "btn btn-special glyphicon glyphicon-plus")
+        content_tag(:i, " " + (I18n.t :kategorie) + " " + (I18n.t :hinzufuegen), class: "glyphicon glyphicon-plus orange")
       end
 
     when "personen"
       case topic
         when "personen_info"
-          html_string = html_string + link_to(users_path(:page => session[:page]), title: (I18n.t :personen), 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip' ) do
-            content_tag(:i, nil, class: "btn btn-primary glyphicon glyphicon-list")
+          html_string = html_string + link_to(users_path) do
+            content_tag(:i, " " + (I18n.t :personenuebersicht), class:"glyphicon glyphicon-search") 
           end
-          if user_signed_in?
+          if user_signed_in? 
             if current_user.id == item.id or isdeputy(item) or current_user.superuser
-                html_string = html_string + link_to(edit_user_path(item), title: (I18n.t :bearbeiten), 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip' ) do
-                content_tag(:i, nil, class: "btn btn-primary glyphicon glyphicon-wrench")
+                html_string = html_string + link_to(edit_user_path(item)) do
+                content_tag(:i, " "+(I18n.t :datenaendern), class: "glyphicon glyphicon-wrench")
               end
-              html_string = html_string + link_to(item, method: :delete, data: { confirm: (I18n.t :sindsiesicher)}, title: (I18n.t :loeschen), 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip' )  do
-                  content_tag(:i, nil, class: "btn btn-danger pull-right glyphicon glyphicon-trash")
+              html_string = html_string + link_to(item, method: :delete, data: { confirm: (I18n.t :sindsiesicher)})  do
+                  content_tag(:i, " " + (I18n.t :datenloeschen), class: "glyphicon glyphicon-trash red")
               end
             end
-            html_string = html_string + link_to(new_webmaster_path(:object_name => "User", :object_id => item.id, :user_id => current_user.id) , title: (I18n.t :missbrauchmelden), 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip' ) do
-              content_tag(:i, nil, class: "btn btn-warning pull-right glyphicon glyphicon-eye-open")
+            html_string = html_string + link_to(new_webmaster_path(:object_name => "User", :object_id => item.id, :user_id => current_user.id)) do
+              content_tag(:i, " " + (I18n.t :fraud), class: "glyphicon glyphicon-eye-open orange")
             end
             if $activeapps.include?("personen_transaktionen") or isdeputy(item) or current_user.superuser
               html_string = html_string + link_to(listaccount_index_path(:user_id => current_user.id, :user_id_ver => item.id, :company_id_ver => nil, :ref => (I18n.t :verguetungan)+item.name + " " + item.lastname, :object_name => "User", :object_id => item.id, :amount => nil)) do
-                content_tag(:i, content_tag(:b, (I18n.t :TRXhinzufuegen)), class: "btn btn-special glyphicon glyphicon-plus")
+                content_tag(:i, " " + (I18n.t :trx), class: "glyphicon glyphicon-euro")
               end
             end
             if $activeapps.include?("personen_mappositionen") or isdeputy(item) or current_user.superuser
               html_string = html_string + link_to(new_user_position_path(:user_id => current_user.id)) do
-                content_tag(:i, content_tag(:b, (I18n.t :POShinzufuegen)), class: "btn btn-special glyphicon glyphicon-plus")
+                content_tag(:i, " " + (I18n.t :pos), class: "glyphicon glyphicon-map-marker")
               end
             end
             if $activeapps.include?("personen_mappositionenfavoriten") or isdeputy(item) or current_user.superuser
               html_string = html_string + link_to(new_favourit_path(:object_name => "User", :object_id => item.id, :user_id => current_user.id)) do
-                content_tag(:i, content_tag(:b, (I18n.t :FAVhinzufuegen)), class: "btn btn-special glyphicon glyphicon-plus")
-              end
-            end
-          end
-          
-        when "personen_kalendereintraege"
-          if user_signed_in?
-            html_string = html_string + link_to(new_appointment_path(:user_id1 => item.id, :user_id2 => current_user.id))  do
-              content_tag(:i, content_tag(:b, (I18n.t :hinzufuegen)), class: "btn btn-special glyphicon glyphicon-plus")
-            end
-          end
-          
-        when "personen_institutionen"
-          if user_signed_in?
-            if current_user.id == item.id or isdeputy(item) or current_user.superuser
-              html_string = html_string + link_to(new_company_path(:user_id => current_user.id)) do
-                content_tag(:i, content_tag(:b,(I18n.t :hinzufuegen)), class: "btn btn-special glyphicon glyphicon-plus")
+                content_tag(:i, " " + (I18n.t :fav), class: "glyphicon glyphicon-user")
               end
             end
           end
 
+        when "personen_institutionen"
+          html_string = html_string + link_to(companies_path) do
+            content_tag(:i, " " + (I18n.t :institutionenuebersicht), class: "glyphicon glyphicon-copyright-mark")
+          end
+          if user_signed_in?
+            if current_user.id == item.id or isdeputy(item) or current_user.superuser
+              html_string = html_string + link_to(new_company_path(:user_id => current_user.id)) do
+                content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class: "glyphicon glyphicon-plus orange") 
+              end
+            end
+          end
+
+        when "personen_kalendereintraege"
+          if user_signed_in?
+            html_string = html_string + link_to(new_appointment_path(:user_id1 => item.id, :user_id2 => current_user.id))  do
+              content_tag(:i, " " + (I18n.t subtopic(@topic) + " " + (I18n.t :hinzufuegen)), class: "glyphicon glyphicon-plus orange")
+            end
+          end
+
         when "personen_angebote", "personen_vermietungen", "personen_veranstaltungen", "personen_ausflugsziele", "personen_ausschreibungen", "personen_publikationen", "personen_artikel", "personen_umfragen", "personen_projekte", "personen_gruppen", "personen_innovationswettbewerbe", "personen_sensoren","personen_kleinanzeigen", "personen_stellenanzeigen", "personen_crowdfunding"
+          html_string = html_string + link_to(mobjects_path :mtype => getTopicName(topic)) do
+            content_tag(:i, " " + (I18n.t subtopic(topic).to_sym) + " " + (I18n.t :suchen), class: "glyphicon glyphicon-search")
+          end
           if user_signed_in?
             if current_user.id == item.id or isdeputy(item) or current_user.superuser
               html_string = html_string + link_to(new_mobject_path(:user_id => current_user.id, :mtype => subtopic(topic), :msubtype => nil)) do
-                content_tag(:i, content_tag(:b, (I18n.t :hinzufuegen)), class: "btn btn-special glyphicon glyphicon-plus")
+                content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :hinzufuegen), class: "glyphicon glyphicon-plus orange")
               end
+            end
+            if topic == "personen_projekte"
+              if current_user.id == item.id or isdeputy(item) or current_user.superuser
+                html_string = html_string + link_to(user_path(:id => @user.id, :topic => "personen_export")) do
+                  content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :exportieren), class: "glyphicon glyphicon-download")
+                end
+              end
+            end
+          end
+
+        when "personen_export"
+          if user_signed_in?
+            html_string = html_string + link_to(user_path(:id => @user.id, :topic => topic, :year => @c_year, :month => @c_month, :mode => @c_mode, :topic => topic, :writeexcel => true)) do
+              content_tag(:i, " " + (I18n.t :excel), class: "glyphicon glyphicon-th")
             end
           end
 
         when "personen_emails"
           if user_signed_in?
             html_string = html_string + link_to(new_email_path(:m_from_id => current_user.id, :m_to_id => item.id)) do
-              content_tag(:i, content_tag(:b, (I18n.t :hinzufuegen)), class: "btn btn-special glyphicon glyphicon-plus")
+              content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class: "glyphicon glyphicon-plus orange")
             end
           end
 
@@ -2009,7 +1916,7 @@ def action_buttons2(object_type, item, topic)
           if user_signed_in?
             if current_user.id == item.id or isdeputy(item) or current_user.superuser
               html_string = html_string + link_to(ticketuserview_index2_path(:user_id => item.id)) do
-                content_tag(:i, content_tag(:b, (I18n.t :hinzufuegen)), class: "btn btn-special glyphicon glyphicon-plus")
+                content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class: "glyphicon glyphicon-plus orange")
               end
             end
           end
@@ -2018,7 +1925,19 @@ def action_buttons2(object_type, item, topic)
              if user_signed_in?
               if (item.id == current_user.id) or current_user.superuser
                 html_string = html_string + link_to(deputies_path(:user_id => item.id)) do
-                  content_tag(:i, content_tag(:b, (I18n.t :hinzufuegen)), class:"btn btn-special glyphicon glyphicon-plus")
+                  content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange")
+                end
+              end
+             end
+             
+        when "personen_zeiterfassung"
+             if user_signed_in?
+              if (item.id == current_user.id) or current_user.superuser
+                html_string = html_string + link_to(new_timetrack_path(:user_id => @user.id, :scope => "aufwand", :datum => @c_datum)) do
+                  content_tag(:i, " " + (I18n.t :aufwand) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange")
+                end
+                html_string = html_string + link_to(new_timetrack_path(:user_id => @user.id, :scope => "kosten", :datum => @c_datum)) do
+                  content_tag(:i, " " + (I18n.t :kosten) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange")
                 end
               end
              end
@@ -2028,42 +1947,52 @@ def action_buttons2(object_type, item, topic)
     when "institutionen"
       case topic
         when "institutionen_info"
-          html_string = html_string + link_to(companies_path(:page => session[:page]), title: (I18n.t :institutionen), 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip' ) do
-            content_tag(:i, nil, class: "btn btn-primary glyphicon glyphicon-list")
+          html_string = html_string + link_to(companies_path(:page => session[:page]), title: (I18n.t :institutionen)) do
+            content_tag(:i, " " + (I18n.t :institutionenuebersicht), class:"glyphicon glyphicon-search") 
           end
           if user_signed_in?
-            if $activeapps.include?("institutionen_favoriten")
+            if current_user.id == item.user_id or isdeputy(item) or current_user.superuser
+              html_string = html_string + link_to(edit_company_path(item), title: (I18n.t :bearbeiten)) do
+                content_tag(:i, " "+(I18n.t :datenaendern), class: "glyphicon glyphicon-wrench")
+              end
+              html_string = html_string + link_to(item, method: :delete, data: { confirm: (I18n.t :sindsiesicher) }) do
+                  content_tag(:i, " " + (I18n.t :datenloeschen), class: "glyphicon glyphicon-trash red")
+              end
+            end
+            html_string = html_string + link_to(new_webmaster_path(:object_name => "Company", :object_id => item.id, :user_id => current_user.id)) do
+              content_tag(:i, " " + (I18n.t :fraud), class: "glyphicon glyphicon-eye-open orange")
+            end
+            if $activeapps.include?("institutionen_favoriten") or current_user.superuser
               if (item.user_id == current_user.id) or isdeputy(item) or current_user.superuser
                 html_string = html_string + link_to(new_favourit_path(:object_name => "Company", :object_id => item.id, :user_id => current_user.id)) do
-                  content_tag(:i, content_tag(:b, (I18n.t :hinzufuegen)), class: "btn btn-special glyphicon glyphicon-plus")
+                  content_tag(:i, " " + (I18n.t :fav), class: "glyphicon glyphicon-copyright-mark")
                 end
               end
             end
-            if current_user.id == item.user_id or isdeputy(item) or current_user.superuser
-              html_string = html_string + link_to(edit_company_path(item), title: (I18n.t :bearbeiten), 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip' ) do
-                content_tag(:i, nil, class: "btn btn-primary glyphicon glyphicon-wrench")
-              end
-              html_string = html_string + link_to(item, method: :delete, data: { confirm: (I18n.t :sindsiesicher) }, title: (I18n.t :accountloeschen), 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip' ) do
-                content_tag(:i, nil, class: "btn btn-danger pull-right glyphicon glyphicon-trash")
-              end
-            end
-            html_string = html_string + link_to(new_webmaster_path(:object_name => "Company", :object_id => item.id, :user_id => current_user.id), title: (I18n.t :missbrauchmelden), 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip' ) do
-              content_tag(:i, nil, class: "btn btn-warning pull-right glyphicon glyphicon-eye-open")
-            end
-            if $activeapps.include?("institutionen_transaktionen")
+            if $activeapps.include?("institutionen_transaktionen") or current_user.superuser
               if (item.user_id == current_user.id) or isdeputy(item) or current_user.superuser
                 html_string = html_string + link_to(listaccount_index_path :user_id => current_user.id, :user_id_ver => nil, :company_id_ver => item.id, :ref => (I18n.t :verguetungan)+item.name, :object_name => "Company", :object_id => item.id, :amount => nil) do
-                  content_tag(:i, content_tag(:b, (I18n.t :hinzufuegen)), class: "btn btn-primary glyphicon glyphicon-plus")
+                  content_tag(:i, " " + (I18n.t :trx), class: "glyphicon glyphicon-euro")
                 end
               end
             end
           end
 
         when "institutionen_angebote", "institutionen_kampagnen", "institutionen_standorte", "institutionen_vermietungen", "institutionen_veranstaltungen", "institutionen_ausflugsziele", "institutionen_ausschreibungen", "institutionen_publikationen", "institutionen_umfragen", "institutionen_projekte", "institutionen_innovationswettbewerbe", "institutionen_sensoren", "institutionen_kleinanzeigen", "institutionen_stellenanzeigen", "institutionen_crowdfunding"
+          html_string = html_string + link_to(mobjects_path :mtype => getTopicName(topic)) do
+            content_tag(:i, " " + (I18n.t subtopic(topic).to_sym) + " " + (I18n.t :suchen), class: "glyphicon glyphicon-search")
+          end
           if user_signed_in?
             if (item.user_id == current_user.id) or isdeputy(item) or current_user.superuser
               html_string = html_string + link_to(new_mobject_path :company_id => item.id, :mtype => subtopic(topic), :msubtype => nil) do
-                content_tag(:i, content_tag(:b, (I18n.t :hinzufuegen)), class: "btn btn-special glyphicon glyphicon-plus")
+                content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :hinzufuegen), class: "glyphicon glyphicon-plus orange")
+              end
+            end
+            if topic == "institutionen_projekte"
+              if current_user.id == item.id or isdeputy(item) or current_user.superuser
+                html_string = html_string + link_to(company_path(:id => @company.id, :topic => "institutionen_export")) do
+                  content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :exportieren), class: "glyphicon glyphicon-download")
+                end
               end
             end
           end
@@ -2072,7 +2001,7 @@ def action_buttons2(object_type, item, topic)
           if user_signed_in?
             if (item.user_id == current_user.id) or isdeputy(item) or current_user.superuser
               html_string = html_string + link_to(new_partner_link_path :company_id => item.id) do
-                content_tag(:i, content_tag(:b, (I18n.t :hinzufuegen)), class: "btn btn-special glyphicon glyphicon-plus")
+                content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :hinzufuegen), class: "glyphicon glyphicon-plus orange")
               end
             end
           end
@@ -2081,52 +2010,54 @@ def action_buttons2(object_type, item, topic)
              if user_signed_in?
               if (item.user_id == current_user.id) or isdeputy(item) or current_user.superuser
                 html_string = html_string + link_to(deputies_path(:company_id => item.id)) do
-                  content_tag(:i, content_tag(:b, (I18n.t :hinzufuegen)), class:"btn btn-special glyphicon glyphicon-plus")
+                  content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange")
                 end
               end
              end
-          
+
+        when "institutionen_export"
+          if user_signed_in?
+            html_string = html_string + link_to(company_path(:id => @company.id, :year => @c_year, :month => @c_month, :mode => @c_mode, :topic => topic, :writeexcel => true)) do
+              content_tag(:i, " " + (I18n.t :excel), class: "glyphicon glyphicon-th")
+            end
+          end
+
+            
       end
-        
+
     when "objekte"
        case topic
           when "objekte_info"
-             #html_string = html_string + link_to(mobjects_path(:mtype => item.mtype, :msubtype => item.msubtype, :page => session[:page], :parent => session[:parent]), title: (I18n.t :objekte)+item.mtype, 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip') do
-              #content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-list")
-             #end
-             if item.owner_type == "Company"
-               html_string = html_string + link_to(company_path(:id => item.owner.id, :topic => "institutionen_" + item.mtype), title: (I18n.t :objekte)+item.mtype, 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip') do
-                content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-list")
-               end
+             html_string = html_string + link_to(mobjects_path(:mtype =>item.mtype)) do
+              content_tag(:i, " " + (I18n.t item.mtype.to_sym) + " " + (I18n.t :suchen), class:"glyphicon glyphicon-search") 
              end
-             if item.owner_type == "User"
-               html_string = html_string + link_to(user_path(:id => item.owner.id, :topic => "personen_" + item.mtype), title: (I18n.t :objekte)+item.mtype, 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip') do
-                content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-list")
-               end
-             end
+
+            if false 
              if session[:edition_id]
-               html_string = html_string + link_to(edition_path(:id => session[:edition_id], :topic => "objekte_info"), title: (I18n.t :zurueckzurausgabe), 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip') do
-                content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-book")
+               html_string = html_string + link_to(edition_path(:id => session[:edition_id], :topic => "objekte_info")) do
+                content_tag(:i, " " + (I18n.t :edition), class:"glyphicon glyphicon-book") 
                end
              end 
+             end
+             
              if item.parent and item.parent > 0 
-                html_string = html_string + link_to(mobject_path(:id => item.parent, :mtype => "projekte", :msubtype => nil, :topic => "objekte_info"), title: (I18n.t :hierachiezurueck), 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip') do
-                  content_tag(:i, nil, class: "btn btn-primary glyphicon glyphicon-level-up")
+                html_string = html_string + link_to(mobject_path(:id => item.parent, :mtype => "projekte", :msubtype => nil, :topic => "objekte_info")) do
+                  content_tag(:i, " " + (I18n.t :edition), class:"glyphicon glyphicon-level-up") 
                 end
              end 
              if user_signed_in?
                if isowner(item) or isdeputy(item.owner)
-         	        html_string = html_string + link_to(edit_mobject_path(item), title: (I18n.t :bearbeiten), 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip' ) do
-                     content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-wrench")
+         	        html_string = html_string + link_to(edit_mobject_path(item), title: (I18n.t :bearbeiten)) do
+                    content_tag(:i, " "+(I18n.t :datenaendern), class: "glyphicon glyphicon-wrench")
                   end
                end
                if isowner(item)
-         	        html_string = html_string + link_to(item, method: :delete, data: { confirm: (I18n.t :sindsiesicher) }, title: item.mtype + " löschen", 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip' ) do
-                     content_tag(:i, nil, class:"btn btn-danger pull-right glyphicon glyphicon-trash")
+         	        html_string = html_string + link_to(item, method: :delete, data: { confirm: (I18n.t :sindsiesicher) } ) do
+                    content_tag(:i, " " + (I18n.t :datenloeschen), class: "glyphicon glyphicon-trash red")
                    end
                end
-               html_string = html_string + link_to(new_webmaster_path(:object_name => "Mobject", :object_id => item.id, :user_id => current_user.id), title: (I18n.t :missbrauchmelden), 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip' ) do
-                 content_tag(:i, nil, class:"btn btn-warning pull-right glyphicon glyphicon-eye-open")
+               html_string = html_string + link_to(new_webmaster_path(:object_name => "Mobject", :object_id => item.id, :user_id => current_user.id)) do
+                  content_tag(:i, " " + (I18n.t :fraud), class: "glyphicon glyphicon-eye-open orange")
                end
              end
 
@@ -2134,7 +2065,7 @@ def action_buttons2(object_type, item, topic)
               if user_signed_in?
                 if isowner(item) or isdeputy(item.owner)
                   html_string = html_string + link_to(new_mdetail_path(:mobject_id => item.id, :mtype => "details")) do
-                    content_tag(:i, content_tag(:f,(I18n.t :hinzufuegen)), class:"btn btn-special glyphicon glyphicon-plus")
+                    content_tag(:i, " " + (I18n.t :details) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus") 
                   end
                end
               end
@@ -2144,12 +2075,12 @@ def action_buttons2(object_type, item, topic)
                 if isowner(item) or isdeputy(item.owner)
                   if item.owner_type == "User"
                     html_string = html_string + link_to(new_mobject_path :user_id => item.owner_id, :mtype => "projekte", :msubtype => nil, :parent => item.id) do
-                      content_tag(:i, content_tag(:b, (I18n.t :hinzufuegen)), class: "btn btn-special glyphicon glyphicon-plus")
+                      content_tag(:i, " " + (I18n.t :substruktur)+ " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
                     end
                   end
                   if item.owner_type == "Company"
                     html_string = html_string + link_to(new_mobject_path :company_id => item.owner_id, :mtype => "projekte", :msubtype => nil, :parent => item.id) do
-                      content_tag(:i, content_tag(:b, (I18n.t :hinzufuegen)), class: "btn btn-special glyphicon glyphicon-plus")
+                      content_tag(:i, " " + (I18n.t :substruktur) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
                     end
                   end
                end
@@ -2160,12 +2091,12 @@ def action_buttons2(object_type, item, topic)
               if isowner(item) or isdeputy(item.owner)
                 if @mobject.mtype == "kampagnen"
                   html_string = html_string + link_to(new_signage_cal_path(:kam_id => @mobject.id)) do
-                      content_tag(:i, content_tag(:f," Neu"), class:"btn btn-special glyphicon glyphicon-plus")
+                      content_tag(:i, " " + (I18n.t :kampagnen) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
                   end
                 end
                 if @mobject.mtype == "standorte"
                   html_string = html_string + link_to(new_signage_cal_path(:loc_id => @mobject.id)) do
-                      content_tag(:i, content_tag(:f," Neu"), class:"btn btn-special glyphicon glyphicon-plus")
+                      content_tag(:i, " " + (I18n.t :standorte) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
                   end
                 end
               end
@@ -2174,7 +2105,7 @@ def action_buttons2(object_type, item, topic)
           when "objekte_ideen"
               if user_signed_in?
                 html_string = html_string + link_to(new_idea_path(:mobject_id => item.id, :user_id => current_user.id)) do
-                  content_tag(:i, content_tag(:f,(I18n.t :hinzufuegen)), class:"btn btn-special glyphicon glyphicon-plus")
+                  content_tag(:i, " " + (I18n.t :ideen) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
                 end
               end
 
@@ -2182,7 +2113,7 @@ def action_buttons2(object_type, item, topic)
               if user_signed_in?
                 if isowner(item) or isdeputy(item.owner)
                   html_string = html_string + link_to(new_price_path(:mobject_id => item.id)) do
-                    content_tag(:i, content_tag(:f,(I18n.t :hinzufuegen)), class:"btn btn-special glyphicon glyphicon-plus")
+                      content_tag(:i, " " + (I18n.t :preise) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
                   end
                end
               end
@@ -2191,16 +2122,16 @@ def action_buttons2(object_type, item, topic)
               if user_signed_in?
                 if isowner(item) or isdeputy(item.owner)
                   html_string = html_string + link_to(new_crit_path(:mobject_id => item.id)) do
-                    content_tag(:i, content_tag(:f," Neu"), class:"btn btn-special glyphicon glyphicon-plus")
+                      content_tag(:i, " " + (I18n.t :bewertungskriterien) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
                   end
                 end
               end
 
-          when "objekte_projektberechtigungen", "objekte_gruppenmitglieder", "objekte_jury"
+          when "objekte_projektberechtigungen", "objekte_gruppenmitglieder", "objekte_jury", "objekte_ansprechpartner"
              if user_signed_in?
                 if isowner(item) or isdeputy(item.owner)
                   html_string = html_string + link_to(madvisors_path :user_id => item.owner_id, :mobject_id => item.id, :role => item.mtype) do
-                    content_tag(:i, content_tag(:b, (I18n.t :hinzufuegen)), class: "btn btn-special glyphicon glyphicon-plus")
+                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
                   end
                end
               end
@@ -2208,8 +2139,17 @@ def action_buttons2(object_type, item, topic)
           when "objekte_ausschreibungsangebote"
               if user_signed_in?
                 if isowner(item) or isdeputy(item.owner)
-                  html_string = html_string + link_to(new_mdetail_path(:mobject_id => item.id, :mtype => "ausschreibungsangebote")) do
-                    content_tag(:i, content_tag(:b, (I18n.t :hinzufuegen)), class:"btn btn-primary glyphicon glyphicon-plus")
+                  html_string = html_string + link_to(new_mdetail_path(:mobject_id => item.id, :mtype => "objekte_ausschreibungsangebote")) do
+                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
+                  end
+               end
+              end
+
+          when "objekte_sensordaten"
+              if user_signed_in?
+                if isowner(item) or isdeputy(item.owner)
+                  html_string = html_string + link_to(mobject_path(:mobject_id => item.id, :topic => "objekte_sensordaten", :delsensordata => true), data: { confirm: (I18n.t :sindsiesicher) }) do
+                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :loeschen), class:"glyphicon glyphicon-trash red") 
                   end
                end
               end
@@ -2218,8 +2158,8 @@ def action_buttons2(object_type, item, topic)
               if user_signed_in?
                 if isowner(item) or isdeputy(item.owner)
                   html_string = html_string + link_to(new_ticket_path(:mobject_id => item.id)) do
-                    content_tag(:i, content_tag(:b, (I18n.t :hinzufuegen)), class:"btn btn-special glyphicon glyphicon-plus")
-                  end
+                    content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
+                end
                end
               end
 
@@ -2227,7 +2167,7 @@ def action_buttons2(object_type, item, topic)
               if user_signed_in?
                 if isowner(item) or isdeputy(item.owner)
                   html_string = html_string + link_to(new_question_path(:mobject_id => item.id)) do
-                    content_tag(:i, content_tag(:b, (I18n.t :hinzufuegen)), class:"btn btn-special glyphicon glyphicon-plus")
+                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
                   end
                end
               end
@@ -2236,7 +2176,7 @@ def action_buttons2(object_type, item, topic)
               if user_signed_in?
                 if isowner(item) or isdeputy(item.owner)
                   html_string = html_string + link_to(new_edition_path(:mobject_id => item.id)) do
-                    content_tag(:i, content_tag(:b, (I18n.t :hinzufuegen)), class:"btn btn-special glyphicon glyphicon-plus")
+                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
                   end
                end
               end
@@ -2244,93 +2184,94 @@ def action_buttons2(object_type, item, topic)
           when "objekte_sponsorenengagements"
             if user_signed_in?
               html_string = html_string + link_to(new_msponsor_path(:mobject_id => item.id)) do
-                content_tag(:i, content_tag(:b, (I18n.t :hinzufuegen)), class:"btn btn-special glyphicon glyphicon-plus")
+                content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
               end
             end
             
           when "objekte_blog"
             if user_signed_in?
     	        html_string = html_string + link_to(new_comment_path :mobject_id => item.id, :user_id => current_user.id) do
-                content_tag(:i, content_tag(:b, (I18n.t :hinzufuegen)), class:"btn btn-special glyphicon glyphicon-plus")
+                content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
               end
             end
             
           when "objekte_bewertungen"
             if user_signed_in?
     	        html_string = html_string + link_to(new_mrating_path :mobject_id => item.id, :user_id => current_user.id) do
-                content_tag(:i, content_tag(:b, (I18n.t :hinzufuegen)), class:"btn btn-special glyphicon glyphicon-plus")
-              end
-            end
-            
-          when "objekte_ansprechpartner"
-            if user_signed_in?
-              if isowner(item) or isdeputy(item.owner)
-                html_string = html_string + link_to(madvisors_path :mobject_id => item.id) do
-                  content_tag(:i, content_tag(:b, (I18n.t :hinzufuegen)), class:"btn btn-special glyphicon glyphicon-plus")
-                end
+                content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
               end
             end
             
           when "objekte_kalendervermietungen"
             if user_signed_in?
               html_string = html_string + link_to(new_mcalendar_path(:user_id => current_user.id, :mobject_id => item.id)) do
-                content_tag(:i, content_tag(:b, (I18n.t :hinzufuegen)), class:"btn btn-special glyphicon glyphicon-plus")
+                content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
               end
             end
             
-          when "objekte_cfstatistik"
           when "objekte_cftransaktionen"
-            #if item.sum_amount < item.amount
               html_string = html_string + link_to(new_mstat_path(:mobject_id => item.id, :dontype => "user")) do
-                content_tag(:i, content_tag(:b, (I18n.t :hinzufuegen)), class:"btn btn-special glyphicon glyphicon-user")
+                content_tag(:i, " " + (I18n.t :persoenlich) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-user orange") 
               end
               html_string = html_string + link_to(new_mstat_path(:mobject_id => item.id, :dontype => "company")) do
-                content_tag(:i, content_tag(:b, (I18n.t :hinzufuegen)), class:"btn btn-special glyphicon glyphicon-copyright-mark")
+                content_tag(:i, " " + (I18n.t :firmen) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-copyright-mark orange") 
               end
-            #end
 
-          when "objekte_dsstandorte"
+          when "objekte_auftragscontrolling"
+            if user_signed_in?
+              html_string = html_string + link_to(mobject_path(:id => @mobject.id, :topic => "objekte_auftragscontrolling", :year => @c_year, :month => @c_month, :mode => @c_mode, :scope => @c_scope, :export => true)) do
+                content_tag(:i, " " + (I18n.t :excel), class:"glyphicon glyphicon-book") 
+              end
+              if @export and @filename
+    	          html_string = html_string +link_to(@filename.remove("public")) do
+                  content_tag(:i, " " + (I18n.t :download) , class:"glyphicon glyphicon-download") 
+                end
+              end
+
+            end
+
       end
 
       when "editionen"
-         html_string = html_string + link_to(mobject_path(:id => item.mobject_id, :topic => "objekte_ausgaben"), title: (I18n.t :editionen), 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip') do
-          content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-list")
+         html_string = html_string + link_to(mobject_path(:id => item.mobject_id, :topic => "objekte_ausgaben"), title: (I18n.t :editionen)) do
+            content_tag(:i, " " + (I18n.t :editionen) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-list") 
          end
 
       when "edition"
-         html_string = html_string + link_to(edition_path(:id => item.id, :topic => "edition"), title: (I18n.t :edition), 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip') do
-          content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-list")
+         html_string = html_string + link_to(edition_path(:id => item.id, :topic => "edition")) do
+            content_tag(:i, " " + (I18n.t :editionen) + " " + (I18n.t :aendern), class:"glyphicon glyphicon-wrench") 
          end
 
       when "ideenbewertung"
-         html_string = html_string + link_to(mobject_path(:id => item.mobject.id, :topic => "objekte_ideen"), title: (I18n.t :ideenbewertung), 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip') do
-          content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-list")
+         html_string = html_string + link_to(mobject_path(:id => item.mobject.id, :topic => "objekte_ideen")) do
+            content_tag(:i, " " + (I18n.t :ideen) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-list") 
          end
 
       when "crowdideenbewertung"
-         html_string = html_string + link_to(mobject_path(:id => item.mobject.id, :topic => "objekte_ideen"), title: (I18n.t :crowdideenbewertung), 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip') do
-          content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-list")
+         html_string = html_string + link_to(mobject_path(:id => item.mobject.id, :topic => "objekte_ideen")) do
+            content_tag(:i, " " + (I18n.t :ideenbewertung) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-list") 
          end
          if user_signed_in?
           html_string = html_string + link_to(new_idea_crowdrating_path(:idea_id => item.id, :user_id => current_user.id)) do
-            content_tag(:i, content_tag(:b, (I18n.t :hinzufuegen)), class:"btn btn-special glyphicon glyphicon-plus")
+            content_tag(:i, " " + (I18n.t :editionen) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
           end
         end
 
       when "artikeledition"
-         html_string = html_string + link_to(mobject_path(:id => item.mobject_id, :topic => "objekte_ausgaben"), title: (I18n.t :zurueckzurausgabe), 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip') do
-          content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-list")
+         html_string = html_string + link_to(mobject_path(:id => item.mobject_id, :topic => "objekte_ausgaben")) do
+            content_tag(:i, " " + (I18n.t :zurueckzurausgabe), class:"glyphicon glyphicon-list") 
          end
          if user_signed_in?
           if isowner(item) or isdeputy(item.owner)
             html_string = html_string + link_to(mobjects_path(:mtype => "artikel", :edition_id => item.id)) do
-              content_tag(:i, content_tag(:b, (I18n.t :hinzufuegen)), class:"btn btn-special glyphicon glyphicon-plus")
+              content_tag(:i, " " + (I18n.t :artikel) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
             end
           end
          end
-         
-   end
-  # html_string = html_string + "</div></div>"
+
+        
+  end
+  html_string = html_string + '</div>'
   return html_string.html_safe
 end
 
@@ -2462,6 +2403,8 @@ def getinfo2(topic)
       info = "book"
     when :berechtigungen
       info = "lock"
+    when :kategorien
+      info = "folder-open"
   end
   ret = Hash.new
   ret = {"info" => info, "infotext" => infotext}
@@ -3677,6 +3620,52 @@ def exportWriterRessourcen (data, header)
 
 end
 
+def exportdata (data, name)
+  filename = name
+  workbook = WriteExcel.new(filename)
+        
+  # Add worksheet(s)
+  worksheet  = workbook.add_worksheet
+
+  # header format
+  f_header1 = workbook.add_format
+  f_header1.set_bold  
+  f_header1.set_size(12)
+
+  f_header0 = workbook.add_format
+  f_header0.set_color('green')
+  f_header0.set_size(8)
+  
+  # col sizes
+  worksheet.set_column(0,12,20)
+  i=0
+  data[0].each_key do |k|
+    worksheet.write(0, i, k.to_s, f_header1)
+    i=i+1
+  end
+
+  for row in 0..data.length-1 do
+    worksheet.write(row+1, 0, data[row][:periodicity], f_header0)
+    worksheet.write(row+1, 1, data[row][:period], f_header0)
+    worksheet.write(row+1, 2, data[row][:projekt_name], f_header0)
+    worksheet.write(row+1, 3, data[row][:projekt_kst], f_header0)
+    worksheet.write(row+1, 4, data[row][:projekt_auftragsnr], f_header0)
+    worksheet.write(row+1, 5, data[row][:mitarbeiter_name], f_header0)
+    worksheet.write(row+1, 6, data[row][:mitarbeiter_email], f_header0)
+    worksheet.write(row+1, 7, data[row][:mitarbeiter_kst], f_header0)
+    worksheet.write(row+1, 8, data[row][:mitarbeiter_rate], f_header0)
+    worksheet.write(row+1, 9, data[row][:mitarbeiter_prate], f_header0)
+    worksheet.write(row+1, 10, data[row][:aufwand_h], f_header0)
+    worksheet.write(row+1, 11, data[row][:aufwand_k], f_header0)
+    worksheet.write(row+1, 12, data[row][:kosten], f_header0)
+  end
+
+  workbook.close
+  return filename
+
+end
+
+
 def wo_iterate(wo, include_sub, wolist)
   if include_sub
     subs = Mobject.where("parent=?", wo)
@@ -3868,7 +3857,11 @@ def contactChip(owner)
     html = html + owner.name[0] + "." + owner.lastname
   end
   if owner.class.name == "Company"
-    html = html + " " + owner.name
+    if owner.name.length <= 15
+      html = html + " " + owner.name
+    else
+      html = html + " " + owner.name[0..15]
+    end
   end
   html = html + '</div>'
   return html.html_safe

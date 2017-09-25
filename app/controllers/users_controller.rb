@@ -100,7 +100,13 @@ class UsersController < ApplicationController
         end
         
 
-      when "personen_ressourcenplanung", "personen_zeiterfassung"
+      when "personen_ressourcenplanung", "personen_zeiterfassung", "personen_export"
+
+        if params[:writeexcel]
+          @filename = "public/projectreport_user"+@user.id.to_s+".xls"
+        else
+          @filename = nil
+        end
 
         if params[:tdatum]
           @c_datum = params[:tdatum].to_date
@@ -117,21 +123,19 @@ class UsersController < ApplicationController
         else
           @c_month = Date.today.month
         end
-        if params[:week]
-          @c_week = params[:week]
-        else
-          @c_week = Date.today.cweek
-        end
-        
+
         if params[:mode]
           @c_mode = params[:mode]
         else
           if @topic == "personen_zeiterfassung"
             @c_mode = "Datum"
-            @c_datum = Date.today
+            #@c_datum = Date.today
           end
           if @topic == "personen_ressourcenplanung"
             @c_mode = "Jahr"
+          end
+          if @topic == "personen_export"
+            @c_mode = "Monat"
           end
         end
         if params[:scope]
@@ -143,14 +147,6 @@ class UsersController < ApplicationController
         if params[:dir] == ">"
           if @c_mode == "Datum"
             @c_datum = @c_datum.to_date + 1
-          end
-          if @c_mode == "Woche"
-            if @c_week.to_i == 52
-              @c_week =  1
-              @c_year = @c_year.to_i + 1
-            else
-              @c_week = @c_week.to_i + 1
-            end
           end
           if @c_mode == "Monat"
             if @c_month.to_i == 12
@@ -195,7 +191,6 @@ class UsersController < ApplicationController
           when "Jahr"
             @date_start = Date.new(@c_year.to_i,1,1)
             @date_end = Date.new(@c_year.to_i,12,31)
-          when "alles"
         end
         
         myobs = []
