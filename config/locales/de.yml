@@ -20,6 +20,9 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 de:
+  Ausgaben/Editionen: "Ausgaben/Editionen"
+  editions: "Ausgaben"
+  Fragen: "Fragen"
   Sensordaten: "Sensordaten"
   visitus: "Besuchen Sie uns auf"
   message_from: "Sie haben eine eMail erhalten von "

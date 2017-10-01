@@ -1,119 +1,69 @@
+<% i=0 %>
+<div class="signage">
 
-<div class="col-mediacontainer">
+    <%= image_tag("dig1.png", class:"signage_background") %>
     
-    <% User.all.each do |u| %>
+    <div class="signage_footer">
+        hier könnte Ihre Message stehen    
+    </div>
+    
+    <div id="image" class="signage_infopic">
+    </div>
 
-
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-3">
-            
-            <div class="mediacard">
-
-              <div class="overlayimage">
-                  <%= showImage2(:medium, u, true) %>
-              </div>
-              <div class="overlay">
-                <div class="overlaytext">
-
-
-                </div>
-              </div>
-
-              <h2><%= u.name + " " + u.lastname %></h2>
-
-              <i class="glyphicon glyphicon-home"></i>
-              <% if u.address1 and u.address3.length > 0 %>
-                 <%= u.address1 %>
-              <% end %>
-              <% if u.address2 and u.address3.length > 0 %>
-                 <%= u.address2 %>
-              <% end %>
-              <% if u.address3 and u.address3.length > 0 %>
-                 <%= u.address3 %> 
-              <% end %>
-              <br><br>
-
-              <i class="glyphicon glyphicon-phone-alt"></i>
-              <% if u.phone1 and u.phone1.length > 0 %>
-                 <%= u.phone1  %>
-              <% end %>
-              <% if u.phone2 and u.phone2.length > 0 %>
-                 <%= u.phone2 %>
-              <% end %>
-              <br><br>
-
-              <i class="glyphicon glyphicon-envelope"></i>
-              <%= u.email %>
-
-              <div class="mediabuttonpanel">
-                  <div class="mediabutton">
-                      <%= link_to users_path do %>
-                         <i class="glyphicon glyphicon-info-sign mediabutton"></i>                      
-                      <% end %>
-                      <%= link_to users_path do %>
-                         <i class="glyphicon glyphicon-envelope mediabutton"></i>                      
-                      <% end %>
-                  </div>
-              </div>              
-            </div>
-
-        </div>
-
-    <% end %>
-
+    <div id="signage_message">
+    </div>
+    
+    <div id="qrcode" class="signage_qrcode">
+      <% hash = qrcodeimg(Company.find(1), :small) %>
+      <%= link_to Company.find(1) do %>
+        <%= hash["qr_code"] %>
+      <% end %>
+    </div>
+    
 </div>
 
+<% txts = [] %>
+<% pics = [] %>
+<% User.all.each do |u| %>
+<% if u.avatar_file_name %>
+    <% imag = image_tag(u.avatar(:medium))-%>
+    <% pos1 = imag.index('"') %>
+    <% pos2 = imag.rindex('alt') %>
+    <% pics << imag[pos1+1..pos2-2] %>
+    <% txts << u.fullname %>
+<% end %>
+<% end %>
+<% pics %>
+<% txts %>
 
-<%= contactChip(User.find(1)) %>
-
-
-<div class="owl-carousel owl-theme">
-    <div><%= video_tag("small.mp4") %></div>
-    <div><%= video_tag("waterscape_49.mp4") %></div>
-</div>
 
 <script>
-$('.owl-carousel').owlCarousel({
-        items:1,
-        autoplay:true,
-        merge:true,
-        loop:true,
-        margin:10,
-        video:true,
-        lazyLoad:true,
-        center:true,
-        responsive:{
-            480:{
-                items:2
-            },
-            600:{
-                items:4
+      var i = -1;
+      var pics = <%= raw pics %>; 
+      var txts = <%= raw txts %>; 
+      window.setInterval(callme, 5000);
+
+      function callme() {
+            if (i < pics.length-1) {
+                i = i+ 1; 
             }
-        },
-    afterAction: function(current) {
-        current.find('video').get(0).play();
-    }
-    })
-</script>
+            else {
+                i=0;
+            }
+            var img = document.createElement("IMG");
+            img.src = pics[i];
+            img.setAttribute('class', 'signage_infopic');
+            //img.height = 250;
+            //img.width = 250;
+            $('#image').html(img); 
+            
+            $('#signage_message').text(txts[i]);
+            $('#signage_message').fadeIn(2000);
+            $('#signage_message').fadeOut(1000);
 
-    <div id="chart_div"></div>
-
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-      google.charts.load('current', {packages:["orgchart"]});
-      google.charts.setOnLoadCallback(drawChart);
-
-      function drawChart() {
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Name');
-        data.addColumn('string', 'Manager');
-        data.addColumn('string', 'ToolTip');
-
-        // For each orgchart box, provide the name, manager, and tooltip to show.
-        data.addRows(<%= raw @array %>);
-
-        // Create the chart.
-        var chart = new google.visualization.OrgChart(document.getElementById('chart_div'));
-        // Draw the chart, setting the allowHtml option to true for the tooltips.
-        chart.draw(data, {allowHtml:true});
       }
-   </script>
+      
+      function picture(i) {
+          alert(i);
+      }
+</script>

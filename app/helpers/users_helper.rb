@@ -178,6 +178,8 @@ def build_medialist2(items, cname, par)
           html_string = html_string + '<div class="overlayimage">'
 
             case items.table_name
+              when "questions"
+                  html_string = html_string + image_tag("fragen.jpg", :size => "250x250")
               when "deputies"
                   html_string = html_string + showImage2(:medium, User.find(item.userid), true)
                when "appparams"
@@ -253,18 +255,21 @@ def build_medialist2(items, cname, par)
                     case item.search_domain
                       when "personen"
                         html_string = html_string + link_to(users_path(:filter_id => item.id)) do
-                          content_tag(:i, nil, class:"glyphicon glyphicon-question-sign", style:"font-size:8em") 
+                          #content_tag(:i, nil, class:"glyphicon glyphicon-question-sign", style:"font-size:8em") 
+                          image_tag("abfragen.jpg", :size => :medium)
                         end
                       when "objekte"
                         html_string = html_string + link_to(mobjects_path(:filter_id => item.id)) do
-                          content_tag(:i, nil, class:"glyphicon glyphicon-question-sign", style:"font-size:8em") 
+                          #content_tag(:i, nil, class:"glyphicon glyphicon-question-sign", style:"font-size:8em") 
+                          image_tag("abfragen.jpg", :size => :medium)
                         end
                       when "tickets"
                           content_tag(:i, nil, class:"glyphicon glyphicon-question-sign", style:"font-size:8em") 
                           html_string = html_string + image_tag(image_def("personen", item.mtype, item.msubtype))
                       when "institutionen"
                         html_string = html_string + link_to(companies_path(:filter_id => item.id)) do
-                          content_tag(:i, nil, class:"glyphicon glyphicon-question-sign", style:"font-size:8em") 
+                          #content_tag(:i, nil, class:"glyphicon glyphicon-question-sign", style:"font-size:8em") 
+                          image_tag("abfragen.jpg", :size => :medium)
                         end
                     end
                     html_string = html_string + "</soft_padding>"
@@ -561,22 +566,26 @@ def build_medialist2(items, cname, par)
               when "editions"
                 html_string = html_string + '<i class="glyphicon glyphicon-calendar"></i> '
                 if item.release_date 
-                  html_string = html_string +  item.release_date.strftime("%d.%m.%Y") + '<br>'
+                  html_string = html_string +  item.release_date.strftime("%d.%m.%Y") + '<br><br>'
                 end 
-                html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '
-                html_string = html_string + item.description + "<br><br>"
-                item.edition_arcticles.order(:sequence).each do |ea|
+                html_string = html_string + " <fire>" + item.edition_arcticles.count.to_s + " " + (I18n.t :artikel)
+                html_string = html_string + '</fire><br><br>'
+
+                #html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '
+                #html_string = html_string + item.description + "<br><br>"
+                item.edition_arcticles.order(:sequence).last(5).each do |ea|
                   #html_string = html_string + link_to(mobject_path(:id => ea.mobject.id)) do 
                   #  content_tag(:i, nil, class:"glyphicon glyphicon-text-background")
                   #end
-                  html_string = html_string + "<div class='row'>"
-                    html_string = html_string + '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">'
-                      html_string = html_string + showFirstImage2(:small, ea.mobject, ea.mobject.mdetails)
-                    html_string = html_string + "</div>"
-                    html_string = html_string + '<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">'
-                      html_string = html_string + " " + ea.mobject.name + "<br>"
-                    html_string = html_string + "</div>"
-                  html_string = html_string + "</div>"
+                  html_string = html_string + " " + ea.mobject.name + " (" + ea.mobject.owner.name + " " + ea.mobject.owner.lastname + ")<br>"
+                  #html_string = html_string + "<div class='row'>"
+                    #html_string = html_string + '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">'
+                      #html_string = html_string + showFirstImage2(:small, ea.mobject, ea.mobject.mdetails)
+                    #html_string = html_string + "</div>"
+                    #html_string = html_string + '<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">'
+                      #html_string = html_string + " " + ea.mobject.name + "<br>"
+                    #html_string = html_string + "</div>"
+                  #html_string = html_string + "</div>"
                 end
                 
               when "comments"
@@ -759,13 +768,19 @@ def build_medialist2(items, cname, par)
                     end
 
                   when "publikationen"
-                      item.editions.order(release_date: :desc).each do |e|
-                        html_string = html_string + link_to(edition_path(:id => e.id, :topic => "artikel_info")) do
-                          content_tag(:div, showImage2(:small, e, false)) + content_tag(:div, e.name)
-                          #html_string = html_string + e.name + "<br>"
+                    html_string = html_string + " <fire>" + item.editions.count.to_s + " " + (I18n.t :editions)
+                    html_string = html_string + '</fire><br><br>'
+                    html_string = html_string + "<fire>"                    
+                       item.editions.order(release_date: :desc).last(5).each do |e|
+                          html_string = html_string + link_to(edition_path(:id => e.id, :topic => "artikel_info")) do
+                            #content_tag(:div, showImage2(:small, e, false)) + content_tag(:div, e.name)
+                            content_tag(:div, e.name, class:"mediabuttonred")
+                          end
+                          #html_string = html_string + "<br>"
                         end
-                      end
-
+                    html_string = html_string + "</fire>"                    
+                    html_string = html_string + '<br>'
+                    
                   when "projekte"
                     if !item.date_from
                       item.date_from = Date.today
@@ -872,7 +887,7 @@ def build_medialist2(items, cname, par)
 
                     html_string = html_string + "<br>"
                     
-                  when "ausschreibungen", "kleinanzeigen", "stellenanzeigen", "crowdfunding", "innovationswettbewerbe"
+                  when "ausschreibungen", "kleinanzeigen", "stellenanzeigen", "crowdfunding", "innovationswettbewerbe", "umfragen"
                     html_string = html_string + '<i class="glyphicon glyphicon-calendar"></i> '
                     html_string = html_string +  item.date_from.strftime("%d.%m.%Y") + " - " + item.date_to.strftime("%d.%m.%Y") + '<br>'
                     soll = (item.date_to.to_date - item.date_from.to_date).to_i
@@ -892,6 +907,11 @@ def build_medialist2(items, cname, par)
                         content_tag(:i, nil, class:"glyphicon glyphicon-info-sign mediabuttonred")
                       end
                       html_string = html_string + " <fire>" + item.ideas.count.to_s + " " + (I18n.t :ideen)
+                      html_string = html_string + '</fire><br><br>'
+                    end
+
+                    if item.mtype == "umfragen"
+                      html_string = html_string + " <fire>" + item.questions.count.to_s + " " + (I18n.t :fragen)
                       html_string = html_string + '</fire><br><br>'
                     end
 
@@ -917,7 +937,7 @@ def build_medialist2(items, cname, par)
                       end
                     end
 
-                  when "angebote"
+                 when "angebote"
                     html_string = html_string + '<i class="glyphicon glyphicon-folder"></i> '
                     html_string = html_string +  item.msubtype + "<br>" 
                     if item.msubtype == "standard"
@@ -996,7 +1016,7 @@ def build_medialist2(items, cname, par)
                 html_string = html_string + @item.geo_address + '<br>'
 
               when "searches"
-                html_string = html_string + "<anzeigetext>" + item.name + "</anzeigetext><br>"
+                #html_string = html_string + "<anzeigetext>" + item.name + "</anzeigetext><br>"
                 if item.search_domain == "object"
                   html_string = html_string + '<i class="glyphicon glyphicon-folder-open"></i> '
                   html_string = html_string + item.mtype + "<br>" 
@@ -1094,9 +1114,9 @@ def build_medialist2(items, cname, par)
                 end
 
               when "edition_arcticles"
-                if isowner(item.mobject)
+                #if isowner(item.mobject)
                   access = true
-                end
+                #end
 
               when "editions"
   	            html_string = html_string + link_to(edition_arcticles_path(:edition_id => item)) do 
@@ -1527,6 +1547,8 @@ def showImage2(size, item, linkit)
               image_tag("personen.png", :size => ssize, class:"card-img-top img-responsive" )
             when "Company"
               image_tag("institutionen.png", :size => ssize, class:"card-img-top img-responsive" )
+            when "Edition"
+              image_tag("ausgaben.jpg", :size => ssize, class:"card-img-top img-responsive" )
             else
               image_tag("no_pic.jpg", :size => ssize, class:"card-img-top img-responsive" )
           end
@@ -1541,6 +1563,8 @@ def showImage2(size, item, linkit)
             html_string = image_tag("person.png", :size => "50x50", class:"card-img-top img-responsive" )
           when "Company"
             html_string = image_tag("company.png", :size => "50x50", class:"card-img-top img-responsive" )
+          when "Edition"
+            html_string = image_tag("ausgaben.jpg", :size => "50x50", class:"card-img-top img-responsive" )
           else
             html_string = image_tag("no_pic.jpg", :size => "50x50", class:"card-img-top img-responsive" )
         end
@@ -1592,6 +1616,13 @@ def navigate2(object,item)
 
   html_string = ""
   case object
+    when "edition_artikeln"
+      html_string = html_string + build_nav2("edition_artikeln",item,"artikel_ausgaben",1)
+
+    when "editionen"
+      html_string = html_string + build_nav2("editionen",item,"editionen_ausgaben",item.edition_arcticles.count)
+      html_string = html_string + build_nav2("edition_artikel",item,"edition_artikel",item.edition_arcticles.count)
+      
     when "tabellen"
       html_string = html_string + build_nav2("tabellen",item,"tabellen_kategorien",1)
       
@@ -1718,7 +1749,7 @@ def navigate2(object,item)
           if user_signed_in?
             if isowner(item)
               html_string = html_string + build_nav2("objekte",item,"objekte_fragen",item.questions.count)
-              html_string = html_string + build_nav2("objekte",item,"objekte_umfrageteilnehmer",User.count)
+              #html_string = html_string + build_nav2("objekte",item,"objekte_umfrageteilnehmer",User.count)
             end
           end
         end
@@ -1730,6 +1761,9 @@ def navigate2(object,item)
         end
         if item.mtype == "publikationen"
           html_string = html_string + build_nav2("objekte",item,"objekte_ausgaben",item.editions.count)
+        end
+        if item.mtype == "artikel" and @edition_id
+          html_string = html_string + build_nav2("edition",Edition.find(@edition_id),"objekte_ausgabe",1)
         end
         if item.mtype == "sensoren"
           html_string = html_string + build_nav2("objekte",item,"objekte_sensordaten",item.sensors.count)
@@ -1804,6 +1838,22 @@ def build_nav2(domain, item, domain2, anz)
         end
       when "tabellen"
         html_string = link_to home_index9_path do
+          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" glyphicon glyphicon-" + getinfo2(infosymbol)["info"]) 
+        end
+      when "editionen"
+        html_string = link_to(mobject_path(:id => item.mobject_id, :topic => "objekte_ausgaben")) do
+          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" glyphicon glyphicon-" + getinfo2(infosymbol)["info"]) 
+        end
+      when "edition"
+        html_string = link_to(edition_path(:id => item.id)) do
+          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" glyphicon glyphicon-" + getinfo2(infosymbol)["info"]) 
+        end
+      when "edition_artikel"
+        html_string = link_to(edition_arcticles_path(:edition_id => item.id)) do
+          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" glyphicon glyphicon-" + getinfo2(infosymbol)["info"]) 
+        end
+      when "edition_artikeln"
+        html_string = link_to(edition_path(:id => item.id)) do
           content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" glyphicon glyphicon-" + getinfo2(infosymbol)["info"]) 
         end
     end
@@ -2233,9 +2283,9 @@ def action_buttons3(object_type, item, topic)
       end
 
       when "editionen"
-         html_string = html_string + link_to(mobject_path(:id => item.mobject_id, :topic => "objekte_ausgaben"), title: (I18n.t :editionen)) do
-            content_tag(:i, " " + (I18n.t :editionen) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-list") 
-         end
+         #html_string = html_string + link_to(mobject_path(:id => item.mobject_id, :topic => "objekte_ausgaben"), title: (I18n.t :editionen)) do
+          #  content_tag(:i, " " + (I18n.t :editionen) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-list") 
+         #end
 
       when "edition"
          html_string = html_string + link_to(edition_path(:id => item.id, :topic => "edition")) do
@@ -2269,6 +2319,14 @@ def action_buttons3(object_type, item, topic)
           end
          end
 
+      when "edition_artikeln"
+         if user_signed_in?
+          if isowner(item.mobject) or isdeputy(item.mobject.owner)
+            html_string = html_string + link_to(mobjects_path(:mtype => "artikel", :edition_id => item.id)) do
+              content_tag(:i, " " + (I18n.t :artikel) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
+            end
+          end
+         end
         
   end
   html_string = html_string + '</div>'
@@ -2315,7 +2373,7 @@ def getinfo2(topic)
       info = "record"
     when :ausschreibungen, :kalenderausschreibungen
       info = "pencil"
-    when :publikationen, :kalenderpublikationen, :ausgaben
+    when :publikationen, :kalenderpublikationen, :ausgaben, :ausgabe
       info = "book"
     when :artikel
       info = "text-background"
@@ -3133,16 +3191,7 @@ def build_edition(edition)
       html_string = html_string + "<div class='col-xs-9 col-sm-9 col-md-9 col-lg-9 xl-9'>"
 
         html_string = html_string + "<div class='row'>"
-          html_string = html_string + link_to(edition.mobject.owner) do
-            showImage2(:small, edition.mobject.owner, false)
-          end
-          html_string = html_string + "<br>"
-          if edition.mobject.owner_type == "User"
-            html_string = html_string + edition.mobject.owner.name + " " + edition.mobject.owner.lastname
-          end
-          if edition.mobject.owner_type == "Company"
-            html_string = html_string + edition.mobject.owner.name
-          end
+          html_string = html_string + contactChip(edition.mobject.owner) 
         html_string = html_string + "</div>"
         html_string = html_string + "<br><br>"
           
@@ -3155,6 +3204,7 @@ def build_edition(edition)
               content_tag(:div, a.mobject.name) + content_tag(:artikel_autor, a.mobject.owner.name + " " + a.mobject.owner.lastname)
             end
             html_string = html_string + "</h4>"
+            #html_string = html_string + contactChip(a.mobject.owner) 
           end
         html_string = html_string + "</div>"
 
@@ -3311,16 +3361,7 @@ def build_questionaire(questionaire)
       html_string = html_string + "<div class='col-xs-9 col-sm-9 col-md-9 col-lg-9 xl-9'>"
 
         html_string = html_string + "<div class='row'>"
-          html_string = html_string + link_to(questionaire.owner) do
-            showImage2(:small, questionaire.owner, false)
-          end
-          html_string = html_string + "<br>"
-          if questionaire.owner_type == "User"
-            html_string = html_string + questionaire.owner.name + " " + questionaire.owner.lastname
-          end
-          if questionaire.owner_type == "Company"
-            html_string = html_string + questionaire.owner.name
-          end
+          html_string = html_string + contactChip(questionaire.owner)
         html_string = html_string + "</div>"
         html_string = html_string + "<br><br>"
           

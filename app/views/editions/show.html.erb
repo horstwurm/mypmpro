@@ -1,17 +1,44 @@
-  <!--<div class="row">-->
-  <!--  <action>-->
-  <!--  <%= action_buttons2("Editionen", @edition, @topic) %>-->
-  <!--  </action>-->
-  <!--</div>-->
+<%= action_buttons3("editionen", @edition, @topic) %>
 
-  <div class="row">
-    <header>
-    <%= header3("editionen", @edition, @topic, true) %>
-    </header>
-  </div>
+<div class="row">
+  <header>
+    <%= header('<span onclick="openNav()"><i class="btn btn-header glyphicon glyphicon-align-justify"></span></i> ' + @edition.name + " <b>" + getTopicName(@topic) + "</b>"+ " " + '<span onclick="openNavRight()"><i class="btn btn-header glyphicon glyphicon-wrench pull-right"></span></i> ', true) %>
+  </header>
+</div>
+
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <%= navigate2("editionen", @edition) %>
+</div>
 
   <div class="row">
     <div class="panel-body">
         <%=  build_edition(@edition) %>
     </div>
   </div>
+  
+<script>
+/* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
+function openNav() {
+    document.getElementById("mySidenav").style.width = "270px";
+    document.getElementById("main").style.marginLeft = "270px";
+}
+
+/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("main").style.marginLeft = "0";
+}
+</script>
+
+<script>
+/* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
+function openNavRight() {
+    document.getElementById("mysidenavright").style.width = "300px";
+}
+
+/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
+function closeNavRight() {
+    document.getElementById("mysidenavright").style.width = "0";
+}
+</script>

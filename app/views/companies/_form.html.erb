@@ -43,7 +43,7 @@
                      </div>
                      <div class="form-group">
                        <%= f.label "Branche" %><br/>
-                         <%= f.collection_select :mcategory_id, Mcategory.where('ctype=?',"Branche").order(:name), :id, :name, {}, class:"form-control" %>
+                         <%= f.collection_select :mcategory_id, Mcategory.where('ctype=?',"branche").order(:name), :id, :name, {}, class:"form-control" %>
                      </div>
                      <div class="form-group">
                        <%= f.label "Beschreibung" %><br/>

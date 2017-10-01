@@ -33,8 +33,12 @@
       </div>
     </div>
   </div>
-
-  <%= build_medialist2(@mobjects, "mobjects", "panel") %>
+  
+  <% if @edition_id %>
+    <%= build_medialist2(@mobjects, "mobjects", @edition_id) %>
+  <% else %>
+    <%= build_medialist2(@mobjects, "mobjects", "panel") %>
+  <% end %>
   
   <div class="panel-body">
     <div class="row">

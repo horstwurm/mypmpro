@@ -31,11 +31,11 @@ class CommentsController < ApplicationController
     respond_to do |format|
       if @comment.save
         if @comment.mobject.mtype == "artikel"
-          @topic = "info"
+          @topic = "objekte_info"
         else
-          @topic = "blog"
+          @topic = "objekte_blog"
         end
-        format.html { redirect_to mobject_path(:id => @comment.mobject_id, :topic => @topic), notice: (I18n.t :act_create) }
+        format.html { redirect_to mobject_path(:id => @comment.mobject_id, :topic => @topic, :edition_id => session[:edition_id]), notice: (I18n.t :act_create) }
         format.json { render :show, status: :created, location: @comment }
       else
         format.html { render :new }
@@ -50,11 +50,11 @@ class CommentsController < ApplicationController
     respond_to do |format|
       if @comment.update(comment_params)
         if @mrating.mobject.mtype == "artikel"
-          @topic = "info"
+          @topic = "objekte_info"
         else
-          @topic = "blog"
+          @topic = "objekte_blog"
         end
-        format.html { redirect_to mobject_path(:id => @comment.mobject_id, :topic => @topic), notice: (I18n.t :act_update) }
+        format.html { redirect_to mobject_path(:id => @comment.mobject_id, :topic => @topic, :edition_id => session[:edition_id]), notice: (I18n.t :act_update) }
         format.json { render :show, status: :ok, location: @comment }
       else
         format.html { render :edit }
@@ -68,13 +68,13 @@ class CommentsController < ApplicationController
   def destroy
     @mobject_id = @comment.mobject_id
     if @mrating.mobject.mtype == "artikel"
-      @topic = "info"
+      @topic = "objekte_info"
     else
-      @topic = "blog"
+      @topic = "objekte_blog"
     end
     @comment.destroy
     respond_to do |format|
-      format.html { redirect_to mobject_path(:id => @mobject_id, :topic => @topic), notice: (I18n.t :act_delete) }
+      format.html { redirect_to mobject_path(:id => @mobject_id, :topic => @topic, :edition_id => session[:edition_id]), notice: (I18n.t :act_delete) }
       format.json { head :no_content }
     end
   end

@@ -1158,6 +1158,74 @@ mediabutton:hover, a:hover {
   opacity: 0.7;
 }
 
+.signage_background {
+    min-height:100%;
+    min-width:100%;
+    opacity:0.2;
+}
+
+.wrapper {
+  min-height: 100%;
+  min-width: 1024px;
+  width: 100%;
+  height: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity:0.2;
+}
+
+@media screen and (max-width: 1024px) { /* Specific to this particular image */
+  img.bg {
+    left: 50%;
+    margin-left: -512px;   /* 50% */
+  }
+}
+
+.signage_infopic {
+    position:absolute;
+    top:0;
+    width:500;
+    height:50;
+    z-index:999;
+}    
+
+.signage_qrcode {
+    position:absolute;
+    bottom:0;
+    right:0;
+    width:50;
+    height:50;
+    z-index:999;
+}   
+
+.signage_footer {
+    background-color: $color1;
+    position:absolute;
+    width:100%;
+    color: white;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    bottom: 0px;
+    font-size: 17px;
+}
+
+#signage_message {
+    //visibility: hidden;
+    position:absolute;
+    background-color: $color1;
+    color: white;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 999;
+    left: 50%;
+    top: 0px;
+    font-size: 20px;
+}
+
 @import "*";
 @import "bootstrap-sprockets";
 @import "bootstrap";

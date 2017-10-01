@@ -6,6 +6,7 @@ class MobjectsController < ApplicationController
 
     if params[:edition_id]
       session[:edition_id] = params[:edition_id]
+      @edition_id = params[:edition_id]
     end
 
     @controller_name = controller_name
