@@ -1141,7 +1141,7 @@ def build_medialist2(items, cname, par)
                 end
 
               when "users"
-  	            html_string = html_string + link_to(new_email_path(:m_to_id => item.id, :m_from_id => current_user.id)) do 
+  	            html_string = html_string + link_to(new_email_path(:m_to_id => item.id, :m_from_id => current_user.id, :back_url => request.original_url)) do 
                   content_tag(:i, nil, class:"glyphicon glyphicon-envelope mediabutton")
                 end
                 if item.id == current_user.id or isdeputy(item)
@@ -1957,7 +1957,7 @@ def action_buttons3(object_type, item, topic)
 
         when "personen_emails"
           if user_signed_in?
-            html_string = html_string + link_to(new_email_path(:m_from_id => current_user.id, :m_to_id => item.id)) do
+            html_string = html_string + link_to(new_email_path(:m_from_id => current_user.id, :m_to_id => item.id, :back_url => request.original_url)) do
               content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class: "glyphicon glyphicon-plus orange")
             end
           end
