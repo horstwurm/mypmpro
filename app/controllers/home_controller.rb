@@ -505,7 +505,7 @@ end
 
 def writeusernotes
   if params[:user] and params[:message]
-    @ns = User.Find(params[:user]).notes.where('message=?', params[:message])
+    @ns = User.find(params[:user]).notes.where('message=?', params[:message])
     if !@ns or @ns.count == 0
       @note = Note.new
       @note.user_id = params[:user]
