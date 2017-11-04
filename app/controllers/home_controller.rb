@@ -505,10 +505,13 @@ end
 
 def writeusernotes
   if params[:user] and params[:message]
-    @note = Note.new
-    @note.user_id = params[:user]
-    @note.message = params[:message]
-    @note.save
+    @ns = User.Find(params[:user]).notes.where('message=?', params[:message])
+    if !@ns or @ns.count == 0
+      @note = Note.new
+      @note.user_id = params[:user]
+      @note.message = params[:message]
+      @note.save
+    end
   end
   respond_to do |format|
     format.json 
