@@ -63,6 +63,9 @@ class UsersController < ApplicationController
 
     case @topic
       when "personen_notizen"
+        if params[:delusernotes]
+          @user.notes.destroy_all
+        end
         @notz = []
         @notz << ['Phrases']
         @no = @user.notes.order(message: :asc)
