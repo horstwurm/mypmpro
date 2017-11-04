@@ -488,4 +488,34 @@ def writesensordata
   end
 end
 
+def readusernotes
+  if params[:user]
+    @user = User.find(params[:user])
+    @notes = @user.notes.order(:message)
+  end
+  respond_to do |format|
+    format.json 
+      msg = []
+      @notes.each do |i|
+          msg << {:message => @user.name+"_"+@user.lastname+" "+i.message}
+      end
+      render :json => msg.to_json
+  end
+end
+
+def writeusernotes
+  if params[:user] and params[:message]
+    @note = Note.new
+    @note.user_id = params[:user]
+    @note.message = params[:message]
+    @note.save
+  end
+  respond_to do |format|
+    format.json 
+      render :json => "ok".to_json
+  end
+end
+def test
+end
+
 end

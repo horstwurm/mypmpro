@@ -34,6 +34,7 @@ devise :database_authenticatable, :registerable,
     has_many :ideas, dependent: :destroy 
     has_many :idea_ratings, dependent: :destroy 
     has_many :idea_crowdratings, dependent: :destroy 
+    has_many :notes
 
     # validates :userid, presence: true, :uniqueness => true
     validates :lastname, presence: true    

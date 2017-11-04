@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :notes
   resources :deputies
   
   #devise_for :users
@@ -58,6 +59,7 @@ Rails.application.routes.draw do
   get 'home/index16'
   get 'home/index17'
   get 'home/index18'
+  get 'home/test'
   get 'home/import'
   get 'home/arduino'
   get 'home/dashboard'
@@ -69,6 +71,8 @@ Rails.application.routes.draw do
   get 'home/Umfragen_data'
   get 'home/readsensordata'
   get 'home/writesensordata'
+  get 'home/readusernotes'
+  get 'home/writeusernotes'
   
   resources :searches
   resources :partner_links

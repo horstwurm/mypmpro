@@ -5,7 +5,7 @@ def qrcodeimg(mobject, size)
   mtype = mobject.class.table_name
   mid = mobject.id
   
-  content = "http://tkbmarkt.herokuapp.com"+url_for(mobject)
+  content = "https://mytgcloud.herokuapp.com"+url_for(mobject)
 
   @qr = Qrcode.where('mobject_type=? and mobject_id=?', mobject.class.table_name, mobject.id).first
 
@@ -1631,6 +1631,7 @@ def navigate2(object,item)
       
     when "personen"
       html_string = html_string + build_nav2("personen",item,"personen_info",1)
+      html_string = html_string + build_nav2("personen",item,"personen_notizen", item.notes.count)
       html_string = html_string + build_nav2("personen",item,"personen_angebote",item.mobjects.where('mtype=?',"angebote").count)
       html_string = html_string + build_nav2("personen",item,"personen_projekte", item.mobjects.where('mtype=? and parent=?',"projekte",0).count)
       html_string = html_string + build_nav2("personen",item,"personen_zeiterfassung", item.timetracks.count)
@@ -1906,6 +1907,15 @@ def action_buttons3(object_type, item, topic)
             if $activeapps.include?("personen_mappositionenfavoriten") or isdeputy(item) or current_user.superuser
               html_string = html_string + link_to(new_favourit_path(:object_name => "User", :object_id => item.id, :user_id => current_user.id)) do
                 content_tag(:i, " " + (I18n.t :fav), class: "glyphicon glyphicon-user")
+              end
+            end
+          end
+
+        when "personen_notizen"
+          if user_signed_in?
+            if current_user.id == item.id or isdeputy(item) or current_user.superuser
+              html_string = html_string + link_to(new_note_path(:user_id => current_user.id)) do
+                content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class: "glyphicon glyphicon-plus orange") 
               end
             end
           end
@@ -2343,6 +2353,8 @@ def getinfo2(topic)
   end
 
   case topic
+    when :notizen
+      info = "paperclip"
     when :stellvertretungen
       info = "share"
     when :signstat
@@ -2850,6 +2862,8 @@ def init_apps
 
     hash = Hash.new
     hash = {"domain" => "personen", "right" => "info", "access" => true, "info" => "news"}
+    hash = Hash.new
+    hash = {"domain" => "personen", "right" => "notizen", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
     hash = {"domain" => "personen", "right" => "kalendereintraege", "access" => false, "info" => "news"}

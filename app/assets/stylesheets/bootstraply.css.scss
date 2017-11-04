@@ -1182,13 +1182,109 @@ mediabutton:hover, a:hover {
   }
 }
 
+.signage {
+    margin:0px!important;
+    padding:0px!important;
+}
+
+.signrow {
+    padding:5px;
+    margin:5px;
+}
+
 .signage_infopic {
     position:absolute;
-    top:0;
+    top:60px;
     width:500;
     height:50;
     z-index:999;
-}    
+    margin:10px;
+} 
+
+#signage_message_header {
+    //visibility: hidden;
+    position:absolute;
+    #background-color: $color1;
+    color: grey;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 999;
+    left: 20px;
+    top: 450px;
+    font-size: 35px;
+    font-weight:bold;
+}
+
+#signage_message_body {
+    //visibility: hidden;
+    position:absolute;
+    #background-color: $color1;
+    color: grey;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 999;
+    left: 20px;
+    top: 500px;
+    font-size: 20px;
+    font-style:italic;
+}
+
+.signage_infopic2 {
+    position:absolute;
+    //right:500px;
+    //top:450px;
+    top:60px;
+    right:20px;
+    z-index:999;
+} 
+
+.signage_infoqr {
+    position:absolute;
+    //right:500px;
+    //top:450px;
+    top:550px;
+    left:1100px;
+    z-index:999;
+} 
+
+#signage_message_header2 {
+    //visibility: hidden;
+    position:absolute;
+    #background-color: $color1;
+    color: grey;
+    color: red;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 999;
+    //left: 1100px;
+    right:200px;
+    top: 450px;
+    font-size: 35px;
+    font-weight:bold;
+}
+
+#signage_message_body2 {
+    //visibility: hidden;
+    position:absolute;
+    #background-color: $color1;
+    color: grey;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 999;
+    //left: 1100px;
+    right:200px;
+    top: 650px;
+    font-size: 20px;
+    font-style:italic;
+}
 
 .signage_qrcode {
     position:absolute;
@@ -1198,6 +1294,20 @@ mediabutton:hover, a:hover {
     height:50;
     z-index:999;
 }   
+
+.signage_side {
+    background-color: grey;
+    position:absolute;
+    width:20%;
+    color: white;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    top: 50px;
+    height:880px;
+    right: 0px;
+    font-size: 17px;
+}
 
 .signage_footer {
     background-color: $color1;
@@ -1211,19 +1321,17 @@ mediabutton:hover, a:hover {
     font-size: 17px;
 }
 
-#signage_message {
-    //visibility: hidden;
+.signage_header {
+    background-color: $color4;
     position:absolute;
-    background-color: $color1;
-    color: white;
-    text-align: center;
-    border-radius: 2px;
+    width:100%;
+    height:50px;
+    color: $color2;
     padding: 16px;
     position: fixed;
-    z-index: 999;
-    left: 50%;
+    z-index: 1;
     top: 0px;
-    font-size: 20px;
+    font-size: 17px;
 }
 
 @import "*";

@@ -121,6 +121,9 @@
           </div>
           <% end %>
           
+        <% when "personen_notizen" %>
+          <div id="wordtree_basic" style="width: 900px; height: 500px;"></div>
+
         <% when "personen_institutionen" %>
             <%= build_medialist2(@user.companies, "companies", nil) %>
 
@@ -1160,6 +1163,48 @@
     };
       
   </script>
+<% end %>
+
+<% if @topic == "personen_notizen" %>
+    <script type="text/javascript">
+      window.notesdataset = <%= raw @notz %>;
+      google.charts.load('current', {packages:['wordtree']});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable(notesdataset);
+
+        var options = {
+          wordtree: {
+            format: 'implicit',
+            word: '<%= @user.name+ "_" + @user.lastname %>'
+          }
+        };
+
+        var chart = new google.visualization.WordTree(document.getElementById('wordtree_basic'));
+        chart.draw(data, options);
+      }
+      window.setInterval(callme, 5000);
+
+      function callme() {
+          $.ajax({
+              //url: "https://tgcloud-horstwurm.c9users.io/home/readusernotes.json?user=<%= @user.id %>",
+              url: "http://mytgcloud.herokuapp.com/home/readusernotes.json?user=<%= @user.id %>",
+              dataType: "text",
+              success: function(data) {
+                  var json = $.parseJSON(data);
+                  notesdataset = [['Phrases']];
+                  for (var i=0;i<json.length;++i)
+                  {
+                    notesdataset.push([json[i].message]);
+                  }
+                  google.charts.setOnLoadCallback(drawChart);
+                }
+            });
+      }
+    </script>
+
+
+
 <% end %>
 
 <% if @topic == "personen_zeiterfassung" %>

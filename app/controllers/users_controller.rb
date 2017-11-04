@@ -62,6 +62,17 @@ class UsersController < ApplicationController
    end 
 
     case @topic
+      when "personen_notizen"
+        @notz = []
+        @notz << ['Phrases']
+        @no = @user.notes.order(message: :asc)
+        @count = @no.count
+        @no.each do |n|
+          if n.message
+            @notz << [@user.name + "_"+ @user.lastname+ " " + n.message]
+          end
+        end
+
       when "personen_info"
 
         @locs = []
