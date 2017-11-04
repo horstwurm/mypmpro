@@ -512,7 +512,9 @@ def writeusernotes
   end
   respond_to do |format|
     format.json 
-      render :json => "ok".to_json
+      msg = []
+      msg << {:status => "ok"}
+      render :json => msg.to_json
   end
 end
 def test
