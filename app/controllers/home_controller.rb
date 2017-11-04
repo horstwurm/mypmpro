@@ -517,6 +517,7 @@ def writeusernotes
     format.json 
       msg = []
       msg << {:status => "ok"}
+      msg << {:anzahl => User.find(params[:user].notes.count) }
       render :json => msg.to_json
   end
 end
