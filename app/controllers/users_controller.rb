@@ -63,7 +63,7 @@ class UsersController < ApplicationController
 
     case @topic
       when "personen_notizen"
-        if params[:delusernotes]
+        if params[:delusernotes] == true
           @user.notes.destroy_all
         end
         @notz = []
