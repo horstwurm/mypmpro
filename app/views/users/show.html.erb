@@ -122,7 +122,8 @@
           <% end %>
           
         <% when "personen_notizen" %>
-          <div id="wordtree_basic" style="width: 900px; height: 500px;"></div>
+          <!--<div id="wordtree_basic" style="width: 900px; height: 500px;"></div>-->
+          <div id="wordtree_basic""></div>
 
         <% when "personen_institutionen" %>
             <%= build_medialist2(@user.companies, "companies", nil) %>
