@@ -510,6 +510,8 @@ def writeusernotes
       @note = Note.new
       @note.user_id = params[:user]
       @note.message = params[:message]
+      @note.datum=Date.today
+      @note.uhrzeit=8000
       @note.save
     end
   end
