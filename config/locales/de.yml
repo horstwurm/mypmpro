@@ -20,6 +20,7 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 de:
+  uhrzeit: "Uhrzeit"
   notizen: "Notizen"
   Ausgaben/Editionen: "Ausgaben/Editionen"
   editions: "Ausgaben"

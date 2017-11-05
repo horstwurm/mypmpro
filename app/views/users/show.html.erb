@@ -122,8 +122,42 @@
           <% end %>
           
         <% when "personen_notizen" %>
-          <!--<div id="wordtree_basic" style="width: 900px; height: 500px;"></div>-->
-          <div id="wordtree_basic""></div>
+          <div id="wordtree_basic" style="width: 900px; height: 500px;"></div>
+          <br><br>
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+              <div>
+                <%= header((I18n.t :notizen), false) %>
+                
+            		<table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th><%= (I18n.t :datum) + " " + (I18n.t :uhrzeit) %></th>
+                      <th><%= (I18n.t :notizen) %></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <% @notes = @user.notes.order(:message) %>
+                  <% @notes.each do |n| %>
+                    <tr>
+                      <td>
+                        <%= link_to edit_note_path(n) do %>
+                          <i class="btn btn-primary btn btn-xs glyphicon glyphicon-wrench"></i>
+                        <% end %>
+              	        <%= link_to n, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                          <i class="btn btn-danger btn-xs glyphicon glyphicon-trash"></i>
+                        <% end %>
+                      </td>
+                      <td><%= n.datum.strftime('%d-%m-%Y') + "-" + n.uhrzeit.to_s %></td>
+                      <td><%= n.message %></td>
+                    </tr>
+                  <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
 
         <% when "personen_institutionen" %>
             <%= build_medialist2(@user.companies, "companies", nil) %>

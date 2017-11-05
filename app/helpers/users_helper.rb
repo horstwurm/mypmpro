@@ -1917,7 +1917,7 @@ def action_buttons3(object_type, item, topic)
               html_string = html_string + link_to(new_note_path(:user_id => current_user.id)) do
                 content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class: "glyphicon glyphicon-plus orange") 
               end
-              html_string = html_string + link_to(user_path(:user_id => current_user.id, :topic => @topic, :delusernotes => true)) do
+              html_string = html_string + link_to(user_path(:user_id => current_user.id, :topic => @topic, :delusernotes => true),data: { confirm: 'Are you sure?' }) do
                 content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :loeschen), class: "glyphicon glyphicon-plus orange") 
               end
             end
