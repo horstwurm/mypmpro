@@ -388,6 +388,21 @@
                   <%= build_medialist2(@mobject.ideas.order(rating: :desc), "ideas", "user") %>
                 </div>
                 <br>
+                <%= header((I18n.t :preise), false) %>
+                <div class="panel-body">
+                  <%= build_medialist2(@mobject.prices.order(:sequence), "prices", nil) %>
+                </div>
+                <br>
+                <%= header((I18n.t :bewertungskriterien), false) %>
+                <div class="panel-body">
+                  <%= build_medialist2(@mobject.crits.order(:name), "crits", nil) %>
+                </div>
+                <br>
+                <%= header((I18n.t :jury), false) %>
+                <div class="panel-body">
+                  <%= build_medialist2(@mobject.madvisors.where("role=? and (grade=? or grade=?)", "innovationswettbewerbe", "Jury-Vorsitz", "Jury-Mitglied"), "madvisors", "user") %>
+                </div>
+                <br>
                <% end %>
 
               <b><%= I18n.t :verantwortlich %></b><br>
@@ -594,6 +609,11 @@
               </body>
            	</table>
           </div>
+
+        <% when "objekte_signlocshow" %>
+          <%= controller.redirect_to(home_index18_url :standort => @mobject.id) %>
+        <% when "objekte_signkamshow" %>
+          <%= controller.redirect_to(home_index18_url :kampagne => @mobject.id) %>
 
         <% when "objekte_ansprechpartner" %>
           <div class="panel-body">
@@ -2043,6 +2063,9 @@ $(document).ready(function(){
 
   <% when "objekte_projektdashboard" %>
       document.addEventListener("turbolinks:load", function() {callme();})
+
+  <% when "objekte_signcal" %>
+      document.addEventListener("turbolinks:load", function() {$('#calendar').fullCalendar();} %>',
 
   <% when "objekte_signstat" %>
       document.addEventListener("turbolinks:load", function() {drawSign1();drawSign2();})

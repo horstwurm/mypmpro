@@ -398,23 +398,20 @@ def index17
 end
 
 def index18
-  
-  @array = []
-  #@array << ['alle', "TKB", "TKB"]
-  @projects = Mobject.all
-  @projects.each do |p|
-    #h = Hash.new
-    #h = {"alle Projekte"}
-    if p.parent and p.parent > 0
-      @par = Mobject.find(p.parent).name
-    else
-      @par = "TKB"
+  @campaigns = SignageCal.where("mstandort=? and date_from<=? and date_to>=?",params[:standort], Date.today, Date.today)
+  if @campaigns
+    @mob = Mobject.find(params[:standort])
+    @owner = @mob.owner
+    @standort = @mob.name
+    @campanz = @campaigns.count
+    @camp = "("
+    @campaigns.each do |c|
+      @camp = @camp + Mobject.find(c.mkampagne).name + " "
     end
-    #@array << [p.name, @par, p.name]
-    @array << [ ("<a href=/mobjects/" + p.id.to_s + ">" + p.name + "</a>"), @par, p.name]
+    @camp = @camp + ")"
+  else
+    @campanz = 0
   end
-  #@array = []
-  #@array << ["root", "ich", "root"]
 end
 
 def import

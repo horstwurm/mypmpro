@@ -1,4 +1,4 @@
-<% if false %>
+<%= @capanz %>
 <% i=0 %>
 <div class="signage">
 
@@ -10,43 +10,73 @@
                 <%= image_tag("tkb.png", size:"120x30") %>
             </div>
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                <b>für's ganze Leben</b>    
+                <b>FÜRS GANZE LEBEN</b>    
             </div>
         </div>
     </div>
 
-    <div id="side" class="signage_side">Hallo</div>
+        
+    <div class="signage_content">
+        <div class="row">
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                <div id="item_kampagne" class="kampagne">
+                    <div id="image_kampagne" class="kampagne_image"></div>
+                    <div id="message_header_kampagne" class="kampagne_message_header"></div>
+                    <div id="message_body_kampagne" class="kampagne_message_body"></div>
+                </div>
+            </div>
+            
+            <div class="signage_right">
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                <!--<div id="side" class="signage_side">Hallo</div>-->
+                <div id="item_sideinfo" class="sideinfo">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div id="image_sideinfo" class="sideinfo_image"></div>
+                        <div id="message_header_sideinfo" class="sideinfo_message_header"></div>
+                        <div id="message_body_sideinfo" class="sideinfo_message_body"></div>
+                        <div id="qrcode_sideinfo" class="sideinfo_qrcode"></div>
+                    </div>
+                </div>
+            </div>
+            </div>
 
-    <div id="image" class="signage_infopic"></div>
-    <div id="signage_message_header"></div>
-    <div id="signage_message_body"></div>
-
-    <div id="image2" class="signage_infopic2"></div>
-    <div id="signage_message_header2"></div>
-    <div id="signage_message_body2"></div>
+        </div>
+    </div>
+    
+    
 
     <!--<div id="qr" class="signage_infoqr"></div>-->
 
     <div class="signage_footer">
-        hier könnte Ihre Message stehen    
+        <%= "Standort: " + @standort + " Kampagnen: " + @campanz.to_s + " " + @camp %>    
     </div>
     
+    <% if false %>
     <div id="qrcode" class="signage_qrcode">
       <% hash = qrcodeimg(Company.find(1), :small) %>
       <%= link_to Company.find(1) do %>
         <%= hash["qr_code"] %>
       <% end %>
     </div>
-    
+    <% end %>
+
+    <div id="signage_qrcode" class="signage_qrcode">
+        <%= link_to @owner do %>
+            <%= image_tag("app_qrcode.png", :size => "100x100") %>
+        <% end %>
+    </div>
+
 </div>
 
 
+<% kampagne = [] %>
 <% txtheader = [] %>
 <% txtbody = [] %>
 <% pics = [] %>
-<% if true %>
-    <% Mobject.where('mtype=?',"kampagnen").each do |m| %>
-        <% m.mdetails.each do |u| %>
+<% @campaigns.each do |c| %>
+    <% m = Mobject.find(c.mkampagne) %>
+    <% kampagne << m.name %>
+    <% m.mdetails.each do |u| %>
         <% if u.avatar_file_name %>
             <% imag = image_tag(u.avatar(:native))-%>
             <% pos1 = imag.index('"') %>
@@ -55,194 +85,101 @@
             <% txtheader << u.name %> 
             <% txtbody << u.description %> 
         <% end %>
-        <% end %>
     <% end %>
 <% end %>
+<% kampagne %>
 <% pics %>
 <% txtheader %>
 <% txtbody %>
 
+<% sideinfo = [] %>
 <% txtheadersm = [] %>
 <% txtbodysm = [] %>
 <% picsm = [] %>
-<% if true %>
-    <% User.all.each do |u| %>
-        <% if u.avatar_file_name %>
-            <% imag = image_tag(u.avatar(:medium))-%>
+<% picqr = [] %>
+<% @owner.mobjects.where('mtype<>?and mtype<>?',"kampagnen","standorte").each do |o| %>
+    <% o.mdetails.each do |m| %>
+        <% case o.mtype %>
+            <% when "umfragen" %>
+                <% @type = "machen Sie mit bei der Umfrage " + o.name %>
+            <% when "publikationen" %>
+                <% @type = "lesen Sie die neue Ausgabe von " + o.name %>
+            <% when "innovationswettbewerbe" %>
+                <% @type = "machen Sie mit beim Wettbewerb " + o.name %>
+            <% else %>
+                <% @type = "??? " + o.name %>
+        <% end %>
+    
+        <% if m.avatar_file_name %>
+            <% imag = image_tag(m.avatar(:medium))-%>
             <% pos1 = imag.index('"') %>
             <% pos2 = imag.rindex('alt') %>
             <% picsm << imag[pos1+1..pos2-2] %>
-            <% txtheadersm << u.name + " " + u.lastname %>
-            <% txtbodysm << u.fullname %>
+            <% txtheadersm << @type %>
+            <% txtbodysm << m.description %>
+            
+
+            <% hash = qrcodeimg(o, :small) %>
+            <% imagqr = hash["qr_code"]-%>
+            <% pos1 = imagqr.index('"') %>
+            <% pos2 = imagqr.index('alt') %>
+            <% picqr << imagqr[pos1+1..pos2-2] %>
         <% end %>
     <% end %>
 <% end %>
-
-<% txtheadersm = [] %>
-<% txtbodysm = [] %>
-<% picsm = [] %>
-<% bcsm = [] %>
-<% if true %>
-    <% Mobject.all.each do |m| %>
-        <% m.mdetails.each do |u| %>
-        <% if u.avatar_file_name %>
-            <% imag = image_tag(u.avatar(:medium))-%>
-            <% pos1 = imag.index('"') %>
-            <% pos2 = imag.rindex('alt') %>
-            <% picsm << imag[pos1+1..pos2-2] %>
-
-            <% qr = qrcodeimg(m, :medium) %>
-            <% imag = qr["qr_code"] %>
-            <% pos1 = imag.index('"') %>
-            <% pos2 = imag.rindex('alt') %>
-            <% bcsm << imag[pos1+1..pos2-2] %>
-
-            <% txtheadersm << u.mtype + " " + u.name %> 
-            <% txtbodysm << u.description %> 
-        <% end %>
-        <% end %>
-    <% end %>
-<% end %>
-<br><br>br>
-<% picsm %>
-<%= txtheadersm %>
-<%= txtbodysm %>
 
 <script>
       var i = -1;
       var pics = <%= raw pics %>; 
       var txtheader = <%= raw txtheader %>; 
       var txtbody = <%= raw txtbody %>; 
-      window.setInterval(callme, 10000);
+      window.setInterval(callme, 20000);
+      callme();
 
       var k = -1;
       var picsm = <%= raw picsm %>; 
+      var picqr = <%= raw picqr %>; 
       var txtheadersm = <%= raw txtheadersm %>; 
       var txtbodysm = <%= raw txtbodysm %>; 
       window.setInterval(callme2, 10000);
+      callme2();
 
       function callme() {
-            if (i < pics.length-1) {
-                i = i+ 1; 
-            }
-            else {
-                i=0;
-            }
-            var img = document.createElement("IMG");
-            img.src = pics[i];
-            // img.setAttribute('class', 'signage_infopic');
-            // img.height = 500px;
-            // img.width = 500px;
-            $('#image').html(img); 
-            
-            $('#image').fadeIn(5000);
-            $('#image').fadeOut(5000);
-            
-            $('#signage_message_header').text(txtheader[i]);
-            $('#signage_message_header').fadeIn(5000);
-            $('#signage_message_header').fadeOut(5000);
-            
-            $('#signage_message_body').text(txtbody[i]);
-            $('#signage_message_body').fadeIn(5000);
-            $('#signage_message_body').fadeOut(5000);
-            
-            wait(1000);
-
+        if (i < pics.length-1) {
+            i = i+ 1; 
+        }
+        else {
+            i=0;
+        }
+        var img = document.createElement("IMG");
+        img.src = pics[i];
+        $('#image_kampagne').html(img); 
+        $('#message_header_kampagne').text(txtheader[i]);
+        $('#message_body_kampagne').text(txtbody[i]);
+        
+        $('#item_kampagne').hide();
+        $('#item_kampagne').fadeIn(5000);
       }
       
       function callme2() {
-            while (true) {
-                if (k < picsm.length-1) {
-                    k = k+ 1; 
-                }
-                else {
-                    k=0;
-                }
-                var img = document.createElement("IMG");
-                img.src = picsm[k];
-                $('#image2').html(img); 
-                $('#signage_message_header2').text(txtheadersm[i]);
-                $('#signage_message_body2').text(txtbodysm[i]);
-
-                $('#image2').fadeIn(1000);
-                $('#signage_message_header2').fadeIn(1000);
-                $('#signage_message_body2').fadeIn(1000);
-
-                wait(5000);
-
-                $('#image2').fadeOut(1000);
-                $('#signage_message_header2').fadeOut(1000);
-                $('#signage_message_body2').fadeOut(1000);
-
-                //$('#image2').fadeOut(5000);
-                
-                //$("#image2").css({"left": "1000px"});
-                //$('#image2').animate({left:"20px"},2000);
-                //$("#image2").css({"left":"1400px"});
-                //$('#image2').animate({left:"1110px"},2000);
-    
-
-                //$("#signage_message_header2").css({"left":"1400px"});
-                //$('#signage_message_header2').animate({left:"1110px"},2000);
-                //$('#signage_message_header2').fadeIn(1000);
-                //$('#signage_message_header2').fadeOut(1000);
-                //$("#signage_message_body2").css({"left":"1400px"});
-                //$('#signage_message_body2').animate({left:"1110px"},2000);
-                //$('#signage_message_body2').fadeIn(1000);
-                //$('#signage_message_body2').fadeOut(1000);
-
-                //img.src = picsm[k];
-                //$('#qr').html(img); 
-                //$("#qr").css({"left":"1400px"});
-                //$('#qr').animate({left:"1110px"},2000);
-                
-                wait(1000);
-            }
+        if (k < picsm.length-1) {
+            k = k+ 1; 
+        }
+        else {
+            k=0;
+        }
+        var img = document.createElement("IMG");
+        img.src = picsm[k];
+        $('#image_sideinfo').html(img); 
+        $('#message_header_sideinfo').text(txtheadersm[k]);
+        $('#message_body_sideinfo').text(txtbodysm[k]);
+        var img2 = document.createElement("IMG");
+        img2.src = picqr[k];
+        $('#qrcode_sideinfo').html(img2); 
+        $('#signage_qrcode').html(img2); 
+        
+        $('#item_sideinfo').hide();
+        $('#item_sideinfo').fadeIn(5000);
       }
 
 </script>
-<% end %>
-
-    <div id="wordtree_basic" style="width: 900px; height: 500px;"></div>
-
-
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-      google.charts.load('current', {packages:['wordtree']});
-      google.charts.setOnLoadCallback(drawChart);
-
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable(
-          [ ['Phrases'],
-            ['cats are better than dogs'],
-            ['cats eat kibble'],
-            ['cats are better than hamsters'],
-            ['cats are awesome'],
-            ['cats are people too'],
-            ['cats eat mice'],
-            ['cats meowing'],
-            ['cats in the cradle'],
-            ['cats eat mice'],
-            ['cats in the cradle lyrics'],
-            ['cats eat kibble'],
-            ['cats for adoption'],
-            ['cats are family'],
-            ['cats eat mice'],
-            ['cats are better than kittens'],
-            ['cats are evil'],
-            ['cats are weird'],
-            ['cats eat mice'],
-          ]
-        );
-
-        var options = {
-          wordtree: {
-            format: 'implicit',
-            word: 'cats'
-          }
-        };
-
-        var chart = new google.visualization.WordTree(document.getElementById('wordtree_basic'));
-        chart.draw(data, options);
-      }
-    </script>

@@ -2108,6 +2108,15 @@ def action_buttons3(object_type, item, topic)
                   content_tag(:i, " " + (I18n.t :edition), class:"glyphicon glyphicon-level-up") 
                 end
              end 
+
+             if item.mtype == "innovationswettbewerbe"
+              if user_signed_in?
+                html_string = html_string + link_to(new_idea_path(:mobject_id => item.id, :user_id => current_user.id)) do
+                  content_tag(:i, " " + (I18n.t :ideen) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
+                end
+              end
+             end
+
              if user_signed_in?
                if isowner(item) or isdeputy(item.owner)
          	        html_string = html_string + link_to(edit_mobject_path(item), title: (I18n.t :bearbeiten)) do
@@ -2154,12 +2163,12 @@ def action_buttons3(object_type, item, topic)
               if isowner(item) or isdeputy(item.owner)
                 if @mobject.mtype == "kampagnen"
                   html_string = html_string + link_to(new_signage_cal_path(:kam_id => @mobject.id)) do
-                      content_tag(:i, " " + (I18n.t :kampagnen) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
+                      content_tag(:i, " " + (I18n.t :standorte) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
                   end
                 end
                 if @mobject.mtype == "standorte"
                   html_string = html_string + link_to(new_signage_cal_path(:loc_id => @mobject.id)) do
-                      content_tag(:i, " " + (I18n.t :standorte) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
+                      content_tag(:i, " " + (I18n.t :kampagnen) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
                   end
                 end
               end

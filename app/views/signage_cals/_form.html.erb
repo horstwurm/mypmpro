@@ -17,12 +17,12 @@
                     <div class="panel-heading header">
                       <li_header>
                       <% if @kam %>
-                        <%= link_to signage_cals_path(:kam_id => @signage_cal.mkampagne) do %>
+                        <%= link_to mobject_path(:id => @signage_cal.mkampagne, :topic => "objekte_signcal") do %>
                           <i class="btn btn-primary glyphicon glyphicon-list"></i>
                         <% end %>
                       <% end %>
                       <% if @loc %>
-                        <%= link_to signage_cals_path(:loc_id => @signage_cal.mstandort) do %>
+                        <%= link_to mobject_path(:id => @signage_cal.mstandort, :topic => "objekte_signcal") do %>
                           <i class="btn btn-primary glyphicon glyphicon-list"></i>
                         <% end %>
                       <% end %>

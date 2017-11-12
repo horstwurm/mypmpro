@@ -115,11 +115,11 @@ class SignageCalsController < ApplicationController
   def create
     @signage_cal = SignageCal.new(signage_cal_params)
     if @signage_cal.save
-      if session[:signage_cal_mode] == "kam"
-        redirect_to signage_cals_path(:kam_id => @signage_cal.mkampagne), notice: (I18n.t :act_create)
-      end
       if session[:signage_cal_mode] == "loc"
-        redirect_to signage_cals_path(:loc_id => @signage_cal.mstandort), notice: (I18n.t :act_create)
+        redirect_to mobject_path(:id => @signage_cal.mkampagne, :topic => "objekte_signcal"), notice: (I18n.t :act_create)
+      end
+      if session[:signage_cal_mode] == "kam"
+        redirect_to mobject_path(:id => @signage_cal.mkampagne, :topic => "objekte_signcal"), notice: (I18n.t :act_create)
       end
     else
       render :new
@@ -130,11 +130,11 @@ class SignageCalsController < ApplicationController
   # PATCH/PUT /signage_cals/1.json
   def update
     if @signage_cal.update(signage_cal_params)
-      if session[:signage_cal_mode] == "kam"
-        redirect_to signage_cals_path(:kam_id => @signage_cal.mkampagne), notice: (I18n.t :act_update)
-      end
       if session[:signage_cal_mode] == "loc"
-        redirect_to signage_cals_path(:loc_id => @signage_cal.mstandort), notice: (I18n.t :act_update)
+        redirect_to mobject_path(:id => @signage_cal.mkampagne, :topic => "objekte_signcal"), notice: (I18n.t :act_update)
+      end
+      if session[:signage_cal_mode] == "kam"
+        redirect_to mobject_path(:id => @signage_cal.mkampagne, :topic => "objekte_signcal"), notice: (I18n.t :act_update)
       end
     else
       render :edit 
@@ -144,12 +144,14 @@ class SignageCalsController < ApplicationController
   # DELETE /signage_cals/1
   # DELETE /signage_cals/1.json
   def destroy
+    @signage_cal_mstandort = @signage_cal.mstandort
+    @signage_cal_mkampagne = @signage_cal.mkampagne
     @signage_cal.destroy
-    if session[:signage_cal_mode] == "kam"
-      redirect_to signage_cals_path(:kam_id => @signage_cal.mkampagne), notice: (I18n.t :act_delete) 
-    end
     if session[:signage_cal_mode] == "loc"
-      redirect_to signage_cals_path(:loc_id => @signage_cal.mstandort), notice: (I18n.t :act_delete)
+      redirect_to mobject_path(:id => @signage_cal_mkampagne, :topic => "objekte_signcal"), notice: (I18n.t :act_delete) 
+    end
+    if session[:signage_cal_mode] == "kam"
+      redirect_to mobject_path(:id => @signage_cal_mkampagne, :topic => "objekte_signcal"), notice: (I18n.t :act_delete)
     end
   end
 
