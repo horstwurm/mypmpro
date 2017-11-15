@@ -530,7 +530,7 @@ def readuser
   respond_to do |format|
     format.json 
       msg = []
-      if @ns and @ns.count>0
+      if @ns
         msg << {:name => @ns.name + " " + @ns.lastname}
         msg << {:nummer => @ns.id }
       else
