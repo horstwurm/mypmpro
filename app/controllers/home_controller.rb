@@ -523,4 +523,23 @@ end
 def test
 end
 
+def readuser
+  if params[:nname] and params[:vname]
+    @ns = User.where('lastname=? and name=?',params[:nname], params[:vname]).first
+  end
+  respond_to do |format|
+    format.json 
+      msg = []
+      if @ns and @ns.count>0
+        msg << {:name => @ns.name + " " + @ns.lastname}
+        msg << {:nummer => @ns.id }
+      else
+        msg << {:name => "unknown"}
+        msg << {:nummer => -1 }
+      end
+      render :json => msg.to_json
+  end
+end
+def test
+end
 end

@@ -73,6 +73,7 @@ Rails.application.routes.draw do
   get 'home/writesensordata'
   get 'home/readusernotes'
   get 'home/writeusernotes'
+  get 'home/readuser'
   
   resources :searches
   resources :partner_links
