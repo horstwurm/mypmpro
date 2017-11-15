@@ -526,6 +526,10 @@ end
 def readuser
   if params[:nname] and params[:vname]
     @ns = User.where('lastname=? and name=?',params[:nname], params[:vname]).first
+  else 
+    if params[:nname]
+      @ns = User.where('lastname=?',params[:nname]).first
+    end
   end
   respond_to do |format|
     format.json 
