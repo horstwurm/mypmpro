@@ -73,6 +73,6 @@ class MvdetailsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def mvdetail_params
-      params.require(:mvdetail).permit(:mobject_id, :name, :description, :sequence, :video_file_name, :video_content_type, :video_file_size, :video_updated_at)
+      params.require(:mvdetail).permit(:mobject_id, :name, :description, :sequence, :video)
     end
 end
