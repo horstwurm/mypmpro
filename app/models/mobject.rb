@@ -4,6 +4,7 @@ belongs_to :owner, polymorphic: true
 belongs_to :mcategory
 
 has_many :mdetails, dependent: :destroy
+has_many :mvdetails, dependent: :destroy
 has_many :mratings, dependent: :destroy
 has_many :madvisors, dependent: :destroy
 has_many :mcalendars, dependent: :destroy

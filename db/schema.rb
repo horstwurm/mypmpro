@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171103145312) do
+ActiveRecord::Schema.define(version: 20171116164128) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "customer_id"
@@ -454,6 +454,19 @@ ActiveRecord::Schema.define(version: 20171103145312) do
     t.datetime "updated_at", null: false
     t.index ["owner_id"], name: "index_mstats_on_owner_id"
     t.index ["owner_type"], name: "index_mstats_on_owner_type"
+  end
+
+  create_table "mvdetails", force: :cascade do |t|
+    t.integer  "mobject_id"
+    t.string   "name"
+    t.text     "description"
+    t.integer  "sequence"
+    t.string   "video_file_name"
+    t.string   "video_content_type"
+    t.integer  "video_file_size"
+    t.datetime "video_updated_at"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
   end
 
   create_table "notes", force: :cascade do |t|

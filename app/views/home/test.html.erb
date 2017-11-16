@@ -1,1 +1,7 @@
 Testpage
+
+    <% @v = Mvdetail.find(1) %>
+    <% if @v %>
+      <%= video_tag(@v.video.url, :size => "640x480", :controls => true) %>
+    <% end %>
+

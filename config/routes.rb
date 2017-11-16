@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :mvdetails
   resources :notes
   resources :deputies
   

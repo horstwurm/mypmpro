@@ -1,0 +1,2 @@
+json.extract! mvdetail, :id, :mobject_id, :name, :description, :sequence, :video_file_name, :video_content_type, :video_file_size, :video_updated_at, :created_at, :updated_at
+json.url mvdetail_url(mvdetail, format: :json)

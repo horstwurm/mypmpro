@@ -48,6 +48,8 @@ gem 'rqrcode_png'
 gem 'mailgun-ruby', '~>1.1.6'
 gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
 
+gem "paperclip-ffmpeg", "~> 1.0.1"
+
 gem 'figaro'
 
 gem 'fullcalendar.io-rails'

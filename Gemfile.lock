@@ -153,6 +153,8 @@ GEM
       cocaine (~> 0.5.5)
       mime-types
       mimemagic (~> 0.3.0)
+    paperclip-ffmpeg (1.0.1)
+      paperclip (>= 2.5.2)
     pg (0.19.0)
     puma (3.6.2)
     rack (2.0.1)
@@ -273,6 +275,7 @@ DEPENDENCIES
   momentjs-rails
   owlcarousel-rails
   paperclip
+  paperclip-ffmpeg (~> 1.0.1)
   pg
   puma (~> 3.0)
   rails (~> 5.0.0)
