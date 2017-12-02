@@ -544,6 +544,27 @@ def readuser
       render :json => msg.to_json
   end
 end
+
+def writeuserpos
+  if params[:user] and params[:longitude] and params[:latitude]
+      @pos = UserPosition.new
+      @pos.user_id = params[:user]
+      @pos.longitude = params[:longitude]
+      @pos.latitude = params[:latitude]
+      @pos.save
+  end
+  respond_to do |format|
+    format.json 
+      msg = []
+      msg << {:status => "ok"}
+      msg << {:anzahl => User.find(params[:user]).user_positions.count }
+      render :json => msg.to_json
+  end
+end
+
+def test
+end
+
 def test
 end
 end

@@ -1632,6 +1632,7 @@ def navigate2(object,item)
     when "personen"
       html_string = html_string + build_nav2("personen",item,"personen_info",1)
       html_string = html_string + build_nav2("personen",item,"personen_notizen", item.notes.count)
+      html_string = html_string + build_nav2("personen",item,"personen_mappositionen", item.user_positions.count)
       html_string = html_string + build_nav2("personen",item,"personen_angebote",item.mobjects.where('mtype=?',"angebote").count)
       html_string = html_string + build_nav2("personen",item,"personen_projekte", item.mobjects.where('mtype=? and parent=?',"projekte",0).count)
       html_string = html_string + build_nav2("personen",item,"personen_zeiterfassung", item.timetracks.count)

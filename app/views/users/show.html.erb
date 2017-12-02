@@ -120,7 +120,50 @@
             </div>
           </div>
           <% end %>
-          
+
+        <% when "personen_mappositionen" %>
+          <div class="panel-body">
+            <div id="posmap">
+              <div id="map-canvas2"></div>
+              </div>
+          </div>
+          <br><br>
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+              <div>
+                <%= header((I18n.t :datum), false) %>
+                
+            		<table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th><%= (I18n.t :datum) + " " + (I18n.t :uhrzeit) %></th>
+                      <th span=2><%= (I18n.t :mappositionen) %></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <% @pos = @user.user_positions.order(:created_at) %>
+                  <% @pos.each do |n| %>
+                    <tr>
+                      <td>
+                        <% link_to edit_note_path(n) do %>
+                          <i class="btn btn-primary btn btn-xs glyphicon glyphicon-wrench"></i>
+                        <% end %>
+              	        <%= link_to n, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                          <i class="btn btn-danger btn-xs glyphicon glyphicon-trash"></i>
+                        <% end %>
+                      </td>
+                      <td><%= n.created_at.strftime('%d-%m-%Y %HH:%MM') %></td>
+                      <td><%= n.latitude %></td>
+                      <td><%= n.longitude %></td>
+                    </tr>
+                  <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
         <% when "personen_notizen" %>
           <div id="wordtree_basic" style="width: 1200px; height: 800px;"></div>
           <br><br>
@@ -1131,8 +1174,7 @@
             position: myLocation,
             title: "<%= (I18n.t :standort) %>"
         });
-        var map = new google.maps.Map(document.getElementById("map"),
-            mapOptions);
+        var map = new google.maps.Map(document.getElementById("map"),mapOptions);
         marker.setMap(map);
     }
 
@@ -1237,9 +1279,67 @@
             });
       }
     </script>
+<% end %>
 
+<% if @topic == "personen_mappositionen" %>
+    // Multiple Markers
+    <% @locs = [] %>
+    <% @wins = [] %>
+    <% @user.user_positions.each do |up| %>
+      <% @locs << [up.user.fullname, up.latitude, up.longitude] %>
+      <% @wins << ["ort","ort"] %>
+    <% end %>
 
-
+  <script>
+    function initPosMap() {
+        var map;
+        var bounds = new google.maps.LatLngBounds();
+        var mapOptions = {
+            mapTypeId: 'roadmap'
+        };
+                        
+        // Display a map on the page
+        map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        map.setTilt(45);
+            
+        // Multiple Markers
+        var markers = <%= raw @locs %>;
+        var infoWindowContent = <%= raw @wins %>;
+        
+        // Display multiple markers on a map
+        var infoWindow = new google.maps.InfoWindow(), marker, i;
+        
+        // Loop through our array of markers & place each one on the map  
+        for( i = 0; i < markers.length; i++ ) {
+            var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+            bounds.extend(position);
+            marker = new google.maps.Marker({
+                position: position,
+                map: map,
+                title: markers[i][0]
+            });
+            
+            // Allow each marker to have an info window    
+            google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                return function() {
+                    infoWindow.setContent(infoWindowContent[i][0]);
+                    infoWindow.open(map, marker);
+                }
+            })(marker, i));
+    
+            // Automatically center the map fitting all markers on the screen
+            map.fitBounds(bounds);
+        }
+    
+        // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
+        var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
+            this.setZoom(10);
+            google.maps.event.removeListener(boundsListener);
+        });
+        
+    }            
+  </script>
+  
 <% end %>
 
 <% if @topic == "personen_zeiterfassung" %>
@@ -1350,6 +1450,9 @@
 
 <script>
 <% case @topic %>
+  <% when "personen_mappositionen" %>
+      document.addEventListener("turbolinks:load", function() {initPosMap();})
+
   <% when "personen_info" %>
       document.addEventListener("turbolinks:load", function() {init_map(0); drawChart();})
 

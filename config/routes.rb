@@ -75,6 +75,7 @@ Rails.application.routes.draw do
   get 'home/readusernotes'
   get 'home/writeusernotes'
   get 'home/readuser'
+  get 'home/writeuserpos'
   
   resources :searches
   resources :partner_links

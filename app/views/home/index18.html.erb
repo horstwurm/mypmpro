@@ -1,3 +1,4 @@
+
 <%= @capanz %>
 <% i=0 %>
 <div class="signage">
@@ -73,22 +74,38 @@
 <% txtheader = [] %>
 <% txtbody = [] %>
 <% pics = [] %>
+<% ptype = [] %>
 <% @campaigns.each do |c| %>
     <% m = Mobject.find(c.mkampagne) %>
     <% kampagne << m.name %>
     <% m.mdetails.each do |u| %>
-        <% if u.avatar_file_name %>
-            <% imag = image_tag(u.avatar(:native))-%>
-            <% pos1 = imag.index('"') %>
-            <% pos2 = imag.rindex('alt') %>
-            <% pics << imag[pos1+1..pos2-2] %>
+        <% if u.video_file_name %>
+            <% imag = video_tag(u.video.url) %>
+            <% pics << "/system/mdetails/videos/000/000/022/original/gruss.mp4" if false %>
+            <% if true %>
+                <% pos1 = imag.index("/") %>
+                <% pos2 = imag.rindex('?') %>
+                <% pics << imag[pos1..pos2-1] %>
+            <% end %>
             <% txtheader << u.name %> 
             <% txtbody << u.description %> 
+            <% ptype << "VIDEO" %>
+        <% else %>
+            <% if u.avatar_file_name %>
+                <% imag = image_tag(u.avatar(:native))-%>
+                <% pos1 = imag.index('"') %>
+                <% pos2 = imag.rindex('alt') %>
+                <% pics << imag[pos1+1..pos2-2] %>
+                <% txtheader << u.name %> 
+                <% txtbody << u.description %> 
+                <% ptype << "IMG" %>
+            <% end %>
         <% end %>
     <% end %>
 <% end %>
 <% kampagne %>
 <% pics %>
+<% ptype %>
 <% txtheader %>
 <% txtbody %>
 
@@ -111,7 +128,7 @@
         <% end %>
     
         <% if m.avatar_file_name %>
-            <% imag = image_tag(m.avatar(:medium))-%>
+            <% imag = image_tag(m.avatar(:medium)) %>
             <% pos1 = imag.index('"') %>
             <% pos2 = imag.rindex('alt') %>
             <% picsm << imag[pos1+1..pos2-2] %>
@@ -131,9 +148,10 @@
 <script>
       var i = -1;
       var pics = <%= raw pics %>; 
+      var ptype = <%= raw ptype %>; 
       var txtheader = <%= raw txtheader %>; 
       var txtbody = <%= raw txtbody %>; 
-      window.setInterval(callme, 20000);
+      window.setInterval(callme, 50000);
       callme();
 
       var k = -1;
@@ -151,9 +169,20 @@
         else {
             i=0;
         }
-        var img = document.createElement("IMG");
-        img.src = pics[i];
-        $('#image_kampagne').html(img); 
+        if (ptype[i]=="VIDEO") {
+            var img = document.createElement("VIDEO");
+            img.src = pics[i];
+            img.width = 800;
+            img.height = 600;
+            img.loop = "loop";
+            img.autoplay = true;
+            img.controls = false;
+            $('#image_kampagne').html(img); 
+        } else {
+            var img = document.createElement("IMG");
+            img.src = pics[i];
+            $('#image_kampagne').html(img); 
+        }
         $('#message_header_kampagne').text(txtheader[i]);
         $('#message_body_kampagne').text(txtbody[i]);
         

@@ -63,7 +63,7 @@ class MdetailsController < ApplicationController
     end
 
     def mdetail_params
-      params.require(:mdetail).permit(:headline, :textoptions, :sequence, :status, :mobject_id, :name, :description, :avatar, :document, :mtype)
+      params.require(:mdetail).permit(:headline, :textoptions, :sequence, :status, :mobject_id, :name, :description, :avatar, :document, :video, :mtype)
     end
 
 end

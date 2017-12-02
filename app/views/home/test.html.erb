@@ -2,7 +2,7 @@ Testpage
 
     <% @v = Mvdetail.find(1) %>
     <% if @v %>
-      <%= video_tag("clouds.mp4", :size => "640x480", :controls => true, :autoplay => true) %>
-      <%= video_tag(@v.video.url, :size => "640x480", :controls => true, :autoplay => true) %>
+      <%= video_tag("clouds.mp4", :size => "640x480", :controls => false, :autoplay => true, :loop => "loop") %>
+      <%= video_tag(@v.video.url, :size => "200x200", :controls => true, :autoplay => true) %>
     <% end %>
 
