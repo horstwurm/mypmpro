@@ -1282,7 +1282,6 @@
 <% end %>
 
 <% if @topic == "personen_mappositionen" %>
-    // Multiple Markers
     <% @locs = [] %>
     <% @wins = [] %>
     <% @user.user_positions.each do |up| %>
@@ -1299,7 +1298,7 @@
         };
                         
         // Display a map on the page
-        map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        map = new google.maps.Map(document.getElementById("posmap"), mapOptions);
         map.setTilt(45);
             
         // Multiple Markers
