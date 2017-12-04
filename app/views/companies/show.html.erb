@@ -292,12 +292,12 @@
                            <td class="color_issue"></td>
                          <% end %>
                          <% @projectrate = @repuser.madvisors.where('role=? and mobject_id=?', "projekte", p.id).first.rate %>
-                         <% if @projectrate %>
+                         <% if @projectrate and @projectrate != nil %>
                            <td align="right"><%= sprintf("%5.2f", @projectrate) %></td>
                          <% else %>
                            <td></td>
                          <% end %>
-                         <% if @projectrate %>
+                         <% if @projectrate and @projectrate != nil %>
                            <% @rate = @projectrate %>
                          <% else %>
                            <% if @repuser.rate %>
