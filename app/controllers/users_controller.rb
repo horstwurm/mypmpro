@@ -211,7 +211,7 @@ class UsersController < ApplicationController
         @user.madvisors.each do |a|
           myobs << a.mobject_id 
         end
-        @mymobjects = Mobject.where('mtype=? and id IN (?)',"projekte", myobs)
+        @mymobjects = Mobject.where('mtype=? and id IN (?)',"projekte", myobs).order(:name)
 
       when "personen_zugriffsberechtigungen"
         if params[:credential_id]

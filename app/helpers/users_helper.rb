@@ -86,7 +86,7 @@ def carousel2(mobject, size)
               end
             html = html + "</div>"
               
-            html = html + "<div class='col-xs=12'>"
+            html = html + "<div class='col-xs=12 mdetailalign'>"
               if p.name 
                 html = html + "<b>"+p.name + "</b><br>"
               end
@@ -2505,6 +2505,12 @@ def build_hauptmenue
       creds = init_apps
     end
 
+    domain = "zeiterfassung"
+    if user_signed_in? and creds.include?("personen_zeiterfassung")
+        path = user_path(:id => current_user.id, :topic => "personen_zeiterfassung")
+        html_string = html_string + simple_menue(domain, path)
+    end
+
     domain = "personen"
     if creds.include?("hauptmenue_"+domain)
         path = users_path(:mtype => nil, :msubtype => nil)
@@ -3634,7 +3640,7 @@ def exportWriterRessourcen (data, header)
         for l in 1..12
           for z in 0..p.length-1
             if p[z][0] == l
-              worksheet.write(row, l*2-1, sprintf("%5.2f",p[z][1]), f_header4)
+              worksheet.write(row, l*2-1, sprintf("%5.2f",p[z][1]).to_f, f_header4)
               totalplan[l-1] = totalplan[l-1] + p[z][1]
             end
           end
@@ -3644,7 +3650,7 @@ def exportWriterRessourcen (data, header)
         for l in 1..12
           for z in 0..p.length-1
             if p[z][0] == l
-              worksheet.write(row, l*2, sprintf("%5.2f",p[z][1]), f_header4)
+              worksheet.write(row, l*2, sprintf("%5.2f",p[z][1]).to_f, f_header4)
               totalist[l-1] = totalist[l-1] + p[z][1]
             end
           end
@@ -3666,15 +3672,15 @@ def exportWriterRessourcen (data, header)
           else
             abw = 0
           end
-          worksheet.write(row, l*2-1, sprintf("%5.2f",totalplan[l-1]), f_header1)
+          worksheet.write(row, l*2-1, sprintf("%5.2f",totalplan[l-1]).to_f, f_header1)
           if abw < 20
-            worksheet.write(row, l*2, sprintf("%5.2f",totalist[l-1]), f_header1)
+            worksheet.write(row, l*2, sprintf("%5.2f",totalist[l-1]).to_f, f_header1)
           end
           if abw >= 20 and abw < 50
-            worksheet.write(row, l*2, sprintf("%5.2f",totalist[l-1]), f_header2)
+            worksheet.write(row, l*2, sprintf("%5.2f",totalist[l-1]).to_f, f_header2)
           end
           if abw > 50
-            worksheet.write(row, l*2, sprintf("%5.2f",totalist[l-1]), f_header3)
+            worksheet.write(row, l*2, sprintf("%5.2f",totalist[l-1]).to_f, f_header3)
           end
 
       end
