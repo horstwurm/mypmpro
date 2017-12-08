@@ -140,6 +140,7 @@
                       <th></th>
                       <th><%= (I18n.t :datum) + " " + (I18n.t :uhrzeit) %></th>
                       <th span=2><%= (I18n.t :mappositionen) %></th>
+                      <th><%= (I18n.t :standort) %></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -157,6 +158,7 @@
                       <td><%= n.created_at.strftime('%d-%m-%Y %H:%M') %></td>
                       <td><%= n.latitude %></td>
                       <td><%= n.longitude %></td>
+                      <td><%= n.geo_address if n.geo_address != nil %></td>
                     </tr>
                   <% end %>
                   </tbody>
