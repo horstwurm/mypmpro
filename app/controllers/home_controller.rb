@@ -563,8 +563,24 @@ def writeuserpos
 end
 
 def test
-end
+         @locs = []
+         @wins = []
+         @user=User.find(1);
+         @user.user_positions.each do |u|
+    
+            if u.longitude and u.latitude
+           
+              @locs << [u.user.fullname, u.latitude, u.longitude]
+              if u.user.avatar_file_name 
+                img = url_for(u.user.avatar(:small))
+              else
+                img = File.join(Rails.root, "/app/assets/images/no_pic.jpg")
+              end
+              #@wins << ["'<img src=" + img + " <br><h3>" + u.fullname + "</h3><p>" + u.geo_address + "</p>'"]
+              @wins << ["'<img src=" + img + " <br><h3>" + u.user.fullname + "</h3></p>'"]
+    
+            end
+          end
 
-def test
 end
 end

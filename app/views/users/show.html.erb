@@ -125,7 +125,7 @@
     <div class="row">
       <i class="glyphicon glyphicon-map-marker pull-left" onclick="return initPosMap();"></i>
       <div class="col-md-12">
-          <div id="posmap"></div>
+          <div id="map"></div>
       </div>
     </div>
           <br><br>
@@ -154,7 +154,7 @@
                           <i class="btn btn-danger btn-xs glyphicon glyphicon-trash"></i>
                         <% end %>
                       </td>
-                      <td><%= n.created_at.strftime('%d-%m-%Y %HH:%MM') %></td>
+                      <td><%= n.created_at.strftime('%d-%m-%Y %H:%M') %></td>
                       <td><%= n.latitude %></td>
                       <td><%= n.longitude %></td>
                     </tr>
@@ -1292,13 +1292,13 @@ function initPosMap() {
     };
                     
     // Display a map on the page
-    map = new google.maps.Map(document.getElementById("posmap"), mapOptions);
+    map = new google.maps.Map(document.getElementById("map"), mapOptions);
     map.setTilt(45);
         
     // Multiple Markers
     var markers = <%= raw @locs %>;
     var infoWindowContent = <%= raw @wins %>;
-    
+
     // Display multiple markers on a map
     var infoWindow = new google.maps.InfoWindow(), marker, i;
     
