@@ -41,9 +41,9 @@ class UserPositionsController < ApplicationController
 
   # DELETE /user_positions/1
   def destroy
-    @id = @user_position.user_id
+    @id = @user_position.user.id
     @user_position.destroy
-    redirect_to user_path(:id => @uid, :topic => "personen_transaktionen"), notice: (I18n.t :act_delete)
+    redirect_to user_path(:id => @id, :topic => "personen_mappositionen"), notice: (I18n.t :act_delete)
   end
 
   private
