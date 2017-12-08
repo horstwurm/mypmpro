@@ -305,6 +305,25 @@ class UsersController < ApplicationController
           end
         end
 
+      when "personen_mappositionen"
+         @locs = []
+         @wins = []
+         @user.user_positions.each do |u|
+    
+            if u.longitude and u.latitude
+           
+              @locs << [u.user.fullname, u.latitude, u.longitude]
+              if u.user.avatar_file_name 
+                img = url_for(u.user.avatar(:small))
+              else
+                img = File.join(Rails.root, "/app/assets/images/no_pic.jpg")
+              end
+              #@wins << ["'<img src=" + img + " <br><h3>" + u.fullname + "</h3><p>" + u.geo_address + "</p>'"]
+              @wins << ["'<img src=" + img + " <br><h3>" + u.user.fullname + "</h3></p>'"]
+    
+            end
+          end
+
       when "personen_favoriten"
         @locs = []
         @wins = []

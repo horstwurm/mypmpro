@@ -122,11 +122,12 @@
           <% end %>
 
         <% when "personen_mappositionen" %>
-          <div class="panel-body">
-            <div id="posmap">
-              <div id="map-canvas2"></div>
-              </div>
-          </div>
+    <div class="row">
+      <i class="glyphicon glyphicon-map-marker pull-left" onclick="return initPosMap();"></i>
+      <div class="col-md-12">
+          <div id="posmap"></div>
+      </div>
+    </div>
           <br><br>
           <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
@@ -1282,63 +1283,56 @@
 <% end %>
 
 <% if @topic == "personen_mappositionen" %>
-    <% @locs = [] %>
-    <% @wins = [] %>
-    <% @user.user_positions.each do |up| %>
-      <% @locs << [up.user.fullname, up.latitude, up.longitude] %>
-      <% @wins << ["ort","ort"] %>
-    <% end %>
-
-  <script>
-    function initPosMap() {
-        var map;
-        var bounds = new google.maps.LatLngBounds();
-        var mapOptions = {
-            mapTypeId: 'roadmap'
-        };
-                        
-        // Display a map on the page
-        map = new google.maps.Map(document.getElementById("posmap"), mapOptions);
-        map.setTilt(45);
-            
-        // Multiple Markers
-        var markers = <%= raw @locs %>;
-        var infoWindowContent = <%= raw @wins %>;
+<script>
+function initPosMap() {
+    var map;
+    var bounds = new google.maps.LatLngBounds();
+    var mapOptions = {
+        mapTypeId: 'roadmap'
+    };
+                    
+    // Display a map on the page
+    map = new google.maps.Map(document.getElementById("posmap"), mapOptions);
+    map.setTilt(45);
         
-        // Display multiple markers on a map
-        var infoWindow = new google.maps.InfoWindow(), marker, i;
-        
-        // Loop through our array of markers & place each one on the map  
-        for( i = 0; i < markers.length; i++ ) {
-            var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
-            bounds.extend(position);
-            marker = new google.maps.Marker({
-                position: position,
-                map: map,
-                title: markers[i][0]
-            });
-            
-            // Allow each marker to have an info window    
-            google.maps.event.addListener(marker, 'click', (function(marker, i) {
-                return function() {
-                    infoWindow.setContent(infoWindowContent[i][0]);
-                    infoWindow.open(map, marker);
-                }
-            })(marker, i));
+    // Multiple Markers
+    var markers = <%= raw @locs %>;
+    var infoWindowContent = <%= raw @wins %>;
     
-            // Automatically center the map fitting all markers on the screen
-            map.fitBounds(bounds);
-        }
+    // Display multiple markers on a map
+    var infoWindow = new google.maps.InfoWindow(), marker, i;
     
-        // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
-        var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
-            this.setZoom(10);
-            google.maps.event.removeListener(boundsListener);
+    // Loop through our array of markers & place each one on the map  
+    for( i = 0; i < markers.length; i++ ) {
+        var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+        bounds.extend(position);
+        marker = new google.maps.Marker({
+            position: position,
+            map: map,
+            title: markers[i][0]
         });
         
-    }            
-  </script>
-  
+        // Allow each marker to have an info window    
+        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+            return function() {
+                infoWindow.setContent(infoWindowContent[i][0]);
+                infoWindow.open(map, marker);
+            }
+        })(marker, i));
+
+        // Automatically center the map fitting all markers on the screen
+        map.fitBounds(bounds);
+    }
+
+    // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
+    var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
+        this.setZoom(10);
+        google.maps.event.removeListener(boundsListener);
+    });
+    
+}
+</script>
+
 <% end %>
 
 <% if @topic == "personen_zeiterfassung" %>
