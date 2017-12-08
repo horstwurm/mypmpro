@@ -318,8 +318,13 @@ class UsersController < ApplicationController
               else
                 img = File.join(Rails.root, "/app/assets/images/no_pic.jpg")
               end
+              if u.geo_address
+                @geo_address=u.geo_address
+              else
+                @geo_address=""
+              end
               #@wins << ["'<img src=" + img + " <br><h3>" + u.fullname + "</h3><p>" + u.geo_address + "</p>'"]
-              @wins << ["'<img src=" + img + " <br><h3>" + u.user.fullname + "</h3></p>'"]
+              @wins << ["'<img src=" + img + " <br><h3>" + @geo_address + "</h3></p>'"]
     
             end
           end
