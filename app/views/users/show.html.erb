@@ -547,29 +547,31 @@
                           <tbody>
                           <% @activities = Timetrack.where('user_id=? and costortime=? and datum=?', @user.id, @c_scope, @c_datum).order(datum: :desc, created_at: :desc) %>
                           <% @activities.each do |a| %>
-                            <tr>
-                              <td>
-                                <% if Mobject.find(a.mobject_id).active %>
-                                  <%= link_to edit_timetrack_path(a) do %>
-                                    <i class="btn btn-primary btn btn-xs glyphicon glyphicon-wrench"></i>
+                            <% if a.amount != nil and a.amount >0 %>
+                              <tr>
+                                <td>
+                                  <% if Mobject.find(a.mobject_id).active %>
+                                    <%= link_to edit_timetrack_path(a) do %>
+                                      <i class="btn btn-primary btn btn-xs glyphicon glyphicon-wrench"></i>
+                                    <% end %>
+                          	        <%= link_to a, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                                      <i class="btn btn-danger btn-xs glyphicon glyphicon-trash"></i>
+                                    <% end %>
                                   <% end %>
-                        	        <%= link_to a, method: :delete, data: { confirm: 'Are you sure?' } do %>
-                                    <i class="btn btn-danger btn-xs glyphicon glyphicon-trash"></i>
-                                  <% end %>
+                                </td>
+                                <td><%= a.datum.strftime('%d-%m-%Y') %></td>
+                                <td><%= showFirstImage2(:small, Mobject.find(a.mobject_id),Mobject.find(a.mobject_id).mdetails) %></td>
+                                <td><%= Mobject.find(a.mobject_id).name %></td>
+                                <td><%= a.activity %></td>
+                                <% if @c_scope == "aufwand" %>
+                                  <td align="right"><%= sprintf("%05.2f", a.amount) + " h" %></td>
                                 <% end %>
-                              </td>
-                              <td><%= a.datum.strftime('%d-%m-%Y') %></td>
-                              <td><%= showFirstImage2(:small, Mobject.find(a.mobject_id),Mobject.find(a.mobject_id).mdetails) %></td>
-                              <td><%= Mobject.find(a.mobject_id).name %></td>
-                              <td><%= a.activity %></td>
-                              <% if @c_scope == "aufwand" %>
-                                <td align="right"><%= sprintf("%05.2f", a.amount) + " h" %></td>
-                              <% end %>
-                              <% if @c_scope == "kosten" %>
-                                <td align="right"><%= sprintf("%05.2f", a.amount) + " " + (I18n.t :waehrung) %></td>
-                              <% end %>
-                              <td></td>
-                            </tr>
+                                <% if @c_scope == "kosten" %>
+                                  <td align="right"><%= sprintf("%05.2f", a.amount) + " " + (I18n.t :waehrung) %></td>
+                                <% end %>
+                                <td></td>
+                              </tr>
+                            <% end %>
                           <% end %>
                           </tbody>
                         </table>
