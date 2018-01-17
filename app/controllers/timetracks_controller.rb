@@ -86,11 +86,20 @@ class TimetracksController < ApplicationController
       if @advisors.first
         @timetrack.mobject_id = @advisors.first.mobject_id
         @mobs = []
+        @mobsID = []
         @advisors.each do |m|
           if Mobject.find(m.mobject_id).active
             @mobs << [m.mobject.name, m.mobject_id]
+            @mobsID << m.mobject_id
           end
         end
+        
+        @mobs = []
+        @mobjects = Mobject.where('id IN (?)', @mobsID).order(:name)
+        @mobjects.each do |m|
+          @mobs << [m.name, m.id]
+        end
+        
       else
         redirect_to user_path(:id => params[:user_id], :topic => "personen_zeiterfassung"), notice: (I18n.t :noprojects)
       end
