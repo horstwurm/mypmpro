@@ -583,4 +583,14 @@ def test
           end
 
 end
+
+def alexa
+  respond_to do |format|
+    format.json 
+      msg = []
+      msg << {:version => "1.0", response: {outputSpeech: {type: "PlainText", text: "hi i'am papa"}}}
+      render :json => msg.to_json
+  end
+end
+
 end
