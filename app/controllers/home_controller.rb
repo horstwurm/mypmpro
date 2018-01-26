@@ -595,4 +595,20 @@ def alexa
   end
 end
 
+def writeiot
+  if params[:owner_id] and params[:owner_type] and params[:name] and params[:value]
+      @iot = Iot.new
+      @iot.owner_id = params[:owner_id]
+      @iot.owner_type = params[:owner_type]
+      @iot.name = params[:name]
+      @iot.value = params[:value]
+      @iot.save
+  end
+  respond_to do |format|
+    format.json 
+      msg = {:anzahl => Iot.where('name=?', params[:name]).count}
+      render :json => msg.to_json
+  end
+end
+
 end
