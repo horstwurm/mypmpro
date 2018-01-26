@@ -1,0 +1,1 @@
+json.array! @iots, partial: 'iots/iot', as: :iot

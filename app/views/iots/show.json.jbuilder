@@ -1,0 +1,1 @@
+json.partial! "iots/iot", iot: @iot

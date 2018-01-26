@@ -589,6 +589,9 @@ def alexa
     format.json 
       msg = {:version => "1.0", :response => {:outputSpeech => {:type => "PlainText", :text =>"hi i'am papa"}}}
       render :json => msg.to_json
+      if params[:request]
+        #render :json => params[:request]
+      end
   end
 end
 

@@ -1,0 +1,37 @@
+<%= form_for(iot) do |f| %>
+  <% if iot.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(iot.errors.count, "error") %> prohibited this iot from being saved:</h2>
+
+      <ul>
+      <% iot.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :owner_id %>
+    <%= f.number_field :owner_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :owner_type %>
+    <%= f.text_field :owner_type %>
+  </div>
+
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :value %>
+    <%= f.text_field :value %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

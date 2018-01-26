@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Owner:</strong>
+  <%= @iot.owner_id %>
+</p>
+
+<p>
+  <strong>Owner type:</strong>
+  <%= @iot.owner_type %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @iot.name %>
+</p>
+
+<p>
+  <strong>Value:</strong>
+  <%= @iot.value %>
+</p>
+
+<%= link_to 'Edit', edit_iot_path(@iot) %> |
+<%= link_to 'Back', iots_path %>
