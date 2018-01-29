@@ -37,7 +37,7 @@
 
                     <% if @kam %>
                       <div class="form-group">
-                        <%= f.label I18n.t :standorte %><br/>
+                        <%= f.label I18n.t :standorte %>
                         <%= f.collection_select :mstandort, Mobject.where('mtype=?',"standorte"), :id, :name, {}, class:"form-control" %>
                       </div>
                       <%= f.hidden_field :mkampagne, class:"form-control" %>
@@ -45,20 +45,36 @@
 
                     <% if @loc %>
                       <div class="form-group">
-                        <%= f.label I18n.t :kampagnen %><br/>
+                        <%= f.label I18n.t :kampagnen %>
                         <%= f.collection_select :mkampagne, Mobject.where('mtype=?',"kampagnen"), :id, :name, {}, class:"form-control" %>
                       </div>
                       <%= f.hidden_field :mstandort, class:"form-control" %>
                     <% end %>
 
                     <div class="form-group">
-                      <%= f.label "von" %><br/>
-                      <%= f.text_field :date_from, class:"form-control"%>
+                      <%= f.label I18n.t :von %>
+                      <div class="input-group">
+                        <%= f.text_field :date_from, :style => "text-align: Right", class:"form-control" %>
+                        <div class="input-group-addon"><%= I18n.t :datum %></div>
+                      </div>
+                      <div class="input-group">
+                        <%= f.number_field :time_from, :style => "text-align: Right", class:"form-control" %>
+                        <div class="input-group-addon"><%= I18n.t :uhrzeit %></div>
+                      </div>
                     </div>
+
                     <div class="form-group">
-                      <%= f.label "bis" %><br/>
-                      <%= f.text_field :date_to, class:"form-control"%>
+                      <%= f.label I18n.t :bis %>
+                      <div class="input-group">
+                        <%= f.text_field :date_to, :style => "text-align: Right", class:"form-control" %>
+                        <div class="input-group-addon"><%= I18n.t :datum %></div>
+                      </div>
+                      <div class="input-group">
+                        <%= f.number_field :time_to, :style => "text-align: Right", class:"form-control" %>
+                        <div class="input-group-addon"><%= I18n.t :uhrzeit %></div>
+                      </div>
                     </div>
+
                      <%= f.hidden_field :confirmed, class:"form-control" %>
                     <div class="actions">
                        <%= f.submit (I18n.t :speichern),  class:"btn btn-primary btn-lg"%>

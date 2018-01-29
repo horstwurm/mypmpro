@@ -538,7 +538,12 @@
                 <tr>
           	      <small_cal>
           	      <th></th>
-                  <th colspan=2>wer</th>
+                  <% if @mobject.mtype == "kampagnen" %>
+                    <th colspan=2>Standort</th>
+                  <% end %>
+                  <% if @mobject.mtype == "standorte" %>
+                    <th colspan=2>Kampagne</th>
+                  <% end %>
                   <th colspan=2>von-bis</th>
                   </small_cal>
                 </tr>
@@ -553,7 +558,7 @@
                     <% if @mobject.mtype == "standorte" %>
                       <% @obj = Mobject.find(ca.mkampagne) %>
                     <% end %>
-              			<% if @obj.owner_id == current_user.id %>
+              			<% if @obj.owner_id == current_user.id or isdeputy(current_user) %>
                       <tr>
                         <td>
             				      <% if !ca.confirmed %>

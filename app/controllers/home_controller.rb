@@ -398,19 +398,27 @@ def index17
 end
 
 def index18
-  @campaigns = SignageCal.where("mstandort=? and date_from<=? and date_to>=?",params[:standort], Date.today, Date.today)
-  if @campaigns
-    @mob = Mobject.find(params[:standort])
-    @owner = @mob.owner
-    @standort = @mob.name
-    @campanz = @campaigns.count
-    @camp = "("
-    @campaigns.each do |c|
-      @camp = @camp + Mobject.find(c.mkampagne).name + " "
+  if params[:standort]
+    @campaigns = SignageCal.where("mstandort=? and date_from<=? and date_to>=?",params[:standort], Date.today, Date.today)
+    if @campaigns
+      @mob = Mobject.find(params[:standort])
+      @owner = @mob.owner
+      @standort = @mob
+      @campanz = @campaigns.count
+      @camp = "("
+      @campaigns.each do |c|
+        @camp = @camp + Mobject.find(c.mkampagne).name + " "
+      end
+      @camp = @camp + ")"
+    else
+      @campanz = 0
     end
-    @camp = @camp + ")"
-  else
-    @campanz = 0
+  end
+  if params[:kampagne]
+    @campaigns = SignageCal.where("mkampagne=?",params[:kampagne])
+    @mob = Mobject.find(params[:kampagne])
+    @kampagne = @mob
+    @owner = @mob.owner
   end
 end
 

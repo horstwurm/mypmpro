@@ -47,10 +47,20 @@
     
 
     <!--<div id="qr" class="signage_infoqr"></div>-->
-
-    <div class="signage_footer">
-        <%= "Standort: " + @standort + " Kampagnen: " + @campanz.to_s + " " + @camp %>    
-    </div>
+    <% if @standort %>
+        <%= link_to @standort do %>
+            <div class="signage_footer">
+                <%= "Standort: " + @standort.name + " Kampagnen: " + @campanz.to_s + " " + @camp %>    
+            </div>
+        <% end %>
+    <% end %>
+    <% if @kampagne %>
+        <%= link_to @kampagne do %>
+            <div class="signage_footer">
+                <%= "Kampagne: " + @kampagne.name %>    
+            </div>
+        <% end %>
+    <% end %>
     
     <% if false %>
     <div id="qrcode" class="signage_qrcode">
@@ -115,32 +125,34 @@
 <% picsm = [] %>
 <% picqr = [] %>
 <% @owner.mobjects.where('mtype<>?and mtype<>?',"kampagnen","standorte").each do |o| %>
-    <% o.mdetails.each do |m| %>
-        <% case o.mtype %>
-            <% when "umfragen" %>
-                <% @type = "machen Sie mit bei der Umfrage " + o.name %>
-            <% when "publikationen" %>
-                <% @type = "lesen Sie die neue Ausgabe von " + o.name %>
-            <% when "innovationswettbewerbe" %>
-                <% @type = "machen Sie mit beim Wettbewerb " + o.name %>
-            <% else %>
-                <% @type = "??? " + o.name %>
-        <% end %>
+    <% if o.signage %>
+        <% o.mdetails.each do |m| %>
+            <% case o.mtype %>
+                <% when "umfragen" %>
+                    <% @type = "machen Sie mit bei der Umfrage " + o.name %>
+                <% when "publikationen" %>
+                    <% @type = "lesen Sie die neue Ausgabe von " + o.name %>
+                <% when "innovationswettbewerbe" %>
+                    <% @type = "machen Sie mit beim Wettbewerb " + o.name %>
+                <% else %>
+                    <% @type = "??? " + o.name %>
+            <% end %>
+        
+            <% if m.avatar_file_name %>
+                <% imag = image_tag(m.avatar(:medium)) %>
+                <% pos1 = imag.index('"') %>
+                <% pos2 = imag.rindex('alt') %>
+                <% picsm << imag[pos1+1..pos2-2] %>
+                <% txtheadersm << @type %>
+                <% txtbodysm << m.description %>
+                
     
-        <% if m.avatar_file_name %>
-            <% imag = image_tag(m.avatar(:medium)) %>
-            <% pos1 = imag.index('"') %>
-            <% pos2 = imag.rindex('alt') %>
-            <% picsm << imag[pos1+1..pos2-2] %>
-            <% txtheadersm << @type %>
-            <% txtbodysm << m.description %>
-            
-
-            <% hash = qrcodeimg(o, :small) %>
-            <% imagqr = hash["qr_code"]-%>
-            <% pos1 = imagqr.index('"') %>
-            <% pos2 = imagqr.index('alt') %>
-            <% picqr << imagqr[pos1+1..pos2-2] %>
+                <% hash = qrcodeimg(o, :small) %>
+                <% imagqr = hash["qr_code"]-%>
+                <% pos1 = imagqr.index('"') %>
+                <% pos2 = imagqr.index('alt') %>
+                <% picqr << imagqr[pos1+1..pos2-2] %>
+            <% end %>
         <% end %>
     <% end %>
 <% end %>

@@ -90,6 +90,8 @@ class SignageCalsController < ApplicationController
     @signage_cal = SignageCal.new
     @signage_cal.date_from = Date.today
     @signage_cal.date_to = Date.today + 5
+    @signage_cal.time_from = 0
+    @signage_cal.time_to = 24
     if params[:loc_id]
       @loc = Mobject.find(params[:loc_id])
       @signage_cal.mstandort = @loc.id

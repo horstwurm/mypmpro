@@ -283,6 +283,10 @@
                   <%= f.text_field :keywords, class:"form-control"%>
                 </div>
                 <div class="form-group">
+                  <input type="checkbox" name="my-checkbox6" checked>
+                  <%= f.label I18n.t :signage %>
+                </div>
+                <div class="form-group">
                   <input type="checkbox" name="my-checkbox4" checked>
                   <%= f.label I18n.t :onlinepublikation %>
                 </div>
@@ -308,6 +312,7 @@
                 <%= f.check_box :social, :id => "social", class:"form-control hidden" %>
                 <%= f.check_box :eventpart, :id => "eventpart", class:"form-control hidden" %>
                 <%= f.check_box :online_pub, :id => "online_pub", class:"form-control hidden" %>
+                <%= f.check_box :signage, :id => "signage", class:"form-control hidden" %>
               </div>
           </div>
                 
@@ -368,6 +373,10 @@
      $("[name='my-checkbox5']").bootstrapSwitch('state',<%= @mobject.alertlow %>);
      $("[name='my-checkbox5']").on('switchChange.bootstrapSwitch', function () {
      $("#alertlow").prop('checked',$("[name='my-checkbox5']").bootstrapSwitch('state'));
+     });
+     $("[name='my-checkbox6']").bootstrapSwitch('state',<%= @mobject.signage %>);
+     $("[name='my-checkbox6']").on('switchChange.bootstrapSwitch', function () {
+     $("#signage").prop('checked',$("[name='my-checkbox6']").bootstrapSwitch('state'));
      });
 </script>
 
