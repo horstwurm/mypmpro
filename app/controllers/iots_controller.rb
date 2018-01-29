@@ -4,7 +4,14 @@ class IotsController < ApplicationController
   # GET /iots
   # GET /iots.json
   def index
-    @iots = Iot.all
+    if params[:scope]
+      @scope = params[:scope]
+      if params[:del]
+        Iot.where('name=?',@scope).destroy_all
+        @del = nil
+      end
+      @iots = Iot.where('name=?',params[:scope])
+    end
   end
 
   # GET /iots/1

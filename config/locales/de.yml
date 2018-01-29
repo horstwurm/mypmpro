@@ -20,6 +20,7 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 de:
+  iot: "Internet der Dinge"
   mappositionen: "Geo-Daten"
   uhrzeit: "Uhrzeit"
   notizen: "Notizen"
