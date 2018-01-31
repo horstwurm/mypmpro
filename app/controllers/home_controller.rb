@@ -593,13 +593,22 @@ def test
 end
 
 def alexa
+  case params[:intent]
+    when "projektinfo"
+      @p = Mobject.where('UPPER(name) LIKE ?',params[:slot]).first
+      if @p
+        response = "Projekt gefunden"
+        response = {:message => "gefunden", :owner => @p.owner.name, :hreported => 5000, :chreported => 1249887}
+      else
+        response = {:message => "Projekt nicht gefunden"}
+      end
+    else
+      response = {:message => "wrong intent"}
+  end
   respond_to do |format|
     format.json 
-      msg = {:version => "1.0", :response => {:outputSpeech => {:type => "PlainText", :text =>"hi i'am papa"}}}
-      render :json => msg.to_json
-      if params[:request]
-        #render :json => params[:request]
-      end
+      #msg = {:message => response}
+      render :json => response.to_json
   end
 end
 
