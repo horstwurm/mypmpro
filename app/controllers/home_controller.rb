@@ -598,9 +598,9 @@ def alexa
       @p = Mobject.where('LOWER(name) LIKE ?',"%#{params[:slot].downcase}%").first
       if @p
         response = "Projekt gefunden"
-        response = {:slot => params[:slot], :Projekt => "gefunden", :name => @p.name, :owner => @p.owner.name, :hreported => 5000, :chreported => 1249887}
+        response = {:slot => params[:slot], :projekt => "gefunden", :name => @p.name, :owner => @p.owner.name, :stunden => @p.timetracks.where('costortime=?',"aufwand").sum(:amount), :kosten => @p.timetracks.where('costortime=?',"kosten").sum(:amount)}
       else
-        response = {:Projekt => "Projekt nicht gefunden"}
+        response = {:projekt => "Projekt nicht gefunden"}
       end
     else
       response = {:message => "wrong intent"}
