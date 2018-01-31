@@ -598,7 +598,7 @@ def alexa
       @p = Mobject.where('LOWER(name) LIKE ?',"%#{params[:slot].downcase}%").first
       if @p
         response = "Projekt gefunden"
-        response = {:Projekt => "gefunden", :name => @p.name, :owner => @p.owner.name, :hreported => 5000, :chreported => 1249887}
+        response = {:slot => params[:slot], :Projekt => "gefunden", :name => @p.name, :owner => @p.owner.name, :hreported => 5000, :chreported => 1249887}
       else
         response = {:Projekt => "Projekt nicht gefunden"}
       end
