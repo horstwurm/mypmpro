@@ -11,6 +11,8 @@ class IotsController < ApplicationController
         @del = nil
       end
       @iots = Iot.where('name=?',params[:scope])
+    else
+      @iots = Iot.last(100)
     end
   end
 
