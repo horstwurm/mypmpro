@@ -595,12 +595,12 @@ end
 def alexa
   case params[:intent]
     when "Projektinfo"
-      @p = Mobject.where('UPPER(name) LIKE ?',"%#{params[:slot]}%").first
+      @p = Mobject.where('LOWER(name) LIKE ?',"%#{params[:slot].downcase}%").first
       if @p
         response = "Projekt gefunden"
-        response = {:message => "gefunden", :owner => @p.owner.name, :hreported => 5000, :chreported => 1249887}
+        response = {:Projekt => "gefunden", :name => @p.name, :owner => @p.owner.name, :hreported => 5000, :chreported => 1249887}
       else
-        response = {:message => "Projekt nicht gefunden"}
+        response = {:Projekt => "Projekt nicht gefunden"}
       end
     else
       response = {:message => "wrong intent"}
