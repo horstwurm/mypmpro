@@ -594,7 +594,7 @@ end
 
 def alexa
   case params[:intent]
-    when "projektinfo"
+    when "Projektinfo"
       @p = Mobject.where('UPPER(name) LIKE ?',params[:slot]).first
       if @p
         response = "Projekt gefunden"
