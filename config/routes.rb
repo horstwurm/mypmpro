@@ -78,6 +78,7 @@ Rails.application.routes.draw do
   get 'home/readuser'
   get 'home/writeuserpos'
   get 'home/writeiot'
+  get 'home/readiot'
   get 'home/alexa'
   
   resources :searches

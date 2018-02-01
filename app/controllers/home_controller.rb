@@ -628,4 +628,20 @@ def writeiot
   end
 end
 
+def readiot
+  if params[:name]
+      @iot = Iot.where('name=?',params[:name]).last
+      if @iot 
+        msg = {value: @iot.value}
+      else
+        msg = {value: "undefined"}
+      end
+    else
+        msg = {value: "invalid request"}
+  end
+  respond_to do |format|
+    format.json 
+      render :json => msg.to_json
+  end
+end
 end
