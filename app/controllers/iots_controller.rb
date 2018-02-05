@@ -78,6 +78,6 @@ class IotsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def iot_params
-      params.require(:iot).permit(:owner_id, :owner_type, :name, :value)
+      params.require(:iot).permit(:owner_id, :owner_type, :intent, :name, :value)
     end
 end

@@ -28,6 +28,7 @@
               <thead>
                 <tr>
                   <th>Datum</th>
+                  <th>Intent</th>
                   <th>Name</th>
                   <th>Wert</th>
                   <th>Owner</th>
@@ -39,6 +40,7 @@
                 <% @iots.each do |iot| %>
                   <tr>
                     <td><%= iot.created_at %></td>
+                    <td><%= iot.intent if iot.intent %></td>
                     <td><%= iot.name %></td>
                     <td><%= iot.value %></td>
                     <td><%= iot.owner_id %></td>
@@ -57,192 +59,5 @@
       </div>
     </div>
 </div>
-                  
-<% if false %>                  
-                  
-                  <%= link_to new_timetrack_path(:user_id => @user.id, :scope => @c_scope, :datum => @c_datum) do %>
-                    <span><i class="btn btn-special %> glyphicon glyphicon-plus"></i></span>
-                  <% end %>
-
-                  <%= link_to user_path(:id => @user.id, :topic => "personen_zeiterfassung", :year => @c_year, :month => @c_month, :mode => "Datum", :scope => @c_scope, :tdatum => @c_datum) do %>
-                    <span><i class="btn btn-<%= btn_d %> glyphicon glyphicon-calendar"> <%= @c_datum.strftime("%d.%m.%Y") %></i></span>
-                  <% end %>
-                  <%= link_to user_path(:id => @user.id, :topic => "personen_zeiterfassung",  :year => @c_year, :month => @c_month, :mode => "Monat", :scope => @c_scope, :tdatum => @c_datum) do %>
-                    <span><i class="btn btn-<%= btn_m %> glyphicon glyphicon-calendar"> <%= @c_month %></i></span>
-                  <% end %>
-                  <%= link_to user_path(:id => @user.id, :topic => "personen_zeiterfassung",  :year => @c_year, :month => @c_month, :mode => "Jahr", :scope => @c_scope, :tdatum => @c_datum)  do %>
-                    <span><i class="btn btn-<%= btn_y %> glyphicon glyphicon-calendar"> <%= @c_year %></i></span>
-                  <% end %>
-                  <%= link_to user_path(:id => @user.id, :topic => "personen_zeiterfassung", :year => @c_year, :month => @c_month, :mode => "alles", :scope => @c_scope, :tdatum => @c_datum) do %>
-                    <span><i class="btn btn-<%= btn_a %> glyphicon glyphicon-calendar"> alles</i></span>
-                  <% end %>
-  
-                  <%= link_to user_path(:id => @user.id, :topic => "personen_zeiterfassung",  :year => @c_year, :month => @c_month, :mode => "Jahr", :scope => "kosten", :tdatum => @c_datum)  do %>
-                    <span><i class="btn btn-<%= btn_sc %> glyphicon glyphicon-euro"></i></span>
-                  <% end %>
-                  <%= link_to user_path(:id => @user.id, :topic => "personen_zeiterfassung",  :year => @c_year, :month => @c_month, :mode => "Jahr", :scope => "aufwand", :tdatum => @c_datum)  do %>
-                    <span><i class="btn btn-<%= btn_sa %> glyphicon glyphicon-time"></i></span>
-                  <% end %>
-          
-                  <% if @c_mode != "alles" %>
-                    <%= link_to user_path(:id => @user.id, :topic => "personen_zeiterfassung", :dir => "<", :year => @c_year, :month => @c_month, :mode => @c_mode, :scope => @c_scope, :tdatum => @c_datum)  do %>
-                      <i class="btn btn-primary glyphicon glyphicon-chevron-left"></i>
-                    <% end %>
-                    <%= link_to user_path(:id => @user.id, :topic => "personen_zeiterfassung", :dir => ">", :year => @c_year, :month => @c_month, :mode => @c_mode, :scope => @c_scope, :tdatum => @c_datum) do %>
-                      <i class="btn btn-primary glyphicon glyphicon-chevron-right"></i>
-                    <% end %>
-                 <% end %>
-                 <% case @c_mode %>
-                   <% when "alles" %>
-                     <% @timetracks = Timetrack.select("mobject_id").where('user_id=? and costortime=?', @user.id, @c_scope).distinct %>
-                   <% when "Datum" %>
-                     <% @timetracks = Timetrack.select("mobject_id").where('user_id=? and costortime=? and datum=?', @user.id, @c_scope, @c_datum.to_date).distinct %>
-                   <% else %>
-                     <% @timetracks = Timetrack.select("mobject_id").where('user_id=? and costortime=? and datum >=? and datum <=?', @user.id, @c_scope, @date_start, @date_end).distinct %>
-                 <% end  %>
-                 <br><br>
-
-                <div class="row">
-                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                    <div>
-                      <%= header((I18n.t :projekte), false) %>
-                    </div>
-                    <div id="auftragschartall"></div>
-                  </div>
-                </div>
-  
-                <% @mob = [] %>
-                <div class="row">
-                  <% @timetracks.each do |t| %>
-                  
-                    <% @mob << t.mobject_id %>
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                      <div>
-                        <%= header((I18n.t :projekte) + Mobject.find(t.mobject_id).name, false) %>
-                        <% if Madvisor.where('mobject_id=? and role=?', t.mobject_id, t.mobject.mtype).count > 0 %>
-                          <% if Mobject.find(t.mobject_id).active %>
-                            <%= link_to new_timetrack_path(:user_id => @user.id, :mobject_id => t.mobject_id, :scope => @c_scope, :datum => @c_datum) do %>
-                              <span><i class="btn btn-special %> glyphicon glyphicon-plus"></i></span>
-                            <% end %>
-                          <% end %>
-                        <% end %>
-                      </div>
-                      <div id="<%="auftragschart"+t.mobject_id.to_s %>"></div>
-                    </div>
-                  <% end %>
-                </div>
-                
-                <div class="row">
-                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                    <div>
-                      <%= header((I18n.t :berechtigteprojekte) ,false) %>
-                    </div>
-                    <% @user.madvisors.where('role=?',"projekte").each do |m| %>
-                      <% if !@mob.include?(m.mobject_id) and Mobject.find(m.mobject_id).active %>
-                        <%= link_to new_timetrack_path(:user_id => @user.id, :mobject_id => m.mobject_id, :scope => @c_scope, :datum => @c_datum) do %>
-                          <span><i class="btn btn-special glyphicon glyphicon-plus"><%= m.mobject.name %></i></span>
-                        <% end %>
-                      <% end %>
-                    <% end %>
-                  </div>
-                </div>
-  
-                <% if @c_mode == "Datum" %>
-                  <br><br>
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                      <div>
-                        <%= header((I18n.t :zeiterfassung), false) %>
-                        
-                    		<table class="table table-striped">
-                          <thead>
-                            <tr>
-                              <th></th>
-                              <th><%= (I18n.t :datum) %></th>            
-                              <th colspan=2><%= (I18n.t :projekte) %></th>
-                              <th><%= (I18n.t :activity) %></th>
-                              <% if @c_scope == "aufwand" %>
-                                <th align="right"><%= (I18n.t :anzahlstunden) %></th>
-                              <% end %>
-                              <% if @c_scope == "kosten" %>
-                                <th align="right"><%= (I18n.t :betrag) %></th>
-                              <% end %>
-                              <th></th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                          <% @activities = Timetrack.where('user_id=? and costortime=? and datum=?', @user.id, @c_scope, @c_datum).order(datum: :desc, created_at: :desc) %>
-                          <% @activities.each do |a| %>
-                            <% if a.amount != nil and a.amount >0 %>
-                              <tr>
-                                <td>
-                                  <% if Mobject.find(a.mobject_id).active %>
-                                    <%= link_to edit_timetrack_path(a) do %>
-                                      <i class="btn btn-primary btn btn-xs glyphicon glyphicon-wrench"></i>
-                                    <% end %>
-                          	        <%= link_to a, method: :delete, data: { confirm: 'Are you sure?' } do %>
-                                      <i class="btn btn-danger btn-xs glyphicon glyphicon-trash"></i>
-                                    <% end %>
-                                  <% end %>
-                                </td>
-                                <td><%= a.datum.strftime('%d-%m-%Y') %></td>
-                                <td><%= showFirstImage2(:small, Mobject.find(a.mobject_id),Mobject.find(a.mobject_id).mdetails) %></td>
-                                <td><%= Mobject.find(a.mobject_id).name %></td>
-                                <td><%= a.activity %></td>
-                                <% if @c_scope == "aufwand" %>
-                                  <td align="right"><%= sprintf("%05.2f", a.amount) + " h" %></td>
-                                <% end %>
-                                <% if @c_scope == "kosten" %>
-                                  <td align="right"><%= sprintf("%05.2f", a.amount) + " " + (I18n.t :waehrung) %></td>
-                                <% end %>
-                                <td></td>
-                              </tr>
-                            <% end %>
-                          <% end %>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                <% end %>
-  
-                </div>
-              </div>
-          </div>
-  
-<% end %>
-
-<% if @iots %>
-<p id="notice"><%= notice %></p>
-
-<h1>Iots</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Owner</th>
-      <th>Owner type</th>
-      <th>Name</th>
-      <th>Value</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @iots.each do |iot| %>
-      <tr>
-        <td><%= iot.owner_id %></td>
-        <td><%= iot.owner_type %></td>
-        <td><%= iot.name %></td>
-        <td><%= iot.value %></td>
-        <td><%= link_to 'Show', iot %></td>
-        <td><%= link_to 'Edit', edit_iot_path(iot) %></td>
-        <td><%= link_to 'Destroy', iot, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-<% end %>
-<br>
 
 <%= link_to 'New Iot', new_iot_path %>
