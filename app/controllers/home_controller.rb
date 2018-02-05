@@ -624,14 +624,14 @@ def writeiot
   end
   respond_to do |format|
     format.json 
-      msg = {:anzahl => Iot.where('name=?', params[:name]).count}
+      msg = {:anzahl => Iot.where('owner_id=? and owner_type=? and frame=? and name=?', params[:owner_id], params[:owner_type], params[:frame], params[:name]).count}
       render :json => msg.to_json
   end
 end
 
 def readiot
   if params[:owner_id] and params[:owner_type] and params[:frame] and params[:name]
-      @iot = Iot.where('name=?',params[:name]).last
+      @iot = Iot.where('owner_id=? and owner_type=? and frame=? and name=?', params[:owner_id], params[:owner_type], params[:frame], params[:name]).last
       if @iot 
         msg = {value: @iot.value}
       else
