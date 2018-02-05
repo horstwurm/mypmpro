@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180205174705) do
+ActiveRecord::Schema.define(version: 20180205193108) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "customer_id"
@@ -290,7 +290,7 @@ ActiveRecord::Schema.define(version: 20180205174705) do
     t.float    "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string   "intent"
+    t.string   "frame"
   end
 
   create_table "madvisors", force: :cascade do |t|

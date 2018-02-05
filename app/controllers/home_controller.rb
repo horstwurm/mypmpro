@@ -613,11 +613,11 @@ def alexa
 end
 
 def writeiot
-  if params[:owner_id] and params[:owner_type] and params[:intent] and params[:name] and params[:value]
+  if params[:owner_id] and params[:owner_type] and params[:frame] and params[:name] and params[:value]
       @iot = Iot.new
       @iot.owner_id = params[:owner_id]
       @iot.owner_type = params[:owner_type]
-      @iot.intent = params[:intent]
+      @iot.frame = params[:frame]
       @iot.name = params[:name]
       @iot.value = params[:value]
       @iot.save
@@ -630,7 +630,7 @@ def writeiot
 end
 
 def readiot
-  if params[:owner_id] and params[:owner_type] and params[:intent] and params[:name]
+  if params[:owner_id] and params[:owner_type] and params[:frame] and params[:name]
       @iot = Iot.where('name=?',params[:name]).last
       if @iot 
         msg = {value: @iot.value}

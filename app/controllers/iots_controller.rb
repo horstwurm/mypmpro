@@ -7,10 +7,10 @@ class IotsController < ApplicationController
     if params[:scope]
       @scope = params[:scope]
       if params[:del]
-        Iot.where('name=?',@scope).destroy_all
+        Iot.where('frame=?',@scope).destroy_all
         @del = nil
       end
-      @iots = Iot.where('name=?',params[:scope])
+      @iots = Iot.where('frame=?',params[:scope])
     else
       @iots = Iot.last(100)
     end
@@ -78,6 +78,6 @@ class IotsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def iot_params
-      params.require(:iot).permit(:owner_id, :owner_type, :intent, :name, :value)
+      params.require(:iot).permit(:owner_id, :owner_type, :frame, :name, :value)
     end
 end

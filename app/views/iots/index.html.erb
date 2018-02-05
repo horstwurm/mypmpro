@@ -6,10 +6,10 @@
             <div>
               <%= header((I18n.t :iot) ,false) %>
             </div>
-            <% @iotsb = Iot.select('name').distinct %>
+            <% @iotsb = Iot.select('frame').distinct %>
             <% @iotsb.each do |m| %>
-              <%= link_to iots_path(:scope => m.name) do %>
-                <span><i class="btn btn-special glyphicon glyphicon-plus"><%= m.name %></i></span>
+              <%= link_to iots_path(:scope => m.frame) do %>
+                <span><i class="btn btn-special glyphicon glyphicon-plus"><%= m.frame %></i></span>
               <% end %>
             <% end %>
           </div>
@@ -28,7 +28,7 @@
               <thead>
                 <tr>
                   <th>Datum</th>
-                  <th>Intent</th>
+                  <th>Frame</th>
                   <th>Name</th>
                   <th>Wert</th>
                   <th>Owner</th>
@@ -40,7 +40,7 @@
                 <% @iots.each do |iot| %>
                   <tr>
                     <td><%= iot.created_at %></td>
-                    <td><%= iot.intent if iot.intent %></td>
+                    <td><%= iot.frame if iot.frame %></td>
                     <td><%= iot.name %></td>
                     <td><%= iot.value %></td>
                     <td><%= iot.owner_id %></td>
