@@ -10,7 +10,7 @@ class IotsController < ApplicationController
         Iot.where('frame=?',@scope).destroy_all
         @del = nil
       end
-      @iots = Iot.where('frame=?',params[:scope])
+      @iots = Iot.where('frame=?',params[:scope]).order(:frame, :name)
     else
       @iots = Iot.last(100)
     end

@@ -1,24 +1,41 @@
-<p id="notice"><%= notice %></p>
+     <div class="row">
+        <div class="col-md-10">
+            <div class="panel panel-default">
+                <div class="panel-heading header">
+                <li_header>
+                <%= link_to mobject_path(:id => @idea.mobject_id, :topic => "objekte_ideen") do %>
+                  <i class="btn btn-primary glyphicon glyphicon-list"></i>
+                <% end %>
+                  IDEE <%= @idea.mobject.name %>
+                </li_header>
+                </div>
+                <div class="panel-body">
+                    <%= image_tag @idea.avatar.url(:medium) if @idea.avatar_file_name %>
+                    <br><br>
+                    <b>
+                    <%= (I18n.t :bezeichnung) %>
+                    </b>
+                    <br>
+                    <%= @idea.header %>
+                    <br><br>
+                    <b>
+                    <%=  (I18n.t :beschreibung) %>
+                    </b>
+                    <br>
+                    <%= @idea.description %>
+                    <br><br>
+                    <% if @idea.document_file_name %>
+                      <%= link_to(@idea.document.url, target: "_blank") do %>
+                        <% content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-cloud-download") %>
+                      <% end %>
+                    <% end %>
+                  </div>
+                </div>
+            </div>
+        </div>
+     </div>
+    </div>
 
-<p>
-  <strong>Mobject:</strong>
-  <%= @idea.mobject_id %>
-</p>
-
-<p>
-  <strong>User:</strong>
-  <%= @idea.user_id %>
-</p>
-
-<p>
-  <strong>Name1:</strong>
-  <%= @idea.name1 %>
-</p>
-
-<p>
-  <strong>Description1:</strong>
-  <%= @idea.description1 %>
-</p>
-
-<%= link_to 'Edit', edit_idea_path(@idea) %> |
-<%= link_to 'Back', ideas_path %>
+<script>
+  document.addEventListener("turbolinks:load", function() {})
+</script>
