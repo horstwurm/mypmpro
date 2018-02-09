@@ -1250,8 +1250,10 @@ def build_medialist2(items, cname, par)
              end
           end
 
-          html_string = html_string + link_to(item, :topic => "info") do 
-            content_tag(:i, nil, class:"glyphicon glyphicon-info-sign mediabutton")
+          if cname != "prices"
+            html_string = html_string + link_to(item, :topic => "info") do 
+              content_tag(:i, nil, class:"glyphicon glyphicon-info-sign mediabutton")
+            end
           end
  
           if access
