@@ -185,7 +185,8 @@ def build_medialist2(items, cname, par)
                when "appparams"
                   html_string = html_string + image_tag(item.right+".png", :size => "100x100")
               when "prices"
-                  html_string = html_string + showImage2(:medium, item, true)
+                  #html_string = html_string + showImage2(:medium, item, true)
+                  html_string = html_string + image_tag(item.avatar_file_name, :size => "250x250")
               when "crits"
                   html_string = html_string + image_tag("kriterien.png", :size => "250x250")
                   html_string = html_string + "<br><br>"
