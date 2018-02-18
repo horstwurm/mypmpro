@@ -413,10 +413,12 @@
     
               <%= header((I18n.t :standort), false) %>
               <div class="panel-body">
-                <i class="glyphicon glyphicon-map-marker pull-left" onclick="return init_map(0);"></i>
-                <div id="map">
-                  <div id="map-canvas"></div>
-                </div>
+                <% if @mobject.longitude and @mobject.latitude %>
+                  <i class="glyphicon glyphicon-map-marker pull-left" onclick="return init_map(0);"></i>
+                  <div id="map">
+                    <div id="map-canvas"></div>
+                  </div>
+                <% end %>
               </div>
 
         <% when "objekte_details" %>
