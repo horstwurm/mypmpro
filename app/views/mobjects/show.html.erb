@@ -2004,7 +2004,7 @@ $(document).ready(function(){
       autoPlay: true
     });
 
-  <% if @topic == "objekte_info" %>
+  <% if @topic == "objekte_info" and @mobject.latitude and @mobject.longitude %>
     function init_map(index) {
         var latitudes = [<%= @mobject.latitude %>];
         var longitudes = [<%= @mobject.longitude %>];

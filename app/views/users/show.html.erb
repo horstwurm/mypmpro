@@ -1169,7 +1169,7 @@
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-<% if @topic == "personen_info" %>
+<% if @topic == "personen_info" and @user.longitude and @user.latitude %>
   <script type="text/javascript">
     var latitudes = [<%= @user.latitude %>];
     var longitudes = [<%= @user.longitude %>];
