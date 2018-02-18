@@ -116,17 +116,20 @@
                 
             <div class="col-md-6">
                 <div class="panel-body">
-                    <i class="glyphicon glyphicon-map-marker pull-left" onclick="return init_map(0);"></i>
-                    <div id="map">
-                      <div id="map-canvas">
-                      </div>
-                    </div>
+                    <% if @user.latitude and @user.longitude %>
+                        <i class="glyphicon glyphicon-map-marker pull-left" onclick="return init_map(0);"></i>
+                        <div id="map">
+                          <div id="map-canvas">
+                          </div>
+                        </div>
+                    <% end %>
                 </div>
                 
             </div>
         </div>
     <% end %>
 
+<% if @user.latitude and @user.longitude %>
 <script type="text/javascript">
     var latitudes = [<%= @user.latitude %>];
     var longitudes = [<%= @user.longitude %>];
@@ -146,6 +149,7 @@
     }
     init_map(0);
 </script>
+<% end %>
 
 <script>
     $("#ex2").slider({});

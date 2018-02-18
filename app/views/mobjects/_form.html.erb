@@ -318,15 +318,18 @@
                 
           <div class="col-md-6">
             <div class="panel-body">
-              <div id="map">
-                <div id="map-canvas"></div>
-              </div>
+              <% if @mobject.latitude and @mobject.longitude %>
+                <div id="map">
+                  <div id="map-canvas"></div>
+                </div>
+              <% end %>
           </div>
 
         </div>
     </div>
 <% end %>                
 
+<% if @mobject.latitude and @mobject.longitude %>
 <script type="text/javascript">
     var latitudes = [<%= @mobject.latitude %>];
     var longitudes = [<%= @mobject.longitude %>];
@@ -346,6 +349,7 @@
     }
     init_map(0);
 </script>
+<% end %>
 
 <script>
      $("#ex1").slider({});
