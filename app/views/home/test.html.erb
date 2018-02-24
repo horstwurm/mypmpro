@@ -1,58 +1,17 @@
-Testpage
+<% require 'base64' %>
 
-    <div class="row">
-      <i class="glyphicon glyphicon-map-marker pull-left" onclick="return initPosMap();"></i>
-      <div class="col-md-12">
-          <div id="map"></div>
-      </div>
-    </div>
+<% path=File.join(Rails.root, "/app/assets/images/") %>
+<% encoded_string = Base64.encode64(File.open(path+"ausgaben.jpg", "rb").read) %>
+<%= encoded_string %>
 
-<script>
-function initPosMap() {
-    var map;
-    var bounds = new google.maps.LatLngBounds();
-    var mapOptions = {
-        mapTypeId: 'roadmap'
-    };
-                    
-    // Display a map on the page
-    map = new google.maps.Map(document.getElementById("map"), mapOptions);
-    map.setTilt(45);
-        
-    // Multiple Markers
-    var markers = <%= raw @locs %>;
-    var infoWindowContent = <%= raw @wins %>;
+<% if true %>
+<% File.open(path+"base64test.jpg", "wb") do |file| %>
+<%    file.write(Base64.decode64(encoded_string)) %>
+<% end %>
+<% end %>
 
-    // Display multiple markers on a map
-    var infoWindow = new google.maps.InfoWindow(), marker, i;
-    
-    // Loop through our array of markers & place each one on the map  
-    for( i = 0; i < markers.length; i++ ) {
-        var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
-        bounds.extend(position);
-        marker = new google.maps.Marker({
-            position: position,
-            map: map,
-            title: markers[i][0]
-        });
-        
-        // Allow each marker to have an info window    
-        google.maps.event.addListener(marker, 'click', (function(marker, i) {
-            return function() {
-                infoWindow.setContent(infoWindowContent[i][0]);
-                infoWindow.open(map, marker);
-            }
-        })(marker, i));
+<%= image_tag("base64test.jpg") %>
 
-        // Automatically center the map fitting all markers on the screen
-        map.fitBounds(bounds);
-    }
-
-    // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
-    var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
-        this.setZoom(10);
-        google.maps.event.removeListener(boundsListener);
-    });
-    
-}
-</script>
+<%= link_to home_writeimage_path(:mobject_id => 1, :image_text => encoded_string, :format => :json) do %>
+eeee
+<% end %>

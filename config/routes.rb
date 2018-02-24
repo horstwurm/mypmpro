@@ -80,6 +80,7 @@ Rails.application.routes.draw do
   get 'home/writeiot'
   get 'home/readiot'
   get 'home/alexa'
+  get 'home/writeimage'
   
   resources :searches
   resources :partner_links

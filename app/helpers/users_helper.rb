@@ -648,7 +648,7 @@ def build_medialist2(items, cname, par)
 
               when "mdetails"
                 html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '
-                html_string = html_string + item.description + '<br>'
+                html_string = html_string + item.description + '<br>' if item.description
 
               when "users"
                 html_string = html_string + '<i class="glyphicon glyphicon-home"></i> '

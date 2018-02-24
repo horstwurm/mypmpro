@@ -645,4 +645,25 @@ def readiot
       render :json => msg.to_json
   end
 end
+
+def writeimage
+  path=File.join(Rails.root, "/app/assets/images/")
+  if params[:mobject_id] and params[:image_text]
+      @mobject = Mobject.find(params[:mobject_id])
+      encoded_string = params[:image_text]
+      File.open(path+"base64test.jpg", "wb") do |file|
+        file.write(Base64.decode64(encoded_string))
+      end
+      @mdetails = Mdetail.new
+      @mdetails.mobject_id = params[:mobject_id]
+      @mdetails.name = "Test"
+      @mdetails.avatar = File.open(path+'base64test.jpg', 'rb')
+      @mdetails.save
+  end
+  respond_to do |format|
+    format.json 
+      msg = {:name => @mobject.name, :anzahl => @mobject.mdetails.count}
+      render :json => msg.to_json
+  end
+end
 end
