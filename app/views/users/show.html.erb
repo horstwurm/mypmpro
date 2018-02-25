@@ -1,28 +1,54 @@
-<% if false %>
-<% getUserCreds %>
-<% end %>
-
 <%= action_buttons3("personen", @user, @topic) %>
 
+<div class="container">
 <div class="row">
   <header>
     <%= header('<span onclick="openNav()"><i class="btn btn-header glyphicon glyphicon-align-justify"></span></i> ' + @user.name + " " + @user.lastname + " <b>" + getTopicName(@topic) + "</b>"+ " " + '<span onclick="openNavRight()"><i class="btn btn-header glyphicon glyphicon-wrench pull-right"></span></i> ', true) %>
   </header>
+
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" href="#">Active</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Link</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Link</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link disabled" href="#">Disabled</a>
+  </li>
+</ul>
+
 </div>
+</div>
+
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" href="#">Active</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Link</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Link</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link disabled" href="#">Disabled</a>
+  </li>
+</ul>
+
 
 <div id="mySidenav" class="sidenav">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
   <%= navigate2("personen", @user) %>
 </div>
 
-
 <div id="main">
 <div class="row">
   <div class='col-xs-12'>
 
-      <% if false %>
-        <%= action_buttons2("personen", @user, @topic) %>
-      <% end %>
       <% case @topic %>
         <% when "personen_info" %>
 
@@ -1492,3 +1518,5 @@ function closeNavRight() {
     document.getElementById("mysidenavright").style.width = "0";
 }
 </script>
+
+<script>$('.dropdown-toggle').dropdown()</script>

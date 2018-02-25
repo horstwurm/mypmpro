@@ -1,12 +1,18 @@
+<br>
+<div class="contact-form">
+ 
 <div class="container">
     <div class="jumbotron">
     <h2><%= I18n.t :welcometo %></h2>
     <br>
       <%= image_tag("thurcloud.png", :size => "200x200") %>
       <br><br>
-      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name), class:"contactForm") do |f| %>
       <%= devise_error_messages! %>
-      <white>
+                  <div class="form-group">
+                    <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                    <div class="validation"></div>
+                  </div>
       <div class="form-group">
         <%= f.label I18n.t :email %>
         <%= f.email_field :email, autofocus: true, class:"form-control"%>
@@ -20,9 +26,8 @@
         <%= f.hidden_field :remember_me, class:"form-control hidden"  %>
         <%= f.label I18n.t :remember_me %>
       </div>
-      </white>
       <div class="actions">
-            <%= f.submit (I18n.t :anmelden), class:"btn btn-primary btn-lg" %>
+            <%= f.submit (I18n.t :anmelden), class:"btn btn-primary btn-lg btn-submit" %>
       </div>
       <%- if Devise.mappings[:user].recoverable? && controller_path != 'passwords' && controller_path != 'registrations' && $usemailgun %>
         <%= link_to (I18n.t :forgotpw), new_password_path(@devise_mapping.name) %>
@@ -32,8 +37,9 @@
   </div>
 </div>
 
+</div>
 <script>
-    $.fn.bootstrapSwitch.defaults.onColor = 'success';
+    $.fn.bootstrapSwitch.defaults.onColor = 'primary';
     $("[name='my-checkbox']").bootstrapSwitch('state',true);
     $("[name='my-checkbox']").on('switchChange.bootstrapSwitch', function () {
     $("#remember_me").prop('checked',$("[name='my-checkbox']").bootstrapSwitch('state'));

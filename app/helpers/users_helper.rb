@@ -1577,11 +1577,15 @@ def showImage2(size, item, linkit)
 end
 
 def header(header, format)
+
     if format
       html_string = "<div class='col-xs-12'><div class='panel-heading header'><li_header>" + header + "</li_header></div></div>"
     else
       html_string = "<div class='panel-heading header'><li_header>" + header + "</li_header></div>"
     end
+
+    html_string = "<li_header>" + header + "</li_header>"
+
     return html_string.html_safe
 end
 
@@ -2676,6 +2680,72 @@ def build_hauptmenue
       html_string = html_string + complex_menue(domain, domain_text, hasharray)
     end
     end
+    
+    return html_string.html_safe
+    
+end
+
+def build_hauptmenueNew
+
+    html_string = ""
+
+    if user_signed_in?  
+      init_apps
+      creds = getUserCreds
+    else
+      creds = init_apps
+    end
+
+    domains = []
+    domains << "zeiterfassung"
+    domains << "personen"
+    domains << "institutionen"
+    domains << "angebote"
+    domains << "projekte"
+    domains << "umfragen"
+    domains << "innovationswettbewerbe"
+    domains << "publikationen"
+    domains << "artikel"
+    domains << "standorte"
+    domains << "kampagnen"
+    domains << "veranstaltungen"
+    domains << "sensoren"
+    domains << "ausflugsziele"
+    domains << "kleinanzeigen"
+    domains << "stellenanzeigen"
+    domains << "vermietungen"
+    domains << "ausschreibungen"
+    domains << "crowdfunding"
+    
+    html_string = html_string + '<div class="container"><div class="row">'
+
+    html_string = html_string + '<div class="col-md-12 text-center">'
+    html_string = html_string + '<h2 class="service-title pad-bt15">Unsere Services</h2>'
+    html_string = html_string + '<p class="sub-title pad-bt15">Nachfolgende Services sind bereits verfügbar.</p>'
+    html_string = html_string + '<hr class="bottom-line">'
+    html_string = html_string + '</div>'
+
+    for i in 0..domains.count-1 do
+      if user_signed_in? and creds.include?("hauptmenue_"+domains[i])
+          path = user_path(:id => current_user.id, :topic => "personen_"+domains[i])
+
+          html_string = html_string + '<div class="col-md-4 col-sm-6 col-xs-12">'
+
+            html_string = html_string + '<div class="service-item">'
+              html_string = html_string + '<h3><span>'
+              html_string = html_string + link_to(path) do
+                content_tag(:i, nil, class:"glyphicon glyphicon-" + getinfo2(domains[i].to_sym)["info"]) 
+              end
+              html_string = html_string + '</span>'+domains[i]+'</h3>'
+              html_string = html_string + '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>'
+            html_string = html_string + '</div>'
+            
+          html_string = html_string + '</div>'
+
+      end
+    end
+
+    html_string = html_string + '</div></div>'
     
     return html_string.html_safe
     

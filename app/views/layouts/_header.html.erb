@@ -1,3 +1,88 @@
+    <div class="header">
+      <div class="bg-color">
+        <header id="main-header">
+          <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+              <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+                <a class="navbar-brand" href="#">TG<span class="logo-dec">Cloud</span></a>
+              </div>
+              <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav navbar-right">
+
+      				<% if $controller_list.include?(controller_name) and (action_name == "index") %>
+      					<% @items = url_for(action: action_name, controller: controller_name) %>
+                <li class="">
+      					<%= form_tag @items, method: 'get' do %>
+      						<div class="form-inline">
+      							<div class="form-group">
+      								  <%= search_field_tag 'search', nil, class: 'form-control', placeholder: 'Suchen...' %>
+      								  <% button_tag "", type: 'submit', class: "btn btn-nav btn-xs glyphicon glyphicon-search" %>
+      							</div>
+      						</div>
+      					<% end %>
+                </li>
+      				<% end %>
+
+                  <li class="active"><a href="#main-header">Home</a></li>
+                  <li class=""><a href="#feature">About</a></li>
+                  <li class=""><a href="#service">Services</a></li>
+                  <li class=""><a href="#portfolio">Portfolio</a></li>
+                  <li class=""><a href="#testimonial">Testimonial</a></li>
+                  <li class=""><a href="#blog">Blog</a></li>
+                  <li class=""><a href="#contact">Contact Us</a></li>
+                  <% if user_signed_in? %>
+                  <% end %>
+          				<% if user_signed_in? %>
+                    <li class=""><%= contactChip(current_user) %></li>
+          					<li class="">
+            					<li>
+            					  <%= link_to(destroy_user_session_path, method: :delete) do %>
+            				    	<i class="glyphicon glyphicon-log-out"></i>
+            					  <% end %>
+            				 </li>
+          				<% else %>
+          					<li class="">
+            					<li>
+              					<%= link_to new_user_session_path do %>
+              			         <i class="glyphicon glyphicon-log-in"></i>
+              					<% end %> 
+             				 </li>
+          				<% end %>
+                </ul>
+              </div>
+            </div>
+          </nav>
+        </header>
+        <div class="wrapper">
+          <div class="container">
+            <div class="row">
+              <div class="banner-info text-center wow fadeIn delay-05s">
+                <h1 class="bnr-title">We are at ba<span>ker</span></h1>
+                <h2 class="bnr-sub-title">Starting a new journey!!</h2>
+                <p class="bnr-para">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<br> Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip <br>ex ea commodo consequat.</p>
+                <div class="brn-btn">
+                  <a href="#" class="btn btn-download">Download now!</a>
+                  <a href="#" class="btn btn-more">Learn More</a>
+                </div>
+                <div class="overlay-detail">
+                  <a href="#yield"><i class="fa fa-angle-down"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/ HEADER-->
+    <!---->
+
+<% if false %>
+
 <% controller_name + action_name %>
 <% if (controller_name == "home" and action_name == "index11") or (controller_name == "home" and action_name == "index18") %>
 <% else %>
@@ -43,12 +128,14 @@
 						</div>
 					<% end %>
 				<% end %>
+				
 				<% if !flash.empty? and false %>
 				    <% flash.each do |name, msg| %>
 				      <% content_tag(:div, msg, class:"alert alert-warning") %>
 				      <message><fade><%= msg %></fade></message> 
 				    <% end %>
 				<% end %>
+
 			</div>
 		</div>
 
@@ -66,3 +153,5 @@ $(document).ready(function(){
         $("fade").fadeOut(10000);
 });
 </script>
+
+<% end %>
