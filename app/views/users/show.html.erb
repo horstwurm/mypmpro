@@ -1,10 +1,6 @@
 
 <%= navigate2("personen", @user, @topic) %>
 
-<div id="main">
-<div class="row">
-  <div class='col-xs-12'>
-
       <% case @topic %>
         <% when "personen_info" %>
 
@@ -16,7 +12,7 @@
                   </div>
                 </div>
 
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
                   <div class="panel-body">
                     <% case @user.status %>
                       <% when "CHECK" %>
@@ -66,7 +62,7 @@
                   </div>
                 </div>
                 
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
                   <% if @user.latitude and @user.longitude %>
                     <i class="glyphicon glyphicon-map-marker pull-left" onclick="return init_map(0);"></i>
                       <div id="map">
@@ -74,10 +70,8 @@
                       </div>
                   <% end %>
                 </div>
-                
-              </div>
 
-              <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
                 <% if $activeapps.include?("personen_aktivitaeten") or (user_signed_in? and current_user.superuser) %>
                   <% @stats %>
                   <div class="panel-body">
@@ -87,8 +81,6 @@
                 <% end %>
               </div>
             </div>
-            
-          </div>
 
         <!--########################################################################################################################-->
         <!--# inactive code-->
@@ -1150,11 +1142,6 @@
   
       <% end %>
 
-    </div>
-  </div>
-</div>
-</main>
-
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <% if @topic == "personen_info" and @user.longitude and @user.latitude %>
@@ -1162,7 +1149,6 @@
     var latitudes = [<%= @user.latitude %>];
     var longitudes = [<%= @user.longitude %>];
     function init_map(index) {
-            alert('hi?');
         var myLocation = new google.maps.LatLng(latitudes[index], longitudes[index]);
         var mapOptions = {
             center: myLocation,

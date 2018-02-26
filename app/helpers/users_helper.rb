@@ -1511,17 +1511,89 @@ def build_medialist2(items, cname, par)
   return html_string.html_safe
 end
 
-def build_medialist3(items, cname, par)
+def build_medialistNew(items, cname, par)
 
   priceAnz = 0
   sensorAnz = 0
 
   html_string = ""
-  if par == "panel"
-    html_string = html_string + '<div class="panel-body">'
-  end
-  html_string = html_string + '<div class="col-mediacontainer">'
+  html_string = html_string + '<div class="container">'
+    html_string = html_string + '<div class="row">'
+      html_string = html_string + '<div class="col-md-12 text-center">'
+        html_string = html_string + '<h2 class="service-title pad-bt15">Latest from our blog</h2>'
+          html_string = html_string + '<p class="sub-title pad-bt15">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod<br>tempor incididunt ut labore et dolore magna aliqua.</p>'
+            html_string = html_string + '<hr class="bottom-line">'
+          html_string = html_string +'</div>'
+          
+          items.each do |item|
 
+            show = true
+            if cname == "nopartners"
+              if par[:user_id]
+                @customer = Customer.where('owner_type=? and owner_id=? and partner_id=?', "User", par[:user_id], item.id).first
+              end
+              if par[:company_id]
+                @customer = Customer.where('owner_type=? and owner_id=? and partner_id=?', "Company", par[:company_id], item.id).first
+              end
+              if @customer
+                show = false
+              end
+            end
+    
+            if item and show
+              html_string = html_string + '<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-12">'
+                html_string = html_string + '<div class="blog-sec">'
+
+                case items.table_name
+                  when "users"
+                    html_string = html_string + '<div class="blog-img">'
+                      html_string = html_string + showImage2(:medium, item, true)
+                    html_string = html_string + '</div>'
+                    html_string = html_string + '<div class="blog-info">'
+                      html_string = html_string + '<h2>'+item.name+" "+item.lastname+'</h2>'
+                      html_string = html_string + '<div class="blog-comment">'
+                        if user_signed_in?
+                	        html_string = html_string + link_to(new_email_path(:m_from_id => current_user.id, :m_to_id => item.id, :back_url => request.original_url)) do
+                            content_tag(:i, nil, class:"glyphicon glyphicon-envelope") + " "
+                          end
+                        else
+                            content_tag(:i, nil, class:"glyphicon glyphicon-envelope") + " "
+                        end
+                        html_string = html_string + item.email
+                      html_string = html_string + '</div>'
+                      html_string = html_string + '<p></p>'
+                    html_string = html_string + '</div>'
+
+                  when "companies"
+                    html_string = html_string + '<div class="blog-img">'
+                      html_string = html_string + showImage2(:medium, item, true)
+                    html_string = html_string + '</div>'
+                    html_string = html_string + '<div class="blog-info">'
+                      html_string = html_string + '<h2>'+item.name+'</h2>'
+                      html_string = html_string + '<div class="blog-comment">'
+                        html_string = html_string + content_tag(:i, nil, class:"glyphicon glyphicon-folder-open") + " " + item.mcategory.name + '</p>'
+                        if user_signed_in?
+                	        html_string = html_string + link_to(new_email_path(:m_from_id => current_user.id, :m_to_id => item.user.id, :back_url => request.original_url)) do
+                            content_tag(:i, nil, class:"glyphicon glyphicon-envelope") + " "
+                          end
+                        else
+                            content_tag(:i, nil, class:"glyphicon glyphicon-envelope") + " "
+                        end
+                        html_string = html_string + item.user.email
+
+                        
+                      html_string = html_string + '</div>'
+                      html_string = html_string + '<p></p>'
+                    html_string = html_string + '</div>'
+                end
+
+                html_string = html_string + '</div>'
+              html_string = html_string + '</div>'
+            end
+          
+          end
+
+  if false
   items.each do |item|
     
     show = true
@@ -1538,11 +1610,11 @@ def build_medialist3(items, cname, par)
     end
     
     if item and show
-      
-      html_string = html_string + '<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">'
-        html_string = html_string + '<div class="mediacard">'
-          html_string = html_string + '<div class="overlayimage">'
 
+      html_string = html_string + '<div class="col-md-4 col-sm-6 col-xs-12">'
+        html_string = html_string + '<div class="blog-sec">'
+          html_string = html_string + '<div class="blog-img">'
+      
             case items.table_name
               when "questions"
                   html_string = html_string + image_tag("fragen.jpg", :size => "250x250")
@@ -2874,6 +2946,8 @@ def build_medialist3(items, cname, par)
   if par == "panel"
     html_string = html_string + '</div>'
   end
+  end
+  
   return html_string.html_safe
 end
 
@@ -4618,7 +4692,7 @@ def simple_menue (domain, path)
         content_tag(:i, nil, class:"glyphicon glyphicon-" + getinfo2(domain.to_sym)["info"]) 
       end
       html_string = html_string + '</span>'+domain+'</h3>'
-      html_string = html_string + '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>'
+      #html_string = html_string + '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>'
     html_string = html_string + '</div>'
   html_string = html_string + '</div>'
   return html_string.html_safe
