@@ -9,10 +9,12 @@
         <% when "personen_info" %>
 
           <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-              <div class="panel-body ueberschrift">
-                <%= @user.fullname %>
-              </div>
+            
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                  <div class="panel-body ueberschrift">
+                    <%= @user.fullname %>
+                  </div>
+                </div>
 
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                   <div class="panel-body">
@@ -74,16 +76,16 @@
                 </div>
                 
               </div>
-            </div>
 
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-              <% if $activeapps.include?("personen_aktivitaeten") or (user_signed_in? and current_user.superuser) %>
-                <% @stats %>
-                <div class="panel-body">
-                  <i class="glyphicon glyphicon-map-marker pull-left" onclick="return drawChart();"></i>
-                  <div id="piechart"></div>
-                </div>
-              <% end %>
+              <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                <% if $activeapps.include?("personen_aktivitaeten") or (user_signed_in? and current_user.superuser) %>
+                  <% @stats %>
+                  <div class="panel-body">
+                    <i class="glyphicon glyphicon-map-marker pull-left" onclick="return drawChart();"></i>
+                    <div id="piechart"></div>
+                  </div>
+                <% end %>
+              </div>
             </div>
             
           </div>
@@ -1160,6 +1162,7 @@
     var latitudes = [<%= @user.latitude %>];
     var longitudes = [<%= @user.longitude %>];
     function init_map(index) {
+            alert('hi?');
         var myLocation = new google.maps.LatLng(latitudes[index], longitudes[index]);
         var mapOptions = {
             center: myLocation,
