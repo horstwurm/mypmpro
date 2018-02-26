@@ -6,15 +6,19 @@
             <p class="sub-title pad-bt15">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod<br>tempor incididunt ut labore et dolore magna aliqua.</p>
             <hr class="bottom-line">
           </div>
+          
+          <% Mobject.all.each do |m| %>
           <div class="col-md-4 col-sm-6 col-xs-12 portfolio-item padding-right-zero mr-btn-15">
             <figure>
-              <%= image_tag("port01.jpg") %>
+              <%= showFirstImage2(:medium, m, m.mdetails ) %>
               <figcaption>
                 <h2>Project For Everyone</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nost.</p>
               </figcaption>
             </figure>
           </div>
+          <% end %>
+          
           <div class="col-md-4 col-sm-6 col-xs-12 portfolio-item padding-right-zero mr-btn-15">
             <figure>
               <%= image_tag("port02.jpg") %>

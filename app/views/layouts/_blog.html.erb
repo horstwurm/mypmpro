@@ -6,11 +6,13 @@
             <p class="sub-title pad-bt15">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod<br>tempor incididunt ut labore et dolore magna aliqua.</p>
             <hr class="bottom-line">
           </div>
+          
+          <% Mobject.all.each do |m| %>
           <div class="col-md-4 col-sm-6 col-xs-12">
             <div class="blog-sec">
               <div class="blog-img">
                 <a href="">
-                  <%= image_tag("blog01.jpg") %>
+                  <%= showFirstImage2(:medium, m, m.mdetails ) %>
                 </a>
               </div>
               <div class="blog-info">
@@ -26,6 +28,8 @@
               </div>
             </div>
           </div>
+          <% end %>
+          
           <div class="col-md-4 col-sm-6 col-xs-12">
             <div class="blog-sec">
               <div class="blog-img">
@@ -66,6 +70,7 @@
               </div>
             </div>
           </div>
+          
         </div>
       </div>
     </section>
