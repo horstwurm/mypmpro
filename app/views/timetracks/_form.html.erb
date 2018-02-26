@@ -13,20 +13,11 @@
         <% end %>
 
         <div class="row">
-            <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading header">
-                      <li_header>
-                        <%= link_to user_path(:id => @timetrack.user_id, :topic => "personen_zeiterfassung") do %>
-                          <i class="btn btn-primary glyphicon glyphicon-list"></i>
-                        <% end %>
-                        <%= (I18n.t :zeiterfassung) + " " + (I18n.t @timetrack.costortime) + " " + @timetrack.user.name + " " + @timetrack.user.lastname %> für <%= @timetrack.mobject.name %>
-                      </li_header>
-                    </div>
+           <div class="col-md-12">
+                <div class="panel-body ueberschrift">
+                    <h1><%= (I18n.t @timetrack.costortime) + " " + @timetrack.user.name + " " + @timetrack.user.lastname %> für <%= @timetrack.mobject.name %></h1> 
                 </div>
             </div>
-        </div>
-        <div class="row">
             <div class="col-md-6">
                 <div class="panel-body">
 
@@ -73,6 +64,9 @@
                     </div>
                     <div class="actions">
                        <%= f.submit (I18n.t :speichern), class:"btn btn-primary btn-lg"%>
+                        <%= link_to user_path(:id => @timetrack.user_id, :topic => "personen_zeiterfassung") do %>
+                          <i class="btn btn-default btn-lg">Abbrechen</i>
+                        <% end %>
                     </div>
                     <%= f.hidden_field :user_id, class:"form-control"  %>
                     <% if !@mobs %>

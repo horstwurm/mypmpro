@@ -1,14 +1,4 @@
-<%= action_buttons3("institutionen", @company, @topic) %>
-
-<div class="row">
-  <header>
-    <%= header('<span onclick="openNav()"><i class="btn btn-header glyphicon glyphicon-align-justify"></span></i> ' + @company.name + " <b>" + getTopicName(@topic) + "</b>"+ " " + '<span onclick="openNavRight()"><i class="btn btn-header glyphicon glyphicon-wrench pull-right"></span></i> ', true) %>
-  </header>
-
-<div id="mySidenav" class="sidenav">
-  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-  <%= navigate2("institutionen", @company) %>
-</div>
+<%= navigate2("institutionen", @company, @topic) %>
 
 <div id="main">
   <div class="row">
@@ -427,30 +417,4 @@
 <% end %>
 </script>
 
-<script>
-/* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
-function openNav() {
-    document.getElementById("mySidenav").style.width = "250px";
-    document.getElementById("main").style.marginLeft = "250px";
-}
-
-/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
-function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-    document.getElementById("main").style.marginLeft = "0";
-}
-</script>
-
-<script>
-/* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
-function openNavRight() {
-    document.getElementById("mysidenavright").style.width = "400px";
-    document.getElementById("main").style.marginRight = "400px";
-}
-
-/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
-function closeNavRight() {
-    document.getElementById("mysidenavright").style.width = "0";
-    document.getElementById("main").style.marginRight = "0";
-}
-</script>
+<script>$('.dropdown-toggle').dropdown()</script>

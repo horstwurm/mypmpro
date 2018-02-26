@@ -13,26 +13,11 @@
         <% end %>
 
         <div class="row">
-            <div class="col-md-12">
-              <div class="panel panel-heading header">
-              <li_header>
-                <% if @mobject.owner_type == "User" %>
-                  <%= link_to user_path(:id => @mobject.owner_id, :topic => "personen_" + @mobject.mtype) do %>
-                    <i class="btn btn-primary glyphicon glyphicon-list"></i>
-                  <% end %>
-                <% end %>
-                <% if @mobject.owner_type == "Company" %>
-                  <%= link_to company_path(:id => @mobject.owner_id, :topic => "institutionen_" + @mobject.mtype) do %>
-                    <i class="btn btn-primary glyphicon glyphicon-list"></i>
-                  <% end %>
-                <% end %>
-                <%= @mobject.mtype.upcase %>
-                </li_header>
-              </div>
+           <div class="col-md-12">
+                <div class="panel-body ueberschrift">
+                    <h1><%= @mobject.name %></h1> 
+                </div>
             </div>
-        </div>
-
-        <div class="row">
             <div class="col-md-6">
               <div class="panel-body">
                 <div class="form-group">
@@ -306,6 +291,16 @@
                  <%= f.number_field :time_to, :id => "time_to", class:"form-control hidden"%>
                 <div class="actions">
                    <%= f.submit (I18n.t :speichern),  class:"btn btn-primary btn-lg"%>
+                  <% if @mobject.owner_type == "User" %>
+                    <%= link_to user_path(:id => @mobject.owner_id, :topic => "personen_" + @mobject.mtype) do %>
+                      <i class="btn btn-default btn-lg">Abbrechen</i>
+                    <% end %>
+                  <% end %>
+                  <% if @mobject.owner_type == "Company" %>
+                    <%= link_to company_path(:id => @mobject.owner_id, :topic => "institutionen_" + @mobject.mtype) do %>
+                      <i class="btn btn-default">Abbrechen</i>
+                    <% end %>
+                  <% end %>
                 </div>
                 <%= f.check_box :alertlow, :id => "alertlow", class:"form-control hidden" %>
                 <%= f.check_box :active, :id => "active", class:"form-control hidden" %>

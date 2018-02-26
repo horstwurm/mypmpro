@@ -13,21 +13,11 @@
          <% end %>
 
          <div class="row">
-             <div class="col-md-12">
-                 <div class="panel panel-default">
-                     <div class="panel-heading header">
-                       <li_header>
-                       <%= link_to @company do %>
-                         <i class="btn btn-primary glyphicon glyphicon-list"></i>
-                       <% end %>
-                       FIRMA / GEWERBE
-                       </li_header>
-                     </div>
-                 </div>
-             </div>
-         </div>
-
-         <div class="row">
+           <div class="col-md-12">
+                <div class="panel-body ueberschrift">
+                    <h1><%= @company.name %></h1> 
+                </div>
+            </div>
              <div class="col-md-6">
                  <div class="panel-body">
                       <div class="form-group">
@@ -97,6 +87,9 @@
                      </div>
                      <div class="actions">
                         <%= f.submit "Speichern",  class:"btn btn-primary btn-lg"%>
+                       <%= link_to @company do %>
+                         <i class="btn btn-default btn-lg">Abbrechen</i>
+                       <% end %>
                      </div>
                        <%= f.check_box :active, :id => "active", class:"form-control hidden"%>
                        <%= f.check_box :social, :id => "social", class:"form-control hidden"%>

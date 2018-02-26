@@ -1,5 +1,20 @@
 /* render html5 elements as block */
 
+.btn-inactive {
+      background-color: grey;
+      color:white;
+}
+
+.btn-active {
+      background-color: orange;
+      color:white;
+}
+
+.ueberschrift {
+  background-color: rgb(73, 84, 105)!important;
+  color:white;
+}
+
 .form-control {
   background-color: transparent;
   border-radius: 0px;
@@ -81,95 +96,6 @@
     from {bottom: 30px; opacity: 1;}
     to {bottom: 0; opacity: 0;}
 }
-
-.sidenav {
-    height: 100%;
-    width: 0;
-    position: fixed;
-    z-index: 1;
-    top: 100;
-    left: 0;
-    background-color: red;
-    font-size: 16px!important;
-    overflow-x: hidden;
-    transition: 0.5s;
-    padding-top: 40px;
-}
-
-.sidenav a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 16px!important;
-    color: #818181;
-    display: block;
-    transition: 0.3s;
-}
-
-.sidenav a:hover {
-    color: grey;
-    background-color: lightgrey;
-}
-
-.sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
-}
-
-@media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 18px;}
-}
-
-#main {
-    transition: margin-left .5s;
-    padding: 20px;
-}
-
-.sidenavright {
-    height: 50%;
-    width: 0;
-    position: fixed;
-    z-index: 1;
-    top: 100;
-    right: 0;
-    background-color: #F5DA81;
-    font-size: 16px!important;
-    overflow-x: hidden;
-    transition: 0.5s;
-    padding-top: 40px;
-}
-
-.sidenavright a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 16px!important;
-    background-color: #F5DA81;
-    color: white;
-    display: block;
-    transition: 0.3s;
-}
-
-.sidenavright a:hover {
-    color: #F5DA81;
-    background-color: #FACC2E;
-}
-
-.sidenavright .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
-}
-
-@media screen and (max-height: 450px) {
-  .sidenavright {padding-top: 15px;}
-  .sidenavright a {font-size: 18px;}
-}
-
 
 @import "*";
 @import "bootstrap-sprockets";

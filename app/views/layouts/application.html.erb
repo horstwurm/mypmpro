@@ -26,27 +26,15 @@
     <title>Baker Bootstrap Theme</title>
     <meta name="description" content="Free Bootstrap Theme by BootstrapMade.com">
     <meta name="keywords" content="free website templates, free bootstrap themes, free template, free bootstrap, free website template">
-  
+
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:400,300|Raleway:300,400,900,700italic,700,300,600">
-    <link rel="stylesheet" type="text/css" href="css/jquery.bxslider.css">
-    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/animate.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <!-- =======================================================
-      Theme Name: Baker
-      Theme URL: https://bootstrapmade.com/baker-free-onepage-bootstrap-theme/
-      Author: BootstrapMade.com
-      Author URL: https://bootstrapmade.com
-    ======================================================= -->
+
   </head>
   
   <body>
 
   <div class="loader"></div>
   <div id="myDiv">
-
-    <%= link_to "#yield" %>
 
     <%= render 'layouts/header' %>
 
@@ -89,17 +77,17 @@
     <%= render 'layouts/footer' %>
     
   <% end %>
-<script src="js/jquery.min.js"></script>
-<script src="js/jquery.easing.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/wow.js"></script>
-<script src="js/jquery.bxslider.min.js"></script>
-<script src="js/custom.js"></script>
-<script src="contactform/contactform.js"></script>
-    
+
   </body>
 </html>
 
+<link rel="stylesheet" type="text/css" href="/theme_baker/css/jquery.bxslider.css">
+<link rel="stylesheet" type="text/css" href="/theme_baker/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="/theme_baker/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/theme_baker/css/animate.css">
+<link rel="stylesheet" type="text/css" href="/theme_baker/css/style.css">
+
+<% if flash and flash.count>0 %>
 <script>
 function myFunction() {
     var x = document.getElementById("snackbar")
@@ -108,3 +96,11 @@ function myFunction() {
 }
 myFunction();
 </script>
+<% end %>
+
+<script src="/theme_baker/js/jquery.min.js"></script>
+<script src="/theme_baker/js/jquery.easing.min.js"></script>
+<script src="/theme_baker/js/bootstrap.min.js"></script>
+<script src="/theme_baker/js/wow.js"></script>
+<script src="/theme_baker/js/jquery.bxslider.min.js"></script>
+<script src="/theme_baker/js/custom.js"></script>

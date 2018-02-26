@@ -1,49 +1,5 @@
-<%= action_buttons3("personen", @user, @topic) %>
 
-<div class="container">
-<div class="row">
-  <header>
-    <%= header('<span onclick="openNav()"><i class="btn btn-header glyphicon glyphicon-align-justify"></span></i> ' + @user.name + " " + @user.lastname + " <b>" + getTopicName(@topic) + "</b>"+ " " + '<span onclick="openNavRight()"><i class="btn btn-header glyphicon glyphicon-wrench pull-right"></span></i> ', true) %>
-  </header>
-
-<ul class="nav nav-tabs">
-  <li class="nav-item">
-    <a class="nav-link active" href="#">Active</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled" href="#">Disabled</a>
-  </li>
-</ul>
-
-</div>
-</div>
-
-<ul class="nav nav-tabs">
-  <li class="nav-item">
-    <a class="nav-link active" href="#">Active</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled" href="#">Disabled</a>
-  </li>
-</ul>
-
-
-<div id="mySidenav" class="sidenav">
-  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-  <%= navigate2("personen", @user) %>
-</div>
+<%= navigate2("personen", @user, @topic) %>
 
 <div id="main">
 <div class="row">
@@ -54,9 +10,7 @@
 
           <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-              <%= header((I18n.t :adresse), false) %>
-              <div class="panel-body">
-
+              <div class="panel-body ueberschrift">
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                     <% case @user.status %>
                       <% when "CHECK" %>
@@ -119,7 +73,6 @@
 
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
               <% if $activeapps.include?("personen_aktivitaeten") or (user_signed_in? and current_user.superuser) %>
-                <%= header((I18n.t :aktivitaeten), false) %>
                 <% @stats %>
                 <div class="panel-body">
                   <i class="glyphicon glyphicon-map-marker pull-left" onclick="return drawChart();"></i>
@@ -463,7 +416,7 @@
                   <% @date_end %>
 
                   <%= link_to new_timetrack_path(:user_id => @user.id, :scope => @c_scope, :datum => @c_datum) do %>
-                    <span><i class="btn btn-special %> glyphicon glyphicon-plus"></i></span>
+                    <span><i class="btn btn-primary %> glyphicon glyphicon-plus"></i></span>
                   <% end %>
 
                   <%= link_to user_path(:id => @user.id, :topic => "personen_zeiterfassung", :year => @c_year, :month => @c_month, :mode => "Datum", :scope => @c_scope, :tdatum => @c_datum) do %>
@@ -542,7 +495,7 @@
                     <% @user.madvisors.where('role=?',"projekte").each do |m| %>
                       <% if !@mob.include?(m.mobject_id) and Mobject.find(m.mobject_id).active %>
                         <%= link_to new_timetrack_path(:user_id => @user.id, :mobject_id => m.mobject_id, :scope => @c_scope, :datum => @c_datum) do %>
-                          <span><i class="btn btn-special glyphicon glyphicon-plus"><%= m.mobject.name %></i></span>
+                          <span><i class="btn btn-primary glyphicon glyphicon-plus"><%= m.mobject.name %></i></span>
                         <% end %>
                       <% end %>
                     <% end %>
@@ -1491,32 +1444,6 @@ function initPosMap() {
   <% when "personen_zeiterfassung" %>
       document.addEventListener("turbolinks:load", function() {drawChartall();})
 <% end %>
-</script>
-
-<script>
-/* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
-function openNav() {
-    document.getElementById("mySidenav").style.width = "270px";
-    document.getElementById("main").style.marginLeft = "270px";
-}
-
-/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
-function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-    document.getElementById("main").style.marginLeft = "0";
-}
-</script>
-
-<script>
-/* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
-function openNavRight() {
-    document.getElementById("mysidenavright").style.width = "300px";
-}
-
-/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
-function closeNavRight() {
-    document.getElementById("mysidenavright").style.width = "0";
-}
 </script>
 
 <script>$('.dropdown-toggle').dropdown()</script>

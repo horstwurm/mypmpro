@@ -1,14 +1,4 @@
-<%= action_buttons3("objekte", @mobject, @topic) %>
-
-<div class="row">
-  <header>
-    <%= header('<span onclick="openNav()"><i class="btn btn-header glyphicon glyphicon-align-justify"></span></i> ' + @mobject.name + " <b>" + getTopicName(@topic) + "</b>"+ " " + '<span onclick="openNavRight()"><i class="btn btn-header glyphicon glyphicon-wrench pull-right"></span></i> ', true) %>
-  </header>
-
-<div id="mySidenav" class="sidenav">
-  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-  <%= navigate2("objekte", @mobject) %>
-</div>
+<%= navigate2("objekte", @mobject, @topic) %>
 
 <div id="main">
   
@@ -1709,7 +1699,7 @@ $(document).ready(function(){
           $.ajax({
   
               // url: "http://tkbinfo-horstwurm.c9users.io/home/dashboard_projectdata.json?pid=<%= @mobject.id %>",
-              url: "http://mytgcloud.herokuapp.com/home/dashboard_projectdata.json?pid=<%= @mobject.id %>",
+              url: "https://mytgcloud.herokuapp.com/home/dashboard_projectdata.json?pid=<%= @mobject.id %>",
 
               //force to handle it as text
               dataType: "text",
@@ -1916,7 +1906,7 @@ $(document).ready(function(){
         
           $.ajax({
     
-              url: "http://mytgcloud.herokuapp.com/home/readsensordata.json?sensor=<%= @mobject.id %>",
+              url: "https://mytgcloud.herokuapp.com/home/readsensordata.json?sensor=<%= @mobject.id %>",
               // url: "https://tgcloud-horstwurm.c9users.io/home/readsensordata.json?sensor=<%= @mobject.id %>",
               dataType: "text",
               success: function(data) {
@@ -2083,30 +2073,4 @@ $(document).ready(function(){
 <% end %>
 </script>
 
-<script>
-/* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
-function openNav() {
-    document.getElementById("mySidenav").style.width = "250px";
-    document.getElementById("main").style.marginLeft = "250px";
-}
-
-/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
-function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-    document.getElementById("main").style.marginLeft = "0";
-}
-</script>
-
-<script>
-/* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
-function openNavRight() {
-    document.getElementById("mysidenavright").style.width = "400px";
-    document.getElementById("main").style.marginRight = "400px";
-}
-
-/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
-function closeNavRight() {
-    document.getElementById("mysidenavright").style.width = "0";
-    document.getElementById("main").style.marginRight = "0";
-}
-</script>
+<script>$('.dropdown-toggle').dropdown()</script>

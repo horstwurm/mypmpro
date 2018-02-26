@@ -11,15 +11,14 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery.turbolinks
 //= require jquery_ujs
+//= require turbolinks
+//= require bootstrap-sprockets
+//= require jquery.turbolinks
 //= require bootstrap-switch  
 //= require bootstrap-slider
 //= require owl.carousel
 //= require bootstrap-datepicker
-//= require turbolinks
-//= require bootstrap-sprockets
-//= require bootstrap
 //= require moment 
 //= require fullcalendar
 //= require fullcalendar/gcal

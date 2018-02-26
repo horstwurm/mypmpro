@@ -12,24 +12,17 @@
             </div>
         <% end %>
 
-        <div class="row">
-            <div class="col-md-12">
-                    <div class="panel-heading header">
-                      <li_header>
-                      <%= link_to @user do %>
-                        <i class="btn btn-primary glyphicon glyphicon-list"></i>
-                      <% end %>
-                      <%= I18n.t :account %>
-                      </li_header>
-                    </div>
-            </div>
-        </div>
 
         <div class="row">
+            <div class="col-md-12">
+                <div class="panel-body ueberschrift">
+                    <h1><%= @user.fullname %></h1> 
+                </div>
+            </div>
             <div class="col-md-6">
                 <div class="panel-body">
                     <div class="form-group">
-                       <%= f.label I18n.t :picture %>
+                       <%= f.label I18n.t :picture %><br>
                        <%= image_tag @user.avatar.url(:medium) %><br>
                        <%= f.file_field :avatar, class:"form-control" %>
                     </div>
@@ -102,6 +95,9 @@
                      <%= f.hidden_field :latitude, class:"form-control" %>
                     <div class="actions">
                       <%= f.submit "Speichern", class:"btn btn-primary btn-lg"%>
+                      <%= link_to @user do %>
+                        <i class="btn btn-default btn-lg">Abbrechen</i>
+                      <% end %>
                     </div>
                 </div>
                     <div>
