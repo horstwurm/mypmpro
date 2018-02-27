@@ -99,7 +99,7 @@
                 <% end %>
              </div>
              <% @searches = Search.where('search_domain=? and user_id=? and mtype=?', "objekte", current_user.id, @domain) %>
-             <%= build_medialist2(@searches, "searches", @domain) %>
+             <%= build_medialistNew(@searches, "searches", @domain) %>
         </div>
       <% end %>
     </query>

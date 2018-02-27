@@ -16,7 +16,7 @@
               <% end %>
            </div>
           <% @searches = Search.where('search_domain=? and user_id=?', "institutionen", current_user.id) %>
-          <%= build_medialist2(@searches, "searches", nil) %>
+          <%= build_medialistNew(@searches, "searches", nil) %>
       </div>
     <% end %>
     </query>

@@ -208,7 +208,7 @@
                    <% when "projekte" %>
                     <%= header(:projekte, false) %>
                     <div class="panel-body">
-                      <%= build_medialist2(Mobject.where('parent=?',@mobject.id).order(created_at: :desc), "mobjects", "user") %>
+                      <%= build_medialistNew(Mobject.where('parent=?',@mobject.id).order(created_at: :desc), "mobjects", "user") %>
                     </div>
                     <br>
 
@@ -359,7 +359,7 @@
               <% if @mobject.mtype == "projekte" %>
                 <%= header((I18n.t :projekte), false) %>
                 <div class="panel-body">
-                  <%= build_medialist2(Mobject.where('parent=?',@mobject.id).order(created_at: :desc), "mobjects", "user") %>
+                  <%= build_medialistNew(Mobject.where('parent=?',@mobject.id).order(created_at: :desc), "mobjects", "user") %>
                 </div>
                 <br>
               <% end %>
@@ -367,7 +367,7 @@
               <% if @mobject.mtype == "gruppen" %>
                 <%= header((I18n.t :gruppenmitglieder), false) %>
                 <div class="panel-body">
-                  <%= build_medialist2(@mobject.madvisors.where('role=?', @mobject.mtype), "madvisors", "user") %>
+                  <%= build_medialistNew(@mobject.madvisors.where('role=?', @mobject.mtype), "madvisors", "user") %>
                 </div>
                 <br>
               <% end %>
@@ -375,22 +375,22 @@
                <% if @mobject.mtype == "innovationswettbewerbe" %>
                 <%= header((I18n.t :ideen), false) %>
                 <div class="panel-body">
-                  <%= build_medialist2(@mobject.ideas.order(rating: :desc), "ideas", "user") %>
+                  <%= build_medialistNew(@mobject.ideas.order(rating: :desc), "ideas", "user") %>
                 </div>
                 <br>
                 <%= header((I18n.t :preise), false) %>
                 <div class="panel-body">
-                  <%= build_medialist2(@mobject.prices.order(:sequence), "prices", nil) %>
+                  <%= build_medialistNew(@mobject.prices.order(:sequence), "prices", nil) %>
                 </div>
                 <br>
                 <%= header((I18n.t :bewertungskriterien), false) %>
                 <div class="panel-body">
-                  <%= build_medialist2(@mobject.crits.order(:name), "crits", nil) %>
+                  <%= build_medialistNew(@mobject.crits.order(:name), "crits", nil) %>
                 </div>
                 <br>
                 <%= header((I18n.t :jury), false) %>
                 <div class="panel-body">
-                  <%= build_medialist2(@mobject.madvisors.where("role=? and (grade=? or grade=?)", "innovationswettbewerbe", "Jury-Vorsitz", "Jury-Mitglied"), "madvisors", "user") %>
+                  <%= build_medialistNew(@mobject.madvisors.where("role=? and (grade=? or grade=?)", "innovationswettbewerbe", "Jury-Vorsitz", "Jury-Mitglied"), "madvisors", "user") %>
                 </div>
                 <br>
                <% end %>
@@ -413,7 +413,7 @@
 
         <% when "objekte_details" %>
           <div class="panel-body">
-            <%= build_medialist2(@mobject.mdetails.order(:sequence), "mdetails", nil) %>
+            <%= build_medialistNew(@mobject.mdetails.order(:sequence), "mdetails", nil) %>
           </div>
 
         <% when "objekte_umfrageteilnehmer" %>
@@ -433,62 +433,62 @@
                 <%= showImage2(:small, User.find(us), true) %>
               <% end %>
             <% end %>
-            <%= build_medialist2(User.where("id IN (?)", useranswers), "users", nil) %>
+            <%= build_medialistNew(User.where("id IN (?)", useranswers), "users", nil) %>
           </div>
 
          <% when "objekte_ideen" %>
           <div class="panel-body">
-            <%= build_medialist2(@mobject.ideas.order(rating: :desc), "ideas", "user") %>
+            <%= build_medialistNew(@mobject.ideas.order(rating: :desc), "ideas", "user") %>
           </div>
 
         <% when "objekte_jury" %>
           <div class="panel-body">
-            <%= build_medialist2(@mobject.madvisors.where('grade=? or grade=?', "Jury-Mitglied", "Jury-Vorsitz"), "madvisors", "user") %>
+            <%= build_medialistNew(@mobject.madvisors.where('grade=? or grade=?', "Jury-Mitglied", "Jury-Vorsitz"), "madvisors", "user") %>
           </div>
 
         <% when "objekte_preise" %>
           <div class="panel-body">
-            <%= build_medialist2(@mobject.prices, "prices", nil) %>
+            <%= build_medialistNew(@mobject.prices, "prices", nil) %>
           </div>
 
         <% when "objekte_bewertungskriterien" %>
           <div class="panel-body">
-            <%= build_medialist2(@mobject.crits, "crits", nil) %>
+            <%= build_medialistNew(@mobject.crits, "crits", nil) %>
           </div>
 
          <% when "objekte_ausschreibungsangebote" %>
           <div class="panel-body">
-            <%= build_medialist2(@mobject.mdetails.where('mtype=?', "ausschreibungsangebote"), "mdetails", nil) %>
+            <%= build_medialistNew(@mobject.mdetails.where('mtype=?', "ausschreibungsangebote"), "mdetails", nil) %>
           </div>
 
         <% when "objekte_sponsorenengagements" %>
           <div class="panel-body">
-            <%= build_medialist2(@mobject.msponsors, "msponsors", "company") %>
+            <%= build_medialistNew(@mobject.msponsors, "msponsors", "company") %>
           </div>
           
         <% when "objekte_eintrittskarten" %>
           <div class="panel-body">
-            <%= build_medialist2(@mobject.tickets, "tickets", nil) %>
+            <%= build_medialistNew(@mobject.tickets, "tickets", nil) %>
           </div>
 
         <% when "objekte_crowdideenbewertung" %>
           <div class="panel-body">
-            <%= build_medialist2(@mobject.mratings, "mratings", "user") %>
+            <%= build_medialistNew(@mobject.mratings, "mratings", "user") %>
           </div>
 
         <% when "objekte_ansprechpartner" %>
           <div class="panel-body">
-            <%= build_medialist2(@mobject.madvisors, "madvisors", "user") %>
+            <%= build_medialistNew(@mobject.madvisors, "madvisors", "user") %>
           </div>
 
         <% when "objekte_projektberechtigungen" %>
           <div class="panel-body">
-            <%= build_medialist2(@mobject.madvisors.where('role=?', @mobject.mtype), "madvisors", "user") %>
+            <%= build_medialistNew(@mobject.madvisors.where('role=?', @mobject.mtype), "madvisors", "user") %>
           </div>
 
         <% when "objekte_gruppenmitglieder" %>
           <div class="panel-body">
-            <%= build_medialist2(@mobject.madvisors.where('role=?', @mobject.mtype), "madvisors", "user") %>
+            <%= build_medialistNew(@mobject.madvisors.where('role=?', @mobject.mtype), "madvisors", "user") %>
           </div>
 
         <% when "objekte_signstat" %>
@@ -614,7 +614,7 @@
 
         <% when "objekte_ansprechpartner" %>
           <div class="panel-body">
-            <%= build_medialist2(@mobject.madvisors, "madvisors", "user") %>
+            <%= build_medialistNew(@mobject.madvisors, "madvisors", "user") %>
           </div>
 
         <% when "objekte_ressourcenplanung" %>
@@ -1352,28 +1352,28 @@
 
         <% when "objekte_blog" %>
           <div class="panel-body">
-            <%= build_medialist2(@mobject.comments.order(created_at: :desc), "comments", "user") %>
+            <%= build_medialistNew(@mobject.comments.order(created_at: :desc), "comments", "user") %>
           </div>
 
         <% when "objekte_fragen" %>
           <%= @ques %>
           <div class="panel-body">
-            <%= build_medialist2(@mobject.questions.order(:sequence), "questions", "user") %>
+            <%= build_medialistNew(@mobject.questions.order(:sequence), "questions", "user") %>
           </div>
 
         <% when "objekte_ausgaben" %>
           <div class="panel-body">
-            <%= build_medialist2(@mobject.editions.order(created_at: :desc), "editions", "user") %>
+            <%= build_medialistNew(@mobject.editions.order(created_at: :desc), "editions", "user") %>
           </div>
 
         <% when "objekte_substruktur" %>
           <div class="panel-body">
-            <%= build_medialist2(Mobject.where('parent=?',@mobject.id).order(created_at: :desc), "mobjects", "user") %>
+            <%= build_medialistNew(Mobject.where('parent=?',@mobject.id).order(created_at: :desc), "mobjects", "user") %>
           </div>
 
         <% when "objekte_teilnehmerveranstaltung" %>
           <div class="panel-body">
-            <%= build_medialist2(@mobject.madvisors.where('role=?',"eventteilnehmer"), "madvisors", "user") %>
+            <%= build_medialistNew(@mobject.madvisors.where('role=?',"eventteilnehmer"), "madvisors", "user") %>
           </div>
 
         <% when "objekte_kalendervermietungen" %>
@@ -1445,12 +1445,12 @@
           
         <% when "objekte_cftransaktionen" %>
           <div class="panel-body">
-            <%= build_medialist2(@mobject.mstats.order(amount: :desc), "mstats", "owner") %>
+            <%= build_medialistNew(@mobject.mstats.order(amount: :desc), "mstats", "owner") %>
           </div>
 
         <% when "objekte_bewertungen" %>
           <div class="panel-body">
-            <%= build_medialist2(@mobject.mratings.order(created_at: :desc), "mratings", "user") %>
+            <%= build_medialistNew(@mobject.mratings.order(created_at: :desc), "mratings", "user") %>
           </div>
 
         <% when "objekte_standort" %>

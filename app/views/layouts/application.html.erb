@@ -85,15 +85,30 @@
 <link rel="stylesheet" type="text/css" href="/theme_baker/css/style.css">
 
 <% if flash and flash.count>0 %>
-<script>
-function myFunction() {
-    var x = document.getElementById("snackbar")
-    x.className = "show";
-    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-}
-myFunction();
-</script>
+  <script>
+  function myFunction() {
+      var x = document.getElementById("snackbar")
+      x.className = "show";
+      setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+  }
+  myFunction();
+  </script>
 <% end %>
+
+<div class="bxsliderle">
+  <div><%= image_tag(User.find(1).avatar) %></div>
+  <div><%= image_tag(User.find(2).avatar) %></div>
+</div>
+
+<script>
+  $('.bxsliderle').bxSlider({
+  auto: true,
+  autoControls: true,
+  stopAutoOnClick: true,
+  pager: true,
+  slideWidth: 600
+});
+</script>
 
 <script src="/theme_baker/js/jquery.min.js"></script>
 <script src="/theme_baker/js/jquery.easing.min.js"></script>

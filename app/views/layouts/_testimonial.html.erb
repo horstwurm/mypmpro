@@ -1,9 +1,19 @@
     <section id="testimonial" class="wow fadeInUp delay-05s">
+      
       <div class="bg-testicolor">
         <div class="container section-padding">
           <div class="row">
             <div class="testimonial-item">
               <ul class="bxslider">
+                <% Mobject.all.each do |m| %>
+                  <li>
+                    <blockquote>
+                      <%= showFirstImage2(:medium, m, m.mdetails) %>
+                      <p>Come a day there won't be room for naughty men like us to slip about at all. This job goes south, there well may not be another. </p>
+                    </blockquote>
+                    <small>Shaun Paul, Client</small>
+                  </li>
+                <% end %>
                 <li>
                   <blockquote>
                     <%= image_tag("thumb.png") %>
@@ -38,3 +48,4 @@
         </div>
       </div>
     </section>
+

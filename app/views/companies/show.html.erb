@@ -71,16 +71,16 @@
         <% when "institutionen_projekte" %>
           <% moblist = zugriffsliste(@company.mobjects, current_user) %>
           <% moblist %>
-          <%= build_medialist2(@company.mobjects.mobshow("projekte",moblist), "mobjects", nil) %>
+          <%= build_medialistNew(@company.mobjects.mobshow("projekte",moblist), "mobjects", nil) %>
 
         <% when "institutionen_kampagnen" %>
-          <%= build_medialist2(@company.mobjects.where('mtype=?',"kampagnen"),"mobjects", nil) %>
+          <%= build_medialistNew(@company.mobjects.where('mtype=?',"kampagnen"),"mobjects", nil) %>
 
         <% when "institutionen_standorte" %>
-          <%= build_medialist2(@company.mobjects.where('mtype=?',"standorte"), "mobjects", nil) %>
+          <%= build_medialistNew(@company.mobjects.where('mtype=?',"standorte"), "mobjects", nil) %>
 
         <% when "institutionen_sensoren" %>
-          <%= build_medialist2(@company.mobjects.where('mtype=?',"sensoren"), "mobjects", nil) %>
+          <%= build_medialistNew(@company.mobjects.where('mtype=?',"sensoren"), "mobjects", nil) %>
 
         <% when "institutionen_partnerlinks" %>
           <div class="panel-body">
@@ -121,33 +121,33 @@
         <!--# inactive code-->
         <!--########################################################################################################################-->
         <% when "institutionen_angebote" %>
-          <%= build_medialist2(@company.mobjects.where('mtype=?',"angebote"), "mobjects", nil) %>
+          <%= build_medialistNew(@company.mobjects.where('mtype=?',"angebote"), "mobjects", nil) %>
         <% when "institutionen_stellenanzeigen" %>
-          <%= build_medialist2(@company.mobjects.where('mtype=?',"stellenanzeigen"), "mobjects", nil) %>
+          <%= build_medialistNew(@company.mobjects.where('mtype=?',"stellenanzeigen"), "mobjects", nil) %>
         <% when "institutionen_kleinanzeigen" %>
-          <%= build_medialist2(@company.mobjects.where('mtype=?',"kleinanzeigen"), "mobjects", nil) %>
+          <%= build_medialistNew(@company.mobjects.where('mtype=?',"kleinanzeigen"), "mobjects", nil) %>
         <% when "institutionen_vermietungen" %>
-          <%= build_medialist2(@company.mobjects.where('mtype=?',"vermietungen"), "mobjectss", nil) %>
+          <%= build_medialistNew(@company.mobjects.where('mtype=?',"vermietungen"), "mobjectss", nil) %>
         <% when "institutionen_veranstaltungen" %>
-          <%= build_medialist2(@company.mobjects.where('mtype=?',"veranstaltungen"), "mobjects", nil) %>
+          <%= build_medialistNew(@company.mobjects.where('mtype=?',"veranstaltungen"), "mobjects", nil) %>
         <% when "institutionen_sponsorenengagements" %>
-          <%= build_medialist2(@company.msponsors, "msponsors", "objekte") %>
+          <%= build_medialistNew(@company.msponsors, "msponsors", "objekte") %>
         <% when "institutionen_ausflugsziele" %>
-          <%= build_medialist2(@company.mobjects.where('mtype=?',"ausflugsziele"), "mobjects", nil) %>
+          <%= build_medialistNew(@company.mobjects.where('mtype=?',"ausflugsziele"), "mobjects", nil) %>
         <% when "institutionen_ausschreibungen" %>
-          <%= build_medialist2(@company.mobjects.where('mtype=?',"ausschreibungen"), "mobjects", nil) %>
+          <%= build_medialistNew(@company.mobjects.where('mtype=?',"ausschreibungen"), "mobjects", nil) %>
         <% when "institutionen_crowdfunding" %>
-          <%= build_medialist2(@company.mobjects.where('mtype=?',"crowdfunding"), "mobjects", nil) %>
+          <%= build_medialistNew(@company.mobjects.where('mtype=?',"crowdfunding"), "mobjects", nil) %>
         <% when "institutionen_crowdfundingbeitraege" %>
-          <%= build_medialist2(@company.mstats, "mstats", nil) %>
+          <%= build_medialistNew(@company.mstats, "mstats", nil) %>
         <% when "institutionen_innovationswettbewerbe" %>
-          <%= build_medialist2(@company.mobjects.where('mtype=?',"innovationswettbewerbe"), "mobjects", nil) %>
+          <%= build_medialistNew(@company.mobjects.where('mtype=?',"innovationswettbewerbe"), "mobjects", nil) %>
         <% when "institutionen_umfragen" %>
-          <%= build_medialist2(@company.mobjects.where('mtype=?',"umfragen"), "mobjects", nil) %>
+          <%= build_medialistNew(@company.mobjects.where('mtype=?',"umfragen"), "mobjects", nil) %>
         <% when "institutionen_publikationen" %>
-          <%= build_medialist2(@company.mobjects.where('mtype=?',"publikationen"), "mobjects", nil) %>
+          <%= build_medialistNew(@company.mobjects.where('mtype=?',"publikationen"), "mobjects", nil) %>
         <% when "institutionen_stellvertretungen" %>
-          <%= build_medialist2(@company.deputies, "deputies", nil) %>
+          <%= build_medialistNew(@company.deputies, "deputies", nil) %>
 
         <% when "institutionen_export" %>
           <div class="row">
@@ -329,24 +329,24 @@
 
     	 <% when "institutionen_charges" %>
     	    <% if false %>
-          <%= build_medialist2(@company.charges, "charges", nil) %>
+          <%= build_medialistNew(@company.charges, "charges", nil) %>
           <br><br>
           <% end %>
-          <%= build_medialist2(Appparam.where('info=?', "payable"), "appparams", "company") %>
+          <%= build_medialistNew(Appparam.where('info=?', "payable"), "appparams", "company") %>
           <br><br>
 
     	 <% when "institutionen_kundenbeziehungen" %>
           <% hash = Hash.new %>
           <% hash = {:company_id => @company.id} %>
           <div class="panel-body">
-            <%= build_medialist2(@company.customers, "partners", hash) %>
+            <%= build_medialistNew(@company.customers, "partners", hash) %>
           </div>
           <div class="panel-body">
-            <%= build_medialist2(Company.where('partner=?',true), "nopartners", hash) %>
+            <%= build_medialistNew(Company.where('partner=?',true), "nopartners", hash) %>
           </div>
         <% when "institutionen_transaktionen" %>
           <div class="panel-body">
-            <%= build_medialist2(@company.transactions, "transactions", hash) %>
+            <%= build_medialistNew(@company.transactions, "transactions", hash) %>
           </div>
           
         <% when "institutionen_emails" %>
@@ -374,7 +374,7 @@
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-<% if @topic == "institutionen_info" %>
+<% if @topic == "institutionen_info" and @company.latitude and @company.longitude %>
   <script type="text/javascript">
 
     var latitudes = [<%= @company.latitude %>];

@@ -17,7 +17,7 @@
             <% @searches = Search.where('search_domain=? and user_id=? and mtype=?', "objekte", current_user.id, @mtype) %>
           <% end %>
         <% end %>
-        <%= build_medialist2(@searches, "searches", nil) %>
+        <%= build_medialistNew(@searches, "searches", nil) %>
       </div>
     <% end %>
     </query>
@@ -35,9 +35,9 @@
   </div>
   
   <% if @edition_id %>
-    <%= build_medialist2(@mobjects, "mobjects", @edition_id) %>
+    <%= build_medialistNew(@mobjects, "mobjects", @edition_id) %>
   <% else %>
-    <%= build_medialist2(@mobjects, "mobjects", "panel") %>
+    <%= build_medialistNew(@mobjects, "mobjects", "panel") %>
   <% end %>
   
   <div class="panel-body">
@@ -99,11 +99,9 @@ function initMap() {
 }
 </script>
 
-<% if true %>
 <script>
   document.addEventListener("turbolinks:load", function() {initMap();})
 </script>
-<% end %>
 
 <script>
 $(document).ready(function(){

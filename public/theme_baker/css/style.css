@@ -486,7 +486,7 @@ TESTIMONIAL
 ***********************************/
 
 #testimonial {
-  background: url('../img/bg.jpg') no-repeat;
+  background: url('/theme_baker/img/bg.jpg') no-repeat;
   background-size: cover;
   min-height: 390px;
 }
