@@ -1,13 +1,15 @@
 
-    <% $controller_list = %w[mobjects companies users madvisors showcal] %>
-    <% $wochentage = %w[Mo Di Mi Do Fr Sa So] %>
-    <% $appurl = "https://tgcloud-horstwurm.c9users.io" %>
-    <% $appurl = "mytgcloud.herokuapp.com" %>
-    <% $usemailgun = true %>
-    <% init_apps %>
-    <% $switch_color = "#ACC550" %>
-    <% $app_name = "myTGCloud" %>
-    <% I18n.locale = :de %>
+<% $controller_list = %w[mobjects companies users madvisors showcal] %>
+<% $wochentage = %w[Mo Di Mi Do Fr Sa So] %>
+<% $appurl = "https://tgcloud-horstwurm.c9users.io" %>
+<% if false %>
+  <% $appurl = "mytgcloud.herokuapp.com" %>
+<% end %>
+<% $usemailgun = true %>
+<% init_apps %>
+<% $switch_color = "#ACC550" %>
+<% $app_name = "myTGCloud" %>
+<% I18n.locale = :de %>
 
 <!DOCTYPE html>
 <html>
@@ -94,21 +96,6 @@
   myFunction();
   </script>
 <% end %>
-
-<div class="bxsliderle">
-  <div><%= image_tag(User.find(1).avatar) %></div>
-  <div><%= image_tag(User.find(2).avatar) %></div>
-</div>
-
-<script>
-  $('.bxsliderle').bxSlider({
-  auto: true,
-  autoControls: true,
-  stopAutoOnClick: true,
-  pager: true,
-  slideWidth: 600
-});
-</script>
 
 <script src="/theme_baker/js/jquery.min.js"></script>
 <script src="/theme_baker/js/jquery.easing.min.js"></script>
