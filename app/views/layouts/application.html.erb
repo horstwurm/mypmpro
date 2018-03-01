@@ -37,6 +37,7 @@
 
     <%= yield %>
 
+    <% if false %>
     <%= render 'layouts/feature' %>
 
     <%= render 'layouts/myservices' %>
@@ -50,6 +51,7 @@
     <%= render 'layouts/blog' %>
 
     <%= render 'layouts/contact' %>
+    <% end %>
 
     <% flash.each do |name, msg| %>
       <% content_tag(:div, msg, class:"alert alert-warning") %>
@@ -81,11 +83,11 @@
 </html>
 
 <% if false %>
-<link rel="stylesheet" type="text/css" href="../assets/stylesheets/jquery.bxslider.css">
-<link rel="stylesheet" type="text/css" href="../assets/stylesheets/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href="../assets/stylesheets/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="../assets/stylesheets/animate.css">
-<link rel="stylesheet" type="text/css" href="../assets/stylesheets/style.css">
+<link rel="stylesheet" type="text/css" href="../stylesheets/jquery.bxslider.css">
+<link rel="stylesheet" type="text/css" href="../stylesheets/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="../asset/stylesheets/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="../stylesheets/animate.css">
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
 <% end %>
 
 <% if flash and flash.count>0 %>
@@ -100,10 +102,10 @@
 <% end %>
 
 <% if false %>
-<script src="../assets/javascripts/jquery.min.js"></script>
-<script src="../assets/javascripts/jquery.easing.min.js"></script>
-<script src="../app/assets/javascripts/bootstrap.min.js"></script>
-<script src="../assets/javascripts/wow.js"></script>
-<script src="../assets/javascripts/jquery.bxslider.min.js"></script>
-<script src="../assets/javascripts/custom.js"></script>
+<script src="../javascripts/jquery.min.js"></script>
+<script src="../javascripts/jquery.easing.min.js"></script>
+<script src="../javascripts/bootstrap.min.js"></script>
+<script src="../javascripts/wow.js"></script>
+<script src="../javascripts/jquery.bxslider.min.js"></script>
+<script src="../javascripts/custom.js"></script>
 <% end %>

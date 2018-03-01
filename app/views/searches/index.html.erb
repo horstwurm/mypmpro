@@ -54,12 +54,12 @@
     
   <div class="row">
       <% if @ticket %>
-        <%= header("Suchen " + @search_domain + " " + @ticket.owner.mobject.name + " " + @ticket.name + " <span class='badge'>" + @seranz.to_s + "</span>", true) %>
+        <%= header("Suchen " + @search_domain + " " + @ticket.owner.mobject.name + " " + @ticket.name + " <span class='badge'>" + @seranz.to_s + "</span>") %>
       <% else %>
         <% if @search_domain == :objekte %>
           <%= header("Suchen " + @mtype.to_s + " " + @msubtype.to_s + " <span class='badge'>" + @seranz.to_s + "</span>", true) %>
         <% else %>
-          <%= header("Suchen " + @search_domain + " <span class='badge'>" + @seranz.to_s + "</span>", true) %>
+          <%= header("Suchen " + @search_domain + " <span class='badge'>" + @seranz.to_s + "</span>") %>
         <% end %>
       <% end %>
   </div>

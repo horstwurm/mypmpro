@@ -32,7 +32,7 @@ gem 'owlcarousel-rails'
 gem 'fullcalendar.io-rails'
 gem 'momentjs-rails'
 gem 'jquery-turbolinks'
-gem "font-awesome-rails"
+gem 'font-awesome-sass', '~> 5.0.6'
 gem 'aws-sdk', '~>2.3'
 gem 'rqrcode-with-patches', '~> 0.5.4'
 gem 'rqrcode_png'

@@ -13,7 +13,7 @@
         
           <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-              <%= header((I18n.t :adresse), false) %>
+              <%= header((I18n.t :adresse)) %>
               <div class="panel-body">
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                    <% case @company.status %>
@@ -58,7 +58,7 @@
               </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-              <%= header((I18n.t :aktivitaeten), false) %>
+              <%= header((I18n.t :aktivitaeten)) %>
               <div class="panel-body">
                 <% if $activeapps.include?("institutionenaktivitaeten") or (user_signed_in? and current_user.superuser) %>
                     <i class="glyphicon glyphicon-map-marker pull-left" onclick="return drawChart();"></i>

@@ -89,7 +89,7 @@
           <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
               <% if $activeapps.include?("personen_mappositionen") or (user_signed_in? and current_user.superuser) %>
-                <%= header((I18n.t :positionen), false) %>
+                <%= header((I18n.t :positionen)) %>
                 <i class="glyphicon glyphicon-map-marker pull-left" onclick="return initialize();"></i>
                 <div class="panel-body">
                   <div id="map2">
@@ -112,7 +112,7 @@
           <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
               <div>
-                <%= header((I18n.t :datum), false) %>
+                <%= header((I18n.t :datum)) %>
                 
             		<table class="table table-striped">
                   <thead>
@@ -157,7 +157,7 @@
           <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
               <div>
-                <%= header((I18n.t :notizen), false) %>
+                <%= header((I18n.t :notizen)) %>
                 
             		<table class="table table-striped">
                   <thead>
@@ -459,7 +459,7 @@
                 <div class="row">
                   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                     <div>
-                      <%= header((I18n.t :projekte), false) %>
+                      <%= header((I18n.t :projekte)) %>
                     </div>
                     <div id="auftragschartall"></div>
                   </div>
@@ -472,7 +472,7 @@
                     <% @mob << t.mobject_id %>
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                       <div>
-                        <%= header((I18n.t :projekte) + Mobject.find(t.mobject_id).name, false) %>
+                        <%= header((I18n.t :projekte) + Mobject.find(t.mobject_id).name) %>
                         <% if Madvisor.where('mobject_id=? and role=?', t.mobject_id, t.mobject.mtype).count > 0 %>
                           <% if Mobject.find(t.mobject_id).active %>
                             <%= link_to new_timetrack_path(:user_id => @user.id, :mobject_id => t.mobject_id, :scope => @c_scope, :datum => @c_datum) do %>
@@ -489,7 +489,7 @@
                 <div class="row">
                   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                     <div>
-                      <%= header((I18n.t :berechtigteprojekte) ,false) %>
+                      <%= header((I18n.t :berechtigteprojekte)) %>
                     </div>
                     <% @user.madvisors.where('role=?',"projekte").each do |m| %>
                       <% if !@mob.include?(m.mobject_id) and Mobject.find(m.mobject_id).active %>
@@ -506,7 +506,7 @@
                   <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                       <div>
-                        <%= header((I18n.t :zeiterfassung), false) %>
+                        <%= header((I18n.t :zeiterfassung)) %>
                         
                     		<table class="table table-striped">
                           <thead>
@@ -755,7 +755,7 @@
                   <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                       <div>
-                        <%= header((I18n.t :kosten), false) %>
+                        <%= header((I18n.t :kosten)) %>
                         
                     		<table class="table table-striped">
                           <thead>
@@ -1037,7 +1037,7 @@
             <%= build_medialistNew(@user.favourits, "favourits", nil) %>
           </div>
           <% if $activeapps.include?("personen_mappositionenfavoriten") or (user_signed_in? and current_user.superuser) %>
-            <%= header((I18n.t :favoriten), false) %>
+            <%= header((I18n.t :favoriten)) %>
             <div class="panel-body">
               <div id="map2">
                 <div id="map-canvas2"></div>
@@ -1051,7 +1051,7 @@
           <div class="panel-body">
             <%= build_medialistNew(@user.customers, "partners", hash) %>
           </div>
-          <%= header((I18n.t :nopartners), false) %>
+          <%= header((I18n.t :nopartners)) %>
           <div class="panel-body">
             <%= build_medialistNew(Company.where('partner=?',true), "nopartners", hash) %>
           </div>
@@ -1117,19 +1117,19 @@
 
     	 <% when "personen_zugriffsberechtigungen" %>
           <div class="row">
-              <%= header((I18n.t :hauptmenue), true) %>
+              <%= header((I18n.t :hauptmenue)) %>
           </div>
           <%= build_kachel_access("hauptmenue", "user", @user) %>
           <div class="row">
-              <%= header((I18n.t :personen), true) %>
+              <%= header((I18n.t :personen)) %>
           </div>
           <%= build_kachel_access("personen", "user", @user) %>
           <div class="row">
-              <%= header((I18n.t :institutionen), true) %>
+              <%= header((I18n.t :institutionen)) %>
           </div>
           <%= build_kachel_access("institutionen", "user", @user) %>
           <div class="row">
-              <%= header((I18n.t :objekte), true) %>
+              <%= header((I18n.t :objekte)) %>
           </div>
           <%= build_kachel_access("objekte", "user", @user) %>
 

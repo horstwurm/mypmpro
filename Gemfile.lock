@@ -99,8 +99,8 @@ GEM
     ffi (1.9.14)
     figaro (1.1.1)
       thor (~> 0.14)
-    font-awesome-rails (4.7.0.3)
-      railties (>= 3.2, < 5.2)
+    font-awesome-sass (5.0.6.2)
+      sass (>= 3.2)
     fullcalendar.io-rails (3.1.0)
       jquery-rails (>= 3.1.0, < 5.0)
       momentjs-rails (~> 2.15)
@@ -266,7 +266,7 @@ DEPENDENCIES
   creek
   devise
   figaro
-  font-awesome-rails
+  font-awesome-sass (~> 5.0.6)
   fullcalendar.io-rails
   geocoder
   gmaps4rails

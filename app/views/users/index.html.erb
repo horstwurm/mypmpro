@@ -1,41 +1,25 @@
-<% if false %>
-  <div class="row">
-      <%= header("Privatpersonen " + "<span class='badge'>" + @usanz.to_s + "</span>", true) %>
-  </div>
-<% end %>
-
   <div class="row">
     <header>
-    <%= header("<queryshow><i class='glyphicon glyphicon-filter', style='font-size:2em'></i></queryshow> Privatpersonen <span class='badge'>" + @usanz.to_s + "</span><queryhide><i class='glyphicon glyphicon-menu-up pull-right'></i></queryhide>", true) %>
-    <query>
+    <%= header("<queryshow><i class='glyphicon glyphicon-filter', style='font-size:2em'></i></queryshow><queryhide><i class='glyphicon glyphicon-remove', style='font-size:2em'></i></queryhide>Privatpersonen <span class='badge'>" + @usanz.to_s + "</span>") %>
     <% if user_signed_in? %>
-      <div class='col-xs-12'>
-           <div class="panel-body">
-        	  <%= link_to new_search_path(:user_id => current_user.id, :search_domain => "personen", :controller_name => @controller_name) do %>
-                  <i class="btn btn-primary glyphicon glyphicon-plus"></i>
-              <% end %>
-           </div>
+      <query>
+    	  <%= link_to new_search_path(:user_id => current_user.id, :search_domain => "personen", :controller_name => @controller_name) do %>
+              <i class="btn btn-primary glyphicon glyphicon-plus">Neue Abfrage</i>
+          <% end %>
           <% @searches = Search.where('search_domain=? and user_id=?', "personen", current_user.id) %>
           <%= build_medialistNew(@searches, "searches", nil) %>
-      </div>
-    <% end %>
-    </query>
+      </query>
     </header>
-  </div>
+    <% end %>
+ </div>
 
-   <div class="panel-body">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="digg_pagination">
-            <%= will_paginate @users, :container => false, previous_label: "<", next_label: ">" %>
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="digg_pagination">
+    <%= will_paginate @users, :container => false, previous_label: "<", next_label: ">" %>
+</div>
  
   <%= build_medialistNew(@users, "users", "panel") %>
 
-  <div class="panel-body">
+  <div class="panel">
     <div class="row">
       <i class="glyphicon glyphicon-map-marker pull-left" onclick="return initMap();"></i>
       <div class="col-md-12">
@@ -105,16 +89,15 @@ function initMap() {
 $(document).ready(function(){
     $("query").hide();
     $("queryhide").hide();
-    $("queryhide").hide();
 
-    $("queryshow").mouseover(function(){
+    $("queryshow").click(function(){
         $("query").show();
         $("queryshow").hide();
         $("queryhide").show();
 
     });
     
-    $("queryhide").mouseover(function(){
+    $("queryhide").click(function(){
         $("query").hide();
         $("queryshow").show();
         $("queryhide").hide();

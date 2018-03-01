@@ -14,20 +14,10 @@
 
         <div class="row">
             <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading header">
-                      <li_header>
-                      <% if @search.controller != nil and @search.controller != "" %>
-                        <%= link_to url_for(action: "index", controller: @search.controller) do %>
-                          <i class="btn btn-primary glyphicon glyphicon-list"></i>
-                        <% end %>
-                      <% end %>
-                      <%= I18n.t :meineabfragen %><span class='badge'><%= @search.counter.to_s %></span>
-                      <br>
-                      <% @search.build_sql(current_user) %>
-                      </li_header>
-                    </div>
+                <div class="panel-body ueberschrift">
+                    <h1>Abfrage <%= @search.name %></h1> 
                 </div>
+                <% @search.build_sql(current_user) %>
             </div>
         </div>
 
@@ -231,7 +221,13 @@
                   </div>
                   <div class="actions">
                      <%= f.submit (I18n.t :speichern),  class:"btn btn-primary btn-lg"%>
+                    <% if @search.controller != nil and @search.controller != "" %>
+                      <%= link_to url_for(action: "index", controller: @search.controller) do %>
+                        <i class="btn btn-default btn-lg">Abbrechen</i>
+                      <% end %>
+                    <% end %>
                   </div>
+
                   <%= f.hidden_field :user_id %>
                   <%= f.hidden_field :search_domain %>
                   <%= f.hidden_field :controller %>

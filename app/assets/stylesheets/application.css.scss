@@ -19,3 +19,13 @@
  *= require_self
  *= require_tree .
  */
+@import "*";
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "font-awesome-sprockets";
+@import "font-awesome";
+@import "animate";
+@import "bootstrap.min";
+@import "font-awesome.min";
+@import "jquery.bxslider";
+@import "style";

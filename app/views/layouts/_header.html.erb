@@ -28,34 +28,20 @@
                 </li>
       				<% end %>
 
-                  <li class="active"><a href="#main-header">Home</a></li>
-                  <li class=""><a href="#myservices">myServices</a></li>
-                  <li class=""><a href="#yield">Data</a></li>
-                  <li class=""><a href="#feature">About</a></li>
-                  <li class=""><a href="#service">Services</a></li>
-                  <li class=""><a href="#portfolio">Portfolio</a></li>
-                  <li class=""><a href="#testimonial">Testimonial</a></li>
-                  <li class=""><a href="#blog">Blog</a></li>
-                  <li class=""><a href="#contact">Contact Us</a></li>
+                  <li class="active"><a href="../#main-header">Home</a></li>
+                  <% if false %>
+                  <li class=""><a href="../#myservices">myServices</a></li>
+                  <li class=""><a href="../#yield">Data</a></li>
+                  <li class=""><a href="../#feature">About</a></li>
+                  <li class=""><a href="../#service">Services</a></li>
+                  <li class=""><a href="../#portfolio">Portfolio</a></li>
+                  <% end %>
+                  <li class=""><a href="../#testimonial">Kundenfeedback</a></li>
+                  <li class=""><a href="../#blog">Blog</a></li>
+                  <li class=""><a href="../#contact">Kontakt</a></li>
                   <% if user_signed_in? %>
                   <% end %>
-          				<% if user_signed_in? %>
-                    <li class=""><%= contactChip(current_user) %></li>
-          					<li class="">
-            					<li>
-            					  <%= link_to(destroy_user_session_path, method: :delete) do %>
-            				    	<i class="glyphicon glyphicon-log-out"></i>
-            					  <% end %>
-            				 </li>
-          				<% else %>
-          					<li class="">
-            					<li>
-              					<%= link_to new_user_session_path do %>
-              			         <i class="glyphicon glyphicon-log-in"></i>
-              					<% end %> 
-             				 </li>
-          				<% end %>
-                </ul>
+                 </ul>
               </div>
             </div>
           </nav>
@@ -64,12 +50,25 @@
           <div class="container">
             <div class="row">
               <div class="banner-info text-center wow fadeIn delay-05s">
-                <h1 class="bnr-title">We are at ba<span>ker</span></h1>
-                <h2 class="bnr-sub-title">Starting a new journey!!</h2>
-                <p class="bnr-para">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<br> Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip <br>ex ea commodo consequat.</p>
+                <h1 class="bnr-title">Willkommen bei TG<span>cloud</span></h1>
+                <% if user_signed_in? %>
+                  <%= contactChip(current_user) %>
+                <% end %>
+                <h2 class="bnr-sub-title">Starten Sie jetzt mit den neuen Services!!</h2>
+                <p class="bnr-para">Registrieren Sie sich noch heute und profitieren sofort von den Services.<br> </p>
                 <div class="brn-btn">
-                  <a href="#" class="btn btn-download">Download now!</a>
-                  <a href="#" class="btn btn-more">Learn More</a>
+                  <% if user_signed_in? %>
+        					  <%= link_to(destroy_user_session_path, method: :delete) do %>
+        				    	<i class="btn btn-more">Abmelden</i>
+        					  <% end %>
+        					<% else %>
+        					  <%= link_to new_user_registration_path do %>
+        				    	<i class="btn btn-download">Registrieren</i>
+        					  <% end %>
+          					<%= link_to new_user_session_path do %>
+          			      <i class="btn btn-more">Anmelden</i>
+          					<% end %> 
+                  <% end %>
                 </div>
                 <div class="overlay-detail">
                   <a href="#yield"><i class="fa fa-angle-down"></i></a>

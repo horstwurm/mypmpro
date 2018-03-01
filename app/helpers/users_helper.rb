@@ -1380,10 +1380,10 @@ def build_medialistNew(items, cname, par)
                 end
               when "searches"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                  content_tag(:i, nil, class:"btn btn-danger btn-lg glyphicon glyphicon-trash pull-right")
                 end
   	            html_string = html_string + link_to(edit_search_path(:id => item)) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                  content_tag(:i, nil, class:"btn btn-default btn-lg glyphicon glyphicon-wrench")
                 end
               when "msponsors"
   	            html_string = html_string + link_to(tickets_path :msponsor_id => item.id) do 
@@ -1557,15 +1557,13 @@ def showImage2(size, item, linkit)
     return html_string.html_safe
 end
 
-def header(header, format)
-
-    if format
-      html_string = "<div class='col-xs-12'><div class='panel-heading header'><li_header>" + header + "</li_header></div></div>"
-    else
-      html_string = "<div class='panel-heading header'><li_header>" + header + "</li_header></div>"
-    end
-
-    html_string = "<li_header>" + header + "</li_header>"
+def header(header)
+    html_string = ""
+    #html_string = html_string + '<div class="container">'
+      html_string = html_string + '<div class="panel-body ueberschrift">'
+        html_string = html_string + header
+      html_string = html_string + "</div>"
+    #html_string = html_string + "</div>"
 
     return html_string.html_safe
 end

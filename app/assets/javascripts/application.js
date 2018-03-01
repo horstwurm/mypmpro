@@ -23,5 +23,4 @@
 //= require moment 
 //= require fullcalendar
 //= require fullcalendar/gcal
-//= require jquery.bxslider.min
 //= require_tree .

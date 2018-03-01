@@ -1,15 +1,12 @@
 
   <div class="row">
     <header>
-    <%= header("<queryshow><i class='glyphicon glyphicon-filter', style='font-size:2em'></i></queryshow> " + @mtype.to_s + " " + @msubtype.to_s + " " + @filter_id.to_s + " " + @search.to_s + "<span class='badge'>" + @mobanz.to_s + "</span><queryhide><i class='glyphicon glyphicon-menu-up pull-right'></i></queryhide>", true) %>
+    <%= header("<queryshow><i class='glyphicon glyphicon-filter', style='font-size:2em'></i></queryshow><queryhide><i class='glyphicon glyphicon-remove', style='font-size:2em'></i></queryhide>" + @mtype.to_s + " " + @msubtype.to_s + " " + @filter_id.to_s + " " + @search.to_s + "<span class='badge'>" + @mobanz.to_s + "</span>") %>
     <query>
       <% if user_signed_in? %>
-      <div class='col-xs-12'>
-        <div class="panel-body">
-  		    <%= link_to new_search_path(:user_id => current_user.id, :search_domain => "objekte", :controller_name => @controller_name, :mtype => @mtype, :msubtype => @msubtype) do %>
-            <i class="btn btn-primary glyphicon glyphicon-plus"></i>
-          <% end %>
-			  </div>
+		    <%= link_to new_search_path(:user_id => current_user.id, :search_domain => "objekte", :controller_name => @controller_name, :mtype => @mtype, :msubtype => @msubtype) do %>
+          <i class="btn btn-primary glyphicon glyphicon-plus">Neue Abfrage</i>
+        <% end %>
         <% if @msubtype %>
           <% @searches = Search.where('search_domain=? and user_id=? and mtype=? and msubtype=?', "objekte", current_user.id, @mtype, @msubtype) %>
         <% else %>
@@ -18,7 +15,6 @@
           <% end %>
         <% end %>
         <%= build_medialistNew(@searches, "searches", nil) %>
-      </div>
     <% end %>
     </query>
     </header>
@@ -109,14 +105,14 @@ $(document).ready(function(){
     $("queryhide").hide();
     $("queryhide").hide();
 
-    $("queryshow").mouseover(function(){
+    $("queryshow").click(function(){
         $("query").show();
         $("queryshow").hide();
         $("queryhide").show();
 
     });
     
-    $("queryhide").mouseover(function(){
+    $("queryhide").click(function(){
         $("query").hide();
         $("queryshow").show();
         $("queryhide").hide();

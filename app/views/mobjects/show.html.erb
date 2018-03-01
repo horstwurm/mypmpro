@@ -135,7 +135,7 @@
                         <% if false %>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                           <div>
-                            <%= header("Antworten pro Frage", false) %>
+                            <%= header("Antworten pro Frage") %>
                           </div>
                           <div id="chartq"></div>
                         </div>
@@ -144,7 +144,7 @@
                          <% @mobject.questions.each do |q| %>
                           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                             <div>
-                              <%= header(( I18n.t :frage) +q.name, false) %>
+                              <%= header(( I18n.t :frage) +q.name) %>
                             </div>
                             <div id="<%="chart"+q.id.to_s %>"></div>
                           </div>
@@ -206,7 +206,7 @@
                     <br>
                     
                    <% when "projekte" %>
-                    <%= header(:projekte, false) %>
+                    <%= header(:projekte) %>
                     <div class="panel-body">
                       <%= build_medialistNew(Mobject.where('parent=?',@mobject.id).order(created_at: :desc), "mobjects", "user") %>
                     </div>
@@ -357,7 +357,7 @@
               <% end %>
 
               <% if @mobject.mtype == "projekte" %>
-                <%= header((I18n.t :projekte), false) %>
+                <%= header((I18n.t :projekte)) %>
                 <div class="panel-body">
                   <%= build_medialistNew(Mobject.where('parent=?',@mobject.id).order(created_at: :desc), "mobjects", "user") %>
                 </div>
@@ -365,7 +365,7 @@
               <% end %>
             
               <% if @mobject.mtype == "gruppen" %>
-                <%= header((I18n.t :gruppenmitglieder), false) %>
+                <%= header((I18n.t :gruppenmitglieder)) %>
                 <div class="panel-body">
                   <%= build_medialistNew(@mobject.madvisors.where('role=?', @mobject.mtype), "madvisors", "user") %>
                 </div>
@@ -373,22 +373,22 @@
               <% end %>
 
                <% if @mobject.mtype == "innovationswettbewerbe" %>
-                <%= header((I18n.t :ideen), false) %>
+                <%= header((I18n.t :ideen)) %>
                 <div class="panel-body">
                   <%= build_medialistNew(@mobject.ideas.order(rating: :desc), "ideas", "user") %>
                 </div>
                 <br>
-                <%= header((I18n.t :preise), false) %>
+                <%= header((I18n.t :preise)) %>
                 <div class="panel-body">
                   <%= build_medialistNew(@mobject.prices.order(:sequence), "prices", nil) %>
                 </div>
                 <br>
-                <%= header((I18n.t :bewertungskriterien), false) %>
+                <%= header((I18n.t :bewertungskriterien)) %>
                 <div class="panel-body">
                   <%= build_medialistNew(@mobject.crits.order(:name), "crits", nil) %>
                 </div>
                 <br>
-                <%= header((I18n.t :jury), false) %>
+                <%= header((I18n.t :jury)) %>
                 <div class="panel-body">
                   <%= build_medialistNew(@mobject.madvisors.where("role=? and (grade=? or grade=?)", "innovationswettbewerbe", "Jury-Vorsitz", "Jury-Mitglied"), "madvisors", "user") %>
                 </div>
@@ -401,7 +401,7 @@
               <%= @mobject.created_at.strftime("%d.%m.%Y") %>
               </div>
     
-              <%= header((I18n.t :standort), false) %>
+              <%= header((I18n.t :standort)) %>
               <div class="panel-body">
                 <% if @mobject.longitude and @mobject.latitude %>
                   <i class="glyphicon glyphicon-map-marker pull-left" onclick="return init_map(0);"></i>
@@ -501,14 +501,14 @@
             <% @objs = SignageHit.select("mkampagne as obj, count(mkampagne) as summe").where('mstandort=?', @mobject.id).group("mkampagne") %>
           <% end %>
 
-          <%= header((I18n.t :anzahl), false) %> 
+          <%= header((I18n.t :anzahl)) %> 
           <div id="signchartzeit"></div>
           <br><br>
           <% if @mtype == "kampagnen" %>
-            <%= header((I18n.t :standorte), false) %> 
+            <%= header((I18n.t :standorte)) %> 
           <% end %>
           <% if @mtype == "standorte" %>
-            <%= header((I18n.t :kampagnen), false) %> 
+            <%= header((I18n.t :kampagnen)) %> 
           <% end %>
           <div id="signchartobjekt"></div>
           <br><br>
@@ -516,14 +516,14 @@
           <% num =0 %>
           <% @objs.each do |o| %>
             <% num = num + 1 %>
-            <%= header(Mobject.find(o.obj).name, false) %> 
+            <%= header(Mobject.find(o.obj).name) %> 
             <div id="signchartobj<%= num %>"></div>
             <br><br>
           <% end %>
 
         <% when "objekte_signcal" %>
           <div id='calendar'></div>
-          <%= header("Kalenderübersicht ", false) %>
+          <%= header("Kalenderübersicht ") %>
           <div class="panel-body">
           	<table class="table table-striped">
               <thead>
@@ -1212,7 +1212,7 @@
                   <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                     <div>
                       <% @user = User.find(u.user_id) %>
-                      <%= header((I18n.t :personen) + " " + @user.name + " " + @user.lastname, false) %>
+                      <%= header((I18n.t :personen) + " " + @user.name + " " + @user.lastname) %>
                       
                       <!--Sicht Monat/MA -->
                       <% if @c_mode == "alles" %>

@@ -1,29 +1,19 @@
-  <% if false %>
-  <div class="row">
-      <%= header("Institutionen " + "<span class='badge'>" + @companz.to_s + "</span>", true) %>
-  </div>
-  <% end %>
-  
   <div class="row">
     <header>
-    <%= header("<queryshow><i class='glyphicon glyphicon-filter', style='font-size:2em'></i></queryshow> Institutionen <span class='badge'>" + @compsanz.to_s + "</span><queryhide><i class='glyphicon glyphicon-menu-up pull-right'></i></queryhide>", true) %>
+    <%= header("<queryshow><i class='glyphicon glyphicon-filter', style='font-size:2em'></i></queryshow><queryhide><i class='glyphicon glyphicon-remove', style='font-size:2em'></i></queryhide>Institutionen <span class='badge'>" + @compsanz.to_s + "</span>") %>
     <query>
     <% if user_signed_in? %>
-      <div class='col-xs-12'>
-           <div class="panel-body">
-              <%= link_to new_search_path(:user_id => current_user.id, :search_domain => "institutionen", :controller_name => @controller_name) do %>
-                  <i class="btn btn-primary glyphicon glyphicon-plus"></i>
-              <% end %>
-           </div>
+          <%= link_to new_search_path(:user_id => current_user.id, :search_domain => "institutionen", :controller_name => @controller_name) do %>
+              <i class="btn btn-primary glyphicon glyphicon-plus">Neue Abfrage</i>
+          <% end %>
           <% @searches = Search.where('search_domain=? and user_id=?', "institutionen", current_user.id) %>
           <%= build_medialistNew(@searches, "searches", nil) %>
-      </div>
     <% end %>
     </query>
     </header>
   </div>
 
-    <div class="panel-body">
+    <div class="panel">
     <div class="row">
       <div class="col-md-12">
         <div class="digg_pagination">
@@ -39,7 +29,7 @@
   
   <%= build_medialistNew(@companies,"companies","panel") %>
 
-  <div class="panel-body">
+  <div class="panel">
     <div class="row">
       <i class="glyphicon glyphicon-map-marker pull-left" onclick="return initialize();"></i>
       <div class="col-md-12">
@@ -107,14 +97,14 @@ $(document).ready(function(){
     $("queryhide").hide();
     $("queryhide").hide();
 
-    $("queryshow").mouseover(function(){
+    $("queryshow").click(function(){
         $("query").show();
         $("queryshow").hide();
         $("queryhide").show();
 
     });
     
-    $("queryhide").mouseover(function(){
+    $("queryhide").click(function(){
         $("query").hide();
         $("queryshow").show();
         $("queryhide").hide();
