@@ -1,4 +1,5 @@
-/* render html5 elements as block */
+/* ========================================================================================================k */
+/* CUSTOM */
 
 .btn-inactive {
       background-color: grey;
@@ -100,3 +101,9 @@
 @import "*";
 @import "bootstrap-sprockets";
 @import "bootstrap";
+
+@import "animate";
+@import "bootstrap.min";
+@import "font-awesome.min";
+@import "jquery.bxslider";
+@import "style";

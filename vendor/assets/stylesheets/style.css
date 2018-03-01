@@ -116,7 +116,7 @@ HEADER
 ***********************************/
 
 .header {
-  background: url('../img/bg-banner02.jpg') no-repeat fixed;
+  background: url('../vendor/assets/images/bg-banner02.jpg') no-repeat fixed;
   background-size: cover;
   min-height: 650px;
   position: relative;
@@ -486,7 +486,7 @@ TESTIMONIAL
 ***********************************/
 
 #testimonial {
-  background: url('/theme_baker/img/bg.jpg') no-repeat;
+  background: url('../vendor/assets/images/bg.jpg') no-repeat;
   background-size: cover;
   min-height: 390px;
 }
@@ -851,4 +851,104 @@ Responsive media queries
     line-height: 22px;
     text-align: center;
   }
+}
+
+/* ========================================================================================================k */
+/* CUSTOM */
+
+.btn-inactive {
+      background-color: grey;
+      color:white;
+}
+
+.btn-active {
+      background-color: orange;
+      color:white;
+}
+
+.ueberschrift {
+  background-color: rgb(73, 84, 105)!important;
+  color:white;
+}
+
+.form-control {
+  background-color: transparent;
+  border-radius: 0px;
+  color: #be9e21 !important;
+  border-color: #be9e21;
+}
+
+.form-control:focus {
+  border-color: #be9e21;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+}
+
+.jumbotron {
+   box-shadow: 2px 2px 10px #B1B1B1;
+   background: transparent!important;
+   background: rgb(73, 84, 105)!important;
+}
+
+.chip {
+    display: inline-block;
+    padding: 0 25px;
+    height: 50px;
+    font-size: 16px;
+    //color: $color5!important;
+    line-height: 50px;
+    border-radius: 25px;
+    background-color: #f1f1f1;
+}
+
+.chip img {
+    float: left;
+    margin: 0 10px 0 -25px;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+
+
+#snackbar {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #be9e21;
+    color: white;
+    text-align: center;
+    border-radius: 10px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    font-size: 17px;
+}
+
+#snackbar.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;} 
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;} 
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
 }

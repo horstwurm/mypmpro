@@ -16,6 +16,6 @@
  *= require owl.theme
  *= require bootstrap-datepicker
  *= require fullcalendar
- *= require_tree .
  *= require_self
+ *= require_tree .
  */

@@ -19,6 +19,7 @@ gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
 gem 'bootstrap-sass'
+gem 'sprockets-rails'
 gem 'devise'
 gem 'geocoder'
 gem 'gmaps4rails'
@@ -26,9 +27,12 @@ gem 'paperclip'
 gem 'will_paginate'
 gem 'bootstrap-slider-rails'
 gem "bootstrap-switch-rails"
-gem 'owlcarousel-rails'
 gem 'bootstrap-datepicker-rails'
+gem 'owlcarousel-rails'
+gem 'fullcalendar.io-rails'
+gem 'momentjs-rails'
 gem 'jquery-turbolinks'
+gem "font-awesome-rails"
 gem 'aws-sdk', '~>2.3'
 gem 'rqrcode-with-patches', '~> 0.5.4'
 gem 'rqrcode_png'
@@ -37,9 +41,6 @@ gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
 gem "paperclip-ffmpeg", "~> 1.0.1"
 
 gem 'figaro'
-
-gem 'fullcalendar.io-rails'
-gem 'momentjs-rails'
 
 gem 'writeexcel'
 gem 'creek'

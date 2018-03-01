@@ -35,7 +35,7 @@
 
     <%= render 'layouts/header' %>
 
-    <%= render 'layouts/yield' %>
+    <%= yield %>
 
     <%= render 'layouts/feature' %>
 
@@ -80,11 +80,13 @@
   </body>
 </html>
 
-<link rel="stylesheet" type="text/css" href="/theme_baker/css/jquery.bxslider.css">
-<link rel="stylesheet" type="text/css" href="/theme_baker/css/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href="/theme_baker/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="/theme_baker/css/animate.css">
-<link rel="stylesheet" type="text/css" href="/theme_baker/css/style.css">
+<% if false %>
+<link rel="stylesheet" type="text/css" href="../assets/stylesheets/jquery.bxslider.css">
+<link rel="stylesheet" type="text/css" href="../assets/stylesheets/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="../assets/stylesheets/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="../assets/stylesheets/animate.css">
+<link rel="stylesheet" type="text/css" href="../assets/stylesheets/style.css">
+<% end %>
 
 <% if flash and flash.count>0 %>
   <script>
@@ -97,9 +99,11 @@
   </script>
 <% end %>
 
-<script src="/theme_baker/js/jquery.min.js"></script>
-<script src="/theme_baker/js/jquery.easing.min.js"></script>
-<script src="/theme_baker/js/bootstrap.min.js"></script>
-<script src="/theme_baker/js/wow.js"></script>
-<script src="/theme_baker/js/jquery.bxslider.min.js"></script>
-<script src="/theme_baker/js/custom.js"></script>
+<% if false %>
+<script src="../assets/javascripts/jquery.min.js"></script>
+<script src="../assets/javascripts/jquery.easing.min.js"></script>
+<script src="../app/assets/javascripts/bootstrap.min.js"></script>
+<script src="../assets/javascripts/wow.js"></script>
+<script src="../assets/javascripts/jquery.bxslider.min.js"></script>
+<script src="../assets/javascripts/custom.js"></script>
+<% end %>
