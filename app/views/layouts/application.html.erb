@@ -18,48 +18,63 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
-
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAP0PoTXZAKRi5IO3fM5yRO39puZPiR0iw"></script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <% if false %>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:400,300|Raleway:300,400,900,700italic,700,300,600">
+    <% end %>
+    <% if true %>
+    <link rel="stylesheet" type="text/css" href="../app/vendor/assets/stylesheets/jquery.bxslider.css">
+    <link rel="stylesheet" type="text/css" href="../app/vendor/assets/stylesheets/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../app/vendor/assets/stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../app/vendor/assets/stylesheets/animate">
+    <link rel="stylesheet" type="text/css" href="../app/vendor/assets/stylesheets/style.css">
+    <% end %>
 
   </head>
   
   <body>
 
-  <div class="loader"></div>
-  <div id="myDiv">
-
-    <%= render 'layouts/header' %>
-
+  <!--ganzer Bildschirm für digital signage-->
+  <% if (controller_name == "home" and action_name == "index18") %> 
     <%= yield %>
+  <% else %>
 
-    <% if false %>
-    <%= render 'layouts/feature' %>
-
-    <%= render 'layouts/myservices' %>
-
-    <%= render 'layouts/service' %>
-
-    <%= render 'layouts/portfolio' %>
-
-    <%= render 'layouts/testimonial' %>
-
-    <%= render 'layouts/blog' %>
-
-    <%= render 'layouts/contact' %>
-    <% end %>
-
-    <% flash.each do |name, msg| %>
-      <% content_tag(:div, msg, class:"alert alert-warning") %>
-      <div id="snackbar"><%= msg %></div>
-    <% end %>
-
-  </div>
-
+    <div class="loader"></div>
+    <div id="myDiv">
+  
+      <%= render 'layouts/header' %>
+  
+      <%= yield %>
+  
+      <% if false %>
+      <%= render 'layouts/feature' %>
+  
+      <%= render 'layouts/myservices' %>
+  
+      <%= render 'layouts/service' %>
+  
+      <%= render 'layouts/portfolio' %>
+  
+      <%= render 'layouts/testimonial' %>
+  
+      <%= render 'layouts/blog' %>
+  
+      <%= render 'layouts/contact' %>
+      <% end %>
+  
+      <% flash.each do |name, msg| %>
+        <% content_tag(:div, msg, class:"alert alert-warning") %>
+        <div id="snackbar"><%= msg %></div>
+      <% end %>
+  
+    </div>
+    </div>
+  <% end %>
 
   <% if false %>
     <%= render 'layouts/header' %>
@@ -82,13 +97,6 @@
   </body>
 </html>
 
-<% if false %>
-<link rel="stylesheet" type="text/css" href="../stylesheets/jquery.bxslider.css">
-<link rel="stylesheet" type="text/css" href="../stylesheets/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href="../asset/stylesheets/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="../stylesheets/animate.css">
-<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
-<% end %>
 
 <% if flash and flash.count>0 %>
   <script>

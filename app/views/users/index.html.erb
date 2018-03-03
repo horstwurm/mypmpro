@@ -19,15 +19,17 @@
  
   <%= build_medialistNew(@users, "users", "panel") %>
 
-  <div class="panel">
+<div class="Container">
+  <div class="panel panel-body">
     <div class="row">
+          <% @locs %>
       <i class="glyphicon glyphicon-map-marker pull-left" onclick="return initMap();"></i>
       <div class="col-md-12">
-          <% @locs %>
           <div id="map"></div>
       </div>
     </div>
   </div>
+</div>
 
 <script>
 function initMap() {
@@ -77,6 +79,7 @@ function initMap() {
     });
     
 }
+
 </script>
 
 <% if true %>
