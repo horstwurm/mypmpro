@@ -1,25 +1,26 @@
-<div class=panel body>
-    <%= link_to appparams_updateuser_path do %>
-      <i class="btn btn-primary glyphicon glyphicon-user"></i>
-    <% end %>
-    <div class="row">
-        <%= header($app_name +" Standard Funktionalität", true) %>
+
+<div class="row">
+    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <%= header("Funktionen") %>
+        <%= build_kachel_access("hauptmenue", "system", nil) %>
     </div>
-    <br>
-    <div class="row">
-        <%= header("Hauptmenü", true) %>
+    
+    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <%= header("Funktionen Privatpersonen") %>
+        <%= build_kachel_access("personen", "system", nil) %>
     </div>
-    <%= build_kachel_access("hauptmenue", "system", nil) %>
-    <div class="row">
-        <%= header("Funktionen Privatpersonen", true) %>
+    
+    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <%= header("Funktionen Institutionen") %>
+        <%= build_kachel_access("institutionen", "system", nil) %>
     </div>
-    <%= build_kachel_access("personen", "system", nil) %>
-    <div class="row">
-        <%= header("Funktionen Institutionen", true) %>
+    
+    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <%= header("Funktionen Info-Objekte") %>
+        <%= build_kachel_access("objekte", "system", nil) %>
     </div>
-    <%= build_kachel_access("institutionen", "system", nil) %>
-    <div class="row">
-        <%= header("Funktionen Business Objekte", true) %>
-    </div>
-    <%= build_kachel_access("objekte", "system", nil) %>
 </div>
+
+<%= link_to appparams_updateuser_path do %>
+  <i class="btn btn-primary glyphicon glyphicon-user">alle Benutzer aktualisieren</i>
+<% end %>

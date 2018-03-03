@@ -155,10 +155,10 @@ def build_medialistNew(items, cname, par)
   html_string = html_string + '<div class="container">'
     html_string = html_string + '<div class="row">'
       html_string = html_string + '<div class="col-md-12 text-center">'
-        html_string = html_string + '<h2 class="service-title pad-bt15">Latest from our blog</h2>'
-          html_string = html_string + '<p class="sub-title pad-bt15">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod<br>tempor incididunt ut labore et dolore magna aliqua.</p>'
-            html_string = html_string + '<hr class="bottom-line">'
-          html_string = html_string +'</div>'
+        html_string = html_string + '<h2 class="service-title pad-bt15">übersicht</h2>'
+        #html_string = html_string + '<p class="sub-title pad-bt15">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod<br>tempor incididunt ut labore et dolore magna aliqua.</p>'
+        html_string = html_string + '<hr class="bottom-line">'
+      html_string = html_string + '</div>'
 
   items.each do |item|
     
@@ -1023,6 +1023,8 @@ def build_medialistNew(items, cname, par)
                 html_string = html_string + item.created_at.strftime("%d.%m.%Y") 
           end
           html_string = html_string + '<br><br>'
+          
+          html_string = html_string + '<mediabutton>'
 
           html_string = html_string + '<div class="mediabuttonpanel">'
           #if (Date.today - item.created_at.to_date).to_i < 5
@@ -1062,12 +1064,13 @@ def build_medialistNew(items, cname, par)
                 end
                 if array.include?(current_user.id)
     	            html_string = html_string + link_to(idea_ratings_path(:idea_id => item)) do 
-                    content_tag(:i, nil, class:"glyphicon glyphicon-education")
+                    content_tag(:i, nil, class:"btn btn-default btn-lg glyphicon glyphicon-education")
                   end
                 end
                 if (item.user_id == current_user.id) or isdeputy(item.user)
                   access = true
                 end
+                if false
                 if item.avatar_file_name
                   #html_string = html_string + "Weitere Informationen: "
                   html_string = html_string + link_to(item.avatar.url, target: "_blank") do 
@@ -1079,6 +1082,7 @@ def build_medialistNew(items, cname, par)
                   html_string = html_string + link_to(item.document.url, target: "_blank") do 
                     content_tag(:i, nil, class:"glyphicon glyphicon-book mediabutton")
                   end
+                end
                 end
 
               when "idea_crowdratings"
@@ -1182,18 +1186,18 @@ def build_medialistNew(items, cname, par)
 
                   if item.mtype == "kampagnen"
                     html_string = html_string + link_to(signage_cals_path(:kam_id => item.id)) do
-                      content_tag(:i, nil, class:"glyphicon glyphicon-calendar mediabutton")
+                      content_tag(:i, nil, class:"btn btn-default btn-lg glyphicon glyphicon-calendar")
                     end
-                     html_string = html_string + link_to(home_index11_path(:kam_id => item.id), title: (I18n.t :kampagnenshow), 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip') do
-                      content_tag(:i, nil, class:"bglyphicon glyphicon-film mediabutton")
+                     html_string = html_string + link_to(home_index18_path(:kam_id => item.id), title: (I18n.t :kampagnenshow), 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip') do
+                      content_tag(:i, nil, class:"btn btn-primary btn-lg glyphicon glyphicon-film ")
                      end
                   end
                   if item.mtype == "standorte"
                     html_string = html_string + link_to(signage_cals_path(:loc_id => item.id)) do
-                      content_tag(:i, nil, class:"glyphicon glyphicon-calendar mediabutton")
+                      content_tag(:i, nil, class:"btn btn-default btn-lg glyphicon glyphicon-calendar mediabutton")
                     end
-                     html_string = html_string + link_to(home_index11_path(:loc_id => item.id), title: (I18n.t :standortshow), 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip') do
-                      content_tag(:i, nil, class:"glyphicon glyphicon-film mediabutton")
+                     html_string = html_string + link_to(home_index18_path(:standort => item.id), title: (I18n.t :standortshow), 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip') do
+                      content_tag(:i, nil, class:"btn btn-primary btn-lg glyphicon glyphicon-film ")
                      end
                    end
                 end
@@ -1229,7 +1233,7 @@ def build_medialistNew(items, cname, par)
           end
 
           #kein Info button wenn kein weiterer drill down
-          if cname != "prices" and cname != "crits"
+          if cname != "prices" and cname != "crits" and cname != "mdetails" and cname != "madvisors"
             html_string = html_string + link_to(item, :topic => "info") do 
               content_tag(:i, nil, class:"btn btn-primary btn-lg glyphicon glyphicon-info-sign")
             end
@@ -1239,51 +1243,51 @@ def build_medialistNew(items, cname, par)
             case cname 
               when "companies"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"btn btn-danger btn-lg glyphicon glyphicon-trash pull-right mediabutton")
+                  content_tag(:i, nil, class:"btn btn-danger btn-lg glyphicon glyphicon-trash pull-right")
                 end
   	            html_string = html_string + link_to(edit_company_path(:id => item)) do 
-                  content_tag(:i, nil, class:"btn btn-default btn-lg glyphicon glyphicon-wrench mediabutton")
+                  content_tag(:i, nil, class:"btn btn-default btn-lg glyphicon glyphicon-wrench")
                 end
               when "users"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"btn btn-danger btn-lg glyphicon glyphicon-trash pull-right mediabutton")
+                  content_tag(:i, nil, class:"btn btn-danger btn-lg glyphicon glyphicon-trash pull-right")
                 end
   	            html_string = html_string + link_to(edit_user_path(:id => item)) do 
-                  content_tag(:i, nil, class:"btn btn-default btn-lg glyphicon glyphicon-wrench mediabutton")
+                  content_tag(:i, nil, class:"btn btn-default btn-lg glyphicon glyphicon-wrench")
                 end
               when "prices"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                  content_tag(:i, nil, class:"btn btn-danger btn-lg glyphicon glyphicon-trash pull-right")
                 end
   	            html_string = html_string + link_to(edit_price_path(:id => item)) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                  content_tag(:i, nil, class:"btn btn-default btn-lg glyphicon glyphicon-wrench")
                 end
               when "crits"
                 if par 
     	            html_string = html_string + link_to(edit_idea_rating_path(:id => @idearating.id)) do 
-                    content_tag(:i, nil, class:"glyphicon glyphicon-pencil mediabutton")
+                    content_tag(:i, nil, class:"btn btn-primary btn-lg glyphicon glyphicon-pencil")
                   end
                 else
     	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                    content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                    content_tag(:i, nil, class:"btn btn-danger btn-lg glyphicon glyphicon-trash pull-right")
                   end
     	            html_string = html_string + link_to(edit_crit_path(:id => item)) do 
-                    content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                    content_tag(:i, nil, class:"btn btn-default btn-lg glyphicon glyphicon-wrench")
                   end
                 end
               when "ideas"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                  content_tag(:i, nil, class:"btn btn-danger btn-lg glyphicon glyphicon-trash pull-right")
                 end
   	            html_string = html_string + link_to(edit_idea_path(:id => item)) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                  content_tag(:i, nil, class:"btn btn-default btn-lg glyphicon glyphicon-wrench")
                 end
               when "idea_crowdratings"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                  content_tag(:i, nil, class:"btn btn-danger btn-lg glyphicon glyphicon-trash pull-right")
                 end
   	            html_string = html_string + link_to(edit_idea_crowdrating_path(:id => item)) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                  content_tag(:i, nil, class:"btn btn-default btn-lg glyphicon glyphicon-wrench")
                 end
               when "edition_arcticles"
   	            html_string = html_string + link_to(edition_arcticles_path(:edition_id => item.edition_id, :dir => "left", :d_id => item.id)) do 
@@ -1332,11 +1336,13 @@ def build_medialistNew(items, cname, par)
                 #     content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-envelope")
                 #   end
                 # end
-  	            html_string = html_string + link_to(edit_madvisor_path(:id => item)) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                if item.mobject.mtype == "projekte"
+    	            html_string = html_string + link_to(edit_madvisor_path(:id => item)) do 
+                    content_tag(:i, nil, class:"btn btn-default btn-lg glyphicon glyphicon-wrench")
+                  end
                 end
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                  content_tag(:i, nil, class:"btn btn-danger btn-lg glyphicon glyphicon-trash pull-right")
                 end
 
               when "deputies"
@@ -1397,15 +1403,15 @@ def build_medialistNew(items, cname, par)
                 end
               when "mdetails"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                  content_tag(:i, nil, class:"btn btn-danger btn-lg glyphicon glyphicon-trash pull-right")
                 end
                 if item.mobject.mtype == "artikel"
     	            html_string = html_string + link_to(mobject_path(:id => item.mobject_id, :topic => "objekte_details", :dir => "left", :d_id => item.id)) do 
-                    content_tag(:i, nil, class:"glyphicon glyphicon-chevron-left mediabutton")
+                    content_tag(:i, nil, class:"btn btn-default btn-lg glyphicon glyphicon-chevron-left")
                   end
                 end
   	            html_string = html_string + link_to(edit_mdetail_path(:id => item)) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                  content_tag(:i, nil, class:"btn btn-default btn-lg glyphicon glyphicon-wrench")
                 end
               when "questions"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
@@ -1475,16 +1481,16 @@ def build_medialistNew(items, cname, par)
                  #end
 
             end
-            html_string = html_string + '</div>' #blog-comment
-            html_string = html_string + '</div>' #blog-info
-            html_string = html_string + '<br>'
+
           end
+              html_string = html_string + '</div>' #blog-comment
+            html_string = html_string + '</div>' #blog-info
           html_string = html_string + '</div>'
         html_string = html_string + '</div>'
       html_string = html_string + '</div>'
 
-    end
-  end
+    end #item show
+  end # loop item
   html_string = html_string + '</div>'
   if par == "panel"
     html_string = html_string + '</div>'
@@ -2028,7 +2034,7 @@ def action_buttons4(object_type, item, topic)
                 end
               end
              end
-             
+
         when "personen_zeiterfassung"
              if user_signed_in?
               if (item.id == current_user.id) or current_user.superuser
@@ -3163,13 +3169,11 @@ def build_myservices
 
     html_string = ""
 
+    creds = init_apps
     if user_signed_in?  
-      init_apps
       creds = getUserCreds
-    else
-      creds = init_apps
     end
-
+    
     domains = []
     domains << "zeiterfassung"
     domains << "personen"
@@ -3226,11 +3230,10 @@ def simple_menue (domain, path)
   html_string= ""
   html_string = html_string + '<div class="col-md-4 col-sm-6 col-xs-12">'
     html_string = html_string + '<div class="service-item">'
-      html_string = html_string + '<h3><span>'
       html_string = html_string + link_to(path) do
-        content_tag(:i, nil, class:"glyphicon glyphicon-" + getinfo2(domain.to_sym)["info"]) 
+        content_tag(:i, nil, class:"glyphicon glyphicon-" + getinfo2(domain.to_sym)["info"], style:"font-size:2em") 
       end
-      html_string = html_string + '</span>'+domain+'</h3>'
+      html_string = html_string + " " + domain.upcase
       #html_string = html_string + '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>'
     html_string = html_string + '</div>'
   html_string = html_string + '</div>'
@@ -3240,22 +3243,23 @@ end
 def build_kachel_access(topic, mode, user)
 
   html_string = ""
+  
+  html_string = html_string + '<table class="table table-striped>"'
+  
   appparams = Appparam.where('domain=?',topic)
   appparams.each do |a|
   
     if mode == "system"
       if a.access
-          thumbnail_state = 'thumbnail-active'
+          thumbnail_state = 'glyphicon glyphicon-ok-sign ac'
         else
-          thumbnail_state = 'thumbnail-inactive'
+          thumbnail_state = 'glyphicon glyphicon-remove-sign noac'
       end
       cpath = appparams_path(:id => a.id)
     end
 
     if mode == "user"
-
       @credential = user.credentials.where('appparam_id=?',a.id).first
-
       if !@credential
           @cred = Credential.new
           @cred.appparam_id = a.id
@@ -3265,25 +3269,42 @@ def build_kachel_access(topic, mode, user)
           @credential = user.credentials.where('appparam_id=?',a.id).first
       end
       if @credential.access
-          thumbnail_state = 'thumbnail-active'
+          thumbnail_state = 'glyphicon glyphicon-ok-sign ac'
         else
-          thumbnail_state = 'thumbnail-inactive'
+          thumbnail_state = 'glyphicon glyphicon-remove-sign noac'
       end
       cpath = user_path(:id => @credential.user_id, :credential_id => @credential.id, :topic => "personen_zugriffsberechtigungen")
     end
-
-    html_string = html_string + link_to(cpath) do
-      content_tag(:div, nil, class:"col-xs-4 col-sm-4 col-md-3 col-lg-2") do 
-        content_tag(:div, nil, class:"thumbnail " + thumbnail_state, align:"center") do
-          content_tag(:span, nil) do
-            info_size = "4"
-            content_tag(:i, nil, class:"glyphicon glyphicon-" + getinfo2(a.right.to_sym)["info"], style:"font-size:" + info_size + "em") + content_tag(:small_cal, "<br>".html_safe + (I18n.t a.right))
+    
+    html_string = html_string + "<tr>"
+      
+        if false
+        html_string = html_string + link_to(cpath) do
+          content_tag(:div, nil, class:"col-xs-4 col-sm-4 col-md-3 col-lg-2") do 
+            content_tag(:div, nil, class:"thumbnail " + thumbnail_state, align:"center") do
+              content_tag(:span, nil) do
+                info_size = "4"
+                content_tag(:i, nil, class:"glyphicon glyphicon-" + getinfo2(a.right.to_sym)["info"], style:"font-size:" + info_size + "em") + content_tag(:small_cal, "<br>".html_safe + (I18n.t a.right))
+              end
+            end
           end
         end
-      end
-    end
+        end
+
+      html_string = html_string + "<td>"
+        html_string = html_string + link_to(cpath) do
+          content_tag(:i, nil, class: thumbnail_state)
+        end
+      html_string = html_string + "</td>"
+      html_string = html_string + "<td>"
+          info_size = "1"
+          html_string = html_string + content_tag(:i, nil, class: "glyphicon glyphicon-" + getinfo2(a.right.to_sym)["info"], style:"font-size:" + info_size + "em") + " " + content_tag(:small_cal, (I18n.t a.right))
+      html_string = html_string + "</td>"
+      
+    html_string = html_string + "</tr>"
 
   end    
+  html_string = html_string + "</table>"
   return html_string.html_safe
 end
 

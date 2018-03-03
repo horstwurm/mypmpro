@@ -1,6 +1,14 @@
 /* ========================================================================================================k */
 /* CUSTOM */
 
+.ac {
+      color:green;
+}
+
+.noac {
+      color:red;
+}
+
 .btn-inactive {
       background-color: grey;
       color:white;

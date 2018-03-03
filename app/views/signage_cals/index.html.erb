@@ -1,31 +1,33 @@
 
   <div class="row">
     <% if @loc %>
-      <%= header("Kalender " + @loc.name + " " + "<span class='badge'>" + @anz.to_s + "</span>", true) %>
+      <%= header("Kalender " + @loc.name + " " + "<span class='badge'>" + @anz.to_s + "</span>") %>
     <% end %>
     <% if @kam %>
-      <%= header("Kalender " + @kam.name + " " + "<span class='badge'>" + @anz.to_s + "</span>", true) %>
+      <%= header("Kalender " + @kam.name + " " + "<span class='badge'>" + @anz.to_s + "</span>") %>
     <% end %>
   </div>
 
-  <div class="panel-header">
-    <% if user_signed_in? %>
-      <% if @loc %>
-        <%= link_to new_signage_cal_path(:loc_id => @loc.id) do %>
-          <i class="btn btn-primary glyphicon glyphicon-plus"></i>
+  <div class="row">
+    <div class="panel panel-body">
+      <% if user_signed_in? %>
+        <% if @loc %>
+          <%= link_to new_signage_cal_path(:loc_id => @loc.id) do %>
+            <i class="btn btn-primary">Kampagne hinzufügen</i>
+          <% end %>
+        <% end %>
+        <% if @kam %>
+          <%= link_to new_signage_cal_path(:kam_id => @kam.id) do %>
+            <i class="btn btn-primary">Standort hinzufügen</i>
+          <% end %>
         <% end %>
       <% end %>
-      <% if @kam %>
-        <%= link_to new_signage_cal_path(:kam_id => @kam.id) do %>
-          <i class="btn btn-primary glyphicon glyphicon-plus"></i>
-        <% end %>
-      <% end %>
-    <% end %>
+    </div>
   </div>
 
   <div id='calendar'></div>
   
-  <%= header("Kalenderübersicht ", false) %>
+  <%= header("Kalenderübersicht ") %>
   <div class="panel-body">
   	<table class="table table-striped">
       <thead>

@@ -11,23 +11,15 @@
             </div>
         <% end %>
 
-        <div class="row">
-            <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading header">
-                      <li_header>
-                        <%= link_to user_path(:id => @planning.user_id, :topic => "personen_ressourcenplanung", :year => @planning.jahr, :mode => "Jahr") do %>
-                          <i class="btn btn-primary glyphicon glyphicon-list"></i>
-                        <% end %>
-                        <%= (I18n.t :kapazitaetsplanung) + " " + (I18n.t @planning.costortime) + " " + @planning.user.name + " " + @planning.user.lastname + " " + @planning.mobject.name + " " + @planning.jahr + "/" + @planning.monat %>
-                      </li_header>
-                    </div>
-                </div>
+     <div class="row">
+        <div class="col-md-12">
+            <div class="panel-body ueberschrift">
+                <h1><%= (I18n.t :kapazitaetsplanung) + " " + (I18n.t @planning.costortime) + " " + @planning.user.name + " " + @planning.user.lastname + " " + @planning.mobject.name + " " + @planning.jahr + "/" + @planning.monat %></h1> 
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
-                <div class="panel-body">
+            <div class="col-md-4">
+                <div class="panel panel-body">
 
                     <% if @planning.costortime == "aufwand" %>
                         <div class="form-group">
@@ -51,6 +43,9 @@
                     <% end %>
                     <div class="actions">
                        <%= f.submit (I18n.t :speichern), class:"btn btn-primary btn-lg"%>
+                        <%= link_to user_path(:id => @planning.user_id, :topic => "personen_ressourcenplanung", :year => @planning.jahr, :mode => "Jahr") do %>
+                          <i class="btn btn-default btn-lg">Abbrechen</i>
+                        <% end %>
                     </div>
                     <%= f.hidden_field :user_id, class:"form-control"  %>
                     <%= f.hidden_field :mobject_id, class:"form-control"  %>

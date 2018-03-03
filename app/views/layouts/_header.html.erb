@@ -39,7 +39,12 @@
                   <li class=""><a href="../#testimonial">Kundenfeedback</a></li>
                   <li class=""><a href="../#blog">Blog</a></li>
                   <li class=""><a href="../#contact">Kontakt</a></li>
-                  <% if user_signed_in? %>
+                  <% if user_signed_in? and current_user.superuser %>
+                    <li>
+                    <%= link_to appparams_path do %>
+        				    	<i class="">Berechtigungen</i>
+        					  <% end %>
+                    </li>
                   <% end %>
                  </ul>
               </div>

@@ -1,54 +1,57 @@
   <%= form_for @idea_rating do |f| %>
-     <div class="row">
-        <div class="col-md-10">
-            <div class="panel panel-default">
-                <div class="panel-heading header">
-                <li_header>
-                <%= link_to idea_ratings_path(:idea_id => @idea_rating.idea_id) do %>
-                  <i class="btn btn-primary glyphicon glyphicon-list"></i>
-                <% end %>
-                  <%= (I18n.t :rating) + " " + @idea_rating.idea.header + " " + @idea_rating.crit.name %>
-                </li_header>
-                </div>
-                <div class="panel-body">
-                  <% if @idea_rating.errors.any? %>
-                    <div id="error_explanation">
-                      <h2><%= pluralize(@idea_rating.errors.count, "error") + " " + (I18n.t :notsaved) %></h2>
-                      <ul>
-                        <% @idea_rating.errors.full_messages.each do |message| %>
-                          <li><%= message %></li>
-                        <% end %>
-                      </ul>
-                    </div>
-                  <% end %>
-                  <div class="form-group">
-                    <%= f.label (I18n.t :rating) %><br/>
-                    <div class="form-group">
-                      <input id="ex2" data-slider-id='ex2Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="<%= @idea_rating.rating %>"/>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <%= f.label (I18n.t :kommentar) %><br/>
-                    <%= f.text_area :rating_text, rows: 5, class:"form-control"%>
-                  </div>
-                      <%= f.hidden_field :user_id, class:"form-control" %>
-                      <%= f.hidden_field :crit_id, class:"form-control" %>
-                      <%= f.hidden_field :idea_id, class:"form-control" %>
-                      <%= f.number_field :rating, :id => "rating", class:"form-control hidden"%>
-                  </div>
-                </div>
-            </div>
-        </div>
-     </div>
-     <div class="row">
-        <div class="col-md-6">
-            <div class="actions">
-              <%= f.submit "Speichern", class:"btn btn-primary btn-lg"%>
-            </div>
-        </div>
-      </div>
+
+  <% if @idea_rating.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@idea_rating.errors.count, "error") + " " + (I18n.t :notsaved) %></h2>
+      <ul>
+        <% @idea_rating.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
     </div>
   <% end %>
+
+  <div class="row">
+    <div class="col-md-12">
+        <div class="panel-body ueberschrift">
+            <h1><%= (I18n.t :rating) + " " + @idea_rating.idea.header + " " + @idea_rating.crit.name %></h1> 
+        </div>
+    </div>
+  </div>
+
+   <div class="row">
+    <div class="col-md-10">
+      <div class="panel panel-body">
+        <div class="form-group">
+          <%= f.label (I18n.t :rating) %><br/>
+          <div class="form-group">
+            <input id="ex2" data-slider-id='ex2Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="<%= @idea_rating.rating %>"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <%= f.label (I18n.t :kommentar) %><br/>
+          <%= f.text_area :rating_text, rows: 5, class:"form-control"%>
+        </div>
+        <%= f.hidden_field :user_id, class:"form-control" %>
+        <%= f.hidden_field :crit_id, class:"form-control" %>
+        <%= f.hidden_field :idea_id, class:"form-control" %>
+        <%= f.number_field :rating, :id => "rating", class:"form-control hidden"%>
+      </div>
+    </div>
+   </div>
+
+   <div class="row">
+      <div class="col-md-6">
+          <div class="actions">
+            <%= f.submit "Speichern", class:"btn btn-primary btn-lg"%>
+            <%= link_to idea_ratings_path(:idea_id => @idea_rating.idea_id) do %>
+              <i class="btn btn-default btn-lg">Abbrechen</i>
+            <% end %>
+          </div>
+      </div>
+    </div>
+  </div>
+<% end %>
 
 <script>
 $("#ex2").slider({});

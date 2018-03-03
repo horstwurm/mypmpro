@@ -9,45 +9,8 @@
     </div>
   </div>
           
-  <div id="mySidenav" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <% case @mobject.mtype %>
-        <% when "angebote" %>
-          <%= link_to(mobject_path(:id => @mobject.id, :topic => "objekte_ansprechpartner")) do %>
-            <% content_tag(:i, " " + (I18n.t :ansprechpartner), class:"glyphicon glyphicon-list") %>
-          <% end %>
-        <% when "projekte" %>
-          <%= link_to(mobject_path(:id => @mobject.id, :topic => "objekte_projektberechtigungen")) do %>
-            <% content_tag(:i, " " + (I18n.t :projektberechtigungen), class:"glyphicon glyphicon-list") %>
-          <% end %>
-        <% when "gruppen" %>
-          <%= link_to(mobject_path(:id => @mobject.id, :topic => "objekte_gruppenmitglieder")) do %>
-            <% content_tag(:i, " " + (I18n.t :gruppenmitglieder), class:"glyphicon glyphicon-list") %>
-          <% end %>
-        <% when "innovationswettbewerbe" %>
-          <%= link_to(mobject_path(:id => @mobject.id, :topic => "objekte_projektberechtigungen")) do %>
-            <% content_tag(:i, " " + (I18n.t :projektberechtigungen), class:"glyphicon glyphicon-list") %>
-          <% end %>
-        <% else %>
-          <%= link_to(mobject_path(:id => @mobject.id, :topic => "objekte_projektberechtigungen")) do %>
-            <% content_tag(:i, " " + (I18n.t :projektberechtigungen), class:"glyphicon glyphicon-list") %>
-          <% end %>
-      <% end %>
-  </div>
-  
   <div class="row">
-      <% case @mobject.mtype %>
-        <% when "angebote" %>
-          <%= header('<span onclick="openNav()"><i class="btn btn-header glyphicon glyphicon-align-justify"></span></i> ' + (I18n.t :ansprechpartner) + " " + @mobject.name + "<span class='badge'>" + @adpanz.to_s + "</span>", true) %>
-        <% when "projekte" %>
-          <%= header('<span onclick="openNav()"><i class="btn btn-header glyphicon glyphicon-align-justify"></span></i> ' + (I18n.t :projektberechtigungen) + " " + @mobject.name + "<span class='badge'>" + @adpanz.to_s + "</span>", true) %>
-        <% when "gruppen" %>
-          <%= header('<span onclick="openNav()"><i class="btn btn-header glyphicon glyphicon-align-justify"></span></i> ' + (I18n.t :gruppenmitglieder)  + " " + @mobject.name + "<span class='badge'>" + @adpanz.to_s + "</span>", true) %>
-        <% when "innovationswettbewerbe" %>
-          <%= header('<span onclick="openNav()"><i class="btn btn-header glyphicon glyphicon-align-justify"></span></i> ' + (I18n.t :jury) + " " + @mobject.name + "<span class='badge'>" + @adpanz.to_s + "</span>", true) %>
-        <% else %>
-          <%= header('<span onclick="openNav()"><i class="btn btn-header glyphicon glyphicon-align-justify"></span></i> ' + (I18n.t :projektberechtigungen) + " " + @mobject.name + "<span class='badge'>" + @adpanz.to_s + "</span>", true) %>
-      <% end %>
+          <%= header( I18n.t :berechtigungen) %>
   </div>
   
 	<div class="row">
@@ -158,16 +121,23 @@
     </div>
   </div>
 
-<script>
-/* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
-function openNav() {
-    document.getElementById("mySidenav").style.width = "250px";
-    document.getElementById("main").style.marginLeft = "250px";
-}
+  <% case @mobject.mtype %>
+    <% when "angebote" %>
+      <% @topic = "objekte_ansprechpartner" %>
 
-/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
-function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-    document.getElementById("main").style.marginLeft = "0";
-}
-</script>
+    <% when "projekte" %>
+      <% @topic = "objekte_ansprechpartner" %>
+
+    <% when "gruppen" %>
+      <% @topic = "objekte_ansprechpartner" %>
+
+    <% when "innovationswettbewerbe" %>
+      <% @topic = "objekte_ansprechpartner" %>
+
+    <% else %>
+      <% @topic = "objekte_ansprechpartner" %>
+  <% end %>
+  <%= link_to(mobject_path(:id => @mobject.id, :topic => @topic)) do %>
+    <% content_tag(:i, " Abbrechen" , class:"btn btn-default btn-lg") %>
+  <% end %>
+

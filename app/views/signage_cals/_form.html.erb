@@ -4,33 +4,20 @@
             <div id="error_explanation">
               <h2><%= pluralize(@signage_cal.errors.count, "error") %> prohibited this calender from being saved:</h2>
               <ul>
-                  <% @signage_cal.errors.full_messages.each do |message| %>
-                    <li><%= message %></li>
-                  <% end %>
+                <% @signage_cal.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
               </ul>
             </div>
         <% end %>
 
-        <div class="row">
-            <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading header">
-                      <li_header>
-                      <% if @kam %>
-                        <%= link_to mobject_path(:id => @signage_cal.mkampagne, :topic => "objekte_signcal") do %>
-                          <i class="btn btn-primary glyphicon glyphicon-list"></i>
-                        <% end %>
-                      <% end %>
-                      <% if @loc %>
-                        <%= link_to mobject_path(:id => @signage_cal.mstandort, :topic => "objekte_signcal") do %>
-                          <i class="btn btn-primary glyphicon glyphicon-list"></i>
-                        <% end %>
-                      <% end %>
-                      </li_header>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <% if @loc %>
+          <%= header((I18n.t :kampagnen) + " für Standort " + @loc.name) %>
+        <% end %>
+        <% if @kam %>
+          <%= header((I18n.t :standorte) + " für Kampagne " + @kam.name) %>
+        <% end %>
+
         <div class="row">
             <div class="col-md-6">
                 <div class="panel-body">
@@ -78,6 +65,16 @@
                      <%= f.hidden_field :confirmed, class:"form-control" %>
                     <div class="actions">
                        <%= f.submit (I18n.t :speichern),  class:"btn btn-primary btn-lg"%>
+                      <% if @kam %>
+                        <%= link_to mobject_path(:id => @signage_cal.mkampagne, :topic => "objekte_signcal") do %>
+                          <i class="btn btn-default btn-lg">Abbrechen</i>
+                        <% end %>
+                      <% end %>
+                      <% if @loc %>
+                        <%= link_to mobject_path(:id => @signage_cal.mstandort, :topic => "objekte_signcal") do %>
+                          <i class="btn btn-default btn-lg">Abbrechen</i>
+                        <% end %>
+                      <% end %>
                     </div>
                 </div>
                 

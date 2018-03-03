@@ -12,20 +12,11 @@
         <% end %>
 
         <div class="row">
-            <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading header">
-                      <li_header>
-                        <% if @madvisor.mobject.mtype == "projekte" %>
-                          <%= link_to mobject_path(:id => @madvisor.mobject_id, :topic => "objekte_projektberechtigungen") do %>
-                            <i class="btn btn-primary glyphicon glyphicon-list"></i>
-                          <% end %>
-                          <%= (I18n.t :stundensatz) + " " + @madvisor.user.name + " " + @madvisor.user.lastname %> für <%= @madvisor.mobject.name %>
-                        <% end %>
-                      </li_header>
-                    </div>
-                </div>
-            </div>
+          <div class="col-md-12">
+              <div class="panel-body ueberschrift">
+                  <h1><%= (I18n.t :stundensatz) + " " + @madvisor.user.name + " " + @madvisor.user.lastname %> für <%= @madvisor.mobject.name %></h1> 
+              </div>
+          </div>
         </div>
         <div class="row">
             <div class="col-md-6">
@@ -39,6 +30,9 @@
                     </div>
                     <div class="actions">
                        <%= f.submit (I18n.t :speichern), class:"btn btn-primary btn-lg"%>
+                        <%= link_to mobject_path(:id => @madvisor.mobject_id, :topic => "objekte_projektberechtigungen") do %>
+                          <i class="btn btn-default btn-lg">Abbrechen</i>
+                        <% end %>
                     </div>
                     <%= f.hidden_field :user_id, class:"form-control"  %>
                     <%= f.hidden_field :mobject_id, class:"form-control"  %>

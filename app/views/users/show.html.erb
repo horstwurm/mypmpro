@@ -1116,22 +1116,27 @@
           <br><br>
 
     	 <% when "personen_zugriffsberechtigungen" %>
-          <div class="row">
-              <%= header((I18n.t :hauptmenue)) %>
-          </div>
-          <%= build_kachel_access("hauptmenue", "user", @user) %>
-          <div class="row">
-              <%= header((I18n.t :personen)) %>
-          </div>
-          <%= build_kachel_access("personen", "user", @user) %>
-          <div class="row">
-              <%= header((I18n.t :institutionen)) %>
-          </div>
-          <%= build_kachel_access("institutionen", "user", @user) %>
-          <div class="row">
-              <%= header((I18n.t :objekte)) %>
-          </div>
-          <%= build_kachel_access("objekte", "user", @user) %>
+        <div class="row">
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <%= header("Funktionen") %>
+                  <%= build_kachel_access("hauptmenue", "user", @user) %>
+            </div>
+            
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <%= header("Funktionen Privatpersonen") %>
+                  <%= build_kachel_access("personen", "user", @user) %>
+            </div>
+            
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <%= header("Funktionen Institutionen") %>
+                  <%= build_kachel_access("institutionen", "user", @user) %>
+            </div>
+            
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <%= header("Funktionen Info-Objekte") %>
+                  <%= build_kachel_access("objekte", "user", @user) %>
+            </div>
+        </div>
 
     	 <% when "personen_transaktionen" %>
           <%= build_kachel_access("dsstandorte", "user", @user) %>

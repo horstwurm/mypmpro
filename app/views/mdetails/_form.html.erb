@@ -1,26 +1,26 @@
   <%= form_for @mdetail, html: {multipart: true}  do |f| %>
+
+    <div class="panel-body">
+      <% if @mdetail.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@mdetail.errors.count, "error") + " " + (I18n.t :notsaved) %></h2>
+          <ul>
+            <% @mdetail.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+    </div>
+
      <div class="row">
-        <div class="col-md-10">
-            <div class="panel panel-default">
-                <div class="panel-heading header">
-                <li_header>
-                <%= link_to mobject_path(:id => @mdetail.mobject_id, :topic => "objekte_details") do %>
-                  <i class="btn btn-primary glyphicon glyphicon-list"></i>
-                <% end %>
-                  <%= I18n.t :details %><%= @mdetail.mobject.name %>
-                </li_header>
-                </div>
-                <div class="panel-body">
-                  <% if @mdetail.errors.any? %>
-                    <div id="error_explanation">
-                      <h2><%= pluralize(@mdetail.errors.count, "error") + " " + (I18n.t :notsaved) %></h2>
-                      <ul>
-                        <% @mdetail.errors.full_messages.each do |message| %>
-                          <li><%= message %></li>
-                        <% end %>
-                      </ul>
-                    </div>
-                  <% end %>
+        <div class="col-md-12">
+            <div class="panel-body ueberschrift">
+                <h1><%= @mdetail.mobject.name %></h1> 
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-body">
                   <% if @mdetail.mobject.mtype == "artikel" %>
                       <%= f.label I18n.t :textoptionen %>
                       <%= f.radio_button :textoptions, "text" %> <%= I18n.t :text %><br>
@@ -78,6 +78,9 @@
         <div class="col-md-6">
             <div class="actions">
               <%= f.submit (I18n.t :speichern), class:"btn btn-primary btn-lg"%>
+              <%= link_to mobject_path(:id => @mdetail.mobject_id, :topic => "objekte_details") do %>
+                <i class="btn btn-default btn-lg">Abbrechen</i>
+              <% end %>
             </div>
         </div>
       </div>

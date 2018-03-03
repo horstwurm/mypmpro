@@ -1,40 +1,39 @@
-     <div class="row">
-        <div class="col-md-10">
-            <div class="panel panel-default">
-                <div class="panel-heading header">
-                <li_header>
-                <%= link_to mobject_path(:id => @idea.mobject_id, :topic => "objekte_ideen") do %>
-                  <i class="btn btn-primary glyphicon glyphicon-list"></i>
-                <% end %>
-                  IDEE <%= @idea.mobject.name %>
-                </li_header>
-                </div>
-                <div class="panel-body">
-                    <%= image_tag @idea.avatar.url(:medium) if @idea.avatar_file_name %>
-                    <br><br>
-                    <b>
-                    <%= (I18n.t :bezeichnung) %>
-                    </b>
-                    <br>
-                    <%= @idea.header %>
-                    <br><br>
-                    <b>
-                    <%=  (I18n.t :beschreibung) %>
-                    </b>
-                    <br>
-                    <%= @idea.description %>
-                    <br><br>
-                    <% if @idea.document_file_name %>
-                      <%= link_to(@idea.document.url, target: "_blank") do %>
-                        <% content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-cloud-download") %>
-                      <% end %>
-                    <% end %>
-                  </div>
-                </div>
-            </div>
+  <div class="row">
+    <div class="col-md-12">
+        <div class="panel-body ueberschrift">
+            <h1><%= (I18n.t :idea) + " " + @idea.mobject.name %></h1> 
         </div>
-     </div>
     </div>
+  </div>
+
+   <div class="row">
+      <div class="col-md-6">
+          <div class="panel panel-body">
+            <%= image_tag @idea.avatar.url(:big) if @idea.avatar_file_name %>
+            <br><br>
+            <b>
+            <%= (I18n.t :bezeichnung) %>
+            </b>
+            <br>
+            <%= @idea.header %>
+            <br><br>
+            <b>
+            <%=  (I18n.t :beschreibung) %>
+            </b>
+            <br>
+            <%= @idea.description %>
+            <br><br>
+            <% if @idea.document_file_name %>
+              <%= link_to(@idea.document.url, target: "_blank") do %>
+                <% content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-cloud-download") %>
+              <% end %>
+            <% end %>
+          </div>
+          <%= link_to mobject_path(:id => @idea.mobject_id, :topic => "objekte_ideen") do %>
+            <i class="btn btn-default btn-lg">Abbrechen</i>
+          <% end %>
+      </div>
+   </div>
 
 <script>
   document.addEventListener("turbolinks:load", function() {})

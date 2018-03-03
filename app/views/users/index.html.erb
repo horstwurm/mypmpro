@@ -1,17 +1,17 @@
   <div class="row">
     <header>
     <%= header("<queryshow><i class='glyphicon glyphicon-filter', style='font-size:2em'></i></queryshow><queryhide><i class='glyphicon glyphicon-remove', style='font-size:2em'></i></queryhide>Privatpersonen <span class='badge'>" + @usanz.to_s + "</span>") %>
+    <query>
     <% if user_signed_in? %>
-      <query>
     	  <%= link_to new_search_path(:user_id => current_user.id, :search_domain => "personen", :controller_name => @controller_name) do %>
               <i class="btn btn-primary glyphicon glyphicon-plus">Neue Abfrage</i>
           <% end %>
           <% @searches = Search.where('search_domain=? and user_id=?', "personen", current_user.id) %>
           <%= build_medialistNew(@searches, "searches", nil) %>
-      </query>
-    </header>
     <% end %>
- </div>
+    </query>
+    </header>
+</div>
 
 <div class="digg_pagination">
     <%= will_paginate @users, :container => false, previous_label: "<", next_label: ">" %>
