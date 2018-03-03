@@ -31,7 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../app/vendor/assets/stylesheets/jquery.bxslider.css">
     <link rel="stylesheet" type="text/css" href="../app/vendor/assets/stylesheets/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="../app/vendor/assets/stylesheets/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="../app/vendor/assets/stylesheets/animate">
+    <link rel="stylesheet" type="text/css" href="../app/vendor/assets/stylesheets/animate.css">
     <link rel="stylesheet" type="text/css" href="../app/vendor/assets/stylesheets/style.css">
     <% end %>
 
@@ -63,9 +63,9 @@
       <%= render 'layouts/testimonial' %>
   
       <%= render 'layouts/blog' %>
-  
+      <% end %>  
       <%= render 'layouts/contact' %>
-      <% end %>
+
   
       <% flash.each do |name, msg| %>
         <% content_tag(:div, msg, class:"alert alert-warning") %>
