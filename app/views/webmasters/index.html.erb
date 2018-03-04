@@ -1,14 +1,6 @@
 
-	<div class="row">
-    <div class="col-md-12">
-      <div class="panel-heading header">
-        <h1>
-        <%= I18n.t :webmaster %>
-        <span class="badge"><%= @webanz %></span>
-        </h1>
-      </div>
-    </div>
-  </div>
+  <%= header((I18n.t :pruefung) + '<span class="badge">' + @webanz.to_s + '</span>') %>
+
   <br>
 	<div class="row">
     <div class="col-md-12">

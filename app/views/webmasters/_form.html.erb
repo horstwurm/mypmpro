@@ -12,20 +12,7 @@
             </div>
         <% end %>
 
-        <div class="row">
-            <div class="col-md-12">
-              <div class="panel panel-heading header">
-                <h1>
-                <% if user_signed_in? and current_user.webmaster %>
-                  <%= link_to webmasters_path do %>
-                    <i class="btn btn-primary glyphicon glyphicon-list"></i>
-                  <% end %>
-                <% end %>
-                <%= I18n.t :pruefung %>
-                </h1>
-              </div>
-            </div>
-        </div>
+        <%= header(I18n.t :pruefung) %>
 
         <div class="row">
           <div class="col-md-6">
@@ -51,6 +38,9 @@
                    <%= f.submit (I18n.t :freigeben),  :status => "OK", class:"btn btn-primary btn-lg"%>
                    <%= f.submit (I18n.t :sperren),  :status => "NOK", class:"btn btn-danger btn-lg"%>
                  <% end %>
+                  <%= link_to webmasters_path do %>
+                    <i class="btn btn-default btn-lg">Abbrechen</i>
+                  <% end %>
               </div>
               <%= f.hidden_field :object_id %>
               <%= f.hidden_field :object_name %>

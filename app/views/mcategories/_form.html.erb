@@ -11,18 +11,7 @@
             </div>
         <% end %>
 
-        <div class="row">
-            <div class="col-md-12">
-                    <div class="panel-heading header">
-                      <li_header>
-                      <%= link_to mcategories_path(:ctype => @mcategory.ctype) do %>
-                        <i class="btn btn-primary glyphicon glyphicon-list"></i>
-                      <% end %>
-                      <%= I18n.t :tabelleneintrag %>
-                      </li_header>
-                    </div>
-            </div>
-        </div>
+        <%= header (I18n.t :tabelleneintrag) %>
 
         <div class="row">
             <div class="col-md-6">
@@ -34,6 +23,9 @@
                     <%= f.hidden_field :ctype %>
                     <div class="actions">
                       <%= f.submit (I18n.t :speichern), class:"btn btn-primary btn-lg"%>
+                      <%= link_to mcategories_path(:ctype => @mcategory.ctype) do %>
+                        <i class="btn btn-default btn-lg">Abbrechen</i>
+                      <% end %>
                     </div>
                 </div>
             </div>

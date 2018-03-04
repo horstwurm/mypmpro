@@ -1893,11 +1893,11 @@ def action_buttons4(object_type, item, topic)
 
   case object_type 
     when "kategorien"
-      #html_string = html_string + link_to(home_index9_path) do
-        #content_tag(:i, nil, class: "glyphicon glyphicon-list")
-      #end
+      html_string = html_string + link_to(home_index9_path) do
+        content_tag(:i, " " + (I18n.t :uebersicht), class: "btn btn-default glyphicon glyphicon-list")
+      end
       html_string = html_string + link_to(new_mcategory_path(:ctype => item)) do
-        content_tag(:i, " " + (I18n.t :kategorie) + " " + (I18n.t :hinzufuegen), class: "glyphicon glyphicon-plus orange")
+        content_tag(:i, " " + (I18n.t :kategorie) + " " + (I18n.t :hinzufuegen), class: "btn btn-primary glyphicon glyphicon-plus")
       end
 
     when "personen"

@@ -42,9 +42,9 @@ class WebmastersController < ApplicationController
   # PUT /webmasters/1
   def update
     case params[:commit]
-      when "speichern"
+      when "Speichern"
         @webmaster.status = "CHECK"
-      when "freigeben"
+      when "Freigeben"
         @webmaster.status = "OK"
         item = Object.const_get(@webmaster.object_name).find(@webmaster.object_id)
         if item
@@ -52,7 +52,7 @@ class WebmastersController < ApplicationController
           item.status = "OK"
           item.save
         end
-      when "sperren"
+      when "Sperren"
         @webmaster.status = "NOK"
         item = Object.const_get(@webmaster.object_name).find(@webmaster.object_id)
         if item

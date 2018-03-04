@@ -1,14 +1,7 @@
 <div class="container-fluid">
-	<div class="row">
-    <div class="col-md-12">
-      <div class="panel-heading header">
-        <li_header>
-        USER STAT
-        <span class="badge"><%= @usanz %></span>
-        </li_header>
-      </div>
-    </div>
-  </div>
+
+<%= header( (I18n.t :statistik) + '<span class="badge">' + @usanz.to_s + '</span>') %>
+
 	<div class="row">
     <div class="col-md-12">
   		<table class="table table-striped">
