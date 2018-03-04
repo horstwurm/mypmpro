@@ -666,4 +666,7 @@ def writeimage
       render :json => msg.to_json
   end
 end
+
+def temptest
+end
 end

@@ -81,7 +81,8 @@ Rails.application.routes.draw do
   get 'home/readiot'
   get 'home/alexa'
   get 'home/writeimage'
-  
+  get 'home/temptest'
+
   resources :searches
   resources :partner_links
   resources :mstats
