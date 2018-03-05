@@ -56,32 +56,32 @@
     				      <% if !ca.confirmed %>
     				        <% if @loc %>
                       <%= link_to signage_cals_path(:confirm_id => ca.id, :loc_id => @loc.id) do %>
-                        <i class="btn btn-primary btn-xs glyphicon glyphicon-ok"></i>
+                        <i class="btn btn-primary btn-xs fa fa-ok"></i>
                       <% end %>
                     <% end %>
     				        <% if @kam %>
                       <%= link_to signage_cals_path(:confirm_id => ca.id, :kam_id => @kam.id) do %>
-                        <i class="btn btn-primary btn-xs glyphicon glyphicon-ok"></i>
+                        <i class="btn btn-primary btn-xs fa fa-ok"></i>
                       <% end %>
                     <% end %>
                   <% else %>
     				        <% if @loc %>
                       <%= link_to signage_cals_path(:noconfirm_id => ca.id, :loc_id => @loc.id) do %>
-                        <i class="btn btn-primary btn-xs glyphicon glyphicon-remove"></i>
+                        <i class="btn btn-primary btn-xs fa fa-remove"></i>
                       <% end %>
                     <% end %>
     				        <% if @kam %>
                       <%= link_to signage_cals_path(:noconfirm_id => ca.id, :loc_id => @kam.id) do %>
-                        <i class="btn btn-primary btn-xs glyphicon glyphicon-remove"></i>
+                        <i class="btn btn-primary btn-xs fa fa-remove"></i>
                       <% end %>
                     <% end %>
                   <% end %>
 
                   <%= link_to edit_signage_cal_path(ca) do %>
-                    <i class="btn btn-primary btn-xs glyphicon glyphicon-wrench"></i>
+                    <i class="btn btn-primary btn-xs fa fa-wrench"></i>
                   <% end %>
   				        <%= link_to ca, method: :delete, data: { confirm: 'Are you sure?' } do %>
-                    <i class="btn btn-danger btn-xs glyphicon glyphicon-trash"></i>
+                    <i class="btn btn-danger btn-xs fa fa-trash"></i>
                   <% end %>
 
                 </td>

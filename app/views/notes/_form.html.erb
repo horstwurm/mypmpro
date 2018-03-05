@@ -18,7 +18,7 @@
                     <div class="panel-heading header">
                       <li_header>
                         <%= link_to user_path(:id => @note.user_id, :topic => "personen_notizen") do %>
-                          <i class="btn btn-primary glyphicon glyphicon-list"></i>
+                          <i class="btn btn-primary fa fa-list"></i>
                         <% end %>
                         <%= (I18n.t :notizen) + " " + @note.user.name + " " + @note.user.lastname %>
                       </li_header>

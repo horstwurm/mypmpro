@@ -2,7 +2,7 @@
     <div class='col-xs-12'>
       <div class='panel-body'>
          <%= link_to user_answers_path(:mobject_id => @question.mobject_id) do %>
-          <i class="btn btn-primary glyphicon glyphicon-list"></i>
+          <i class="btn btn-primary fa fa-list"></i>
          <% end %><br>
       </div>
     </div>
@@ -31,11 +31,11 @@
                   <div class='col-xs-2 col-sm-2 col-md-2 col-lg-2 xl-2'>
                     <% if @ua %>
                       <%= link_to(edit_user_answer_path(:id => @ua.id)) do %>
-                        <i class="btn btn-primary glyphicon glyphicon-pencil"></i>
+                        <i class="btn btn-primary fa fa-pencil"></i>
                       <% end %>
                     <% else %>
                       <%= link_to(new_user_answer_path(:user_id => current_user.id, :answer_id => a.id)) do %>
-                        <i class="btn btn-primary glyphicon glyphicon-pencil"></i>
+                        <i class="btn btn-primary fa fa-pencil"></i>
                       <% end %>
                     <% end %>
                   </div>
@@ -59,11 +59,11 @@
                     <% if @ua %>
                     <% if @ua.checker %>
                       <%= link_to home_index15_path(:question_id => @question.id, :user_answer_id => @ua.id) do %>
-                        <i class="btn btn-primary glyphicon glyphicon-check"></i>
+                        <i class="btn btn-primary fa fa-check"></i>
                       <% end %><br>
                     <% else %>
                       <%= link_to home_index15_path(:question_id => @question.id, :user_answer_id => @ua.id) do %>
-                        <i class="btn btn-primary glyphicon glyphicon-unchecked"></i>
+                        <i class="btn btn-primary fa fa-unchecked"></i>
                       <% end %><br>
                     <% end %>
                     <% end %>

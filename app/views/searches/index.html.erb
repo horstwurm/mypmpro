@@ -4,23 +4,23 @@
       <div class="panel-body">
         <% if @ticket %>
           <%= link_to tickets_path :msponsor_id => @ticket.owner_id do %>
-            <i class="btn btn-primary glyphicon glyphicon-list"></i>
+            <i class="btn btn-primary fa fa-list"></i>
           <% end %>
           <%= link_to searches_path :search_domain => "tickets", :controller_name => controller_name, :ticket_id => @ticket.id, :generate => true, :page => session[:page] do %>
-            <i class="btn btn-primary pull-right glyphicon glyphicon-user">
+            <i class="btn btn-primary pull-right fa fa-user">
               <span class="glythinfo glyphicon-filter"></span></i>
           <% end %>
           <%= link_to searches_path :search_domain => "tickets", :controller_name => controller_name, :ticket_id => @ticket.id, :activate => true, :page => session[:page] do %>
-            <i class="btn btn-warning pull-right glyphicon glyphicon-user">
+            <i class="btn btn-warning pull-right fa fa-user">
               <span class="glythinfo glyphicon-hand-right"></span></i>
           <% end %>
           <%= link_to searches_path :search_domain => "tickets", :controller_name => controller_name, :ticket_id => @ticket.id, :remove => true, :page => session[:page] do %>
-            <i class="btn btn-danger pull-right glyphicon glyphicon-user">
+            <i class="btn btn-danger pull-right fa fa-user">
               <span class="glythinfo glyphicon-trash"></span></i>
           <% end %>
           <% @counter = UserTicket.where('ticket_id=?',@ticket.id).count %>
           <%= link_to ticketuserview_index_path :ticket_id => @ticket.id do %>
-            <i class="btn btn-primary pull-right glyphicon glyphicon-user">
+            <i class="btn btn-primary pull-right fa fa-user">
             <span class="badge"><%= @counter %></span></i>
           <% end %>
         <% else %>
@@ -28,15 +28,15 @@
             <% case @search_domain %>
               <% when "personen" %>
                 <%= link_to users_path do %>
-                  <i class="btn btn-primary glyphicon glyphicon-list"></i>
+                  <i class="btn btn-primary fa fa-list"></i>
                 <% end %>
               <% when "institutionen" %>
                 <%= link_to companies_path do %>
-                  <i class="btn btn-primary glyphicon glyphicon-list"></i>
+                  <i class="btn btn-primary fa fa-list"></i>
                 <% end %>
               <% when "objekte" %>
                 <%= link_to mobjects_path(:mtype => @mtype, :msubtype => @msubtype) do %>
-                  <i class="btn btn-primary glyphicon glyphicon-list"></i>
+                  <i class="btn btn-primary fa fa-list"></i>
                 <% end %>
             <% end %>
         <% end %>
@@ -46,7 +46,7 @@
           <% ticket_id = nil %>
         <% end %>
 		    <%= link_to new_search_path(:user_id => current_user.id, :search_domain => @search_domain, :controller_name => @controller_name, :mtype => @mtype, :msubtype => @msubtype, :ticket_id => ticket_id) do %>
-          <i class="btn btn-primary glyphicon glyphicon-plus"></i>
+          <i class="btn btn-primary fa fa-plus"></i>
         <% end %>
       </div>
     </div>

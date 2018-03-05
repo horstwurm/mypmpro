@@ -276,19 +276,19 @@ class UsersController < ApplicationController
           user = User.find(c.user_id2)
           case c.channel
             when "Geschäftsstelle"
-               info = '<i class="glyphicon glyphicon-briefcase"></i>'
+               info = '<i class="fa fa-briefcase"></i>'
             when "Treffpunkt"
-               info = '<i class="glyphicon glyphicon-map-marker"></i>'
+               info = '<i class="fa fa-map-marker"></i>'
             when "Wohnort Berater"
-               info = '<i class="glyphicon glyphicon-home"></i>'
+               info = '<i class="fa fa-home"></i>'
             when "Wohnort Kunde"
-               info = '<i class="glyphicon glyphicon-home"></i>'
+               info = '<i class="fa fa-home"></i>'
             when "Telefon"
-               info = '<i class="glyphicon glyphicon-phone-alt"></i>'
+               info = '<i class="fa fa-phone-alt"></i>'
             when "VideoChat"
-               info = '<i class="glyphicon glyphicon-facetime-video"></i>'
+               info = '<i class="fa fa-facetime-video"></i>'
             else
-               info = '<i class="glyphicon glyphicon-question-sign"></i>'
+               info = '<i class="fa fa-question-sign"></i>'
           end
           @array = @array + "info: '" + info + "', "
           if user

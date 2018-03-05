@@ -4,10 +4,10 @@
     <div class="col-md-12">
       <div class="panel-body">
         <%= link_to showcal_index_path(:page => session[:page], :dir => "<", :mtype => @mtype, :msubtype => @msubtype) do %>
-          <i class="btn btn-primary glyphicon glyphicon-arrow-left"></i>
+          <i class="btn btn-primary fa fa-arrow-left"></i>
         <% end %>
         <%= link_to showcal_index_path(:page => session[:page], :dir => ">", :mtype => @mtype, :msubtype => @msubtype) do %>
-          <i class="btn btn-primary glyphicon glyphicon-arrow-right"></i>
+          <i class="btn btn-primary fa fa-arrow-right"></i>
         <% end %>
       </div>
     </div>
@@ -57,7 +57,7 @@
                   <list>
                   <% if e.sum_rating and e.sum_rating >0 %>
                     <% e.sum_rating.times.to_i do %>
-                      <i class="glyphicon glyphicon-star"></i>
+                      <i class="fa fa-star"></i>
                     <% end %><br>
                   <% end %>
                   <%= showFirstImage2(:small, e, e.mdetails) %>
@@ -89,13 +89,13 @@
   
   <div class="row">
     <header>
-    <%= header("<queryshow><i class='glyphicon glyphicon-filter', style='font-size:2em'></i></queryshow> Kalender " + @domain + " <span class='badge'>" + @anz.to_s + "</span><queryhide><i class='glyphicon glyphicon-menu-up pull-right'></i></queryhide>", true) %>
+    <%= header("<queryshow><i class='fa fa-filter', style='font-size:2em'></i></queryshow> Kalender " + @domain + " <span class='badge'>" + @anz.to_s + "</span><queryhide><i class='fa fa-menu-up pull-right'></i></queryhide>", true) %>
     <query>
       <% if user_signed_in? and @domain != "Geburtstage" %>
         <div class='col-xs-12'>
              <div class="panel-body">
           	    <%= link_to new_search_path(:user_id => current_user.id, :search_domain => @domain, :controller_name => @controller_name) do %>
-                    <i class="btn btn-primary glyphicon glyphicon-plus"></i>
+                    <i class="btn btn-primary fa fa-plus"></i>
                 <% end %>
              </div>
              <% @searches = Search.where('search_domain=? and user_id=? and mtype=?', "objekte", current_user.id, @domain) %>
@@ -124,7 +124,7 @@
   <div class="row">
     <div class="col-md-12">
 	    <div class="panel-body">
-          <i class="glyphicon glyphicon-map-marker pull-left" onclick="return initialize();"></i>
+          <i class="fa fa-map-marker pull-left" onclick="return initialize();"></i>
         <div id="map">
         </div>
       </div>

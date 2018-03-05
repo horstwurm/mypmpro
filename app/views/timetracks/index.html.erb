@@ -2,10 +2,10 @@
     <div class='col-xs-12'>
       <div class='panel-body'>
          <%= link_to mobject_path(:id => @mobject.id) do %>
-          <i class="btn btn-primary glyphicon glyphicon-list"></i>
+          <i class="btn btn-primary fa fa-list"></i>
          <% end %>
          <%= link_to new_timetrack_path(:mobject_id => @mobject.id, :user_id => current_user.id) do %>
-          <i class="btn btn-primary glyphicon glyphicon-plus"></i>
+          <i class="btn btn-primary fa fa-plus"></i>
          <% end %>
 
 
@@ -42,21 +42,21 @@
         <% @date_end %>
         
         <%= link_to timetracks_path(:mobject_id => @mobject.id, :user_id => current_user.id, :year => @c_year, :month => @c_month, :mode => "alles") do %>
-          <span><i class="btn btn-<%= btn_a %> glyphicon glyphicon-fullscreen"> alles</i></span>
+          <span><i class="btn btn-<%= btn_a %> fa fa-fullscreen"> alles</i></span>
         <% end %>
         <%= link_to timetracks_path(:mobject_id => @mobject.id, :user_id => current_user.id, :year => @c_year, :month => @c_month, :mode => "Monat") do %>
-          <span><i class="btn btn-<%= btn_m %> glyphicon glyphicon-calendar"> <%= @c_month %></i></span>
+          <span><i class="btn btn-<%= btn_m %> fa fa-calendar"> <%= @c_month %></i></span>
         <% end %>
         <%= link_to timetracks_path(:mobject_id => @mobject.id, :user_id => current_user.id, :year => @c_year, :month => @c_month, :mode => "Jahr")  do %>
-          <span><i class="btn btn-<%= btn_y %> glyphicon glyphicon-calendar"> <%= @c_year %></i></span>
+          <span><i class="btn btn-<%= btn_y %> fa fa-calendar"> <%= @c_year %></i></span>
         <% end %>
 
         <% if @c_mode != "alles" %>
           <%= link_to timetracks_path(:mobject_id => @mobject.id, :user_id => current_user.id, :dir => "<", :year => @c_year, :month => @c_month, :mode => @c_mode)  do %>
-            <i class="btn btn-primary glyphicon glyphicon-chevron-left"></i>
+            <i class="btn btn-primary fa fa-chevron-left"></i>
           <% end %>
           <%= link_to timetracks_path(:mobject_id => @mobject.id, :user_id => current_user.id, :dir => ">", :year => @c_year, :month => @c_month, :mode => @c_mode) do %>
-            <i class="btn btn-primary glyphicon glyphicon-chevron-right"></i>
+            <i class="btn btn-primary fa fa-chevron-right"></i>
           <% end %>
        <% end %>
 

@@ -29,11 +29,11 @@
               
                <% case @mobject.status %>
                   <% when "CHECK" %>
-                    <i class="glyphicon glyphicon-question-sign"></i>
+                    <i class="fa fa-question-sign"></i>
                   <% when "OK" %>
-                    <i class="glyphicon glyphicon-ok-circle"></i>
+                    <i class="fa fa-ok-circle"></i>
                   <% when "NOK" %>
-                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <i class="fa fa-ban-circle"></i>
                 <% end %>
                 <b> <%= I18n.t :status %></b>
                 <br>
@@ -98,7 +98,7 @@
                     <preiss><b><%= sprintf("%05.2f"+(I18n.t :waehrung), @mobject.price) %></b></preiss>
         					<% else %>
                     <% if @mobject.social %>
-                      <preiss><b><i class='glyphicon glyphicon-heart'></i></b></preiss>
+                      <preiss><b><i class='fa fa-heart'></i></b></preiss>
                     <% end %>
         					<% end %>
                   <br><br>
@@ -191,7 +191,7 @@
                       <% end %>
                       <br>
                       <% if @mobject.mtype == "veranstaltungen" and @mobject.eventpart %>
-                          </b><i class="glyphicon glyphicon-info-sign"></i> Anmeldung obligatorisch</b>
+                          </b><i class="fa fa-info"></i> Anmeldung obligatorisch</b>
                        <% end %>
                       <% end %>
     
@@ -300,11 +300,11 @@
 
                   <b><%= I18n.t :qualitaet %></b><br>
                   <div class="quality<%= @mobject.quality %>", style="font-size:4em">
-                    <i class="glyphicon glyphicon-stop"></i>
+                    <i class="fa fa-stop"></i>
                   </div>
                   <b><%= I18n.t :risiko %></b><br>
                   <div class="risk<%= @mobject.risk %>", style="font-size:4em">
-                    <span><i class="glyphicon glyphicon-stop"></i></span>
+                    <span><i class="fa fa-stop"></i></span>
                   </div>
 
                   <br>
@@ -314,20 +314,20 @@
                 <% if @mobject.mtype == "" %>
                   <b><%= I18n.t :bewertung %></b><br>
                   <% avg_rating2(@mobject.id).times do %>
-                    <i class="glyphicon glyphicon-star"></i>
+                    <i class="fa fa-star"></i>
                   <% end %>
                   <br><br>
                 <% end %>
                 
                 <% if @mobject.social %>
-                    <i class="glyphicon glyphicon-heart"></i> soziales Engagement
+                    <i class="fa fa-heart"></i> soziales Engagement
                 <% end %>
                 <br><br>
     
                 <% if @mobject.homepage != nil %>
                   <b><%= I18n.t :homepage %></b><br>
                   <%= link_to url_with_protocol(@mobject.homepage), :target => '_blank' do %>
-                    <i class="glyphicon glyphicon-home"></i> <%= url_with_protocol(@mobject.homepage) %>
+                    <i class="fa fa-home"></i> <%= url_with_protocol(@mobject.homepage) %>
                   <% end %>
                   <br><br>
                 <% end %>
@@ -344,7 +344,7 @@
                 <% end %>
                 <% if @mobject.homepage != nil %>
                   <%= link_to url_with_protocol(@mobject.homepage), :target => '_blank' do %>
-                    <i class="glyphicon glyphicon-home"></i> <%= url_with_protocol(@mobject.homepage) %>
+                    <i class="fa fa-home"></i> <%= url_with_protocol(@mobject.homepage) %>
                   <% end %>
                   <br><br>
                 <% end %>
@@ -404,7 +404,7 @@
               <%= header((I18n.t :standort)) %>
               <div class="panel-body">
                 <% if @mobject.longitude and @mobject.latitude %>
-                  <i class="glyphicon glyphicon-map-marker pull-left" onclick="return init_map(0);"></i>
+                  <i class="fa fa-map-marker pull-left" onclick="return init_map(0);"></i>
                   <div id="map">
                     <div id="map-canvas"></div>
                   </div>
@@ -556,32 +556,32 @@
             				      <% if !ca.confirmed %>
             				        <% if @loc %>
                               <%= link_to signage_cals_path(:confirm_id => ca.id, :loc_id => @loc.id) do %>
-                                <i class="btn btn-primary btn-xs glyphicon glyphicon-ok"></i>
+                                <i class="btn btn-primary btn-xs fa fa-ok"></i>
                               <% end %>
                             <% end %>
             				        <% if @kam %>
                               <%= link_to signage_cals_path(:confirm_id => ca.id, :kam_id => @kam.id) do %>
-                                <i class="btn btn-primary btn-xs glyphicon glyphicon-ok"></i>
+                                <i class="btn btn-primary btn-xs fa fa-ok"></i>
                               <% end %>
                             <% end %>
                           <% else %>
             				        <% if @loc %>
                               <%= link_to signage_cals_path(:noconfirm_id => ca.id, :loc_id => @loc.id) do %>
-                                <i class="btn btn-primary btn-xs glyphicon glyphicon-remove"></i>
+                                <i class="btn btn-primary btn-xs fa fa-remove"></i>
                               <% end %>
                             <% end %>
             				        <% if @kam %>
                               <%= link_to signage_cals_path(:noconfirm_id => ca.id, :loc_id => @kam.id) do %>
-                                <i class="btn btn-primary btn-xs glyphicon glyphicon-remove"></i>
+                                <i class="btn btn-primary btn-xs fa fa-remove"></i>
                               <% end %>
                             <% end %>
                           <% end %>
         
                           <%= link_to edit_signage_cal_path(ca) do %>
-                            <i class="btn btn-primary btn-xs glyphicon glyphicon-wrench"></i>
+                            <i class="btn btn-primary btn-xs fa fa-wrench"></i>
                           <% end %>
           				        <%= link_to ca, method: :delete, data: { confirm: 'Are you sure?' } do %>
-                            <i class="btn btn-danger btn-xs glyphicon glyphicon-trash"></i>
+                            <i class="btn btn-danger btn-xs fa fa-trash"></i>
                           <% end %>
         
                         </td>
@@ -639,24 +639,24 @@
                   <% end %>
                   
                   <%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_ressourcenplanung", :year => @c_year, :scope => @c_scope)  do %>
-                    <span><i class="btn btn-active glyphicon glyphicon-calendar"> <%= @c_year %></i></span>
+                    <span><i class="btn btn-active fa fa-calendar"> <%= @c_year %></i></span>
                   <% end %>
 
                   <%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_ressourcenplanung", :year => @c_year, :scope => "kosten")  do %>
-                    <span><i class="btn btn-<%= btn_sc %> glyphicon glyphicon-euro"></i></span>
+                    <span><i class="btn btn-<%= btn_sc %> fa fa-euro"></i></span>
                   <% end %>
                    <%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_ressourcenplanung", :year => @c_year, :scope => "aufwand")  do %>
-                    <span><i class="btn btn-<%= btn_sa %> glyphicon glyphicon-time"></i></span>
+                    <span><i class="btn btn-<%= btn_sa %> fa fa-safari"></i></span>
                   <% end %>
                   
                   <%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_ressourcenplanung", :dir => "<", :year => @c_year, :mode => @c_mode, :scope => @c_scope )  do %>
-                    <i class="btn btn-primary glyphicon glyphicon-chevron-left"></i>
+                    <i class="btn btn-primary fa fa-chevron-left"></i>
                   <% end %>
                   <%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_ressourcenplanung", :dir => ">", :year => @c_year, :mode => @c_mode , :scope => @c_scope) do %>
-                    <i class="btn btn-primary glyphicon glyphicon-chevron-right"></i>
+                    <i class="btn btn-primary fa fa-chevron-right"></i>
                   <% end %>
                   <%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_ressourcenplanung", :year => @c_year, :month => @c_month, :mode => @c_mode, :scope => @c_scope, :export => true) do %>
-                    <span><i class="btn btn-inactive glyphicon glyphicon-book"></i></span>
+                    <span><i class="btn btn-inactive fa fa-book"></i></span>
                   <% end %>
 
                  <br><br>
@@ -743,7 +743,7 @@
                               <td class="color_kapa_booked" align="right">
                                 <% if false %>
                 				        <%= link_to new_planning_path(:mobject_id => w.id, :user_id => current_user.id, :month => @data[i], :year => @c_year, :scope => @c_scope) do %>
-                                  <i class="btn btn-primary btn-xs glyphicon glyphicon-plus"></i>
+                                  <i class="btn btn-primary btn-xs fa fa-plus"></i>
                                 <% end %>
                                 <% end %>
                                <%= moto.to_s+" " +(I18n.t :waehrung) %><br>
@@ -751,7 +751,7 @@
                                 <td>
                                 <% if false %>
                 				        <%= link_to new_planning_path(:mobject_id => w.id, :user_id => current_user.id, :month => @data[i], :year => @c_year, :scope => @c_scope) do %>
-                                  <i class="btn btn-primary btn-xs glyphicon glyphicon-plus"></i>
+                                  <i class="btn btn-primary btn-xs fa fa-plus"></i>
                                 <% end %>
                                 <% end %>
                             <% end %>
@@ -772,10 +772,10 @@
 
                                 <% if false %>
                 				        <%= link_to edit_planning_path(:id => plans[k][:id]) do %>
-                                  <i class="btn btn-primary btn-xs glyphicon glyphicon-pencil"></i>
+                                  <i class="btn btn-primary btn-xs fa fa-pencil"></i>
                                 <% end %>
                 				        <%= link_to Planning.find(plans[k][:id]), method: :delete, data: { confirm: (I18n.t :sindsiesicher) } do %>
-                                  <i class="btn btn-danger btn-xs glyphicon glyphicon-trash"></i>
+                                  <i class="btn btn-danger btn-xs fa fa-trash"></i>
                                 <% end %>
                                 <% end %>
                                 <% @total[i] = @total[i] + plans[k][:kapa] %>
@@ -786,7 +786,7 @@
                                 <td>
                                 <% if false %>
                 				        <%= link_to new_planning_path(:mobject_id => w.id, :user_id => current_user.id, :month => @data[i], :year => @c_year, :scope => @c_scope) do %>
-                                  <i class="btn btn-primary btn-xs glyphicon glyphicon-plus"></i>
+                                  <i class="btn btn-primary btn-xs fa fa-plus"></i>
                                 <% end %>
                                 <% end %>
                             <% end %>
@@ -843,7 +843,7 @@
                               <td class="color_kapa_booked" align="right">
                                 <% if false %>
                 				        <%= link_to new_planning_path(:mobject_id => w.id, :user_id => current_user.id, :month => @data[i], :year => @c_year, :scope => @c_scope) do %>
-                                  <i class="btn btn-primary btn-xs glyphicon glyphicon-plus"></i>
+                                  <i class="btn btn-primary btn-xs fa fa-plus"></i>
                                 <% end %>
                                 <% end %>
                                <%= moto.to_s+ " " +( I18n.t :waehrung) %><br>
@@ -851,7 +851,7 @@
                                 <td>
                                 <% if false %>
                 				        <%= link_to new_planning_path(:mobject_id => w.id, :user_id => current_user.id, :month => @data[i], :year => @c_year, :scope => @c_scope) do %>
-                                  <i class="btn btn-primary btn-xs glyphicon glyphicon-plus"></i>
+                                  <i class="btn btn-primary btn-xs fa fa-plus"></i>
                                 <% end %>
                                 <% end %>
                             <% end %>
@@ -870,10 +870,10 @@
                                 <%= sprintf("%5.1f "+(I18n.t :personentage), tts[k][:kapa]) %><br>
                                 <% if false %>
                 				        <%= link_to edit_planning_path(:id => plans[k][:id]) do %>
-                                  <i class="btn btn-primary btn-xs glyphicon glyphicon-pencil"></i>
+                                  <i class="btn btn-primary btn-xs fa fa-pencil"></i>
                                 <% end %>
                 				        <%= link_to Planning.find(plans[k][:id]), method: :delete, data: { confirm: (I18n.t :sindsiesicher) } do %>
-                                  <i class="btn btn-danger btn-xs glyphicon glyphicon-trash"></i>
+                                  <i class="btn btn-danger btn-xs fa fa-trash"></i>
                                 <% end %>
                                 <% end %>
                                 <% @totalt[i] = @totalt[i] + tts[k][:kapa] %>
@@ -884,7 +884,7 @@
                                 <td>
                                 <% if false %>
                 				        <%= link_to new_planning_path(:mobject_id => w.id, :user_id => current_user.id, :month => @data[i], :year => @c_year, :scope => @c_scope) do %>
-                                  <i class="btn btn-primary btn-xs glyphicon glyphicon-plus"></i>
+                                  <i class="btn btn-primary btn-xs fa fa-plus"></i>
                                 <% end %>
                                 <% end %>
                             <% end %>
@@ -970,7 +970,7 @@
               <% @filename = exportWriterRessourcen(@userdata, @header) %>
               <% link_to @filename, @filename.remove("public") %>
     	        <%= link_to @filename.remove("public") do %>
-                <span><i class="btn btn-active glyphicon glyphicon-cloud-download"></i></span>
+                <span><i class="btn btn-active fa fa-cloud-download"></i></span>
               <% end %>
             <% end %>
             
@@ -1007,30 +1007,30 @@
               <% @date_end %>
 
               <%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_auftragscontrolling", :year => @c_year, :month => @c_month, :mode => "alles", :scope => @c_scope)  do %>
-                <span><i class="btn btn-<%= btn_a %> glyphicon glyphicon-fullscreen"> alles</i></span>
+                <span><i class="btn btn-<%= btn_a %> fa fa-fullscreen"> alles</i></span>
               <% end %>
               <%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_auftragscontrolling", :year => @c_year, :month => @c_month, :mode => "Jahr", :scope => @c_scope)  do %>
-                <span><i class="btn btn-<%= btn_y %> glyphicon glyphicon-calendar"> <%= @c_year %></i></span>
+                <span><i class="btn btn-<%= btn_y %> fa fa-calendar"> <%= @c_year %></i></span>
               <% end %>
               
               <% if @c_mode != "alles" %>
                 <%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_auftragscontrolling", :dir => "<", :year => @c_year, :month => @c_month, :mode => @c_mode, :scope => @c_scope) do %>
-                  <i class="btn btn btn-primary glyphicon glyphicon-chevron-left"></i>
+                  <i class="btn btn btn-primary fa fa-chevron-left"></i>
                 <% end %>
                 <%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_auftragscontrolling", :dir => ">", :year => @c_year, :month => @c_month, :mode => @c_mode, :scope => @c_scope) do %>
-                  <i class="btn btn-primary glyphicon glyphicon-chevron-right"></i>
+                  <i class="btn btn-primary fa fa-chevron-right"></i>
                 <% end %>
               <% end %>
               
               <%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_auftragscontrolling", :year => @c_year, :month => @c_month, :mode => @c_mode, :scope => "kosten") do %>
-                <span><i class="btn btn-<%= btn_sc %> glyphicon glyphicon-euro"></i></span>
+                <span><i class="btn btn-<%= btn_sc %> fa fa-euro"></i></span>
               <% end %>
               <%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_auftragscontrolling", :year => @c_year, :month => @c_month, :mode => @c_mode, :scope => "aufwand") do %>
-                <span><i class="btn btn-<%= btn_sa %> glyphicon glyphicon-time"></i></span>
+                <span><i class="btn btn-<%= btn_sa %> fa fa-safari"></i></span>
               <% end %>
               
               <%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_auftragscontrolling", :year => @c_year, :month => @c_month, :mode => @c_mode, :scope => @c_scope, :export => true) do %>
-                <span><i class="btn btn-inactive glyphicon glyphicon-book"></i></span>
+                <span><i class="btn btn-inactive fa fa-book"></i></span>
               <% end %>
               
              <br><br>
@@ -1291,7 +1291,7 @@
               <% @filename = exportWriter(@mobject, @istsoll, @istsollkum, @istsollau, @isoallrep) %>
               <% link_to @filename, @filename.remove("public") %>
     	        <%= link_to @filename.remove("public") do %>
-                <span><i class="btn btn-active glyphicon glyphicon-cloud-download"></i></span>
+                <span><i class="btn btn-active fa fa-cloud-download"></i></span>
               <% end %>
             <% end %>
             
@@ -1311,7 +1311,7 @@
                   <div class="panel panel-dashboard">
                     <div class="row">
                       <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                        <%= content_tag(:i, nil, class:"glyphicon glyphicon-" + getinfo2(:projekte)["info"], style:"font-size:4em") %>
+                        <%= content_tag(:i, nil, class:"fa fa-" + getinfo2(:projekte)["info"], style:"font-size:4em") %>
                       </div>
                       <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                         <huge>
@@ -1395,23 +1395,23 @@
           				      <% if (ca.mobject.owner_type == "User" and ca.mobject.owner_id == current_user.id) or (ca.mobject.owner_type == "Company" and ca.mobject.owner.user_id == current_user.id) %>
           				        <% if !ca.confirmed %>
                             <%= link_to mobject_path(:id => ca.mobject_id, :confirm_id => ca.id, :topic => :kalendervermietungen) do %>
-                              <i class="btn btn-primary btn-xs glyphicon glyphicon-ok"></i>
+                              <i class="btn btn-primary btn-xs fa fa-ok"></i>
                             <% end %>
                           <% else %>
                             <%= link_to mobject_path(:id => ca.mobject_id, :noconfirm_id => ca.id, :topic => :kalendervermietungen) do %>
-                              <i class="btn btn-primary btn-xs glyphicon glyphicon-remove"></i>
+                              <i class="btn btn-primary btn-xs fa fa-remove"></i>
                             <% end %>
                           <% end %>
           				      <% end %>
             				    <% if ca.user_id == current_user.id %>
                           <%= link_to listaccount_index_path :user_id => current_user.id, :user_id_ver => ca.mobject.owner_id, :company_id_ver => ca.mobject.owner_id, :ref => "Vergütung an "+ ca.mobject.name + " " + ca.date_from.strftime("%d.%m.%Y") + " " + ca.time_from.to_s + "Uhr -" + ca.date_to.strftime("%d.%m.%Y") + " " + ca.time_to.to_s + " Uhr", :object_name => "Mobject", :object_id => ca.mobject.id, :amount => 0 do %>
-                            <i class="btn btn-primary btn-xs glyphicon glyphicon-euro"></i>
+                            <i class="btn btn-primary btn-xs fa fa-euro"></i>
                           <% end %>
           				        <%= link_to edit_mcalendar_path(ca) do %>
-                            <i class="btn btn-primary btn-xs glyphicon glyphicon-wrench"></i>
+                            <i class="btn btn-primary btn-xs fa fa-wrench"></i>
                           <% end %>
           				        <%= link_to ca, method: :delete, data: { confirm: 'Are you sure?' } do %>
-                            <i class="btn btn-danger btn-xs glyphicon glyphicon-trash"></i>
+                            <i class="btn btn-danger btn-xs fa fa-trash"></i>
                           <% end %>
               				  <% end %>
               				<% end %>

@@ -18,20 +18,20 @@
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                    <% case @company.status %>
                       <% when "CHECK" %>
-                        <i class="glyphicon glyphicon-question-sign"></i>
+                        <i class="fa fa-question-sign"></i>
                       <% when "OK" %>
-                        <i class="glyphicon glyphicon-ok-circle"></i>
+                        <i class="fa fa-ok-circle"></i>
                       <% when "NOK" %>
-                        <i class="glyphicon glyphicon-ban-circle"></i>
+                        <i class="fa fa-ban-circle"></i>
                     <% end %>
                     <b><%= (I18n.t :status) %></b>
                     <br>
                     <%= showImage2(:medium, @company, true) %>
                     <br>
-                    <b><i class="glyphicon glyphicon-folder-open"></i><%= (I18n.t :branche) %></b><br>
+                    <b><i class="fa fa-folder-open"></i><%= (I18n.t :branche) %></b><br>
                     <%= @company.mcategory.name %>
                     <br><br>
-                    <b><i class="glyphicon glyphicon-home"></i><%= (I18n.t :adresse) %></b><br>
+                    <b><i class="fa fa-home"></i><%= (I18n.t :adresse) %></b><br>
                     <% if @company.address1 and @company.address1 != "" %>
                       <%= @company.address1 %><br> 
                     <% end %>
@@ -50,7 +50,7 @@
                     <cite><%= @company.created_at.strftime("%d.%m.%Y") %></cite><br>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                  <i class="glyphicon glyphicon-map-marker pull-left" onclick="return init_map(0);"></i>
+                  <i class="fa fa-map-marker pull-left" onclick="return init_map(0);"></i>
                   <div id="map">
                     <div id="map-canvas"></div>
                   </div>
@@ -61,7 +61,7 @@
               <%= header((I18n.t :aktivitaeten)) %>
               <div class="panel-body">
                 <% if $activeapps.include?("institutionenaktivitaeten") or (user_signed_in? and current_user.superuser) %>
-                    <i class="glyphicon glyphicon-map-marker pull-left" onclick="return drawChart();"></i>
+                    <i class="fa fa-map-marker pull-left" onclick="return drawChart();"></i>
                     <div id="piechart"></div>
                 <% end %>
               </div>
@@ -103,10 +103,10 @@
                       <% if current_user.id == @company.user_id %>
                         <% if @company.partner %>
                           <%= link_to edit_partner_link_path(pl) do %>
-                            <i class="btn btn-primary glyphicon glyphicon-wrench"></i>
+                            <i class="btn btn-primary fa fa-wrench"></i>
                           <% end %>
                           <%= link_to pl, method: :delete, data: { confirm: (I18n.t :sindsiesicher) } do %>
-                            <i class="btn btn-danger glyphicon glyphicon-trash"></i>
+                            <i class="btn btn-danger fa fa-trash"></i>
                           <% end %>
                         <% end %>
                       <% end %>
@@ -166,20 +166,20 @@
                 <% @date_end %>
                 
                 <%= link_to company_path(:id => @company.id, :topic => "institutionen_export",  :year => @c_year, :month => @c_month, :mode => "Monat") do %>
-                  <span><i class="btn btn-<%= btn_m %> glyphicon glyphicon-calendar"> <%= @c_month %></i></span>
+                  <span><i class="btn btn-<%= btn_m %> fa fa-calendar"> <%= @c_month %></i></span>
                 <% end %>
                 <%= link_to company_path(:id => @company.id, :topic => "institutionen_export", :year => @c_year, :month => @c_month, :mode => "Jahr")  do %>
-                  <span><i class="btn btn-<%= btn_y %> glyphicon glyphicon-calendar"> <%= @c_year %></i></span>
+                  <span><i class="btn btn-<%= btn_y %> fa fa-calendar"> <%= @c_year %></i></span>
                 <% end %>
                 <%= link_to company_path(:id => @company.id, :topic => "institutionen_export",  :dir => "<", :year => @c_year, :month => @c_month, :mode => @c_mode)  do %>
-                  <i class="btn btn-primary glyphicon glyphicon-chevron-left"></i>
+                  <i class="btn btn-primary fa fa-chevron-left"></i>
                 <% end %>
                 <%= link_to company_path(:id => @company.id, :topic => "institutionen_export",  :dir => ">", :year => @c_year, :month => @c_month, :mode => @c_mode) do %>
-                  <i class="btn btn-primary glyphicon glyphicon-chevron-right"></i>
+                  <i class="btn btn-primary fa fa-chevron-right"></i>
                 <% end %>
                 <% if @filename %>
         	        <%= link_to @filename.remove("public") do %>
-                    <span><i class="btn btn-active glyphicon glyphicon-cloud-download"></i></span>
+                    <span><i class="btn btn-active fa fa-cloud-download"></i></span>
                   <% end %>
                 <% end %>
 

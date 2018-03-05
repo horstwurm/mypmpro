@@ -36,69 +36,69 @@
                 <% end %>
                 <% if !grade %>
                   <%= link_to madvisors_path :maccess_id => u.id, :page => session[:page], :mobject_id => @mobject.id  do %>
-                    <i class="btn btn-primary glyphicon glyphicon-lock"></i>
+                    <i class="btn btn-primary fa fa-lock"></i>
                   <% end %>
                 <% end %>
                 <% case @mobject.mtype %>
                   <% when "angebote" %>
                     <% if !grade %>
                       <%= link_to madvisors_path :senior_madvisor_id => u.id, :page => session[:page], :mobject_id => @mobject.id do %>
-                        <i class="btn btn-primary glyphicon glyphicon-tags"></i>
+                        <i class="btn btn-primary fa fa-tags"></i>
                       <% end %>
                       <%= link_to madvisors_path :madvisor_id => u.id, :page => session[:page], :mobject_id => @mobject.id do %>
-                        <i class="btn btn-primary glyphicon glyphicon-tag"></i>
+                        <i class="btn btn-primary fa fa-tag"></i>
                       <% end %>
                     <% else %>
                       <%= link_to madvisors_path :delete_madvisor_id => u.id, :page => session[:page], :mobject_id => @mobject.id do %>
-                        <i class="btn btn-danger glyphicon glyphicon-remove-sign"></i>
+                        <i class="btn btn-danger fa fa-remove-sign"></i>
                       <% end %>
                     <% end %>
                   <% when "projekte" %>
                     <% if !grade %>
                       <%= link_to madvisors_path :senior_madvisor_id => u.id, :page => session[:page], :mobject_id => @mobject.id  do %>
-                        <i class="btn btn-primary glyphicon glyphicon-king"></i>
+                        <i class="btn btn-primary fa fa-king"></i>
                       <% end %>
                       <%= link_to madvisors_path :madvisor_id => u.id, :page => session[:page], :mobject_id => @mobject.id  do %>
-                        <i class="btn btn-primary glyphicon glyphicon-pawn"></i>
+                        <i class="btn btn-primary fa fa-pawn"></i>
                       <% end %>
                     <% else %>
                       <%= link_to madvisors_path :delete_madvisor_id => u.id, :page => session[:page], :mobject_id => @mobject.id do %>
-                        <i class="btn btn-danger glyphicon glyphicon-remove-sign"></i>
+                        <i class="btn btn-danger fa fa-remove-sign"></i>
                       <% end %>
                     <% end %>
                   <% when "gruppen" %>
                     <% if !grade %>
                       <% if false %>
                       <%= link_to madvisors_path :senior_madvisor_id => u.id, :page => session[:page], :mobject_id => @mobject.id  do %>
-                        <i class="btn btn-primary glyphicon glyphicon-king"></i>
+                        <i class="btn btn-primary fa fa-king"></i>
                       <% end %>
                       <% end %>
                       <%= link_to madvisors_path :madvisor_id => u.id, :page => session[:page], :mobject_id => @mobject.id  do %>
-                        <i class="btn btn-primary glyphicon glyphicon-pawn"></i>
+                        <i class="btn btn-primary fa fa-pawn"></i>
                       <% end %>
                     <% else %>
                       <%= link_to madvisors_path :delete_madvisor_id => u.id, :page => session[:page], :mobject_id => @mobject.id do %>
-                        <i class="btn btn-danger glyphicon glyphicon-remove-sign"></i>
+                        <i class="btn btn-danger fa fa-remove-sign"></i>
                       <% end %>
                     <% end %>
                   <% when "innovationswettbewerbe" %>
                     <% if !grade %>
                       <%= link_to madvisors_path :senior_madvisor_id => u.id, :page => session[:page], :mobject_id => @mobject.id  do %>
-                        <i class="btn btn-primary glyphicon glyphicon-king"></i>
+                        <i class="btn btn-primary fa fa-king"></i>
                       <% end %>
                       <%= link_to madvisors_path :madvisor_id => u.id, :page => session[:page], :mobject_id => @mobject.id  do %>
-                        <i class="btn btn-primary glyphicon glyphicon-pawn"></i>
+                        <i class="btn btn-primary fa fa-pawn"></i>
                       <% end %>
                     <% else %>
                       <%= link_to madvisors_path :delete_madvisor_id => u.id, :page => session[:page], :mobject_id => @mobject.id do %>
-                        <i class="btn btn-danger glyphicon glyphicon-remove-sign"></i>
+                        <i class="btn btn-danger fa fa-remove-sign"></i>
                       <% end %>
                     <% end %>
                   <% else %>
                     <% if !grade %>
                     <% else %>
                       <%= link_to madvisors_path :delete_madvisor_id => u.id, :page => session[:page], :mobject_id => @mobject.id do %>
-                        <i class="btn btn-danger glyphicon glyphicon-remove-sign"></i>
+                        <i class="btn btn-danger fa fa-remove-sign"></i>
                       <% end %>
                     <% end %>
                 <% end %>

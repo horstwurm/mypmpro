@@ -26,7 +26,7 @@
       	
         <li>
 		<%= link_to home_index3_path do %>
-	            <i class="glyphicon glyphicon-home" style="font-size:2em"></i>
+	            <i class="fa fa-home" style="font-size:2em"></i>
 		<% end %>
         </li>
         
@@ -35,15 +35,15 @@
 			<% case controller_name %>
 				<% when "users" %>
 	  		        <%= link_to searches_path :search_domain => "personen", :controller_name => controller_name do %>
-	  		          <i class="glyphicon glyphicon-filter" style="font-size:2em"></i>
+	  		          <i class="fa fa-filter" style="font-size:2em"></i>
             		<% end %>
 				<% when "companies" %>
 	  		        <%= link_to searches_path :search_domain => "institutionen", :controller_name => controller_name do %>
-	  		          <i class="glyphicon glyphicon-filter" style="font-size:2em"></i>
+	  		          <i class="fa fa-filter" style="font-size:2em"></i>
 	  		        <% end %>
 				<% when "mobjects", "showcal" %>
 	  		        <%= link_to searches_path :search_domain => "objekte", :mtype => session[:mtype], :msubtype => session[:msubtype], :controller_name => controller_name do %>
-	  		          <i class="glyphicon glyphicon-filter" style="font-size:2em"></i>
+	  		          <i class="fa fa-filter" style="font-size:2em"></i>
 	  		        <% end %>
 			<% end %>
 			</li>
@@ -58,7 +58,7 @@
 				        	<%= search_field_tag 'search', nil, class: 'form-control', placeholder: 'Suchen...' %>
 				        </div>
 					</div>
-				    <%= button_tag "", type: 'submit', class: "btn btn-nav glyphicon glyphicon-search" %>
+				    <%= button_tag "", type: 'submit', class: "btn btn-nav fa fa-search" %>
 			<% end %>
 		<% end %>
 
@@ -66,21 +66,21 @@
 		<% if user_signed_in? %>
 		    <li>
 			<%= link_to current_user do %>
-		            <i class="glyphicon glyphicon-user" style="font-size:2em"></i>
-		            <!--<span><i class="glyphicon glyphicon-user" style="font-size:2em"></i> <%= current_user.name[0] + "." + current_user.lastname %></span>-->
+		            <i class="fa fa-user" style="font-size:2em"></i>
+		            <!--<span><i class="fa fa-user" style="font-size:2em"></i> <%= current_user.name[0] + "." + current_user.lastname %></span>-->
 			<% end %>
 			</li>
 			<% if false %>
 				<li>
 				<%= link_to(destroy_user_session_path, method: :delete) do %>
-			            <i class="glyphicon glyphicon-log-out" style="font-size:2em"></i>
+			            <i class="fa fa-log-out" style="font-size:2em"></i>
 				<% end %>
 				</li>
 			<% end %>
 		<% else %>
 		    <li>
 			<%= link_to new_user_session_path do %>
-	            <i class="glyphicon glyphicon-log-in" style="font-size:2em"></i>
+	            <i class="fa fa-log-in" style="font-size:2em"></i>
 			<% end %>
 			</li>
 		<% end %>

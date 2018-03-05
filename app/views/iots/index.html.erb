@@ -9,7 +9,7 @@
             <% @iotsb = Iot.select('frame').distinct %>
             <% @iotsb.each do |m| %>
               <%= link_to iots_path(:scope => m.frame) do %>
-                <span><i class="btn btn-default glyphicon glyphicon-filter"><%= m.frame %></i></span>
+                <span><i class="btn btn-default fa fa-filter"><%= m.frame %></i></span>
               <% end %>
             <% end %>
           </div>
@@ -21,7 +21,7 @@
             <div>
               <%= header((I18n.t :iot)) %>
               <%= link_to iots_path(:scope => @scope, :del => true) do %>
-                <span><i class="btn btn-special glyphicon glyphicon-trash"><%=  %></i></span>
+                <span><i class="btn btn-special fa fa-trash"><%=  %></i></span>
               <% end %>
             </div>
         		<table class="table table-striped">

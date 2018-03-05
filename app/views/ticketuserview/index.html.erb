@@ -4,7 +4,7 @@
       <div class="panel-heading header">
         <li_header>
         <%= link_to searches_path :search_domain => "tickets", :controller_name => controller_name, :ticket_id => @ticket.id do %>
-          <i class="btn btn-primary glyphicon glyphicon-list"></i>
+          <i class="btn btn-primary fa fa-list"></i>
         <% end %>
         UEBERSICHT für TICKET <%= @ticket.name + " " + @ticket.owner.mobject.name + " " + @ticket.owner.company.name %>
         <span class="badge"><%= @ticanz %></span>
@@ -37,7 +37,7 @@
               <tr>
     			       <td>
         	         <%= link_to ut, method: :delete, data: { confirm: 'Are you sure?' } do %>
-                    <i class="btn btn-danger btn-lg glyphicon glyphicon-trash"></i>
+                    <i class="btn btn-danger btn-lg fa fa-trash"></i>
                     <% end %>
                   </td>
                   <td>

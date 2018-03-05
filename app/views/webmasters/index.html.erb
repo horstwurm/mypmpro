@@ -30,23 +30,23 @@
                 <td>
                   <% case wm.status %>
                     <% when "CHECK" %>
-                      <i class="glyphicon glyphicon-question-sign"></i>
+                      <i class="fa fa-question-sign"></i>
                     <% when "OK" %>
-                      <i class="glyphicon glyphicon-ok-circle"></i>
+                      <i class="fa fa-ok-circle"></i>
                     <% when "NOK" %>
-                      <i class="glyphicon glyphicon-ban-circle"></i>
+                      <i class="fa fa-ban-circle"></i>
                   <% end %>
                 </td>
                 <td>
         				  <%= link_to edit_webmaster_path(wm) do %>
-                    <i class="btn btn-primary glyphicon glyphicon-wrench"></i>
+                    <i class="btn btn-primary fa fa-wrench"></i>
                   <% end %>
                 </td>
                   <% @item = Object.const_get(wm.object_name).find(wm.object_id) %>
                       <% if @item != nil %>
                         <td>
               				  <%= link_to @item do %>
-                          <i class="btn btn-primary glyphicon glyphicon-info-sign"></i>
+                          <i class="btn btn-primary fa fa-info"></i>
                         <% end %>
                         </td>
                         <td>

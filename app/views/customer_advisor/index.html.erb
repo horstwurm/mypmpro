@@ -4,7 +4,7 @@
       <div class="panel-heading header">
         <li_header>
           <%= link_to customer_advisor_index2_path :partner_id => @customer.partner_id, :page => session[:page] do %>
-            <i class="btn btn-primary btn-lg glyphicon glyphicon-list"></i>
+            <i class="btn btn-primary btn-lg fa fa-list"></i>
           <% end %>
           KUNDENBERATER für Kunde <%= @name %>
           <span class="badge"><%= @usanz %></span>
@@ -37,10 +37,10 @@
             <tr>
               <td>
                 <%= link_to customer_advisor_index_path :customer_id => @customer.id, :customer_advisor_id => u.id, :page => session[:page] do %>
-                  <i class="btn btn-primary glyphicon glyphicon-tags"></i>
+                  <i class="btn btn-primary fa fa-tags"></i>
                 <% end %>
                 <%= link_to customer_advisor_index_path :customer_id => @customer.id, :delete_customer_advisor_id => u.id, :page => session[:page] do %>
-                  <i class="btn btn-danger glyphicon glyphicon-trash"></i>
+                  <i class="btn btn-danger fa fa-trash"></i>
                 <% end %>
               </td>
               <td>

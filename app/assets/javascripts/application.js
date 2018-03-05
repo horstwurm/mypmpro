@@ -10,23 +10,22 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require jquery
-//= require jquery.min.js
-//= require jquery.easing.min.js
-//= require jquery.bxslider.min.js
-//= require jquery.turbolinks
+//= require jquery.min
+//= require popper
+//= require bootstrap.min
 //= require jquery_ujs
-//= require bootstrap-switch  
+//= require custom
+//= require jquery.min
+//= require jquery.easing.min
+//= require jquery.bxslider.min
+//= require wow
+//= require jquery.turbolinks
+//= require bootstrap-switch
 //= require bootstrap-slider
 //= require owl.carousel
 //= require bootstrap-datepicker
 //= require turbolinks
-//= require bootstrap
-//= require bootstrap.min
-//= require bootstrap-sprockets
-//= require moment 
+//= require moment
 //= require fullcalendar
 //= require fullcalendar/gcal
-//= require custom.js
-//= require wow.js
 //= require_tree .

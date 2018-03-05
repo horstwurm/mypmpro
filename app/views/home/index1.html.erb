@@ -38,12 +38,12 @@
     		<% case @ticket.status %>
     		  <% when "aktiv", "persönlich", "übergeben" %>
               <%= link_to home_index1_path :userticket_id => @ticket.id, :status => "einlösen" do %>
-                <i class="btn btn-primary btn btn-lg glyphicon glyphicon-shopping-cart"> einlösen</i>
+                <i class="btn btn-primary btn btn-lg fa fa-shopping-cart"> einlösen</i>
               <% end %>
   
             <% else %>
               <%= link_to home_index1_path :userticket_id => @ticket.id, :status => "reaktivieren" do %>
-                <i class="btn btn-primary btn btn-lg glyphicon glyphicon-shopping-cart"> reaktivieren</i>
+                <i class="btn btn-primary btn btn-lg fa fa-shopping-cart"> reaktivieren</i>
               <% end %>
             
           <% end %>

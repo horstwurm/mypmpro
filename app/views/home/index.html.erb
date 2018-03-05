@@ -39,7 +39,7 @@
           <div class="media">
             <div class="media-left">
               <%= link_to users_path do %>
-                <i class="btn btn-active glyphicon glyphicon-user"></i>
+                <i class="btn btn-active fa fa-user"></i>
               <% end %>
             </div>
             <div class="media-body">
@@ -53,7 +53,7 @@
           <div class="media">
             <div class="media-left">
               <%= link_to companies_path do %>
-                <i class="btn btn-active glyphicon glyphicon-copyright-mark"></i>
+                <i class="btn btn-active fa fa-copyright-mark"></i>
               <% end %>
             </div>
             <div class="media-body">
@@ -67,7 +67,7 @@
           <div class="media">
             <div class="media-left">
               <%= link_to mobjects_path :mtype => "Angebote", :msubtype => "Standard" do %>
-                <i class="btn btn-active glyphicon glyphicon-shopping-cart"></i>
+                <i class="btn btn-active fa fa-shopping-cart"></i>
               <% end %>
             </div>
             <div class="media-body">
@@ -81,7 +81,7 @@
           <div class="media">
             <div class="media-left">
               <%= link_to link_to mobjects_path :mtype => "Angebote", :msubtype => "Aktion"  do %>
-                <i class="btn btn-active glyphicon glyphicon-time"></i>
+                <i class="btn btn-active fa fa-safari"></i>
               <% end %>
             </div>
             <div class="media-body">
@@ -95,7 +95,7 @@
           <div class="media">
             <div class="media-left">
               <%= link_to mobjects_path :mtype => "Ausschreibungen", :msubtype => nil do %>
-                <i class="btn btn-active glyphicon glyphicon-pencil"></i>
+                <i class="btn btn-active fa fa-pencil"></i>
               <% end %>
             </div>
             <div class="media-body">
@@ -110,7 +110,7 @@
           <div class="media">
             <div class="media-left">
               <%= link_to mobjects_path :mtype => "Kleinanzeigen", :msubtype => "Anbieten" do %>
-                <i class="btn btn-active glyphicon glyphicon-pushpin"></i>
+                <i class="btn btn-active fa fa-pushpin"></i>
               <% end %>
             </div>
             <div class="media-body">
@@ -124,7 +124,7 @@
           <div class="media">
             <div class="media-left">
               <%= link_to mobjects_path :mtype => "Stellenanzeigen", :msubtype => "Anbieten" do %>
-                <i class="btn btn-active glyphicon glyphicon-user"></i>
+                <i class="btn btn-active fa fa-user"></i>
               <% end %>
             </div>
             <div class="media-body">
@@ -138,7 +138,7 @@
           <div class="media">
             <div class="media-left">
               <%= link_to mobjects_path :mtype => "Vermietungen", :msubtype => nil do %>
-                <i class="btn btn-active glyphicon glyphicon-retweet"></i>
+                <i class="btn btn-active fa fa-retweet"></i>
               <% end %>
             </div>
             <div class="media-body">
@@ -152,7 +152,7 @@
           <div class="media">
             <div class="media-left">
               <%= link_to mobjects_path :mtype => "Veranstaltungen", :msubtype => nil do %>
-                <i class="btn btn-active glyphicon glyphicon-glass"></i>
+                <i class="btn btn-active fa fa-glass"></i>
               <% end %>
             </div>
             <div class="media-body">
@@ -166,7 +166,7 @@
           <div class="media">
             <div class="media-left">
               <%= link_to mobjects_path :mtype => "Ausflugsziele", :msubtype => nil do %>
-                <i class="btn btn-active glyphicon glyphicon-camera"></i>
+                <i class="btn btn-active fa fa-camera"></i>
               <% end %>
             </div>
             <div class="media-body">
@@ -180,7 +180,7 @@
           <div class="media">
             <div class="media-left">
               <%= link_to mobjects_path :mtype => "Crowdfunding", :msubtype => "Spenden" do %>
-                <i class="btn btn-active glyphicon glyphicon-heart"></i>
+                <i class="btn btn-active fa fa-heart"></i>
               <% end %>
             </div>
             <div class="media-body">
@@ -194,7 +194,7 @@
           <div class="media">
             <div class="media-left">
               <%= link_to mobjects_path :mtype => "Crowdfunding", :msubtype => "Belohnungen" do %>
-                <i class="btn btn-active glyphicon glyphicon-gift"></i>
+                <i class="btn btn-active fa fa-gift"></i>
               <% end %>
             </div>
             <div class="media-body">
@@ -208,7 +208,7 @@
           <div class="media">
             <div class="media-left">
               <%= link_to mobjects_path :mtype => "Crowdfunding", :msubtype => "Zinsen" do %>
-                <i class="btn btn-active glyphicon glyphicon-signal"></i>
+                <i class="btn btn-active fa fa-signal"></i>
               <% end %>
             </div>
             <div class="media-body">
@@ -223,7 +223,7 @@
             <div class="media-left">
               <% if user_signed_in? %>
                 <%= link_to user_path(:id => current_user.id, :topic => "Kundenstatus") do %>
-                  <i class="btn btn-active glyphicon glyphicon-check"></i>
+                  <i class="btn btn-active fa fa-check"></i>
                 <% end %>
               <% end %>
             </div>
@@ -239,7 +239,7 @@
             <div class="media-left">
               <% if user_signed_in? %>
                 <%= link_to user_path(:id => current_user.id, :topic => "Transaktionen") do %>
-                  <i class="btn btn-active glyphicon glyphicon-list"></i>
+                  <i class="btn btn-active fa fa-list"></i>
                 <% end %>
               <% end %>
             </div>
@@ -355,7 +355,7 @@
         <div class="col-sm-6 col-md-4 col-lg-3">
           <div class="media">
             <div class="media-left">
-              <i class="glyphicon glyphicon-filter"></i>
+              <i class="fa fa-filter"></i>
             </div>
             <div class="media-body">
               <h4 class="media-heading">Filter</h4>
@@ -369,7 +369,7 @@
         <div class="col-sm-6 col-md-4 col-lg-3">
           <div class="media">
             <div class="media-left">
-              <i class="glyphicon glyphicon-info-sign"></i>
+              <i class="fa fa-info"></i>
             </div>
             <div class="media-body">
               <h4 class="media-heading">Weitere Informationen</h4>
@@ -382,7 +382,7 @@
         <div class="col-sm-6 col-md-4 col-lg-3">
           <div class="media">
             <div class="media-left">
-              <i class="glyphicon glyphicon-plus"></i>
+              <i class="fa fa-plus"></i>
             </div>
             <div class="media-body">
               <h4 class="media-heading">Hinzufügen</h4>
@@ -395,7 +395,7 @@
         <div class="col-sm-6 col-md-4 col-lg-3">
           <div class="media">
             <div class="media-left">
-              <i class="glyphicon glyphicon-wrench"></i>
+              <i class="fa fa-wrench"></i>
             </div>
             <div class="media-body">
               <h4 class="media-heading">Bearbeiten</h4>
@@ -408,7 +408,7 @@
         <div class="col-sm-6 col-md-4 col-lg-3">
           <div class="media">
             <div class="media-left">
-              <i class="glyphicon glyphicon-trash"></i>
+              <i class="fa fa-trash"></i>
             </div>
             <div class="media-body">
               <h4 class="media-heading">Löschen</h4>
@@ -421,7 +421,7 @@
         <div class="col-sm-6 col-md-4 col-lg-3">
           <div class="media">
             <div class="media-left">
-              <i class="glyphicon glyphicon-list"></i>
+              <i class="fa fa-list"></i>
             </div>
             <div class="media-body">
               <h4 class="media-heading">Zurück zur Übersicht</h4>
@@ -434,7 +434,7 @@
         <div class="col-sm-6 col-md-4 col-lg-3">
           <div class="media">
             <div class="media-left">
-              <i class="glyphicon glyphicon-eye-open"></i>
+              <i class="fa fa-eye-open"></i>
             </div>
             <div class="media-body">
               <h4 class="media-heading">Missbrauch melden</h4>
@@ -447,8 +447,8 @@
         <div class="col-sm-6 col-md-4 col-lg-3">
           <div class="media">
             <div class="media-left">
-              <i class="glyphicon glyphicon-chevron-left"></i>
-              <i class="glyphicon glyphicon-chevron-right"></i>
+              <i class="fa fa-chevron-left"></i>
+              <i class="fa fa-chevron-right"></i>
             </div>
             <div class="media-body">
               <h4 class="media-heading">Wochenkalender</h4>
@@ -461,7 +461,7 @@
         <div class="col-sm-6 col-md-4 col-lg-3">
           <div class="media">
             <div class="media-left">
-              <i class="glyphicon glyphicon-calendar"></i>
+              <i class="fa fa-calendar"></i>
             </div>
             <div class="media-body">
               <h4 class="media-heading">Wochenkalender</h4>
@@ -474,7 +474,7 @@
         <div class="col-sm-6 col-md-4 col-lg-3">
           <div class="media">
             <div class="media-left">
-              <i class="glyphicon glyphicon-credit-card"></i>
+              <i class="fa fa-credit-card"></i>
             </div>
             <div class="media-body">
               <h4 class="media-heading">Sponsoring Tickets erstellen</h4>
@@ -487,7 +487,7 @@
         <div class="col-sm-6 col-md-4 col-lg-3">
           <div class="media">
             <div class="media-left">
-              <i class="glyphicon glyphicon-bullhorn"></i>
+              <i class="fa fa-bullhorn"></i>
             </div>
             <div class="media-body">
               <h4 class="media-heading">Sponsoring Tickets verteilen</h4>
@@ -500,7 +500,7 @@
         <div class="col-sm-6 col-md-4 col-lg-3">
           <div class="media">
             <div class="media-left">
-              <i class="glyphicon glyphicon-star"></i>
+              <i class="fa fa-star"></i>
             </div>
             <div class="media-body">
               <h4 class="media-heading">Favoriten</h4>
@@ -513,7 +513,7 @@
         <div class="col-sm-6 col-md-4 col-lg-3">
           <div class="media">
             <div class="media-left">
-              <i class="glyphicon glyphicon-euro"></i>
+              <i class="fa fa-euro"></i>
             </div>
             <div class="media-body">
               <h4 class="media-heading">Zahlungsverkehr </h4>
@@ -545,9 +545,9 @@
             <%= image_tag("thurcloud.png", :size => "200x200") %><br>
             <ntext>
             <b>Version 0.91</b><br><br>
-            <i class="glyphicon glyphicon-copyright-mark"></i> <%= (I18n.t :allrightsreserved) %>
+            <i class="fa fa-copyright-mark"></i> <%= (I18n.t :allrightsreserved) %>
             <br><br>
-            <!--<i class="glyphicon glyphicon-info-sign"></i> Dies ist eine freie Testversion zu Demozwecken, sämtliche Daten, Personen, Firmen, Services, etc. sind frei erfunden, jegliche Haftung ist ausgeschlossen!-->
+            <!--<i class="fa fa-info"></i> Dies ist eine freie Testversion zu Demozwecken, sämtliche Daten, Personen, Firmen, Services, etc. sind frei erfunden, jegliche Haftung ist ausgeschlossen!-->
             </ntext>
           </div>
         </div>

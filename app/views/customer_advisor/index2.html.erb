@@ -4,7 +4,7 @@
       <div class="panel-heading header">
         <li_header>
           <%= link_to @company, :anchor => "#Kundenstatus" do %>
-            <i class="btn btn-primary btn-lg glyphicon glyphicon-list"></i>
+            <i class="btn btn-primary btn-lg fa fa-list"></i>
           <% end %>
           KUNDENLISTE <%= @company.name %>
           <span class="badge"><%= @cusanz %></span>
@@ -37,7 +37,7 @@
             <tr>
               <td>
                 <%= link_to customer_advisor_index_path :customer_id => c.id, :page => session[:page] do %>
-                  <i class="btn btn-primary glyphicon glyphicon-user"></i>
+                  <i class="btn btn-primary fa fa-user"></i>
                 <% end %>
               </td>
               <td>

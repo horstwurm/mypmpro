@@ -24,11 +24,11 @@
         <% end %>
         <br>
         <%= link_to appointments_path(:user_id1 => @user.id, :subject => @subject, :dir => "<")  do %>
-          <i class="btn btn-primary glyphicon glyphicon-chevron-left"></i>
+          <i class="btn btn-primary fa fa-chevron-left"></i>
         <% end %>
         KW <%= session[:cw].to_s + " / " + session[:year].to_s %>
         <%= link_to appointments_path(:user_id1 => @user.id, :subject => @subject, :dir => ">")  do %>
-          <i class="btn btn-primary glyphicon glyphicon-chevron-right"></i>
+          <i class="btn btn-primary fa fa-chevron-right"></i>
         <% end %>
         </li_header>
       </div>
@@ -78,7 +78,7 @@
         	  <tr>
         	    <td colspan=7>
                 <%= link_to new_appointment_path(:user_id1 => @user.id, :user_id2 => current_user.id, :subject => @subject) do %>
-                  <i class="btn btn-primary glyphicon glyphicon-plus"></i>
+                  <i class="btn btn-primary fa fa-plus"></i>
                 <% end %>
                 <b>Terminanfrage für <%= @subject %></b>
       	      </td>
@@ -100,22 +100,22 @@
                     <% end %>
                     <br>
                     <%= link_to edit_appointment_path(ca) do %>
-                      <i class="btn btn-primary btn-xs glyphicon glyphicon-wrench"></i>
+                      <i class="btn btn-primary btn-xs fa fa-wrench"></i>
                     <% end %>
           				  <% if ca.user_id1 == current_user.id and ca.status == "angefragt" %>
                         <%= link_to appointments_path(:user_id1 => @user.id, :confirm_id => ca.id, :subject => @subject) do %>
-                          <i class="btn btn-primary btn-xs glyphicon glyphicon-ok"></i>
+                          <i class="btn btn-primary btn-xs fa fa-ok"></i>
                         <% end %>
                         <%= link_to appointments_path(:user_id1 => @user.id, :deny_id => ca.id, :subject => @subject) do %>
-                          <i class="btn btn-primary btn-xs glyphicon glyphicon-remove"></i>
+                          <i class="btn btn-primary btn-xs fa fa-remove"></i>
                         <% end %>
                         
                     <% end %>
     				        <% link_to edit_appointment_path(ca) do %>
-                      <i class="btn btn-primary glyphicon glyphicon-wrench"></i>
+                      <i class="btn btn-primary fa fa-wrench"></i>
                     <% end %>
     				        <%= link_to ca, method: :delete, data: { confirm: 'Are you sure?' } do %>
-                      <i class="btn btn-danger btn-xs glyphicon glyphicon-trash"></i>
+                      <i class="btn btn-danger btn-xs fa fa-trash"></i>
                     <% end %>
                   </td>
                   <td>
@@ -124,16 +124,16 @@
                   </td>
         				  <td>
                     <%= link_to new_appointment_document_path(:appointment_id => ca.id) do %>
-                      <i class="btn btn-primary btn-xs glyphicon glyphicon-cloud-upload"></i><br>
+                      <i class="btn btn-primary btn-xs fa fa-cloud-upload"></i><br>
                     <% end %>
                   </td>
                   <td>
                     <% ca.appointment_documents.each do |ad| %>
             	        <%= link_to ad.document.url, target: "_blank" do %>
-                        <i class="btn btn-primary btn-xs glyphicon glyphicon-cloud-download"></i>
+                        <i class="btn btn-primary btn-xs fa fa-cloud-download"></i>
                       <% end %>
       				        <%= link_to ad, method: :delete, data: { confirm: 'Are you sure?' } do %>
-                        <i class="btn btn-danger btn-xs glyphicon glyphicon-trash"></i>
+                        <i class="btn btn-danger btn-xs fa fa-trash"></i>
                       <% end %>
                       <%= ad.name %><br>  
                     <% end %>

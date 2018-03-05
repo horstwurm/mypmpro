@@ -9,27 +9,17 @@
  * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
- *
- *= require bootstrap-slider
- *= require bootstrap3-switch
- *= require owl.carousel
- *= require owl.theme
- *= require bootstrap-datepicker
- *= require animate
- *= require bootstrap.min
- *= require jquery.bxslider
- *= require style
- *= require fullcalendar
- *= require_self
- *= require_tree .
- */
-@import "*";
-@import "bootstrap-sprockets";
-@import "bootstrap";
-@import "font-awesome-sprockets";
+*/
+@import "bootstrap.min";
 @import "font-awesome";
 @import "animate";
-@import "bootstrap.min";
-@import "font-awesome.min";
+@import "fullcalendar";
 @import "jquery.bxslider";
 @import "style";
+@import "bootstraply";
+@import "fullcalendar";
+@import "bootstrap-slider";
+@import "bootstrap3-switch";
+@import "bootstrap-datepicker";
+@import "owl.carousel";
+@import "owl.theme";

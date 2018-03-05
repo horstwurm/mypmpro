@@ -19,12 +19,12 @@
                       <li_header>
                         <% if @transaction.owner_type == "User" %>
                             <%= link_to user_path(:id => @transaction.owner_id, :topic => "Transaktionen") do %>
-                              <i class="btn btn-primary glyphicon glyphicon-list"></i>
+                              <i class="btn btn-primary fa fa-list"></i>
                             <% end %>
                         <% end %>
                         <% if @transaction.owner_type == "Company" %>
                           <%= link_to company_path(:id => @transaction.owner_id, :topic => "Transaktionen") do %>
-                            <i class="btn btn-primary glyphicon glyphicon-list"></i>
+                            <i class="btn btn-primary fa fa-list"></i>
                           <% end %>
                         <% end %>
                         ZAHLUNG zu Gunsten <%= @transaction.owner.name %>

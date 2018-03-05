@@ -5,12 +5,12 @@
         <div class="digg_pagination">
             <% if @owner_type == "User" %>
               <%= link_to(user_path(:id => @owner.id, :topic => "personen_stellvertretungen")) do %>
-                <i class="btn btn-primary glyphicon glyphicon-list"></i>
+                <i class="btn btn-primary fa fa-list"></i>
               <% end %>
             <% end %>
             <% if @owner_type == "Company" %>
               <%= link_to(company_path(:id => @owner.id, :topic => "institutionen_stellvertretungen")) do %>
-                <i class="btn btn-primary glyphicon glyphicon-list"></i>
+                <i class="btn btn-primary fa fa-list"></i>
               <% end %>
             <% end %>
             <%= will_paginate @users, :container => false, previous_label: "<", next_label: ">" %>
@@ -45,23 +45,23 @@
                 <% if !found %>
                   <% if @owner_type == "User" %>
                     <%= link_to deputies_path(:user_id => @owner.id, :deputy_id => u.id, :page => session[:page]) do %>
-                      <i class="btn btn-primary glyphicon glyphicon-pawn"></i>
+                      <i class="btn btn-primary fa fa-pawn"></i>
                     <% end %>
                   <% end %>
                   <% if @owner_type == "Company" %>
                     <%= link_to deputies_path(:company_id => @owner.id, :deputy_id => u.id, :page => session[:page]) do %>
-                      <i class="btn btn-primary glyphicon glyphicon-pawn"></i>
+                      <i class="btn btn-primary fa fa-pawn"></i>
                     <% end %>
                   <% end %>
                 <% else %>
                   <% if @owner_type == "User" %>
                     <%= link_to deputies_path(:user_id => @owner.id, :nodeputy_id => u.id, :page => session[:page]) do %>
-                      <i class="btn btn-danger glyphicon glyphicon-remove"></i>
+                      <i class="btn btn-danger fa fa-remove"></i>
                     <% end %>
                   <% end %>
                   <% if @owner_type == "Company" %>
                     <%= link_to deputies_path(:company_id => @owner.id, :nodeputy_id => u.id, :page => session[:page]) do %>
-                      <i class="btn btn-danger glyphicon glyphicon-remove"></i>
+                      <i class="btn btn-danger fa fa-remove"></i>
                     <% end %>
                   <% end %>
                 <% end %>

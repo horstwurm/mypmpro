@@ -5,7 +5,7 @@
           <div class="row">
             <div class="testimonial-item">
               <ul class="bxslider">
-                <% Mobject.all.each do |m| %>
+                <% Mobject.last do |m| %>
                   <li>
                     <blockquote>
                       <%= showFirstImage2(:medium, m, m.mdetails) %>

@@ -18,12 +18,12 @@
                       <li_header>
                         <% if @deputy.owner_type == "User" %>
                           <%= link_to user_path(:id => @deputy.owner_id, :topic => "personen_stellvertretungen") do %>
-                            <i class="btn btn-primary glyphicon glyphicon-list"></i>
+                            <i class="btn btn-primary fa fa-list"></i>
                           <% end %>
                         <% end %>
                         <% if @deputy.owner_type == "Company" %>
                           <%= link_to company_path(:id => @company.owner_id, :topic => "personen_stellvertretungen") do %>
-                            <i class="btn btn-primary glyphicon glyphicon-list"></i>
+                            <i class="btn btn-primary fa fa-list"></i>
                           <% end %>
                         <% end %>
                         <%= (I18n.t :timeslot) %>

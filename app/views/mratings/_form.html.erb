@@ -17,7 +17,7 @@
                     <div class="panel-heading header">
                       <li_header>
                       <%= link_to mobject_path(:id => @mrating.mobject_id, :topic => "Ratings") do %>
-                        <i class="btn btn-primary glyphicon glyphicon-list"></i>
+                        <i class="btn btn-primary fa fa-list"></i>
                       <% end %>
                       BEWERTUNG <%= @mrating.mobject.name %>
                       </li_header>
@@ -34,7 +34,7 @@
                           <%= f.radio_button :rating, i.to_i %>
                           <% i.times do %>
                             <% image_tag("rating_star.jpg", :size => "50x50" , class:"img-rounded") %>
-                            <i class="glyphicon glyphicon-star"></i>
+                            <i class="fa fa-star"></i>
                           <% end %><br>
                       <% end %>
                       <%= f.text_area :comment, rows: 3, class:"form-control"%>

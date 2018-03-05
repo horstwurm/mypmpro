@@ -1,10 +1,10 @@
   <div class="row">
     <header>
-    <%= header("<queryshow><i class='glyphicon glyphicon-filter', style='font-size:2em'></i></queryshow><queryhide><i class='glyphicon glyphicon-remove', style='font-size:2em'></i></queryhide>Privatpersonen <span class='badge'>" + @usanz.to_s + "</span>") %>
+    <%= header("<queryshow><i class='fa fa-filter', style='font-size:2em'></i></queryshow><queryhide><i class='fa fa-remove', style='font-size:2em'></i></queryhide>Privatpersonen <span class='badge'>" + @usanz.to_s + "</span>") %>
     <query>
     <% if user_signed_in? %>
     	  <%= link_to new_search_path(:user_id => current_user.id, :search_domain => "personen", :controller_name => @controller_name) do %>
-              <i class="btn btn-primary glyphicon glyphicon-plus">Neue Abfrage</i>
+              <i class="btn btn-primary fa fa-plus">Neue Abfrage</i>
           <% end %>
           <% @searches = Search.where('search_domain=? and user_id=?', "personen", current_user.id) %>
           <%= build_medialistNew(@searches, "searches", nil) %>
@@ -23,7 +23,7 @@
   <div class="panel panel-body">
     <div class="row">
           <% @locs %>
-      <i class="glyphicon glyphicon-map-marker pull-left" onclick="return initMap();"></i>
+      <i class="fa fa-map-marker pull-left" onclick="return initMap();"></i>
       <div class="col-md-12">
           <div id="map"></div>
       </div>

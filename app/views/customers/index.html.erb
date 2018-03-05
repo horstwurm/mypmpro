@@ -4,7 +4,7 @@
       <div class="panel-heading header">
         <li_header>
         <%= link_to home_index_path do %>
-          <i class="btn btn-primary glyphicon glyphicon-list"></i>
+          <i class="btn btn-primary fa fa-list"></i>
         <% end %>
          KUNDENINFORMATION
         <span class="badge"><%= @paranz %></span>
@@ -39,7 +39,7 @@
       			<br><br>
             <ntext>
             <%= link_to url_with_protocol(p.homepage), :target => '_blank' do %>
-              <i class="glyphicon glyphicon-home"></i> <%= url_with_protocol(p.homepage) %>
+              <i class="fa fa-home"></i> <%= url_with_protocol(p.homepage) %>
             <% end %>
             <br><br>
             </ntext>
@@ -47,17 +47,17 @@
               <% @customer = Customer.where("user_id=? AND company_id=?", current_user.id, p.id).first %>
               <% if @customer == nil %>
                 <%= link_to new_customer_path :company_id => p.id, :user_id => current_user.id do %>
-                  <i class="btn btn-primary btn btn-lg glyphicon glyphicon-pencil"></i>
+                  <i class="btn btn-primary btn btn-lg fa fa-pencil"></i>
                 <% end %>
               <% else %>
                 <%= link_to accounts_path :customer_id => @customer.id do %>
-                  <i class="btn btn-primary btn btn-lg glyphicon glyphicon-book"></i>
+                  <i class="btn btn-primary btn btn-lg fa fa-book"></i>
                 <% end %>
                 <%= link_to edit_customer_path(@customer) do %>
-                  <i class="btn btn-primary btn btn-lg glyphicon glyphicon-wrench"></i>
+                  <i class="btn btn-primary btn btn-lg fa fa-wrench"></i>
                 <% end %>
       	        <%= link_to @customer, method: :delete, data: { confirm: 'Are you sure?' } do %>
-                  <i class="btn btn-danger btn-lg glyphicon glyphicon-trash"></i>
+                  <i class="btn btn-danger btn-lg fa fa-trash"></i>
                 <% end %>
               <% end %>
             <% end %>

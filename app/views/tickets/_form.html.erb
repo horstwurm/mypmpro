@@ -19,12 +19,12 @@
                       <li_header>
                       <% if @ticket.owner_type == "Msponsor" %>
                         <%= link_to tickets_path :msponsor_id => @ticket.owner_id do %>
-                          <i class="btn btn-primary glyphicon glyphicon-list"></i>
+                          <i class="btn btn-primary fa fa-list"></i>
                         <% end %>
                       <% end %>
                       <% if @ticket.owner_type == "Mobject" %>
                         <%= link_to tickets_path :mobject_id => @ticket.owner_id do %>
-                          <i class="btn btn-primary glyphicon glyphicon-list"></i>
+                          <i class="btn btn-primary fa fa-list"></i>
                         <% end %>
                       <% end %>
                       <%= (I18n.t :ticket) + " " + @ticket.owner_type + " " + @ticket.owner_id.to_s %>

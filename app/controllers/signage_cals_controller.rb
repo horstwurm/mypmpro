@@ -42,7 +42,7 @@ class SignageCalsController < ApplicationController
             @obj = Mobject.find(c.mkampagne)
           end
 
-          info = '<i class="glyphicon glyphicon-calender"></i>'
+          info = '<i class="fa fa-calender"></i>'
   
           time_from = c.time_from.to_s
           if c.time_from.to_s.length == 1

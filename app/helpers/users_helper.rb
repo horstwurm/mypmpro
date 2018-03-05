@@ -98,7 +98,7 @@ def carousel2(mobject, size)
             html = html + "<div class='col-xs=12'>"
               if p.document_file_name
                 html = html + link_to(p.document.url, target: "_blank") do 
-                  content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-cloud-download")
+                  content_tag(:i, nil, class:"btn btn-primary fa fa-cloud-download")
                 end
               end
             html = html + "</div>"
@@ -255,27 +255,27 @@ def build_medialistNew(items, cname, par)
               when "searches"
                   if par != nil and par != ""
                     html_string = html_string + link_to(showcal_index_path(:filter_id => item.id, :dom => par)) do
-                      content_tag(:i, nil, class:"glyphicon glyphicon-" + getinfo(item.mtype.to_sym)["info"], style:"font-size:8em") 
+                      content_tag(:i, nil, class:"fa fa-" + getinfo(item.mtype.to_sym)["info"], style:"font-size:8em") 
                     end
                   else
                     html_string = html_string + "<soft_padding>"
                     case item.search_domain
                       when "personen"
                         html_string = html_string + link_to(users_path(:filter_id => item.id)) do
-                          #content_tag(:i, nil, class:"glyphicon glyphicon-question-sign", style:"font-size:8em") 
+                          #content_tag(:i, nil, class:"fa fa-question-sign", style:"font-size:8em") 
                           image_tag("abfragen.jpg", :size => :medium)
                         end
                       when "objekte"
                         html_string = html_string + link_to(mobjects_path(:filter_id => item.id)) do
-                          #content_tag(:i, nil, class:"glyphicon glyphicon-question-sign", style:"font-size:8em") 
+                          #content_tag(:i, nil, class:"fa fa-question-sign", style:"font-size:8em") 
                           image_tag("abfragen.jpg", :size => :medium)
                         end
                       when "tickets"
-                          content_tag(:i, nil, class:"glyphicon glyphicon-question-sign", style:"font-size:8em") 
+                          content_tag(:i, nil, class:"fa fa-question-sign", style:"font-size:8em") 
                           html_string = html_string + image_tag(image_def("personen", item.mtype, item.msubtype))
                       when "institutionen"
                         html_string = html_string + link_to(companies_path(:filter_id => item.id)) do
-                          #content_tag(:i, nil, class:"glyphicon glyphicon-question-sign", style:"font-size:8em") 
+                          #content_tag(:i, nil, class:"fa fa-question-sign", style:"font-size:8em") 
                           image_tag("abfragen.jpg", :size => :medium)
                         end
                     end
@@ -305,7 +305,7 @@ def build_medialistNew(items, cname, par)
               when "ideas"
                 priceAnz = priceAnz + 1
                 if priceAnz <= item.mobject.prices.count
-                  html_string = html_string + '<fire><i class="glyphicon glyphicon-fire"></fire></i> '
+                  html_string = html_string + '<fire><i class="fa fa-fire"></fire></i> '
                 end
                 html_string = html_string + item.header
               when "questions"
@@ -324,9 +324,9 @@ def build_medialistNew(items, cname, par)
                 html_string = html_string + item.name
               when "mobjects"
                 if item.online_pub
-                  html_string = html_string + '<i class="glyphicon glyphicon-road"></i>'
+                  html_string = html_string + '<i class="fa fa-road"></i>'
                 else
-                  html_string = html_string + '<i class="glyphicon glyphicon-lock"></i>'
+                  html_string = html_string + '<i class="fa fa-lock"></i>'
                 end
                 html_string = html_string + " " + item.name
               when "searches"
@@ -387,7 +387,7 @@ def build_medialistNew(items, cname, par)
           case items.table_name
               when "appparams"
 
-                html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i>'+ (I18n.t :abo) + '<br><br>'
+                html_string = html_string + '<i class="fa fa-pencil"></i>'+ (I18n.t :abo) + '<br><br>'
 
                 if par == "user"
                   @charges = item.charges.where('owner_id=? and owner_type=?', current_user.id, "User").order(created_at: :desc)
@@ -397,7 +397,7 @@ def build_medialistNew(items, cname, par)
                 startdatum = Date.today
                 @charges.each do |c|
 
-                  html_string = html_string + '<i class="glyphicon glyphicon-calendar"></i> '
+                  html_string = html_string + '<i class="fa fa-calendar"></i> '
                   html_string = html_string + c.date_from.strftime("%d-%m-%Y") + "-" + c.date_to.strftime("%d-%m-%Y")
                   
                   if c.date_to > startdatum
@@ -445,7 +445,7 @@ def build_medialistNew(items, cname, par)
                 end
 
               when "deputies"
-                html_string = html_string + '<i class="glyphicon glyphicon-calendar"></i> '
+                html_string = html_string + '<i class="fa fa-calendar"></i> '
                 if item.date_from and item.date_to
                   html_string = html_string + item.date_from.strftime("%d-%m-%Y") + "-" + item.date_to.strftime("%d-%m-%Y")
                 else
@@ -453,9 +453,9 @@ def build_medialistNew(items, cname, par)
                 end
 
               when "charges"
-                html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '
+                html_string = html_string + '<i class="fa fa-pencil"></i> '
                 html_string = html_string + item.plan + "<br>"
-                html_string = html_string + '<i class="glyphicon glyphicon-calendar"></i> '
+                html_string = html_string + '<i class="fa fa-calendar"></i> '
                 html_string = html_string + item.created_at.strftime("%d-%m-%Y") + "-"
                 if item.plan == "yearly"
                   offset = 365
@@ -463,7 +463,7 @@ def build_medialistNew(items, cname, par)
                   offset = 30
                 end
                 html_string = html_string + (item.created_at.to_date + offset).strftime("%d-%m-%Y") + "<br>"
-                html_string = html_string + '<i class="glyphicon glyphicon-euro"></i> '
+                html_string = html_string + '<i class="fa fa-euro"></i> '
                 html_string = html_string + sprintf("%05.2f CHF",item.amount)  + "<br>"
                 proc = (item.created_at.to_date.jd+offset - Date.today.jd)*100/offset
                 html_string = html_string + proc.to_s  + "%<br>"
@@ -487,17 +487,17 @@ def build_medialistNew(items, cname, par)
               when "idea_crowdratings"
                 if item.rating and item.rating > 0
                   item.rating.round.times do
-                    html_string = html_string + '<i class="glyphicon glyphicon-star"></i> '
+                    html_string = html_string + '<i class="fa fa-star"></i> '
                   end
                   html_string = html_string + ' (' + sprintf("%.1f",item.rating) + ')<br>'
                 end
-                html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '
+                html_string = html_string + '<i class="fa fa-pencil"></i> '
                 html_string = html_string + "<b>" + item.rating_text + "</b><br>"
 
               when "prices"
-                html_string = html_string + '<preis><i class="glyphicon glyphicon-gift"></i> '
+                html_string = html_string + '<preis><i class="fa fa-gift"></i> '
                 html_string = html_string +  item.name + "</preis><br><br>"
-                #html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i>
+                #html_string = html_string + '<i class="fa fa-pencil"></i>
                 if item.description.length > 300
                   html_string = html_string + "<b>" + item.description[0..300] + "</b><br>"
                 else
@@ -524,7 +524,7 @@ def build_medialistNew(items, cname, par)
                     @idearating.save
                   end
                   if @idearating and @idearating.rating > 0
-                    #html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '
+                    #html_string = html_string + '<i class="fa fa-pencil"></i> '
                     html_string = html_string + '<div class="progress">'
                     html_string = html_string + '<div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar2" aria-valuenow="' + @idearating.rating.to_s + '" aria-valuemin="0" aria-valuemax="100" style="width:' + @idearating.rating.to_s + '%">'
                     html_string = html_string + '<span class="sr-only">40% Complete (success)</span>'
@@ -533,25 +533,25 @@ def build_medialistNew(items, cname, par)
                   end
                   html_string = html_string + "<preis>" + (item.rating * @idearating.rating).to_s + "</preis>"
                 end
-                #html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '
+                #html_string = html_string + '<i class="fa fa-pencil"></i> '
                 html_string = html_string + "<br><b>" + item.description + "</b><br>"
 
               when "ideas"
                 if item.crowdrating and item.crowdrating > 0
-                  html_string = html_string + '<i class="glyphicon glyphicon-star"></i> '
+                  html_string = html_string + '<i class="fa fa-star"></i> '
                   html_string = html_string + "<rating>" 
                   item.crowdrating.round.times do
-                    html_string = html_string + '<i class="glyphicon glyphicon-star"></i> '
+                    html_string = html_string + '<i class="fa fa-star"></i> '
                   end
                   html_string = html_string + "</rating>" 
                   html_string = html_string + sprintf("(%3.1f)",item.crowdrating) + "<br>" 
                 end
                 if item.rating
-                  html_string = html_string + '<i class="glyphicon glyphicon-education"></i> '
+                  html_string = html_string + '<i class="fa fa-education"></i> '
                   html_string = html_string + "<rating>" + sprintf("%3.1f",item.rating) + "</rating><br>" 
                 end
                 
-                html_string = html_string + '<i class="glyphicon glyphicon-user"></i> '
+                html_string = html_string + '<i class="fa fa-user"></i> '
                 html_string = html_string + item.user.name + " " + item.user.lastname + "<br><br>"
                 if item.description.length > 200
                   html_string = html_string + "<b>" + item.description[0..200] + "...</b><br>"
@@ -563,34 +563,34 @@ def build_medialistNew(items, cname, par)
                   if item.avatar_file_name
                     #html_string = html_string + "Weitere Informationen: "
                     html_string = html_string + link_to(item.avatar.url, target: "_blank") do 
-                      content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-picture")
+                      content_tag(:i, nil, class:"btn btn-primary fa fa-picture")
                     end
                   end
                   if item.document_file_name
                     #html_string = html_string + "Weitere Informationen: "
                     html_string = html_string + link_to(item.document.url, target: "_blank") do 
-                      content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-book")
+                      content_tag(:i, nil, class:"btn btn-primary fa fa-book")
                     end
                   end
                 end
 
               when "edition_arcticles"
-                html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '
+                html_string = html_string + '<i class="fa fa-pencil"></i> '
                 html_string = html_string + item.mobject.owner.name + " " + item.mobject.owner.lastname
 
               when "editions"
-                html_string = html_string + '<i class="glyphicon glyphicon-calendar"></i> '
+                html_string = html_string + '<i class="fa fa-calendar"></i> '
                 if item.release_date 
                   html_string = html_string +  item.release_date.strftime("%d.%m.%Y") + '<br><br>'
                 end 
                 html_string = html_string + " <fire>" + item.edition_arcticles.count.to_s + " " + (I18n.t :artikel)
                 html_string = html_string + '</fire><br><br>'
 
-                #html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '
+                #html_string = html_string + '<i class="fa fa-pencil"></i> '
                 #html_string = html_string + item.description + "<br><br>"
                 item.edition_arcticles.order(:sequence).last(5).each do |ea|
                   #html_string = html_string + link_to(mobject_path(:id => ea.mobject.id)) do 
-                  #  content_tag(:i, nil, class:"glyphicon glyphicon-text-background")
+                  #  content_tag(:i, nil, class:"fa fa-text-background")
                   #end
                   html_string = html_string + " " + ea.mobject.name + " (" + ea.mobject.owner.name + " " + ea.mobject.owner.lastname + ")<br>"
                   #html_string = html_string + "<div class='row'>"
@@ -607,13 +607,13 @@ def build_medialistNew(items, cname, par)
                 html_string = html_string + "<blog>'" + item.description + "'</blog>"
 
               when "questions"
-                html_string = html_string + '<i class="glyphicon glyphicon-folder-open"></i> '
+                html_string = html_string + '<i class="fa fa-folder-open"></i> '
                 html_string = html_string + item.mcategory.name + '<br><br>'
                 
                 if item.mcategory.name == "single".downcase or item.mcategory.name == "multiple".downcase 
 
     	            html_string = html_string + link_to(new_answer_path(:question_id => item.id)) do 
-                    content_tag(:i, nil, class:"btn btn-primary btn-xs glyphicon glyphicon-plus")
+                    content_tag(:i, nil, class:"btn btn-primary btn-xs fa fa-plus")
                   end
                   html_string = html_string + (I18n.t :antwortoptionen) + '<br><br>'
                   item.answers.each do |a|
@@ -633,10 +633,10 @@ def build_medialistNew(items, cname, par)
                       html_string = html_string + "</div>"
                       html_string = html_string + '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">'
         	            html_string = html_string + link_to(a, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                        content_tag(:i, nil, class:"btn btn-danger btn-xs glyphicon glyphicon-trash pull-right")
+                        content_tag(:i, nil, class:"btn btn-danger btn-xs fa fa-trash pull-right")
                       end
         	            html_string = html_string + link_to(edit_answer_path(:id => a)) do 
-                        content_tag(:i, nil, class:"btn btn-primary btn-xs glyphicon glyphicon-wrench pull-right")
+                        content_tag(:i, nil, class:"btn btn-primary btn-xs fa fa-wrench pull-right")
                       end
                       html_string = html_string + "</div>"
                       html_string = html_string + "</div>"
@@ -646,52 +646,52 @@ def build_medialistNew(items, cname, par)
                 end
                 
               when "articles"
-                html_string = html_string + '<i class="glyphicon glyphicon-folder-open"></i> '
+                html_string = html_string + '<i class="fa fa-folder-open"></i> '
                 html_string = html_string + item.mcategory.name + '<br>'
-                html_string = html_string + '<i class="glyphicon glyphicon-exclamation-sign"></i> '
+                html_string = html_string + '<i class="fa fa-exclamation-sign"></i> '
                 html_string = html_string + item.status.to_s + '<br>'
 
               when "tickets"
-                html_string = html_string + '<i class="glyphicon glyphicon-folder-open"></i> '
+                html_string = html_string + '<i class="fa fa-folder-open"></i> '
                 html_string = html_string + item.mcategory.name + '<br>'
-                html_string = html_string + '<i class="glyphicon glyphicon-euro"></i> '
+                html_string = html_string + '<i class="fa fa-euro"></i> '
                 html_string = html_string + item.amount.to_s+ '<br>'
-                html_string = html_string + '<i class="glyphicon glyphicon-exclamation-sign"></i> '
+                html_string = html_string + '<i class="fa fa-exclamation-sign"></i> '
                 html_string = html_string + item.contingent.to_s + ' verfügbar <br>'
-                html_string = html_string + '<i class="glyphicon glyphicon-warning-sign"></i> '
+                html_string = html_string + '<i class="fa fa-warning-sign"></i> '
                 html_string = html_string + item.user_tickets.count.to_s + ' verkauft <br>'
 
               when "mdetails"
-                html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '
+                html_string = html_string + '<i class="fa fa-pencil"></i> '
                 html_string = html_string + item.description + '<br>' if item.description
 
               when "users"
                 html_string = html_string +  item.email
 
               when "companies"
-                html_string = html_string + '<i class="glyphicon glyphicon-folder-open"></i>'
+                html_string = html_string + '<i class="fa fa-folder-open"></i>'
                 html_string = html_string + " " + item.mcategory.name
                 html_string = html_string + '<br><br>'
                 html_string = html_string + contactChip(item.user)
 
               when "customers"
-                html_string = html_string + '<i class="glyphicon glyphicon-folder-open"></i> '
+                html_string = html_string + '<i class="fa fa-folder-open"></i> '
                 html_string = html_string + @comp.mcategory.name + '<br>'
-                html_string = html_string + '<i class="glyphicon glyphicon-home"></i> '
+                html_string = html_string + '<i class="fa fa-home"></i> '
                 html_string = html_string + @comp.geo_address + '<br>'
-                html_string = html_string + '<i class="glyphicon glyphicon-envelope"></i> '
+                html_string = html_string + '<i class="fa fa-envelope"></i> '
                 html_string = html_string + @comp.user.email + '<br>'
 
               when "mobjects"
 
                 if item.sum_rating and item.sum_rating > 0
                   item.sum_rating.round.times do
-                    html_string = html_string + '<i class="glyphicon glyphicon-star"></i> '
+                    html_string = html_string + '<i class="fa fa-star"></i> '
                   end
                   html_string = html_string + ' (' + sprintf("%.1f",item.sum_rating) + ')<br>'
                 end
                 
-                html_string = html_string + '<i class="glyphicon glyphicon-folder-open"></i> '
+                html_string = html_string + '<i class="fa fa-folder-open"></i> '
                 html_string = html_string + " " + item.mcategory.name + "<br><br>"
 
                 case item.mtype
@@ -719,18 +719,18 @@ def build_medialistNew(items, cname, par)
 
                   when "veranstaltungen" 
                     if item.eventpart
-                      html_string = html_string + '<i class="glyphicon glyphicon-info-sign"></i> '+(I18n.t :anmeldungerforderlich) + "<br>"
+                      html_string = html_string + '<i class="fa fa-info"></i> '+(I18n.t :anmeldungerforderlich) + "<br>"
                     else
-                      html_string = html_string + '<i class="glyphicon glyphicon-info-sign"></i> ' + (I18n.t :keineanmeldungerforderlich) + "<br>"
+                      html_string = html_string + '<i class="fa fa-info"></i> ' + (I18n.t :keineanmeldungerforderlich) + "<br>"
                     end
                     @angemeldet = nil
                     if user_signed_in?
                       @angemeldet = current_user.madvisors.where('mobject_id=? and role=?', item.id, "eventteilnehmer").first
                       if @angemeldet
-                        html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '+(I18n.t :angemeldet)+ "<br>"
+                        html_string = html_string + '<i class="fa fa-pencil"></i> '+(I18n.t :angemeldet)+ "<br>"
                       end
                     end
-                    html_string = html_string + '<i class="glyphicon glyphicon-calendar"></i> '
+                    html_string = html_string + '<i class="fa fa-calendar"></i> '
                     html_string = html_string +  item.date_from.strftime("%d.%m.%Y") + " - " + item.date_to.strftime("%d.%m.%Y") + '<br>'
                     soll = (item.date_to.to_date - item.date_from.to_date).to_i
                     ist = (DateTime.now.to_date - item.date_from.to_date).to_i
@@ -850,12 +850,12 @@ def build_medialistNew(items, cname, par)
                       html_string = html_string + "<div class='col-xs-8'>"
                         html_string = html_string + "<div class='col-xs-6' align='center' style='font-size:4em'>"
                           html_string = html_string + "<div class='quality"+ item.quality + "'>"
-                            html_string = html_string + '<i class="glyphicon glyphicon-stop"></i>'
+                            html_string = html_string + '<i class="fa fa-stop"></i>'
                           html_string = html_string + "</div>"
                         html_string = html_string + "</div>"
                         html_string = html_string + "<div class='col-xs-6' align='center' style='font-size:4em'>"
                           html_string = html_string + "<div class='risk"+ item.risk + "'>"
-                            html_string = html_string + '<i class="glyphicon glyphicon-stop"></i>'
+                            html_string = html_string + '<i class="fa fa-stop"></i>'
                           html_string = html_string + "</div>"
                         html_string = html_string + "</div>"
                       html_string = html_string + "</div>"
@@ -865,7 +865,7 @@ def build_medialistNew(items, cname, par)
                     html_string = html_string + "<br>"
                     
                   when "ausschreibungen", "kleinanzeigen", "stellenanzeigen", "crowdfunding", "innovationswettbewerbe", "umfragen"
-                    html_string = html_string + '<i class="glyphicon glyphicon-calendar"></i> '
+                    html_string = html_string + '<i class="fa fa-calendar"></i> '
                     html_string = html_string +  item.date_from.strftime("%d.%m.%Y") + " - " + item.date_to.strftime("%d.%m.%Y") + '<br>'
                     soll = (item.date_to.to_date - item.date_from.to_date).to_i
                     ist = (DateTime.now.to_date - item.date_from.to_date).to_i
@@ -881,7 +881,7 @@ def build_medialistNew(items, cname, par)
                     
                     if item.mtype == "innovationswettbewerbe"
                       html_string = html_string + link_to(mobject_path(:id => item.id, :topic => "objekte_ideen")) do
-                        content_tag(:i, nil, class:"glyphicon glyphicon-info-sign mediabuttonred")
+                        content_tag(:i, nil, class:"fa fa-info mediabuttonred")
                       end
                       html_string = html_string + " <fire>" + item.ideas.count.to_s + " " + (I18n.t :ideen)
                       html_string = html_string + '</fire><br><br>'
@@ -895,17 +895,17 @@ def build_medialistNew(items, cname, par)
                     if item.mtype == "crowdfunding"
 
                       #if item.msubtype == "belohnungen"
-                      #  html_string = html_string + '<i class="glyphicon glyphicon-gift"></i> '
+                      #  html_string = html_string + '<i class="fa fa-gift"></i> '
                       #  html_string = html_string + item.reward + '<br>'
                       #end
                       #if item.msubtype == "zinsen"
-                        #html_string = html_string + '<i class="glyphicon glyphicon-signal"></i> '
+                        #html_string = html_string + '<i class="fa fa-signal"></i> '
                         #html_string = html_string + sprintf("%3.1f %",item.interest_rate)  + '<br>'
                       #end
                       #html_string = html_string + '<br><br>'
 
                       if item.sum_amount and item.sum_amount > 0 and item.amount and item.amount > 0
-                        html_string = html_string + '<i class="glyphicon glyphicon-euro"></i> '+ sprintf("%05.2f CHF", item.sum_amount) + " / " + sprintf("%05.2f CHF", item.amount) + "<br>"
+                        html_string = html_string + '<i class="fa fa-euro"></i> '+ sprintf("%05.2f CHF", item.sum_amount) + " / " + sprintf("%05.2f CHF", item.amount) + "<br>"
                         html_string = html_string + '<div class="progress">'
                         html_string = html_string + '<div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="' + item.sum_amount.to_s + '" aria-valuemin="0" aria-valuemax="' + item.amount.to_s + '" style="width:' + (item.sum_amount/item.amount*100).to_s + '%">'
                         html_string = html_string + '<span class="sr-only">40% Complete (success)</span>'
@@ -915,24 +915,24 @@ def build_medialistNew(items, cname, par)
                     end
 
                  when "angebote"
-                    html_string = html_string + '<i class="glyphicon glyphicon-folder"></i> '
+                    html_string = html_string + '<i class="fa fa-folder"></i> '
                     html_string = html_string +  item.msubtype + "<br>" 
                     if item.msubtype == "standard"
                       if item.price_reg
-                        html_string = html_string + '<i class="glyphicon glyphicon-euro"></i> '
+                        html_string = html_string + '<i class="fa fa-euro"></i> '
                         html_string = html_string +  sprintf("%05.2f CHF",item.price_reg) 
                       end
                     end
                     if item.msubtype == "aktion"
                       if item.price_new
-                        html_string = html_string + '<i class="glyphicon glyphicon-euro"></i> '
+                        html_string = html_string + '<i class="fa fa-euro"></i> '
                         html_string = html_string +  sprintf("%05.2f CHF",item.price_new) 
                       end
                       if item.price_reg
                         html_string = html_string + " statt " + sprintf("%05.2f CHF",item.price_reg) + '<br>'
                       end
 
-                      html_string = html_string + '<i class="glyphicon glyphicon-calendar"></i> '
+                      html_string = html_string + '<i class="fa fa-calendar"></i> '
                       html_string = html_string +  item.date_from.strftime("%d.%m.%Y") + " - " + item.date_to.strftime("%d.%m.%Y") + '<br>'
                       soll = (item.date_to.to_date - item.date_from.to_date).to_i
                       ist = (DateTime.now.to_date - item.date_from.to_date).to_i
@@ -949,32 +949,32 @@ def build_medialistNew(items, cname, par)
                 html_string = html_string + contactChip(item.owner)
 
                 when "madvisors"
-                    html_string = html_string + '<i class="glyphicon glyphicon-folder-open"></i> '
+                    html_string = html_string + '<i class="fa fa-folder-open"></i> '
                     html_string = html_string + item.grade + "<br>"
                     if item.mobject.mtype == "projekte"
-                      html_string = html_string + '<i class="glyphicon glyphicon-euro"></i> '
+                      html_string = html_string + '<i class="fa fa-euro"></i> '
                       if !item.rate
                         item.rate = 0
                       end
                       html_string = html_string + sprintf("%5.2f",item.rate) + "<br>"
                     end
                     if item.mobject.mtype == "veranstaltungen"
-                      html_string = html_string + '<i class="glyphicon glyphicon-time"></i> '
+                      html_string = html_string + '<i class="fa fa-safari"></i> '
                       html_string = html_string + item.created_at.strftime("%d.%m.%Y") 
                     end
 
                 when "mstats"
                   if item.owner_type == "Company"
-                      html_string = html_string + '<i class="glyphicon glyphicon-copyright-mark"></i> '
+                      html_string = html_string + '<i class="fa fa-copyright-mark"></i> '
                       html_string = html_string + item.owner.name + "<br>"
                   end
                   if item.owner_type == "User"
-                      html_string = html_string + '<i class="glyphicon glyphicon-user"></i> '
+                      html_string = html_string + '<i class="fa fa-user"></i> '
                       html_string = html_string + item.owner.name + " "+ item.owner.lastname + "<br>"
                   end
-                  html_string = html_string + '<i class="glyphicon glyphicon-euro"></i> '
+                  html_string = html_string + '<i class="fa fa-euro"></i> '
                   html_string = html_string + sprintf("%05.2f CHF",item.amount) + '<br>'
-                  html_string = html_string + '<i class="glyphicon glyphicon-calendar"></i> '
+                  html_string = html_string + '<i class="fa fa-calendar"></i> '
                   html_string = html_string +  item.created_at.strftime("%d.%m.%Y") + '<br>'
 
               when "msponsors"
@@ -995,31 +995,31 @@ def build_medialistNew(items, cname, par)
               when "searches"
                 #html_string = html_string + "<anzeigetext>" + item.name + "</anzeigetext><br>"
                 if item.search_domain == "object"
-                  html_string = html_string + '<i class="glyphicon glyphicon-folder-open"></i> '
+                  html_string = html_string + '<i class="fa fa-folder-open"></i> '
                   html_string = html_string + item.mtype + "<br>" 
                   html_string = html_string + item.msubtype.to_s + '<br>'
                 end
-                html_string = html_string + '<i class="glyphicon glyphicon-question-sign"></i> '
+                html_string = html_string + '<i class="fa fa-question-sign"></i> '
                 html_string = html_string + 'Anzahl ' + item.counter.to_s + '<br>'
                 
               when "transactions"
-                html_string = html_string + '<i class="glyphicon glyphicon-euro"></i> '
+                html_string = html_string + '<i class="fa fa-euro"></i> '
                 html_string = html_string + sprintf("%05.2f CHF",item.amount) + '<br>'
-                html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '
+                html_string = html_string + '<i class="fa fa-pencil"></i> '
                 html_string = html_string +  item.ref + '<br>'
-                html_string = html_string + '<i class="glyphicon glyphicon-calendar"></i> '
+                html_string = html_string + '<i class="fa fa-calendar"></i> '
                 html_string = html_string +  item.trx_date.strftime("%d.%m.%Y") + '<br>'
-                html_string = html_string + '<i class="glyphicon glyphicon-inbox"></i> '
+                html_string = html_string + '<i class="fa fa-inbox"></i> '
                 html_string = html_string +  item.status + '<br>'
 
               when "mratings"
                 item.rating.times do
-                  html_string = html_string + '<i class="glyphicon glyphicon-star"></i>'
+                  html_string = html_string + '<i class="fa fa-star"></i>'
                 end
                 html_string = html_string + "<br>"
-                html_string = html_string + '<i class="glyphicon glyphicon-pencil"></i> '
+                html_string = html_string + '<i class="fa fa-pencil"></i> '
                 html_string = html_string +  item.comment + '<br>'
-                html_string = html_string + '<i class="glyphicon glyphicon-time"></i> '
+                html_string = html_string + '<i class="fa fa-safari"></i> '
                 html_string = html_string + item.created_at.strftime("%d.%m.%Y") 
           end
           html_string = html_string + '<br><br>'
@@ -1028,7 +1028,7 @@ def build_medialistNew(items, cname, par)
 
           html_string = html_string + '<div class="mediabuttonpanel">'
           #if (Date.today - item.created_at.to_date).to_i < 5
-          #    html_string = html_string + '<i class="glyphicon glyphicon-calendar mediabutton"></i> '
+          #    html_string = html_string + '<i class="fa fa-calendar mediabutton"></i> '
           #end 
 
           #check credentials
@@ -1056,7 +1056,7 @@ def build_medialistNew(items, cname, par)
 
               when "ideas"
     	          #html_string = html_string + link_to(idea_crowdratings_path(:idea_id => item)) do 
-                #    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-star")
+                #    content_tag(:i, nil, class:"btn btn-primary fa fa-star")
                 #end
                 array = []
                 item.mobject.madvisors.each do |m|
@@ -1064,7 +1064,7 @@ def build_medialistNew(items, cname, par)
                 end
                 if array.include?(current_user.id)
     	            html_string = html_string + link_to(idea_ratings_path(:idea_id => item)) do 
-                    content_tag(:i, nil, class:"btn btn-default btn-lg glyphicon glyphicon-education")
+                    content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-education")
                   end
                 end
                 if (item.user_id == current_user.id) or isdeputy(item.user)
@@ -1074,13 +1074,13 @@ def build_medialistNew(items, cname, par)
                 if item.avatar_file_name
                   #html_string = html_string + "Weitere Informationen: "
                   html_string = html_string + link_to(item.avatar.url, target: "_blank") do 
-                    content_tag(:i, nil, class:"glyphicon glyphicon-picture mediabutton")
+                    content_tag(:i, nil, class:"fa fa-picture mediabutton")
                   end
                 end
                 if item.document_file_name
                   #html_string = html_string + "Weitere Informationen: "
                   html_string = html_string + link_to(item.document.url, target: "_blank") do 
-                    content_tag(:i, nil, class:"glyphicon glyphicon-book mediabutton")
+                    content_tag(:i, nil, class:"fa fa-book mediabutton")
                   end
                 end
                 end
@@ -1102,7 +1102,7 @@ def build_medialistNew(items, cname, par)
 
               when "editions"
   	            html_string = html_string + link_to(edition_arcticles_path(:edition_id => item)) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-text-background mediabutton")
+                  content_tag(:i, nil, class:"fa fa-text-background mediabutton")
                 end
                 if isowner(item.mobject)
                   access = true
@@ -1116,7 +1116,7 @@ def build_medialistNew(items, cname, par)
                   if item.user_tickets and item.contingent
                     if item.user_tickets.count < item.contingent
         	            html_string = html_string + link_to(new_user_ticket_path(:ticket_id => item.id, :user_id => current_user.id)) do 
-                        content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-shopping-cart")
+                        content_tag(:i, nil, class:"btn btn-primary fa fa-shopping-cart")
                       end
                     end
                   end
@@ -1124,7 +1124,7 @@ def build_medialistNew(items, cname, par)
 
               when "users"
   	            html_string = html_string + link_to(new_email_path(:m_to_id => item.id, :m_from_id => current_user.id, :back_url => request.original_url)) do 
-                  content_tag(:i, nil, class:"btn btn-default btn-lg glyphicon glyphicon-envelope mediabutton")
+                  content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-envelope mediabutton")
                 end
                 if item.id == current_user.id or isdeputy(item)
                   access=true
@@ -1143,13 +1143,13 @@ def build_medialistNew(items, cname, par)
               when "mobjects", "partners", "mstats", "transactions"
                 #if cname == "signage_locs"
     	          #   html_string = html_string + link_to(home_index11_path(:loc_id => item.id)) do 
-                #    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-blackboard")
+                #    content_tag(:i, nil, class:"btn btn-primary fa fa-blackboard")
                 #  end
                 # end
                 if cname == "mobjects"
                     # if item.mtype == "projekte" and item.madvisors.where('role=? and user_id=?',item.mtype, current_user.id).count > 0
                     #   html_string = html_string + link_to(timetracks_path(:mobject_id => item.id)) do 
-                    #     content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-pencil")
+                    #     content_tag(:i, nil, class:"btn btn-primary fa fa-pencil")
                     #   end
                     # end
                     if isowner(item) or isdeputy(item.owner)
@@ -1159,11 +1159,11 @@ def build_medialistNew(items, cname, par)
                     if item.eventpart
                       if @angemeldet
           	            html_string = html_string + link_to(mobjects_path(:del_part_id => item.id, :topic => :veranstaltung)) do 
-                          content_tag(:i, nil, class:"glyphicon glyphicon-pencil mediabutton")
+                          content_tag(:i, nil, class:"fa fa-pencil mediabutton")
                         end
                       else
           	            html_string = html_string + link_to(mobjects_path(:set_part_id => item.id, :topic => :veranstaltung)) do 
-                          content_tag(:i, nil, class:"glyphicon glyphicon-pencilmediabutton")
+                          content_tag(:i, nil, class:"fa fa-pencilmediabutton")
                         end
                       end
                     end
@@ -1171,33 +1171,33 @@ def build_medialistNew(items, cname, par)
                   if item.mtype == "artikel"
                     if par #Artikelauswahl für Edition
                       html_string = html_string + link_to(new_edition_arcticle_path(:edition_id => par, :article_id => item.id)) do
-                        content_tag(:i, nil, class:"glyphicon glyphicon-pencil mediabutton")
+                        content_tag(:i, nil, class:"fa fa-pencil mediabutton")
                       end
                     end
                   end
                   if item.mtype == "umfragen"
                     html_string = html_string + link_to(user_answers_path(:mobject_id => item.id, :user_id => current_user.id)) do
-                      content_tag(:i, nil, class:"glyphicon glyphicon-pencil mediabutton")
+                      content_tag(:i, nil, class:"fa fa-pencil mediabutton")
                     end
                     #html_string = html_string + link_to(home_index17_path(:mobject_id => item.id)) do
-                    #  content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-stats")
+                    #  content_tag(:i, nil, class:"btn btn-primary fa fa-stats")
                     #end
                   end
 
                   if item.mtype == "kampagnen"
                     html_string = html_string + link_to(signage_cals_path(:kam_id => item.id)) do
-                      content_tag(:i, nil, class:"btn btn-default btn-lg glyphicon glyphicon-calendar")
+                      content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-calendar")
                     end
                      html_string = html_string + link_to(home_index18_path(:kam_id => item.id), title: (I18n.t :kampagnenshow), 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip') do
-                      content_tag(:i, nil, class:"btn btn-primary btn-lg glyphicon glyphicon-film ")
+                      content_tag(:i, nil, class:"btn btn-primary btn-lg fa fa-film ")
                      end
                   end
                   if item.mtype == "standorte"
                     html_string = html_string + link_to(signage_cals_path(:loc_id => item.id)) do
-                      content_tag(:i, nil, class:"btn btn-default btn-lg glyphicon glyphicon-calendar mediabutton")
+                      content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-calendar mediabutton")
                     end
                      html_string = html_string + link_to(home_index18_path(:standort => item.id), title: (I18n.t :standortshow), 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'class' => 'new-tooltip') do
-                      content_tag(:i, nil, class:"btn btn-primary btn-lg glyphicon glyphicon-film ")
+                      content_tag(:i, nil, class:"btn btn-primary btn-lg fa fa-film ")
                      end
                    end
                 end
@@ -1217,7 +1217,7 @@ def build_medialistNew(items, cname, par)
               when "mdetails"
                 if item.document_file_name
     	            html_string = html_string + link_to(item.document.url, target: "_blank") do 
-                    content_tag(:i, nil, class:"glyphicon glyphicon-cloud-download mediabutton")
+                    content_tag(:i, nil, class:"fa fa-cloud-download mediabutton")
                   end
                 end
                 if isowner(item.mobject) or isdeputy(item.mobject.owner)
@@ -1235,7 +1235,7 @@ def build_medialistNew(items, cname, par)
           #kein Info button wenn kein weiterer drill down
           if cname != "prices" and cname != "crits" and cname != "mdetails" and cname != "madvisors"
             html_string = html_string + link_to(item, :topic => "info") do 
-              content_tag(:i, nil, class:"btn btn-primary btn-lg glyphicon glyphicon-info-sign")
+              content_tag(:i, nil, class:"btn btn-primary btn-lg fa fa-info")
             end
           end
  
@@ -1243,240 +1243,240 @@ def build_medialistNew(items, cname, par)
             case cname 
               when "companies"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"btn btn-danger btn-lg glyphicon glyphicon-trash pull-right")
+                  content_tag(:i, nil, class:"btn btn-danger btn-lg fa fa-trash pull-right")
                 end
   	            html_string = html_string + link_to(edit_company_path(:id => item)) do 
-                  content_tag(:i, nil, class:"btn btn-default btn-lg glyphicon glyphicon-wrench")
+                  content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-wrench")
                 end
               when "users"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"btn btn-danger btn-lg glyphicon glyphicon-trash pull-right")
+                  content_tag(:i, nil, class:"btn btn-danger btn-lg fa fa-trash pull-right")
                 end
   	            html_string = html_string + link_to(edit_user_path(:id => item)) do 
-                  content_tag(:i, nil, class:"btn btn-default btn-lg glyphicon glyphicon-wrench")
+                  content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-wrench")
                 end
               when "prices"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"btn btn-danger btn-lg glyphicon glyphicon-trash pull-right")
+                  content_tag(:i, nil, class:"btn btn-danger btn-lg fa fa-trash pull-right")
                 end
   	            html_string = html_string + link_to(edit_price_path(:id => item)) do 
-                  content_tag(:i, nil, class:"btn btn-default btn-lg glyphicon glyphicon-wrench")
+                  content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-wrench")
                 end
               when "crits"
                 if par 
     	            html_string = html_string + link_to(edit_idea_rating_path(:id => @idearating.id)) do 
-                    content_tag(:i, nil, class:"btn btn-primary btn-lg glyphicon glyphicon-pencil")
+                    content_tag(:i, nil, class:"btn btn-primary btn-lg fa fa-pencil")
                   end
                 else
     	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                    content_tag(:i, nil, class:"btn btn-danger btn-lg glyphicon glyphicon-trash pull-right")
+                    content_tag(:i, nil, class:"btn btn-danger btn-lg fa fa-trash pull-right")
                   end
     	            html_string = html_string + link_to(edit_crit_path(:id => item)) do 
-                    content_tag(:i, nil, class:"btn btn-default btn-lg glyphicon glyphicon-wrench")
+                    content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-wrench")
                   end
                 end
               when "ideas"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"btn btn-danger btn-lg glyphicon glyphicon-trash pull-right")
+                  content_tag(:i, nil, class:"btn btn-danger btn-lg fa fa-trash pull-right")
                 end
   	            html_string = html_string + link_to(edit_idea_path(:id => item)) do 
-                  content_tag(:i, nil, class:"btn btn-default btn-lg glyphicon glyphicon-wrench")
+                  content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-wrench")
                 end
               when "idea_crowdratings"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"btn btn-danger btn-lg glyphicon glyphicon-trash pull-right")
+                  content_tag(:i, nil, class:"btn btn-danger btn-lg fa fa-trash pull-right")
                 end
   	            html_string = html_string + link_to(edit_idea_crowdrating_path(:id => item)) do 
-                  content_tag(:i, nil, class:"btn btn-default btn-lg glyphicon glyphicon-wrench")
+                  content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-wrench")
                 end
               when "edition_arcticles"
   	            html_string = html_string + link_to(edition_arcticles_path(:edition_id => item.edition_id, :dir => "left", :d_id => item.id)) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-chevron-left mediabutton")
+                  content_tag(:i, nil, class:"fa fa-chevron-left mediabutton")
                 end
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                  content_tag(:i, nil, class:"fa fa-trash pull-right mediabutton")
                 end
   	            html_string = html_string + link_to(edit_edition_arcticle_path(:id => item)) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                  content_tag(:i, nil, class:"fa fa-wrench mediabutton")
                 end
               when "editions"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                  content_tag(:i, nil, class:"fa fa-trash pull-right mediabutton")
                 end
   	            html_string = html_string + link_to(edit_edition_path(:id => item)) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                  content_tag(:i, nil, class:"fa fa-wrench mediabutton")
                 end
   	            #html_string = html_string + link_to(edition_arcticles_path(:edition_id => item)) do 
-                #  content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-book")
+                #  content_tag(:i, nil, class:"btn btn-primary fa fa-book")
                 #end
               when "comments"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                  content_tag(:i, nil, class:"fa fa-trash pull-right mediabutton")
                 end
   	            html_string = html_string + link_to(edit_comment_path(:id => item)) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                  content_tag(:i, nil, class:"fa fa-wrench mediabutton")
                 end
               when "tickets"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                  content_tag(:i, nil, class:"fa fa-trash pull-right mediabutton")
                 end
   	            html_string = html_string + link_to(edit_ticket_path(:id => item)) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                  content_tag(:i, nil, class:"fa fa-wrench mediabutton")
                 end
                when "favourits"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                  content_tag(:i, nil, class:"fa fa-trash pull-right mediabutton")
                 end
               when "madvisors"
                 # if par == "User"
     	           # html_string = html_string + link_to(user_path(:id => item.user_id, :topic => "Kalendereintraege")) do 
-                #     content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-calendar")
+                #     content_tag(:i, nil, class:"btn btn-primary fa fa-calendar")
                 #   end
     	           # html_string = html_string + link_to(new_email_path(:m_from_id => current_user.id, :m_to_id => item.user_id)) do 
-                #     content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-envelope")
+                #     content_tag(:i, nil, class:"btn btn-primary fa fa-envelope")
                 #   end
                 # end
                 if item.mobject.mtype == "projekte"
     	            html_string = html_string + link_to(edit_madvisor_path(:id => item)) do 
-                    content_tag(:i, nil, class:"btn btn-default btn-lg glyphicon glyphicon-wrench")
+                    content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-wrench")
                   end
                 end
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"btn btn-danger btn-lg glyphicon glyphicon-trash pull-right")
+                  content_tag(:i, nil, class:"btn btn-danger btn-lg fa fa-trash pull-right")
                 end
 
               when "deputies"
   	            html_string = html_string + link_to(edit_deputy_path(:id => item)) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                  content_tag(:i, nil, class:"fa fa-wrench mediabutton")
                 end
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                  content_tag(:i, nil, class:"fa fa-trash pull-right mediabutton")
                 end
 
               when "partners"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                  content_tag(:i, nil, class:"fa fa-trash pull-right mediabutton")
                 end
   	            html_string = html_string + link_to(edit_customer_path(:id => item)) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                  content_tag(:i, nil, class:"fa fa-wrench mediabutton")
                 end
   	            html_string = html_string + link_to(accounts_path(:customer_id => item)) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-list mediabutton")
+                  content_tag(:i, nil, class:"fa fa-list mediabutton")
                 end
               when "mstats"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                  content_tag(:i, nil, class:"fa fa-trash pull-right mediabutton")
                 end
   	            html_string = html_string + link_to(edit_mstat_path(:id => item)) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                  content_tag(:i, nil, class:"fa fa-wrench mediabutton")
                 end
   	            html_string = html_string + link_to(accounts_path(:customer_id => item)) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-euro mediabutton")
+                  content_tag(:i, nil, class:"fa fa-euro mediabutton")
                 end
               when "nopartners"
                 if par[:user_id]
     	            html_string = html_string + link_to(new_customer_path(:user_id => par[:user_id], :partner_id => item)) do 
-                    content_tag(:i, nil, class:"glyphicon glyphicon-pencil mediabutton")
+                    content_tag(:i, nil, class:"fa fa-pencil mediabutton")
                   end
                 end
                 if par[:company_id]
     	            html_string = html_string + link_to(new_customer_path(:company_id => par[:company_id], :partner_id => item)) do 
-                    content_tag(:i, nil, class:"glyphicon glyphicon-pencil mediabutton")
+                    content_tag(:i, nil, class:"fa fa-pencil mediabutton")
                   end
                 end
               when "searches"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"btn btn-danger btn-lg glyphicon glyphicon-trash pull-right")
+                  content_tag(:i, nil, class:"btn btn-danger btn-lg fa fa-trash pull-right")
                 end
   	            html_string = html_string + link_to(edit_search_path(:id => item)) do 
-                  content_tag(:i, nil, class:"btn btn-default btn-lg glyphicon glyphicon-wrench")
+                  content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-wrench")
                 end
               when "msponsors"
   	            html_string = html_string + link_to(tickets_path :msponsor_id => item.id) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-barcode mediabutton")
+                  content_tag(:i, nil, class:"fa fa-barcode mediabutton")
                 end
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                  content_tag(:i, nil, class:"fa fa-trash pull-right mediabutton")
                 end
   	            html_string = html_string + link_to(edit_msponsor_path(:id => item)) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                  content_tag(:i, nil, class:"fa fa-wrench mediabutton")
                 end
               when "mdetails"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"btn btn-danger btn-lg glyphicon glyphicon-trash pull-right")
+                  content_tag(:i, nil, class:"btn btn-danger btn-lg fa fa-trash pull-right")
                 end
                 if item.mobject.mtype == "artikel"
     	            html_string = html_string + link_to(mobject_path(:id => item.mobject_id, :topic => "objekte_details", :dir => "left", :d_id => item.id)) do 
-                    content_tag(:i, nil, class:"btn btn-default btn-lg glyphicon glyphicon-chevron-left")
+                    content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-chevron-left")
                   end
                 end
   	            html_string = html_string + link_to(edit_mdetail_path(:id => item)) do 
-                  content_tag(:i, nil, class:"btn btn-default btn-lg glyphicon glyphicon-wrench")
+                  content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-wrench")
                 end
               when "questions"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                  content_tag(:i, nil, class:"fa fa-trash pull-right mediabutton")
                 end
   	            html_string = html_string + link_to(mobject_path(:id => item.mobject_id, :topic => "objekte_fragen", :dir => "left", :q_id => item.id)) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-chevron-left mediabutton")
+                  content_tag(:i, nil, class:"fa fa-chevron-left mediabutton")
                 end
   	            html_string = html_string + link_to(edit_question_path(:id => item)) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                  content_tag(:i, nil, class:"fa fa-wrench mediabutton")
                 end
                 if item.mcategory.name == "multiple" or item.mcategory.name == "single"  
                   html_string = html_string + link_to(home_index16_path(:question_id => item.id)) do 
-                    content_tag(:i, nil, class:"glyphicon glyphicon-stats mediabutton")
+                    content_tag(:i, nil, class:"fa fa-stats mediabutton")
                   end
                 end
 
               when "mratings"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                  content_tag(:i, nil, class:"fa fa-trash pull-right mediabutton")
                 end
   	            html_string = html_string + link_to(edit_mrating_path(:id => item)) do 
-                  content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                  content_tag(:i, nil, class:"fa fa-wrench mediabutton")
                 end
               when "transactions"
                 if item.status == "erfasst"
                   #if @customer.owner_type == "User"
                   #  html_string = html_string + link_to(user_path(:id => @customer.owner_id, :trx_status_ok_id => t.id, :topic => "Transaktionen")) do
-                  #    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-ok")
+                  #    content_tag(:i, nil, class:"btn btn-primary fa fa-ok")
                   #  end
                   #end
                   #if @customer.owner_type == "Company"
                   #  html_string = html_string + link_to(company_path(:id => @customer.owner_id, :trx_status_ok_id => t.id, :topic => "Transaktionen")) do
-                  #    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-ok")
+                  #    content_tag(:i, nil, class:"btn btn-primary fa fa-ok")
                   #  end
                   #end
     	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                    content_tag(:i, nil, class:"glyphicon glyphicon-trash pull-right mediabutton")
+                    content_tag(:i, nil, class:"fa fa-trash pull-right mediabutton")
                   end
     	            html_string = html_string + link_to(edit_transaction_path(:id => item)) do 
-                    content_tag(:i, nil, class:"glyphicon glyphicon-wrench mediabutton")
+                    content_tag(:i, nil, class:"fa fa-wrench mediabutton")
                   end
                 end
                 if item.status == "freigegeben"
                   #if @customer.owner_type == "User"
                   #  html_string = html_string + link_to(user_path(:id => @customer.owner_id, :trx_status_ausgefuehrt_id => t.id, :topic => "Transaktionen")) do
-                  #    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-ok")
+                  #    content_tag(:i, nil, class:"btn btn-primary fa fa-ok")
                   #  end
                   #end
                   #if @customer.owner_type == "Company"
                   #  html_string = html_string + link_to(company_path(:id => @customer.owner_id, :trx_status_ausgefuehrt_id => t.id, :topic => "Transaktionen")) do
-                  #    content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-ok")
+                  #    content_tag(:i, nil, class:"btn btn-primary fa fa-ok")
                   #  end
                   #end
                 end
               when "mobjects"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"btn btn-danger btn-lg glyphicon glyphicon-trash pull-right")
+                  content_tag(:i, nil, class:"btn btn-danger btn-lg fa fa-trash pull-right")
                 end
   	            html_string = html_string + link_to(edit_mobject_path(:id => item)) do 
-                  content_tag(:i, nil, class:"btn btn-default btn-lg glyphicon glyphicon-wrench")
+                  content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-wrench")
                 end
                  #if item.mtype == "artikel"
                  #    html_string = html_string + link_to(user_path(:id => item.owner_id, :topic => "Artikel", :article_id => item.id)) do
-                 #     content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-copy")
+                 #     content_tag(:i, nil, class:"btn btn-primary fa fa-copy")
                  #  end
                  #end
 
@@ -1844,43 +1844,43 @@ def build_nav2(domain, item, domain2, anz)
       when "personen"
         html_string = '<class="dropdown-item">'
         html_string = html_string + link_to(user_path(:id => item.id, :topic => domain2)) do
-          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" glyphicon glyphicon-" + getinfo2(infosymbol)["info"]) 
+          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]) 
         end
 
       when "institutionen"
         html_string = '<class="dropdown-item">'
         html_string = link_to(company_path(:id => item.id, :topic => domain2)) do
-          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" glyphicon glyphicon-" + getinfo2(infosymbol)["info"]) 
+          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]) 
         end
       when "objekte"
         html_string = '<class="dropdown-item">'
         html_string = link_to(mobject_path(:id => item.id, :topic => domain2)) do
-          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" glyphicon glyphicon-" + getinfo2(infosymbol)["info"]) 
+          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]) 
         end
       when "tabellen"
         html_string = '<class="dropdown-item">'
         html_string = link_to home_index9_path do
-          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" glyphicon glyphicon-" + getinfo2(infosymbol)["info"]) 
+          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]) 
         end
       when "editionen"
         html_string = '<class="dropdown-item">'
         html_string = link_to(mobject_path(:id => item.mobject_id, :topic => "objekte_ausgaben")) do
-          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" glyphicon glyphicon-" + getinfo2(infosymbol)["info"]) 
+          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]) 
         end
       when "edition"
         html_string = '<class="dropdown-item">'
         html_string = link_to(edition_path(:id => item.id)) do
-          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" glyphicon glyphicon-" + getinfo2(infosymbol)["info"]) 
+          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]) 
         end
       when "edition_artikel"
         html_string = '<class="dropdown-item">'
         html_string = link_to(edition_arcticles_path(:edition_id => item.id)) do
-          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" glyphicon glyphicon-" + getinfo2(infosymbol)["info"]) 
+          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]) 
         end
       when "edition_artikeln"
         html_string = '<class="dropdown-item">'
         html_string = link_to(edition_path(:id => item.id)) do
-          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" glyphicon glyphicon-" + getinfo2(infosymbol)["info"]) 
+          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]) 
         end
     end
   end
@@ -1894,10 +1894,10 @@ def action_buttons4(object_type, item, topic)
   case object_type 
     when "kategorien"
       html_string = html_string + link_to(home_index9_path) do
-        content_tag(:i, " " + (I18n.t :uebersicht), class: "btn btn-default glyphicon glyphicon-list")
+        content_tag(:i, " " + (I18n.t :uebersicht), class: "btn btn-default fa fa-list")
       end
       html_string = html_string + link_to(new_mcategory_path(:ctype => item)) do
-        content_tag(:i, " " + (I18n.t :kategorie) + " " + (I18n.t :hinzufuegen), class: "btn btn-primary glyphicon glyphicon-plus")
+        content_tag(:i, " " + (I18n.t :kategorie) + " " + (I18n.t :hinzufuegen), class: "btn btn-primary fa fa-plus")
       end
 
     when "personen"
@@ -1905,45 +1905,45 @@ def action_buttons4(object_type, item, topic)
         when "personen_info"
           #html_string = html_string + '<li class="nav-item">'
             html_string = html_string + link_to(users_path) do
-              content_tag(:i, " " + (I18n.t :personenuebersicht), class:"btn btn-default glyphicon glyphicon-search") 
+              content_tag(:i, " " + (I18n.t :personenuebersicht), class:"btn btn-default fa fa-search") 
             end
           #html_string = html_string + '</li>'
           if user_signed_in? 
             if current_user.id == item.id or isdeputy(item) or current_user.superuser
                 #html_string = html_string + '<li class="nav-item">'
                   html_string = html_string + link_to(edit_user_path(item)) do
-                    content_tag(:i, " "+(I18n.t :datenaendern), class: "btn btn-primary glyphicon glyphicon-wrench")
+                    content_tag(:i, " "+(I18n.t :datenaendern), class: "btn btn-primary fa fa-wrench")
                   end
                 #html_string = html_string + '</li>'
                 #html_string = html_string + '<li class="nav-item">'
                   html_string = html_string + link_to(item, method: :delete, data: { confirm: (I18n.t :sindsiesicher)})  do
-                      content_tag(:i, " " + (I18n.t :datenloeschen), class: "btn btn-danger glyphicon glyphicon-trash red")
+                      content_tag(:i, " " + (I18n.t :datenloeschen), class: "btn btn-danger fa fa-trash red")
                   end
                 #html_string = html_string + '</li>'
             end
             #html_string = html_string + '<li class="nav-item">'
               html_string = html_string + link_to(new_webmaster_path(:object_name => "User", :object_id => item.id, :user_id => current_user.id)) do
-                content_tag(:i, " " + (I18n.t :fraud), class: "btn btn-warning glyphicon glyphicon-eye-open orange")
+                content_tag(:i, " " + (I18n.t :fraud), class: "btn btn-warning fa fa-eye-open orange")
               end
             #html_string = html_string + '</li>'
             if $activeapps.include?("personen_transaktionen") or isdeputy(item) or current_user.superuser
               #html_string = html_string + '<li class="nav-item">'
                 html_string = html_string + link_to(listaccount_index_path(:user_id => current_user.id, :user_id_ver => item.id, :company_id_ver => nil, :ref => (I18n.t :verguetungan)+item.name + " " + item.lastname, :object_name => "User", :object_id => item.id, :amount => nil)) do
-                  content_tag(:i, " " + (I18n.t :trx), class: "btn btn-default glyphicon glyphicon-euro")
+                  content_tag(:i, " " + (I18n.t :trx), class: "btn btn-default fa fa-euro")
                 end
               #html_string = html_string + '</li>'
             end
             if $activeapps.include?("personen_mappositionen") or isdeputy(item) or current_user.superuser
               #html_string = html_string + '<li class="nav-item">'
                 html_string = html_string + link_to(new_user_position_path(:user_id => current_user.id)) do
-                  content_tag(:i, " " + (I18n.t :pos), class: "btn btn-default glyphicon glyphicon-map-marker")
+                  content_tag(:i, " " + (I18n.t :pos), class: "btn btn-default fa fa-map-marker")
                 end
               #html_string = html_string + '</li>'
             end
             if $activeapps.include?("personen_mappositionenfavoriten") or isdeputy(item) or current_user.superuser
               #html_string = html_string + '<li class="nav-item">'
                 html_string = html_string + link_to(new_favourit_path(:object_name => "User", :object_id => item.id, :user_id => current_user.id)) do
-                  content_tag(:i, " " + (I18n.t :fav), class: "btn btn-default glyphicon glyphicon-user")
+                  content_tag(:i, " " + (I18n.t :fav), class: "btn btn-default fa fa-user")
                 end
               #html_string = html_string + '</li>'
             end
@@ -1954,12 +1954,12 @@ def action_buttons4(object_type, item, topic)
             if current_user.id == item.id or isdeputy(item) or current_user.superuser
               #html_string = html_string + '<li class="nav-item">'
                 html_string = html_string + link_to(new_note_path(:user_id => current_user.id)) do
-                  content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class: "btn btn-primary glyphicon glyphicon-plus orange") 
+                  content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class: "btn btn-primary fa fa-plus orange") 
                 end
               #html_string = html_string + '</li>'
               #html_string = html_string + '<li class="nav-item">'
                 html_string = html_string + link_to(user_path(:user_id => current_user.id, :topic => @topic, :delusernotes => true),data: { confirm: 'Are you sure?' }) do
-                  content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :loeschen), class: "btn btn-danger glyphicon glyphicon-trash orange") 
+                  content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :loeschen), class: "btn btn-danger fa fa-trash orange") 
                 end
               #html_string = html_string + '</li>'
             end
@@ -1967,12 +1967,12 @@ def action_buttons4(object_type, item, topic)
 
         when "personen_institutionen"
           html_string = html_string + link_to(companies_path) do
-            content_tag(:i, " " + (I18n.t :institutionenuebersicht), class: "btn btn-default glyphicon glyphicon-copyright-mark")
+            content_tag(:i, " " + (I18n.t :institutionenuebersicht), class: "btn btn-default fa fa-copyright-mark")
           end
           if user_signed_in?
             if current_user.id == item.id or isdeputy(item) or current_user.superuser
               html_string = html_string + link_to(new_company_path(:user_id => current_user.id)) do
-                content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class: "btn btn-primary glyphicon glyphicon-plus orange") 
+                content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class: "btn btn-primary fa fa-plus orange") 
               end
             end
           end
@@ -1980,24 +1980,24 @@ def action_buttons4(object_type, item, topic)
         when "personen_kalendereintraege"
           if user_signed_in?
             html_string = html_string + link_to(new_appointment_path(:user_id1 => item.id, :user_id2 => current_user.id))  do
-              content_tag(:i, " " + (I18n.t subtopic(@topic) + " " + (I18n.t :hinzufuegen)), class: "btn btn-primary glyphicon glyphicon-plus orange")
+              content_tag(:i, " " + (I18n.t subtopic(@topic) + " " + (I18n.t :hinzufuegen)), class: "btn btn-primary fa fa-plus orange")
             end
           end
 
         when "personen_angebote", "personen_vermietungen", "personen_veranstaltungen", "personen_ausflugsziele", "personen_ausschreibungen", "personen_publikationen", "personen_artikel", "personen_umfragen", "personen_projekte", "personen_gruppen", "personen_innovationswettbewerbe", "personen_sensoren","personen_kleinanzeigen", "personen_stellenanzeigen", "personen_crowdfunding"
           html_string = html_string + link_to(mobjects_path :mtype => getTopicName(topic)) do
-            content_tag(:i, " " + (I18n.t subtopic(topic).to_sym) + " " + (I18n.t :suchen), class: "btn btn-default glyphicon glyphicon-search")
+            content_tag(:i, " " + (I18n.t subtopic(topic).to_sym) + " " + (I18n.t :suchen), class: "btn btn-default fa fa-search")
           end
           if user_signed_in?
             if current_user.id == item.id or isdeputy(item) or current_user.superuser
               html_string = html_string + link_to(new_mobject_path(:user_id => current_user.id, :mtype => subtopic(topic), :msubtype => nil)) do
-                content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :hinzufuegen), class: "btn btn-primary glyphicon glyphicon-plus orange")
+                content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :hinzufuegen), class: "btn btn-primary fa fa-plus orange")
               end
             end
             if topic == "personen_projekte"
               if current_user.id == item.id or isdeputy(item) or current_user.superuser
                 html_string = html_string + link_to(user_path(:id => @user.id, :topic => "personen_export")) do
-                  content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :exportieren), class: "btn btn-default glyphicon glyphicon-download")
+                  content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :exportieren), class: "btn btn-default fa fa-download")
                 end
               end
             end
@@ -2006,14 +2006,14 @@ def action_buttons4(object_type, item, topic)
         when "personen_export"
           if user_signed_in?
             html_string = html_string + link_to(user_path(:id => @user.id, :topic => topic, :year => @c_year, :month => @c_month, :mode => @c_mode, :topic => topic, :writeexcel => true)) do
-              content_tag(:i, " " + (I18n.t :excel), class: "btn btn-default glyphicon glyphicon-th")
+              content_tag(:i, " " + (I18n.t :excel), class: "btn btn-default fa fa-th")
             end
           end
 
         when "personen_emails"
           if user_signed_in?
             html_string = html_string + link_to(new_email_path(:m_from_id => current_user.id, :m_to_id => item.id, :back_url => request.original_url)) do
-              content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class: "btn btn-primary glyphicon glyphicon-plus orange")
+              content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class: "btn btn-primary fa fa-plus orange")
             end
           end
 
@@ -2021,7 +2021,7 @@ def action_buttons4(object_type, item, topic)
           if user_signed_in?
             if current_user.id == item.id or isdeputy(item) or current_user.superuser
               html_string = html_string + link_to(ticketuserview_index2_path(:user_id => item.id)) do
-                content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class: "btn btn-primary glyphicon glyphicon-plus orange")
+                content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class: "btn btn-primary fa fa-plus orange")
               end
             end
           end
@@ -2030,7 +2030,7 @@ def action_buttons4(object_type, item, topic)
              if user_signed_in?
               if (item.id == current_user.id) or current_user.superuser
                 html_string = html_string + link_to(deputies_path(:user_id => item.id)) do
-                  content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary glyphicon glyphicon-plus orange")
+                  content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange")
                 end
               end
              end
@@ -2039,10 +2039,10 @@ def action_buttons4(object_type, item, topic)
              if user_signed_in?
               if (item.id == current_user.id) or current_user.superuser
                 html_string = html_string + link_to(new_timetrack_path(:user_id => @user.id, :scope => "aufwand", :datum => @c_datum)) do
-                  content_tag(:i, " " + (I18n.t :aufwand) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary glyphicon glyphicon-plus orange")
+                  content_tag(:i, " " + (I18n.t :aufwand) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange")
                 end
                 html_string = html_string + link_to(new_timetrack_path(:user_id => @user.id, :scope => "kosten", :datum => @c_datum)) do
-                  content_tag(:i, " " + (I18n.t :kosten) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary glyphicon glyphicon-plus orange")
+                  content_tag(:i, " " + (I18n.t :kosten) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange")
                 end
               end
              end
@@ -2053,31 +2053,31 @@ def action_buttons4(object_type, item, topic)
       case topic
         when "institutionen_info"
           html_string = html_string + link_to(companies_path(:page => session[:page]), title: (I18n.t :institutionen)) do
-            content_tag(:i, " " + (I18n.t :institutionenuebersicht), class:"btn btn-default glyphicon glyphicon-search") 
+            content_tag(:i, " " + (I18n.t :institutionenuebersicht), class:"btn btn-default fa fa-search") 
           end
           if user_signed_in?
             if current_user.id == item.user_id or isdeputy(item) or current_user.superuser
               html_string = html_string + link_to(edit_company_path(item), title: (I18n.t :bearbeiten)) do
-                content_tag(:i, " "+(I18n.t :datenaendern), class: "btn btn-primary glyphicon glyphicon-wrench")
+                content_tag(:i, " "+(I18n.t :datenaendern), class: "btn btn-primary fa fa-wrench")
               end
               html_string = html_string + link_to(item, method: :delete, data: { confirm: (I18n.t :sindsiesicher) }) do
-                  content_tag(:i, " " + (I18n.t :datenloeschen), class: "btn btn-danger glyphicon glyphicon-trash red")
+                  content_tag(:i, " " + (I18n.t :datenloeschen), class: "btn btn-danger fa fa-trash red")
               end
             end
             html_string = html_string + link_to(new_webmaster_path(:object_name => "Company", :object_id => item.id, :user_id => current_user.id)) do
-              content_tag(:i, " " + (I18n.t :fraud), class: "btn btn-warning glyphicon glyphicon-eye-open orange")
+              content_tag(:i, " " + (I18n.t :fraud), class: "btn btn-warning fa fa-eye-open orange")
             end
             if $activeapps.include?("institutionen_favoriten") or current_user.superuser
               if (item.user_id == current_user.id) or isdeputy(item) or current_user.superuser
                 html_string = html_string + link_to(new_favourit_path(:object_name => "Company", :object_id => item.id, :user_id => current_user.id)) do
-                  content_tag(:i, " " + (I18n.t :fav), class: "btn btn-default glyphicon glyphicon-copyright-mark")
+                  content_tag(:i, " " + (I18n.t :fav), class: "btn btn-default fa fa-copyright-mark")
                 end
               end
             end
             if $activeapps.include?("institutionen_transaktionen") or current_user.superuser
               if (item.user_id == current_user.id) or isdeputy(item) or current_user.superuser
                 html_string = html_string + link_to(listaccount_index_path :user_id => current_user.id, :user_id_ver => nil, :company_id_ver => item.id, :ref => (I18n.t :verguetungan)+item.name, :object_name => "Company", :object_id => item.id, :amount => nil) do
-                  content_tag(:i, " " + (I18n.t :trx), class: "btn btn-default glyphicon glyphicon-euro")
+                  content_tag(:i, " " + (I18n.t :trx), class: "btn btn-default fa fa-euro")
                 end
               end
             end
@@ -2085,18 +2085,18 @@ def action_buttons4(object_type, item, topic)
 
         when "institutionen_angebote", "institutionen_kampagnen", "institutionen_standorte", "institutionen_vermietungen", "institutionen_veranstaltungen", "institutionen_ausflugsziele", "institutionen_ausschreibungen", "institutionen_publikationen", "institutionen_umfragen", "institutionen_projekte", "institutionen_innovationswettbewerbe", "institutionen_sensoren", "institutionen_kleinanzeigen", "institutionen_stellenanzeigen", "institutionen_crowdfunding"
           html_string = html_string + link_to(mobjects_path :mtype => getTopicName(topic)) do
-            content_tag(:i, " " + (I18n.t subtopic(topic).to_sym) + " " + (I18n.t :suchen), class: "btn btn-default glyphicon glyphicon-search")
+            content_tag(:i, " " + (I18n.t subtopic(topic).to_sym) + " " + (I18n.t :suchen), class: "btn btn-default fa fa-search")
           end
           if user_signed_in?
             if (item.user_id == current_user.id) or isdeputy(item) or current_user.superuser
               html_string = html_string + link_to(new_mobject_path :company_id => item.id, :mtype => subtopic(topic), :msubtype => nil) do
-                content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :hinzufuegen), class: "btn btn-primary glyphicon glyphicon-plus orange")
+                content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :hinzufuegen), class: "btn btn-primary fa fa-plus orange")
               end
             end
             if topic == "institutionen_projekte"
               if current_user.id == item.id or isdeputy(item) or current_user.superuser
                 html_string = html_string + link_to(company_path(:id => @company.id, :topic => "institutionen_export")) do
-                  content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :exportieren), class: "btn btn-default glyphicon glyphicon-download")
+                  content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :exportieren), class: "btn btn-default fa fa-download")
                 end
               end
             end
@@ -2106,7 +2106,7 @@ def action_buttons4(object_type, item, topic)
           if user_signed_in?
             if (item.user_id == current_user.id) or isdeputy(item) or current_user.superuser
               html_string = html_string + link_to(new_partner_link_path :company_id => item.id) do
-                content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :hinzufuegen), class: "btn btn-default glyphicon glyphicon-plus orange")
+                content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :hinzufuegen), class: "btn btn-default fa fa-plus orange")
               end
             end
           end
@@ -2115,7 +2115,7 @@ def action_buttons4(object_type, item, topic)
              if user_signed_in?
               if (item.user_id == current_user.id) or isdeputy(item) or current_user.superuser
                 html_string = html_string + link_to(deputies_path(:company_id => item.id)) do
-                  content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class:"btn btn-default glyphicon glyphicon-plus orange")
+                  content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class:"btn btn-default fa fa-plus orange")
                 end
               end
              end
@@ -2123,7 +2123,7 @@ def action_buttons4(object_type, item, topic)
         when "institutionen_export"
           if user_signed_in?
             html_string = html_string + link_to(company_path(:id => @company.id, :year => @c_year, :month => @c_month, :mode => @c_mode, :topic => topic, :writeexcel => true)) do
-              content_tag(:i, " " + (I18n.t :excel), class: "btn btn-default glyphicon glyphicon-th")
+              content_tag(:i, " " + (I18n.t :excel), class: "btn btn-default fa fa-th")
             end
           end
 
@@ -2134,27 +2134,27 @@ def action_buttons4(object_type, item, topic)
        case topic
           when "objekte_info"
              html_string = html_string + link_to(mobjects_path(:mtype =>item.mtype)) do
-              content_tag(:i, " " + (I18n.t item.mtype.to_sym) + " " + (I18n.t :suchen), class:"btn btn-default glyphicon glyphicon-search") 
+              content_tag(:i, " " + (I18n.t item.mtype.to_sym) + " " + (I18n.t :suchen), class:"btn btn-default fa fa-search") 
              end
 
             if false 
              if session[:edition_id]
                html_string = html_string + link_to(edition_path(:id => session[:edition_id], :topic => "objekte_info")) do
-                content_tag(:i, " " + (I18n.t :edition), class:"btn btn-default glyphicon glyphicon-book") 
+                content_tag(:i, " " + (I18n.t :edition), class:"btn btn-default fa fa-book") 
                end
              end 
              end
              
              if item.parent and item.parent > 0 
                 html_string = html_string + link_to(mobject_path(:id => item.parent, :mtype => "projekte", :msubtype => nil, :topic => "objekte_info")) do
-                  content_tag(:i, " " + (I18n.t :edition), class:"btn btn-default glyphicon glyphicon-level-up") 
+                  content_tag(:i, " " + (I18n.t :edition), class:"btn btn-default fa fa-level-up") 
                 end
              end 
 
              if item.mtype == "innovationswettbewerbe"
               if user_signed_in?
                 html_string = html_string + link_to(new_idea_path(:mobject_id => item.id, :user_id => current_user.id)) do
-                  content_tag(:i, " " + (I18n.t :ideen) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary glyphicon glyphicon-plus orange") 
+                  content_tag(:i, " " + (I18n.t :ideen) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange") 
                 end
               end
              end
@@ -2162,16 +2162,16 @@ def action_buttons4(object_type, item, topic)
              if user_signed_in?
                if isowner(item) or isdeputy(item.owner)
          	        html_string = html_string + link_to(edit_mobject_path(item), title: (I18n.t :bearbeiten)) do
-                    content_tag(:i, " "+(I18n.t :datenaendern), class: "btn btn-primary glyphicon glyphicon-wrench")
+                    content_tag(:i, " "+(I18n.t :datenaendern), class: "btn btn-primary fa fa-wrench")
                   end
                end
                if isowner(item)
          	        html_string = html_string + link_to(item, method: :delete, data: { confirm: (I18n.t :sindsiesicher) } ) do
-                    content_tag(:i, " " + (I18n.t :datenloeschen), class: "btn btn-danger glyphicon glyphicon-trash red")
+                    content_tag(:i, " " + (I18n.t :datenloeschen), class: "btn btn-danger fa fa-trash red")
                    end
                end
                html_string = html_string + link_to(new_webmaster_path(:object_name => "Mobject", :object_id => item.id, :user_id => current_user.id)) do
-                  content_tag(:i, " " + (I18n.t :fraud), class: "btn btn-warning glyphicon glyphicon-eye-open orange")
+                  content_tag(:i, " " + (I18n.t :fraud), class: "btn btn-warning fa fa-eye-open orange")
                end
              end
 
@@ -2179,7 +2179,7 @@ def action_buttons4(object_type, item, topic)
               if user_signed_in?
                 if isowner(item) or isdeputy(item.owner)
                   html_string = html_string + link_to(new_mdetail_path(:mobject_id => item.id, :mtype => "details")) do
-                    content_tag(:i, " " + (I18n.t :details) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary glyphicon glyphicon-plus") 
+                    content_tag(:i, " " + (I18n.t :details) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus") 
                   end
                end
               end
@@ -2189,12 +2189,12 @@ def action_buttons4(object_type, item, topic)
                 if isowner(item) or isdeputy(item.owner)
                   if item.owner_type == "User"
                     html_string = html_string + link_to(new_mobject_path :user_id => item.owner_id, :mtype => "projekte", :msubtype => nil, :parent => item.id) do
-                      content_tag(:i, " " + (I18n.t :substruktur)+ " " + (I18n.t :hinzufuegen), class:"btn btn-default glyphicon glyphicon-plus orange") 
+                      content_tag(:i, " " + (I18n.t :substruktur)+ " " + (I18n.t :hinzufuegen), class:"btn btn-default fa fa-plus orange") 
                     end
                   end
                   if item.owner_type == "Company"
                     html_string = html_string + link_to(new_mobject_path :company_id => item.owner_id, :mtype => "projekte", :msubtype => nil, :parent => item.id) do
-                      content_tag(:i, " " + (I18n.t :substruktur) + " " + (I18n.t :hinzufuegen), class:"btn btn-default glyphicon glyphicon-plus orange") 
+                      content_tag(:i, " " + (I18n.t :substruktur) + " " + (I18n.t :hinzufuegen), class:"btn btn-default fa fa-plus orange") 
                     end
                   end
                end
@@ -2205,12 +2205,12 @@ def action_buttons4(object_type, item, topic)
               if isowner(item) or isdeputy(item.owner)
                 if @mobject.mtype == "kampagnen"
                   html_string = html_string + link_to(new_signage_cal_path(:kam_id => @mobject.id)) do
-                      content_tag(:i, " " + (I18n.t :standorte) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary glyphicon glyphicon-plus orange") 
+                      content_tag(:i, " " + (I18n.t :standorte) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange") 
                   end
                 end
                 if @mobject.mtype == "standorte"
                   html_string = html_string + link_to(new_signage_cal_path(:loc_id => @mobject.id)) do
-                      content_tag(:i, " " + (I18n.t :kampagnen) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary glyphicon glyphicon-plus orange") 
+                      content_tag(:i, " " + (I18n.t :kampagnen) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange") 
                   end
                 end
               end
@@ -2219,7 +2219,7 @@ def action_buttons4(object_type, item, topic)
           when "objekte_ideen"
               if user_signed_in?
                 html_string = html_string + link_to(new_idea_path(:mobject_id => item.id, :user_id => current_user.id)) do
-                  content_tag(:i, " " + (I18n.t :ideen) + " " + (I18n.t :hinzufuegen), class:"btn btn-default glyphicon glyphicon-plus orange") 
+                  content_tag(:i, " " + (I18n.t :ideen) + " " + (I18n.t :hinzufuegen), class:"btn btn-default fa fa-plus orange") 
                 end
               end
 
@@ -2227,7 +2227,7 @@ def action_buttons4(object_type, item, topic)
               if user_signed_in?
                 if isowner(item) or isdeputy(item.owner)
                   html_string = html_string + link_to(new_price_path(:mobject_id => item.id)) do
-                      content_tag(:i, " " + (I18n.t :preise) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary glyphicon glyphicon-plus orange") 
+                      content_tag(:i, " " + (I18n.t :preise) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange") 
                   end
                end
               end
@@ -2236,7 +2236,7 @@ def action_buttons4(object_type, item, topic)
               if user_signed_in?
                 if isowner(item) or isdeputy(item.owner)
                   html_string = html_string + link_to(new_crit_path(:mobject_id => item.id)) do
-                      content_tag(:i, " " + (I18n.t :bewertungskriterien) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary glyphicon glyphicon-plus orange") 
+                      content_tag(:i, " " + (I18n.t :bewertungskriterien) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange") 
                   end
                 end
               end
@@ -2245,7 +2245,7 @@ def action_buttons4(object_type, item, topic)
              if user_signed_in?
                 if isowner(item) or isdeputy(item.owner)
                   html_string = html_string + link_to(madvisors_path :user_id => item.owner_id, :mobject_id => item.id, :role => item.mtype) do
-                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary glyphicon glyphicon-plus orange") 
+                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange") 
                   end
                end
               end
@@ -2254,7 +2254,7 @@ def action_buttons4(object_type, item, topic)
               if user_signed_in?
                 if isowner(item) or isdeputy(item.owner)
                   html_string = html_string + link_to(new_mdetail_path(:mobject_id => item.id, :mtype => "objekte_ausschreibungsangebote")) do
-                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary glyphicon glyphicon-plus orange") 
+                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange") 
                   end
                end
               end
@@ -2263,7 +2263,7 @@ def action_buttons4(object_type, item, topic)
               if user_signed_in?
                 if isowner(item) or isdeputy(item.owner)
                   html_string = html_string + link_to(mobject_path(:mobject_id => item.id, :topic => "objekte_sensordaten", :delsensordata => true), data: { confirm: (I18n.t :sindsiesicher) }) do
-                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :loeschen), class:"btn btn-danger glyphicon glyphicon-trash red") 
+                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :loeschen), class:"btn btn-danger fa fa-trash red") 
                   end
                end
               end
@@ -2272,7 +2272,7 @@ def action_buttons4(object_type, item, topic)
               if user_signed_in?
                 if isowner(item) or isdeputy(item.owner)
                   html_string = html_string + link_to(new_ticket_path(:mobject_id => item.id)) do
-                    content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
+                    content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
                 end
                end
               end
@@ -2281,7 +2281,7 @@ def action_buttons4(object_type, item, topic)
               if user_signed_in?
                 if isowner(item) or isdeputy(item.owner)
                   html_string = html_string + link_to(new_question_path(:mobject_id => item.id)) do
-                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary glyphicon glyphicon-plus orange") 
+                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange") 
                   end
                end
               end
@@ -2290,7 +2290,7 @@ def action_buttons4(object_type, item, topic)
               if user_signed_in?
                 if isowner(item) or isdeputy(item.owner)
                   html_string = html_string + link_to(new_edition_path(:mobject_id => item.id)) do
-                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary glyphicon glyphicon-plus orange") 
+                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange") 
                   end
                end
               end
@@ -2298,47 +2298,47 @@ def action_buttons4(object_type, item, topic)
           when "objekte_sponsorenengagements"
             if user_signed_in?
               html_string = html_string + link_to(new_msponsor_path(:mobject_id => item.id)) do
-                content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary glyphicon glyphicon-plus orange") 
+                content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange") 
               end
             end
             
           when "objekte_blog"
             if user_signed_in?
     	        html_string = html_string + link_to(new_comment_path :mobject_id => item.id, :user_id => current_user.id) do
-                content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary glyphicon glyphicon-plus orange") 
+                content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange") 
               end
             end
             
           when "objekte_bewertungen"
             if user_signed_in?
     	        html_string = html_string + link_to(new_mrating_path :mobject_id => item.id, :user_id => current_user.id) do
-                content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary glyphicon glyphicon-plus orange") 
+                content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange") 
               end
             end
             
           when "objekte_kalendervermietungen"
             if user_signed_in?
               html_string = html_string + link_to(new_mcalendar_path(:user_id => current_user.id, :mobject_id => item.id)) do
-                content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary glyphicon glyphicon-plus orange") 
+                content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange") 
               end
             end
             
           when "objekte_cftransaktionen"
               html_string = html_string + link_to(new_mstat_path(:mobject_id => item.id, :dontype => "user")) do
-                content_tag(:i, " " + (I18n.t :persoenlich) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary glyphicon glyphicon-user orange") 
+                content_tag(:i, " " + (I18n.t :persoenlich) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-user orange") 
               end
               html_string = html_string + link_to(new_mstat_path(:mobject_id => item.id, :dontype => "company")) do
-                content_tag(:i, " " + (I18n.t :firmen) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary glyphicon glyphicon-copyright-mark orange") 
+                content_tag(:i, " " + (I18n.t :firmen) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-copyright-mark orange") 
               end
 
           when "objekte_auftragscontrolling"
             if user_signed_in?
               html_string = html_string + link_to(mobject_path(:id => @mobject.id, :topic => "objekte_auftragscontrolling", :year => @c_year, :month => @c_month, :mode => @c_mode, :scope => @c_scope, :export => true)) do
-                content_tag(:i, " " + (I18n.t :excel), class:"btn btn-default glyphicon glyphicon-book") 
+                content_tag(:i, " " + (I18n.t :excel), class:"btn btn-default fa fa-book") 
               end
               if @export and @filename
     	          html_string = html_string +link_to(@filename.remove("public")) do
-                  content_tag(:i, " " + (I18n.t :download) , class:"btn btn-default glyphicon glyphicon-download") 
+                  content_tag(:i, " " + (I18n.t :download) , class:"btn btn-default fa fa-download") 
                 end
               end
 
@@ -2348,37 +2348,37 @@ def action_buttons4(object_type, item, topic)
 
       when "editionen"
          #html_string = html_string + link_to(mobject_path(:id => item.mobject_id, :topic => "objekte_ausgaben"), title: (I18n.t :editionen)) do
-          #  content_tag(:i, " " + (I18n.t :editionen) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-list") 
+          #  content_tag(:i, " " + (I18n.t :editionen) + " " + (I18n.t :hinzufuegen), class:"fa fa-list") 
          #end
 
       when "edition"
          html_string = html_string + link_to(edition_path(:id => item.id, :topic => "edition")) do
-            content_tag(:i, " " + (I18n.t :editionen) + " " + (I18n.t :aendern), class:"btn btn-primary glyphicon glyphicon-wrench") 
+            content_tag(:i, " " + (I18n.t :editionen) + " " + (I18n.t :aendern), class:"btn btn-primary fa fa-wrench") 
          end
 
       when "ideenbewertung"
          html_string = html_string + link_to(mobject_path(:id => item.mobject.id, :topic => "objekte_ideen")) do
-            content_tag(:i, " " + (I18n.t :ideen) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary glyphicon glyphicon-list") 
+            content_tag(:i, " " + (I18n.t :ideen) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-list") 
          end
 
       when "crowdideenbewertung"
          html_string = html_string + link_to(mobject_path(:id => item.mobject.id, :topic => "objekte_ideen")) do
-            content_tag(:i, " " + (I18n.t :ideenbewertung) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary glyphicon glyphicon-list") 
+            content_tag(:i, " " + (I18n.t :ideenbewertung) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-list") 
          end
          if user_signed_in?
           html_string = html_string + link_to(new_idea_crowdrating_path(:idea_id => item.id, :user_id => current_user.id)) do
-            content_tag(:i, " " + (I18n.t :editionen) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary glyphicon glyphicon-plus orange") 
+            content_tag(:i, " " + (I18n.t :editionen) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange") 
           end
         end
 
       when "artikeledition"
          html_string = html_string + link_to(mobject_path(:id => item.mobject_id, :topic => "objekte_ausgaben")) do
-            content_tag(:i, " " + (I18n.t :zurueckzurausgabe), class:"btn btn-default glyphicon glyphicon-list") 
+            content_tag(:i, " " + (I18n.t :zurueckzurausgabe), class:"btn btn-default fa fa-list") 
          end
          if user_signed_in?
           if isowner(item) or isdeputy(item.owner)
             html_string = html_string + link_to(mobjects_path(:mtype => "artikel", :edition_id => item.id)) do
-              content_tag(:i, " " + (I18n.t :artikel) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary glyphicon glyphicon-plus orange") 
+              content_tag(:i, " " + (I18n.t :artikel) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange") 
             end
           end
          end
@@ -2387,7 +2387,7 @@ def action_buttons4(object_type, item, topic)
          if user_signed_in?
           if isowner(item.mobject) or isdeputy(item.mobject.owner)
             html_string = html_string + link_to(mobjects_path(:mtype => "artikel", :edition_id => item.id)) do
-              content_tag(:i, " " + (I18n.t :artikel) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary glyphicon glyphicon-plus orange") 
+              content_tag(:i, " " + (I18n.t :artikel) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange") 
             end
           end
          end
@@ -2405,43 +2405,43 @@ def action_buttons3(object_type, item, topic)
   case object_type 
     when "kategorien"
       #html_string = html_string + link_to(home_index9_path) do
-        #content_tag(:i, nil, class: "glyphicon glyphicon-list")
+        #content_tag(:i, nil, class: "fa fa-list")
       #end
       html_string = html_string + link_to(new_mcategory_path(:ctype => item)) do
-        content_tag(:i, " " + (I18n.t :kategorie) + " " + (I18n.t :hinzufuegen), class: "glyphicon glyphicon-plus orange")
+        content_tag(:i, " " + (I18n.t :kategorie) + " " + (I18n.t :hinzufuegen), class: "fa fa-plus orange")
       end
 
     when "personen"
       case topic
         when "personen_info"
           html_string = html_string + link_to(users_path) do
-            content_tag(:i, " " + (I18n.t :personenuebersicht), class:"glyphicon glyphicon-search") 
+            content_tag(:i, " " + (I18n.t :personenuebersicht), class:"fa fa-search") 
           end
           if user_signed_in? 
             if current_user.id == item.id or isdeputy(item) or current_user.superuser
                 html_string = html_string + link_to(edit_user_path(item)) do
-                content_tag(:i, " "+(I18n.t :datenaendern), class: "glyphicon glyphicon-wrench")
+                content_tag(:i, " "+(I18n.t :datenaendern), class: "fa fa-wrench")
               end
               html_string = html_string + link_to(item, method: :delete, data: { confirm: (I18n.t :sindsiesicher)})  do
-                  content_tag(:i, " " + (I18n.t :datenloeschen), class: "glyphicon glyphicon-trash red")
+                  content_tag(:i, " " + (I18n.t :datenloeschen), class: "fa fa-trash red")
               end
             end
             html_string = html_string + link_to(new_webmaster_path(:object_name => "User", :object_id => item.id, :user_id => current_user.id)) do
-              content_tag(:i, " " + (I18n.t :fraud), class: "glyphicon glyphicon-eye-open orange")
+              content_tag(:i, " " + (I18n.t :fraud), class: "fa fa-eye-open orange")
             end
             if $activeapps.include?("personen_transaktionen") or isdeputy(item) or current_user.superuser
               html_string = html_string + link_to(listaccount_index_path(:user_id => current_user.id, :user_id_ver => item.id, :company_id_ver => nil, :ref => (I18n.t :verguetungan)+item.name + " " + item.lastname, :object_name => "User", :object_id => item.id, :amount => nil)) do
-                content_tag(:i, " " + (I18n.t :trx), class: "glyphicon glyphicon-euro")
+                content_tag(:i, " " + (I18n.t :trx), class: "fa fa-euro")
               end
             end
             if $activeapps.include?("personen_mappositionen") or isdeputy(item) or current_user.superuser
               html_string = html_string + link_to(new_user_position_path(:user_id => current_user.id)) do
-                content_tag(:i, " " + (I18n.t :pos), class: "glyphicon glyphicon-map-marker")
+                content_tag(:i, " " + (I18n.t :pos), class: "fa fa-map-marker")
               end
             end
             if $activeapps.include?("personen_mappositionenfavoriten") or isdeputy(item) or current_user.superuser
               html_string = html_string + link_to(new_favourit_path(:object_name => "User", :object_id => item.id, :user_id => current_user.id)) do
-                content_tag(:i, " " + (I18n.t :fav), class: "glyphicon glyphicon-user")
+                content_tag(:i, " " + (I18n.t :fav), class: "fa fa-user")
               end
             end
           end
@@ -2450,22 +2450,22 @@ def action_buttons3(object_type, item, topic)
           if user_signed_in?
             if current_user.id == item.id or isdeputy(item) or current_user.superuser
               html_string = html_string + link_to(new_note_path(:user_id => current_user.id)) do
-                content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class: "glyphicon glyphicon-plus orange") 
+                content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class: "fa fa-plus orange") 
               end
               html_string = html_string + link_to(user_path(:user_id => current_user.id, :topic => @topic, :delusernotes => true),data: { confirm: 'Are you sure?' }) do
-                content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :loeschen), class: "glyphicon glyphicon-plus orange") 
+                content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :loeschen), class: "fa fa-plus orange") 
               end
             end
           end
 
         when "personen_institutionen"
           html_string = html_string + link_to(companies_path) do
-            content_tag(:i, " " + (I18n.t :institutionenuebersicht), class: "glyphicon glyphicon-copyright-mark")
+            content_tag(:i, " " + (I18n.t :institutionenuebersicht), class: "fa fa-copyright-mark")
           end
           if user_signed_in?
             if current_user.id == item.id or isdeputy(item) or current_user.superuser
               html_string = html_string + link_to(new_company_path(:user_id => current_user.id)) do
-                content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class: "glyphicon glyphicon-plus orange") 
+                content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class: "fa fa-plus orange") 
               end
             end
           end
@@ -2473,24 +2473,24 @@ def action_buttons3(object_type, item, topic)
         when "personen_kalendereintraege"
           if user_signed_in?
             html_string = html_string + link_to(new_appointment_path(:user_id1 => item.id, :user_id2 => current_user.id))  do
-              content_tag(:i, " " + (I18n.t subtopic(@topic) + " " + (I18n.t :hinzufuegen)), class: "glyphicon glyphicon-plus orange")
+              content_tag(:i, " " + (I18n.t subtopic(@topic) + " " + (I18n.t :hinzufuegen)), class: "fa fa-plus orange")
             end
           end
 
         when "personen_angebote", "personen_vermietungen", "personen_veranstaltungen", "personen_ausflugsziele", "personen_ausschreibungen", "personen_publikationen", "personen_artikel", "personen_umfragen", "personen_projekte", "personen_gruppen", "personen_innovationswettbewerbe", "personen_sensoren","personen_kleinanzeigen", "personen_stellenanzeigen", "personen_crowdfunding"
           html_string = html_string + link_to(mobjects_path :mtype => getTopicName(topic)) do
-            content_tag(:i, " " + (I18n.t subtopic(topic).to_sym) + " " + (I18n.t :suchen), class: "glyphicon glyphicon-search")
+            content_tag(:i, " " + (I18n.t subtopic(topic).to_sym) + " " + (I18n.t :suchen), class: "fa fa-search")
           end
           if user_signed_in?
             if current_user.id == item.id or isdeputy(item) or current_user.superuser
               html_string = html_string + link_to(new_mobject_path(:user_id => current_user.id, :mtype => subtopic(topic), :msubtype => nil)) do
-                content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :hinzufuegen), class: "glyphicon glyphicon-plus orange")
+                content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :hinzufuegen), class: "fa fa-plus orange")
               end
             end
             if topic == "personen_projekte"
               if current_user.id == item.id or isdeputy(item) or current_user.superuser
                 html_string = html_string + link_to(user_path(:id => @user.id, :topic => "personen_export")) do
-                  content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :exportieren), class: "glyphicon glyphicon-download")
+                  content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :exportieren), class: "fa fa-download")
                 end
               end
             end
@@ -2499,14 +2499,14 @@ def action_buttons3(object_type, item, topic)
         when "personen_export"
           if user_signed_in?
             html_string = html_string + link_to(user_path(:id => @user.id, :topic => topic, :year => @c_year, :month => @c_month, :mode => @c_mode, :topic => topic, :writeexcel => true)) do
-              content_tag(:i, " " + (I18n.t :excel), class: "glyphicon glyphicon-th")
+              content_tag(:i, " " + (I18n.t :excel), class: "fa fa-th")
             end
           end
 
         when "personen_emails"
           if user_signed_in?
             html_string = html_string + link_to(new_email_path(:m_from_id => current_user.id, :m_to_id => item.id, :back_url => request.original_url)) do
-              content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class: "glyphicon glyphicon-plus orange")
+              content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class: "fa fa-plus orange")
             end
           end
 
@@ -2514,7 +2514,7 @@ def action_buttons3(object_type, item, topic)
           if user_signed_in?
             if current_user.id == item.id or isdeputy(item) or current_user.superuser
               html_string = html_string + link_to(ticketuserview_index2_path(:user_id => item.id)) do
-                content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class: "glyphicon glyphicon-plus orange")
+                content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class: "fa fa-plus orange")
               end
             end
           end
@@ -2523,7 +2523,7 @@ def action_buttons3(object_type, item, topic)
              if user_signed_in?
               if (item.id == current_user.id) or current_user.superuser
                 html_string = html_string + link_to(deputies_path(:user_id => item.id)) do
-                  content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange")
+                  content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange")
                 end
               end
              end
@@ -2532,10 +2532,10 @@ def action_buttons3(object_type, item, topic)
              if user_signed_in?
               if (item.id == current_user.id) or current_user.superuser
                 html_string = html_string + link_to(new_timetrack_path(:user_id => @user.id, :scope => "aufwand", :datum => @c_datum)) do
-                  content_tag(:i, " " + (I18n.t :aufwand) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange")
+                  content_tag(:i, " " + (I18n.t :aufwand) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange")
                 end
                 html_string = html_string + link_to(new_timetrack_path(:user_id => @user.id, :scope => "kosten", :datum => @c_datum)) do
-                  content_tag(:i, " " + (I18n.t :kosten) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange")
+                  content_tag(:i, " " + (I18n.t :kosten) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange")
                 end
               end
              end
@@ -2546,31 +2546,31 @@ def action_buttons3(object_type, item, topic)
       case topic
         when "institutionen_info"
           html_string = html_string + link_to(companies_path(:page => session[:page]), title: (I18n.t :institutionen)) do
-            content_tag(:i, " " + (I18n.t :institutionenuebersicht), class:"glyphicon glyphicon-search") 
+            content_tag(:i, " " + (I18n.t :institutionenuebersicht), class:"fa fa-search") 
           end
           if user_signed_in?
             if current_user.id == item.user_id or isdeputy(item) or current_user.superuser
               html_string = html_string + link_to(edit_company_path(item), title: (I18n.t :bearbeiten)) do
-                content_tag(:i, " "+(I18n.t :datenaendern), class: "glyphicon glyphicon-wrench")
+                content_tag(:i, " "+(I18n.t :datenaendern), class: "fa fa-wrench")
               end
               html_string = html_string + link_to(item, method: :delete, data: { confirm: (I18n.t :sindsiesicher) }) do
-                  content_tag(:i, " " + (I18n.t :datenloeschen), class: "glyphicon glyphicon-trash red")
+                  content_tag(:i, " " + (I18n.t :datenloeschen), class: "fa fa-trash red")
               end
             end
             html_string = html_string + link_to(new_webmaster_path(:object_name => "Company", :object_id => item.id, :user_id => current_user.id)) do
-              content_tag(:i, " " + (I18n.t :fraud), class: "glyphicon glyphicon-eye-open orange")
+              content_tag(:i, " " + (I18n.t :fraud), class: "fa fa-eye-open orange")
             end
             if $activeapps.include?("institutionen_favoriten") or current_user.superuser
               if (item.user_id == current_user.id) or isdeputy(item) or current_user.superuser
                 html_string = html_string + link_to(new_favourit_path(:object_name => "Company", :object_id => item.id, :user_id => current_user.id)) do
-                  content_tag(:i, " " + (I18n.t :fav), class: "glyphicon glyphicon-copyright-mark")
+                  content_tag(:i, " " + (I18n.t :fav), class: "fa fa-copyright-mark")
                 end
               end
             end
             if $activeapps.include?("institutionen_transaktionen") or current_user.superuser
               if (item.user_id == current_user.id) or isdeputy(item) or current_user.superuser
                 html_string = html_string + link_to(listaccount_index_path :user_id => current_user.id, :user_id_ver => nil, :company_id_ver => item.id, :ref => (I18n.t :verguetungan)+item.name, :object_name => "Company", :object_id => item.id, :amount => nil) do
-                  content_tag(:i, " " + (I18n.t :trx), class: "glyphicon glyphicon-euro")
+                  content_tag(:i, " " + (I18n.t :trx), class: "fa fa-euro")
                 end
               end
             end
@@ -2578,18 +2578,18 @@ def action_buttons3(object_type, item, topic)
 
         when "institutionen_angebote", "institutionen_kampagnen", "institutionen_standorte", "institutionen_vermietungen", "institutionen_veranstaltungen", "institutionen_ausflugsziele", "institutionen_ausschreibungen", "institutionen_publikationen", "institutionen_umfragen", "institutionen_projekte", "institutionen_innovationswettbewerbe", "institutionen_sensoren", "institutionen_kleinanzeigen", "institutionen_stellenanzeigen", "institutionen_crowdfunding"
           html_string = html_string + link_to(mobjects_path :mtype => getTopicName(topic)) do
-            content_tag(:i, " " + (I18n.t subtopic(topic).to_sym) + " " + (I18n.t :suchen), class: "glyphicon glyphicon-search")
+            content_tag(:i, " " + (I18n.t subtopic(topic).to_sym) + " " + (I18n.t :suchen), class: "fa fa-search")
           end
           if user_signed_in?
             if (item.user_id == current_user.id) or isdeputy(item) or current_user.superuser
               html_string = html_string + link_to(new_mobject_path :company_id => item.id, :mtype => subtopic(topic), :msubtype => nil) do
-                content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :hinzufuegen), class: "glyphicon glyphicon-plus orange")
+                content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :hinzufuegen), class: "fa fa-plus orange")
               end
             end
             if topic == "institutionen_projekte"
               if current_user.id == item.id or isdeputy(item) or current_user.superuser
                 html_string = html_string + link_to(company_path(:id => @company.id, :topic => "institutionen_export")) do
-                  content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :exportieren), class: "glyphicon glyphicon-download")
+                  content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :exportieren), class: "fa fa-download")
                 end
               end
             end
@@ -2599,7 +2599,7 @@ def action_buttons3(object_type, item, topic)
           if user_signed_in?
             if (item.user_id == current_user.id) or isdeputy(item) or current_user.superuser
               html_string = html_string + link_to(new_partner_link_path :company_id => item.id) do
-                content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :hinzufuegen), class: "glyphicon glyphicon-plus orange")
+                content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :hinzufuegen), class: "fa fa-plus orange")
               end
             end
           end
@@ -2608,7 +2608,7 @@ def action_buttons3(object_type, item, topic)
              if user_signed_in?
               if (item.user_id == current_user.id) or isdeputy(item) or current_user.superuser
                 html_string = html_string + link_to(deputies_path(:company_id => item.id)) do
-                  content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange")
+                  content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange")
                 end
               end
              end
@@ -2616,7 +2616,7 @@ def action_buttons3(object_type, item, topic)
         when "institutionen_export"
           if user_signed_in?
             html_string = html_string + link_to(company_path(:id => @company.id, :year => @c_year, :month => @c_month, :mode => @c_mode, :topic => topic, :writeexcel => true)) do
-              content_tag(:i, " " + (I18n.t :excel), class: "glyphicon glyphicon-th")
+              content_tag(:i, " " + (I18n.t :excel), class: "fa fa-th")
             end
           end
 
@@ -2627,27 +2627,27 @@ def action_buttons3(object_type, item, topic)
        case topic
           when "objekte_info"
              html_string = html_string + link_to(mobjects_path(:mtype =>item.mtype)) do
-              content_tag(:i, " " + (I18n.t item.mtype.to_sym) + " " + (I18n.t :suchen), class:"glyphicon glyphicon-search") 
+              content_tag(:i, " " + (I18n.t item.mtype.to_sym) + " " + (I18n.t :suchen), class:"fa fa-search") 
              end
 
             if false 
              if session[:edition_id]
                html_string = html_string + link_to(edition_path(:id => session[:edition_id], :topic => "objekte_info")) do
-                content_tag(:i, " " + (I18n.t :edition), class:"glyphicon glyphicon-book") 
+                content_tag(:i, " " + (I18n.t :edition), class:"fa fa-book") 
                end
              end 
              end
              
              if item.parent and item.parent > 0 
                 html_string = html_string + link_to(mobject_path(:id => item.parent, :mtype => "projekte", :msubtype => nil, :topic => "objekte_info")) do
-                  content_tag(:i, " " + (I18n.t :edition), class:"glyphicon glyphicon-level-up") 
+                  content_tag(:i, " " + (I18n.t :edition), class:"fa fa-level-up") 
                 end
              end 
 
              if item.mtype == "innovationswettbewerbe"
               if user_signed_in?
                 html_string = html_string + link_to(new_idea_path(:mobject_id => item.id, :user_id => current_user.id)) do
-                  content_tag(:i, " " + (I18n.t :ideen) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
+                  content_tag(:i, " " + (I18n.t :ideen) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
                 end
               end
              end
@@ -2655,16 +2655,16 @@ def action_buttons3(object_type, item, topic)
              if user_signed_in?
                if isowner(item) or isdeputy(item.owner)
          	        html_string = html_string + link_to(edit_mobject_path(item), title: (I18n.t :bearbeiten)) do
-                    content_tag(:i, " "+(I18n.t :datenaendern), class: "glyphicon glyphicon-wrench")
+                    content_tag(:i, " "+(I18n.t :datenaendern), class: "fa fa-wrench")
                   end
                end
                if isowner(item)
          	        html_string = html_string + link_to(item, method: :delete, data: { confirm: (I18n.t :sindsiesicher) } ) do
-                    content_tag(:i, " " + (I18n.t :datenloeschen), class: "glyphicon glyphicon-trash red")
+                    content_tag(:i, " " + (I18n.t :datenloeschen), class: "fa fa-trash red")
                    end
                end
                html_string = html_string + link_to(new_webmaster_path(:object_name => "Mobject", :object_id => item.id, :user_id => current_user.id)) do
-                  content_tag(:i, " " + (I18n.t :fraud), class: "glyphicon glyphicon-eye-open orange")
+                  content_tag(:i, " " + (I18n.t :fraud), class: "fa fa-eye-open orange")
                end
              end
 
@@ -2672,7 +2672,7 @@ def action_buttons3(object_type, item, topic)
               if user_signed_in?
                 if isowner(item) or isdeputy(item.owner)
                   html_string = html_string + link_to(new_mdetail_path(:mobject_id => item.id, :mtype => "details")) do
-                    content_tag(:i, " " + (I18n.t :details) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus") 
+                    content_tag(:i, " " + (I18n.t :details) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus") 
                   end
                end
               end
@@ -2682,12 +2682,12 @@ def action_buttons3(object_type, item, topic)
                 if isowner(item) or isdeputy(item.owner)
                   if item.owner_type == "User"
                     html_string = html_string + link_to(new_mobject_path :user_id => item.owner_id, :mtype => "projekte", :msubtype => nil, :parent => item.id) do
-                      content_tag(:i, " " + (I18n.t :substruktur)+ " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
+                      content_tag(:i, " " + (I18n.t :substruktur)+ " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
                     end
                   end
                   if item.owner_type == "Company"
                     html_string = html_string + link_to(new_mobject_path :company_id => item.owner_id, :mtype => "projekte", :msubtype => nil, :parent => item.id) do
-                      content_tag(:i, " " + (I18n.t :substruktur) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
+                      content_tag(:i, " " + (I18n.t :substruktur) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
                     end
                   end
                end
@@ -2698,12 +2698,12 @@ def action_buttons3(object_type, item, topic)
               if isowner(item) or isdeputy(item.owner)
                 if @mobject.mtype == "kampagnen"
                   html_string = html_string + link_to(new_signage_cal_path(:kam_id => @mobject.id)) do
-                      content_tag(:i, " " + (I18n.t :standorte) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
+                      content_tag(:i, " " + (I18n.t :standorte) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
                   end
                 end
                 if @mobject.mtype == "standorte"
                   html_string = html_string + link_to(new_signage_cal_path(:loc_id => @mobject.id)) do
-                      content_tag(:i, " " + (I18n.t :kampagnen) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
+                      content_tag(:i, " " + (I18n.t :kampagnen) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
                   end
                 end
               end
@@ -2712,7 +2712,7 @@ def action_buttons3(object_type, item, topic)
           when "objekte_ideen"
               if user_signed_in?
                 html_string = html_string + link_to(new_idea_path(:mobject_id => item.id, :user_id => current_user.id)) do
-                  content_tag(:i, " " + (I18n.t :ideen) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
+                  content_tag(:i, " " + (I18n.t :ideen) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
                 end
               end
 
@@ -2720,7 +2720,7 @@ def action_buttons3(object_type, item, topic)
               if user_signed_in?
                 if isowner(item) or isdeputy(item.owner)
                   html_string = html_string + link_to(new_price_path(:mobject_id => item.id)) do
-                      content_tag(:i, " " + (I18n.t :preise) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
+                      content_tag(:i, " " + (I18n.t :preise) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
                   end
                end
               end
@@ -2729,7 +2729,7 @@ def action_buttons3(object_type, item, topic)
               if user_signed_in?
                 if isowner(item) or isdeputy(item.owner)
                   html_string = html_string + link_to(new_crit_path(:mobject_id => item.id)) do
-                      content_tag(:i, " " + (I18n.t :bewertungskriterien) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
+                      content_tag(:i, " " + (I18n.t :bewertungskriterien) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
                   end
                 end
               end
@@ -2738,7 +2738,7 @@ def action_buttons3(object_type, item, topic)
              if user_signed_in?
                 if isowner(item) or isdeputy(item.owner)
                   html_string = html_string + link_to(madvisors_path :user_id => item.owner_id, :mobject_id => item.id, :role => item.mtype) do
-                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
+                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
                   end
                end
               end
@@ -2747,7 +2747,7 @@ def action_buttons3(object_type, item, topic)
               if user_signed_in?
                 if isowner(item) or isdeputy(item.owner)
                   html_string = html_string + link_to(new_mdetail_path(:mobject_id => item.id, :mtype => "objekte_ausschreibungsangebote")) do
-                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
+                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
                   end
                end
               end
@@ -2756,7 +2756,7 @@ def action_buttons3(object_type, item, topic)
               if user_signed_in?
                 if isowner(item) or isdeputy(item.owner)
                   html_string = html_string + link_to(mobject_path(:mobject_id => item.id, :topic => "objekte_sensordaten", :delsensordata => true), data: { confirm: (I18n.t :sindsiesicher) }) do
-                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :loeschen), class:"glyphicon glyphicon-trash red") 
+                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :loeschen), class:"fa fa-trash red") 
                   end
                end
               end
@@ -2765,7 +2765,7 @@ def action_buttons3(object_type, item, topic)
               if user_signed_in?
                 if isowner(item) or isdeputy(item.owner)
                   html_string = html_string + link_to(new_ticket_path(:mobject_id => item.id)) do
-                    content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
+                    content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
                 end
                end
               end
@@ -2774,7 +2774,7 @@ def action_buttons3(object_type, item, topic)
               if user_signed_in?
                 if isowner(item) or isdeputy(item.owner)
                   html_string = html_string + link_to(new_question_path(:mobject_id => item.id)) do
-                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
+                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
                   end
                end
               end
@@ -2783,7 +2783,7 @@ def action_buttons3(object_type, item, topic)
               if user_signed_in?
                 if isowner(item) or isdeputy(item.owner)
                   html_string = html_string + link_to(new_edition_path(:mobject_id => item.id)) do
-                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
+                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
                   end
                end
               end
@@ -2791,47 +2791,47 @@ def action_buttons3(object_type, item, topic)
           when "objekte_sponsorenengagements"
             if user_signed_in?
               html_string = html_string + link_to(new_msponsor_path(:mobject_id => item.id)) do
-                content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
+                content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
               end
             end
             
           when "objekte_blog"
             if user_signed_in?
     	        html_string = html_string + link_to(new_comment_path :mobject_id => item.id, :user_id => current_user.id) do
-                content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
+                content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
               end
             end
             
           when "objekte_bewertungen"
             if user_signed_in?
     	        html_string = html_string + link_to(new_mrating_path :mobject_id => item.id, :user_id => current_user.id) do
-                content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
+                content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
               end
             end
             
           when "objekte_kalendervermietungen"
             if user_signed_in?
               html_string = html_string + link_to(new_mcalendar_path(:user_id => current_user.id, :mobject_id => item.id)) do
-                content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
+                content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
               end
             end
             
           when "objekte_cftransaktionen"
               html_string = html_string + link_to(new_mstat_path(:mobject_id => item.id, :dontype => "user")) do
-                content_tag(:i, " " + (I18n.t :persoenlich) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-user orange") 
+                content_tag(:i, " " + (I18n.t :persoenlich) + " " + (I18n.t :hinzufuegen), class:"fa fa-user orange") 
               end
               html_string = html_string + link_to(new_mstat_path(:mobject_id => item.id, :dontype => "company")) do
-                content_tag(:i, " " + (I18n.t :firmen) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-copyright-mark orange") 
+                content_tag(:i, " " + (I18n.t :firmen) + " " + (I18n.t :hinzufuegen), class:"fa fa-copyright-mark orange") 
               end
 
           when "objekte_auftragscontrolling"
             if user_signed_in?
               html_string = html_string + link_to(mobject_path(:id => @mobject.id, :topic => "objekte_auftragscontrolling", :year => @c_year, :month => @c_month, :mode => @c_mode, :scope => @c_scope, :export => true)) do
-                content_tag(:i, " " + (I18n.t :excel), class:"glyphicon glyphicon-book") 
+                content_tag(:i, " " + (I18n.t :excel), class:"fa fa-book") 
               end
               if @export and @filename
     	          html_string = html_string +link_to(@filename.remove("public")) do
-                  content_tag(:i, " " + (I18n.t :download) , class:"glyphicon glyphicon-download") 
+                  content_tag(:i, " " + (I18n.t :download) , class:"fa fa-download") 
                 end
               end
 
@@ -2841,37 +2841,37 @@ def action_buttons3(object_type, item, topic)
 
       when "editionen"
          #html_string = html_string + link_to(mobject_path(:id => item.mobject_id, :topic => "objekte_ausgaben"), title: (I18n.t :editionen)) do
-          #  content_tag(:i, " " + (I18n.t :editionen) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-list") 
+          #  content_tag(:i, " " + (I18n.t :editionen) + " " + (I18n.t :hinzufuegen), class:"fa fa-list") 
          #end
 
       when "edition"
          html_string = html_string + link_to(edition_path(:id => item.id, :topic => "edition")) do
-            content_tag(:i, " " + (I18n.t :editionen) + " " + (I18n.t :aendern), class:"glyphicon glyphicon-wrench") 
+            content_tag(:i, " " + (I18n.t :editionen) + " " + (I18n.t :aendern), class:"fa fa-wrench") 
          end
 
       when "ideenbewertung"
          html_string = html_string + link_to(mobject_path(:id => item.mobject.id, :topic => "objekte_ideen")) do
-            content_tag(:i, " " + (I18n.t :ideen) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-list") 
+            content_tag(:i, " " + (I18n.t :ideen) + " " + (I18n.t :hinzufuegen), class:"fa fa-list") 
          end
 
       when "crowdideenbewertung"
          html_string = html_string + link_to(mobject_path(:id => item.mobject.id, :topic => "objekte_ideen")) do
-            content_tag(:i, " " + (I18n.t :ideenbewertung) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-list") 
+            content_tag(:i, " " + (I18n.t :ideenbewertung) + " " + (I18n.t :hinzufuegen), class:"fa fa-list") 
          end
          if user_signed_in?
           html_string = html_string + link_to(new_idea_crowdrating_path(:idea_id => item.id, :user_id => current_user.id)) do
-            content_tag(:i, " " + (I18n.t :editionen) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
+            content_tag(:i, " " + (I18n.t :editionen) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
           end
         end
 
       when "artikeledition"
          html_string = html_string + link_to(mobject_path(:id => item.mobject_id, :topic => "objekte_ausgaben")) do
-            content_tag(:i, " " + (I18n.t :zurueckzurausgabe), class:"glyphicon glyphicon-list") 
+            content_tag(:i, " " + (I18n.t :zurueckzurausgabe), class:"fa fa-list") 
          end
          if user_signed_in?
           if isowner(item) or isdeputy(item.owner)
             html_string = html_string + link_to(mobjects_path(:mtype => "artikel", :edition_id => item.id)) do
-              content_tag(:i, " " + (I18n.t :artikel) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
+              content_tag(:i, " " + (I18n.t :artikel) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
             end
           end
          end
@@ -2880,7 +2880,7 @@ def action_buttons3(object_type, item, topic)
          if user_signed_in?
           if isowner(item.mobject) or isdeputy(item.mobject.owner)
             html_string = html_string + link_to(mobjects_path(:mtype => "artikel", :edition_id => item.id)) do
-              content_tag(:i, " " + (I18n.t :artikel) + " " + (I18n.t :hinzufuegen), class:"glyphicon glyphicon-plus orange") 
+              content_tag(:i, " " + (I18n.t :artikel) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
             end
           end
          end
@@ -2913,9 +2913,9 @@ def getinfo2(topic)
     when :projekte
       info = "tasks"
     when :institutionen
-      info = "copyright-mark"
+      info = "industry"
     when :zeiterfassung
-      info = "time"
+      info = "safari"
     when :ressourcenplanung
       info = "screenshot"
     when :gruppen
@@ -2929,15 +2929,15 @@ def getinfo2(topic)
     when :vermietungen
       info = "retweet"
     when :sensoren, :sensordaten
-      info = "record"
+      info = "thermometer"
     when :ausschreibungen, :kalenderausschreibungen
       info = "pencil"
     when :publikationen, :kalenderpublikationen, :ausgaben, :ausgabe
       info = "book"
     when :artikel
-      info = "text-background"
+      info = "font"
     when :umfragen, :fragen, :meineabfragen
-      info = "question-sign"
+      info = "question-circle"
     when :innovationswettbewerbe
       info = "cog"
     when :veranstaltungen, :kalenderveranstaltungen
@@ -2955,13 +2955,13 @@ def getinfo2(topic)
     when :stellenanzeigen, :kalenderstellenanzeigen
       info = "briefcase"
     when :kleinanzeigen
-      info = "pushpin"
+      info = "clipboard"
     when :stellenanzeigensuchen, :kleinanzeigensuchen, :details
       info = "search"
     when :stellenanzeigenanbieten, :kleinanzeigenanbieten
       info = "filter"
     when :crowdfunding, :kalendercrowdfunding
-      info = "grain"
+      info = "share"
     when :crowdfundingspenden
       info = "gift"
     when :crowdfundingbelohnungen, :tickets
@@ -3209,7 +3209,7 @@ def build_myservices
             html_string = html_string + '<div class="service-item">'
               html_string = html_string + '<h3><span>'
               html_string = html_string + link_to(path) do
-                content_tag(:i, nil, class:"glyphicon glyphicon-" + getinfo2(domains[i].to_sym)["info"]) 
+                content_tag(:i, nil, class:"fa fa-" + getinfo2(domains[i].to_sym)["info"]) 
               end
               html_string = html_string + '</span>'+domains[i]+'</h3>'
               html_string = html_string + '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>'
@@ -3231,7 +3231,7 @@ def simple_menue (domain, path)
   html_string = html_string + '<div class="col-md-4 col-sm-6 col-xs-12">'
     html_string = html_string + '<div class="service-item">'
       html_string = html_string + link_to(path) do
-        content_tag(:i, nil, class:"glyphicon glyphicon-" + getinfo2(domain.to_sym)["info"], style:"font-size:2em") 
+        content_tag(:i, nil, class:"fa fa-" + getinfo2(domain.to_sym)["info"], style:"font-size:2em") 
       end
       html_string = html_string + " " + domain.upcase
       #html_string = html_string + '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>'
@@ -3251,9 +3251,9 @@ def build_kachel_access(topic, mode, user)
   
     if mode == "system"
       if a.access
-          thumbnail_state = 'glyphicon glyphicon-ok-sign ac'
+          thumbnail_state = 'fa fa-ok-sign ac'
         else
-          thumbnail_state = 'glyphicon glyphicon-remove-sign noac'
+          thumbnail_state = 'fa fa-remove-sign noac'
       end
       cpath = appparams_path(:id => a.id)
     end
@@ -3269,9 +3269,9 @@ def build_kachel_access(topic, mode, user)
           @credential = user.credentials.where('appparam_id=?',a.id).first
       end
       if @credential.access
-          thumbnail_state = 'glyphicon glyphicon-ok-sign ac'
+          thumbnail_state = 'fa fa-ok-sign ac'
         else
-          thumbnail_state = 'glyphicon glyphicon-remove-sign noac'
+          thumbnail_state = 'fa fa-remove-sign noac'
       end
       cpath = user_path(:id => @credential.user_id, :credential_id => @credential.id, :topic => "personen_zugriffsberechtigungen")
     end
@@ -3284,7 +3284,7 @@ def build_kachel_access(topic, mode, user)
             content_tag(:div, nil, class:"thumbnail " + thumbnail_state, align:"center") do
               content_tag(:span, nil) do
                 info_size = "4"
-                content_tag(:i, nil, class:"glyphicon glyphicon-" + getinfo2(a.right.to_sym)["info"], style:"font-size:" + info_size + "em") + content_tag(:small_cal, "<br>".html_safe + (I18n.t a.right))
+                content_tag(:i, nil, class:"fa fa-" + getinfo2(a.right.to_sym)["info"], style:"font-size:" + info_size + "em") + content_tag(:small_cal, "<br>".html_safe + (I18n.t a.right))
               end
             end
           end
@@ -3298,7 +3298,7 @@ def build_kachel_access(topic, mode, user)
       html_string = html_string + "</td>"
       html_string = html_string + "<td>"
           info_size = "1"
-          html_string = html_string + content_tag(:i, nil, class: "glyphicon glyphicon-" + getinfo2(a.right.to_sym)["info"], style:"font-size:" + info_size + "em") + " " + content_tag(:small_cal, (I18n.t a.right))
+          html_string = html_string + content_tag(:i, nil, class: "fa fa-" + getinfo2(a.right.to_sym)["info"], style:"font-size:" + info_size + "em") + " " + content_tag(:small_cal, (I18n.t a.right))
       html_string = html_string + "</td>"
       
     html_string = html_string + "</tr>"
@@ -3821,16 +3821,16 @@ def build_article(article)
                   if user_signed_in?
                     @url = url_for(action: action_name, controller: controller_name)
                     html_string = html_string + link_to(new_mlike_path :mobject_id => article.id, :user_id => current_user.id, :like => true, :return_url => @url) do
-                      #content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-plus")
-                      content_tag(:span, content_tag(:b, "Ja")+content_tag(:span, article.mlikes.where('likeit=?',true).count.to_s, class:"badge"), class:"btn btn-primary glyphicon glyphicon-thumbs-up")
+                      #content_tag(:i, nil, class:"btn btn-primary fa fa-plus")
+                      content_tag(:span, content_tag(:b, "Ja")+content_tag(:span, article.mlikes.where('likeit=?',true).count.to_s, class:"badge"), class:"btn btn-primary fa fa-thumbs-up")
                     end
                     html_string = html_string + link_to(new_mlike_path :mobject_id => article.id, :user_id => current_user.id, :like => false, :return_url => @url) do
-                      #content_tag(:i, nil, class:"btn btn-primary glyphicon glyphicon-plus")
-                      content_tag(:span, content_tag(:b, "Nein")+content_tag(:span, article.mlikes.where('likeit=?',false).count.to_s, class:"badge"), class:"btn btn-primary glyphicon glyphicon-thumbs-down")
+                      #content_tag(:i, nil, class:"btn btn-primary fa fa-plus")
+                      content_tag(:span, content_tag(:b, "Nein")+content_tag(:span, article.mlikes.where('likeit=?',false).count.to_s, class:"badge"), class:"btn btn-primary fa fa-thumbs-down")
                     end
                   else
-                      html_string = html_string + content_tag(:i, nil, class:"glyphicon glyphicon-thumbs-up") + content_tag(:span, article.mlikes.where('likeit=?',true).count.to_s, class:"badge")
-                      html_string = html_string + content_tag(:i, nil, class:"glyphicon glyphicon-thumbs-down") + content_tag(:span, article.mlikes.where('likeit=?',false).count.to_s, class:"badge")
+                      html_string = html_string + content_tag(:i, nil, class:"fa fa-thumbs-up") + content_tag(:span, article.mlikes.where('likeit=?',true).count.to_s, class:"badge")
+                      html_string = html_string + content_tag(:i, nil, class:"fa fa-thumbs-down") + content_tag(:span, article.mlikes.where('likeit=?',false).count.to_s, class:"badge")
                   end
                 html_string = html_string + "</div>"
               
@@ -3841,7 +3841,7 @@ def build_article(article)
           if d.document_file_name
             html_string = html_string + "<br>Download Link "
             html_string = html_string + link_to(d.document.url, target: "_blank") do
-              content_tag(:i, nil, class:'btn btn-primary btn-xs glyphicon glyphicon-cloud-download')
+              content_tag(:i, nil, class:'btn btn-primary btn-xs fa fa-cloud-download')
             end
           end
           
@@ -3862,11 +3862,11 @@ def build_article(article)
                   
                     html_string = html_string + "<h4 class='panel panel-blog'>"
                       html_string = html_string + "<a role='button' data-toggle='collapse' data-parent='#accordionB"+article.id.to_s+"' href='#collapseTwoB"+article.id.to_s+"' aria-expanded='true' aria-controls='collapseOne'>"
-                        html_string = html_string + "<artikel_subheader><i class='glyphicon glyphicon-chevron-down'> </i>"+ d.name + "</artikel_header> "
+                        html_string = html_string + "<artikel_subheader><i class='fa fa-chevron-down'> </i>"+ d.name + "</artikel_header> "
                         #html_string = html_string + link_to(mobject_path :mobject_id => article.id, :topic => :bewertungen) do
                         if user_signed_in?
                           html_string = html_string + link_to(new_mrating_path(:mobject_id => article.id, :user_id => current_user.id)) do
-                            content_tag(:i, content_tag(:i," bewerten"), class:"btn btn-primary glyphicon glyphicon-star")
+                            content_tag(:i, content_tag(:i," bewerten"), class:"btn btn-primary fa fa-star")
                           end
                         end
                       html_string = html_string + "</a>"
@@ -3887,11 +3887,11 @@ def build_article(article)
                   
                     html_string = html_string + "<h4 class='panel panel-blog'>"
                       html_string = html_string + "<a role='button' data-toggle='collapse' data-parent='#accordionG"+article.id.to_s+"' href='#collapseTwoG"+article.id.to_s+"' aria-expanded='true' aria-controls='collapseOne'>"
-                        html_string = html_string + "<artikel_subheader><i class='glyphicon glyphicon-chevron-down'> </i>" + d.name + "</artikel_header> "
+                        html_string = html_string + "<artikel_subheader><i class='fa fa-chevron-down'> </i>" + d.name + "</artikel_header> "
                         #html_string = html_string + link_to(mobject_path :mobject_id => article.id, :topic => "Blog") do
                         if user_signed_in?
                           html_string = html_string + link_to(new_comment_path(:mobject_id => article.id, :user_id => current_user.id)) do
-                            content_tag(:i, content_tag(:i," kommentieren"), class:"btn btn-primary glyphicon glyphicon-comment")
+                            content_tag(:i, content_tag(:i," kommentieren"), class:"btn btn-primary fa fa-comment")
                           end
                         end
                       html_string = html_string + "</a>"
@@ -3938,9 +3938,9 @@ def build_questionaire(questionaire)
 
             #html_string = html_string + "<div class='col-xs-3 col-sm-3 col-md-3 col-lg-3 xl-3'>"
             # if current_user.user_answers.answers.where('question_id=?',q.id).count > 0
-            #   html_string = html_string + '<i class="glyphicon glyphicon-check"></i>'              
+            #   html_string = html_string + '<i class="fa fa-check"></i>'              
             # else
-            #   html_string = html_string + '<i class="glyphicon glyphicon-edit"></i>'
+            #   html_string = html_string + '<i class="fa fa-edit"></i>'
             # end
             #html_string = html_string + "</div>"
             #html_string = html_string + "<div class='col-xs-9 col-sm-9 col-md-9 col-lg-9 xl-9'>"
