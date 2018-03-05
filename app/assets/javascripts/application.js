@@ -11,9 +11,9 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery.min
-//= require jquery.easing.min
-//= require jquery.bxslider.min
+//= require jquery.min.js
+//= require jquery.easing.min.js
+//= require jquery.bxslider.min.js
 //= require jquery.turbolinks
 //= require jquery_ujs
 //= require bootstrap-switch  
@@ -27,6 +27,6 @@
 //= require moment 
 //= require fullcalendar
 //= require fullcalendar/gcal
-//= require custom
-//= require wow
+//= require custom.js
+//= require wow.js
 //= require_tree .
