@@ -14,7 +14,7 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require popper
-//= require bootstrap
+//= require bootstrap.min
 //= require bootstrap-sprockets
 //= require bootstrap-datepicker
 //= require bootstrap-slider
