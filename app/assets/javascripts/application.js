@@ -13,8 +13,14 @@
 //= require jquery 
 //= require jquery_ujs
 //= require popper
-//= require turbolinks
 //= require bootstrap
 //= require bootstrap-sprockets
 //= require bootstrap-datepicker
 //= require bootstrap-slider
+
+//= require custom.js
+//= require bootstrap.min
+//= require jquery.bxslider.min
+//= require jquery.easing.min
+//= require jquery.min
+//= require wow
