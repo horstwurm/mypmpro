@@ -20,10 +20,3 @@
 //= require bootstrap-slider
 //= require owl.carousel
 //= require bxslider
-
-//= require custom.js
-//= require bootstrap.min
-//= require jquery.bxslider.min
-//= require jquery.easing.min
-//= require jquery.min
-//= require wow
