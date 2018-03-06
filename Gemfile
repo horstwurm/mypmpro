@@ -46,6 +46,8 @@ gem 'figaro'
 gem 'writeexcel'
 gem 'creek'
 
+gem 'bxslider-rails'
+
 gem 'rails-i18n'
 
 group :development, :test do

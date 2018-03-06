@@ -12,11 +12,14 @@
 //
 //= require jquery 
 //= require jquery_ujs
+//= require turbolinks
 //= require popper
 //= require bootstrap
 //= require bootstrap-sprockets
 //= require bootstrap-datepicker
 //= require bootstrap-slider
+//= require owl.carousel
+//= require bxslider
 
 //= require custom.js
 //= require bootstrap.min

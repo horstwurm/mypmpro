@@ -1923,7 +1923,7 @@ def action_buttons4(object_type, item, topic)
             end
             #html_string = html_string + '<li class="nav-item">'
               html_string = html_string + link_to(new_webmaster_path(:object_name => "User", :object_id => item.id, :user_id => current_user.id)) do
-                content_tag(:i, " " + (I18n.t :fraud), class: "btn btn-warning fa fa-eye-open orange")
+                content_tag(:i, " " + (I18n.t :fraud), class: "btn btn-warning fa fa-ban orange")
               end
             #html_string = html_string + '</li>'
             if $activeapps.include?("personen_transaktionen") or isdeputy(item) or current_user.superuser
@@ -2065,7 +2065,7 @@ def action_buttons4(object_type, item, topic)
               end
             end
             html_string = html_string + link_to(new_webmaster_path(:object_name => "Company", :object_id => item.id, :user_id => current_user.id)) do
-              content_tag(:i, " " + (I18n.t :fraud), class: "btn btn-warning fa fa-eye-open orange")
+              content_tag(:i, " " + (I18n.t :fraud), class: "btn btn-warning fa fa-ban orange")
             end
             if $activeapps.include?("institutionen_favoriten") or current_user.superuser
               if (item.user_id == current_user.id) or isdeputy(item) or current_user.superuser
@@ -2171,7 +2171,7 @@ def action_buttons4(object_type, item, topic)
                    end
                end
                html_string = html_string + link_to(new_webmaster_path(:object_name => "Mobject", :object_id => item.id, :user_id => current_user.id)) do
-                  content_tag(:i, " " + (I18n.t :fraud), class: "btn btn-warning fa fa-eye-open orange")
+                  content_tag(:i, " " + (I18n.t :fraud), class: "btn btn-warning fa fa-ban orange")
                end
              end
 
@@ -2427,7 +2427,7 @@ def action_buttons3(object_type, item, topic)
               end
             end
             html_string = html_string + link_to(new_webmaster_path(:object_name => "User", :object_id => item.id, :user_id => current_user.id)) do
-              content_tag(:i, " " + (I18n.t :fraud), class: "fa fa-eye-open orange")
+              content_tag(:i, " " + (I18n.t :fraud), class: "fa fa-ban orange")
             end
             if $activeapps.include?("personen_transaktionen") or isdeputy(item) or current_user.superuser
               html_string = html_string + link_to(listaccount_index_path(:user_id => current_user.id, :user_id_ver => item.id, :company_id_ver => nil, :ref => (I18n.t :verguetungan)+item.name + " " + item.lastname, :object_name => "User", :object_id => item.id, :amount => nil)) do
@@ -2558,7 +2558,7 @@ def action_buttons3(object_type, item, topic)
               end
             end
             html_string = html_string + link_to(new_webmaster_path(:object_name => "Company", :object_id => item.id, :user_id => current_user.id)) do
-              content_tag(:i, " " + (I18n.t :fraud), class: "fa fa-eye-open orange")
+              content_tag(:i, " " + (I18n.t :fraud), class: "fa fa-ban orange")
             end
             if $activeapps.include?("institutionen_favoriten") or current_user.superuser
               if (item.user_id == current_user.id) or isdeputy(item) or current_user.superuser
@@ -2664,7 +2664,7 @@ def action_buttons3(object_type, item, topic)
                    end
                end
                html_string = html_string + link_to(new_webmaster_path(:object_name => "Mobject", :object_id => item.id, :user_id => current_user.id)) do
-                  content_tag(:i, " " + (I18n.t :fraud), class: "fa fa-eye-open orange")
+                  content_tag(:i, " " + (I18n.t :fraud), class: "fa fa-ban orange")
                end
              end
 
