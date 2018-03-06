@@ -55,24 +55,27 @@
                       <%= f.label I18n.t :kalender %>
                     </div>
                     <% end %>
-                    <span class="switch switch-lg">
-                      <%= f.check_box :anonymous, :id => "anonym", class:"switch anonym" %>
-                      <label for="anonym"><%= f.label I18n.t :anonym %></label>
-                     </span>
-                     <br>
-                    <span class="switch switch-lg">
-                      <%= f.check_box :calendar, :id => "calendar", class:"switch calendar" %>
-                      <label for="calendar"><%= f.label I18n.t :kalender %></label>
-                     </span>
+                    <label class="switch">
+                        <%= f.check_box :anonymous, class:"sliders round" %>
+                        <span class="sliders round"></span>
+                    </label>
+                    <%= f.label I18n.t :anonym %>    
+                    <br>
+                    <label class="switch">
+                        <%= f.check_box :calendar, class:"sliders round" %>
+                        <span class="sliders round"></span>
+                    </label>
+                    <%= f.label I18n.t :kalender %> 
                       <slider>
                         <b><%= I18n.t :uhrzeitvonbis %></b> <input id="ex2" type="text" class="span2" value="" data-slider-min="0" data-slider-max="24" data-slider-step="1" data-slider-value="[<%= @user.time_from %>,<%= @user.time_to %>]"/>
                       </slider>
                       <br><br>
                     <% if current_user.superuser %>
-                        <span class="switch switch-lg">
-                          <%= f.check_box :webmaster, :id => "webmaster", class:"switch webmaster" %>
-                          <label for="webmaster"><%= f.label I18n.t :webmaster %></label>
-                         </span>
+                        <label class="switch">
+                            <%= f.check_box :webmaster, class:"sliders round" %>
+                            <span class="sliders round"></span>
+                        </label>
+                        <%= f.label I18n.t :webmaster %> 
                          <br>
                          <% if false %>
                          <div class="form-group">
@@ -103,10 +106,11 @@
                        <%= f.label I18n.t :organisation %>
                        <%= f.text_field :org, class:"form-control" %>
                     </div>
-                    <span class="switch switch-lg">
-                      <%= f.check_box :active, :id => "active", class:"switch active" %>
-                      <label for="active"><%= f.label I18n.t :active %></label>
-                     </span>
+                    <label class="switch">
+                        <%= f.check_box :active, class:"sliders round" %>
+                        <span class="sliders round"></span>
+                    </label>
+                    <%= f.label I18n.t :active %> 
                      <br>
                      <% if false %>
                     <div class="form-group">

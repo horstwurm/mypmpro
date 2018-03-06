@@ -24,18 +24,25 @@
         <%= f.label I18n.t :remember_me %>
       </div>
       <% end %>
-      
-                    <span class="form-group switch switch-lg">
-                      <%= f.check_box :remember_me, :id => "me", class:"switch me" %>
-                      <label for="me"><%= f.label I18n.t :remember_me %></label>
-                    </span>
+      <label class="switch">
+          <%= f.check_box :remember_me, class:"sliders round" %>
+          <span class="sliders round"></span>
+      </label>
+      <%= f.label I18n.t :remember_me %> 
       <br><br>
       <div class="actions">
             <%= f.submit (I18n.t :anmelden), class:"btn btn-primary btn-lg btn-submit" %>
+            <%- if Devise.mappings[:user].recoverable? && controller_path != 'passwords' && controller_path != 'registrations' && $usemailgun %>
+              <%= link_to(new_password_path(@devise_mapping.name)) do %>
+          		  <i class="btn btn-submit btn-lg"><%= I18n.t :forgotpw %></i>
+          		<% end %>
+            <% end -%>
       </div>
+      <% if false %>
       <%- if Devise.mappings[:user].recoverable? && controller_path != 'passwords' && controller_path != 'registrations' && $usemailgun %>
         <%= link_to (I18n.t :forgotpw), new_password_path(@devise_mapping.name) %>
       <% end -%>
+      <% end %>
     <% end %>
     <% render "devise/shared/links" %>
   </div>

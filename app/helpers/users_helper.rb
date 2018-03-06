@@ -3251,9 +3251,9 @@ def build_kachel_access(topic, mode, user)
   
     if mode == "system"
       if a.access
-          thumbnail_state = 'fa fa-ok-sign ac'
+          thumbnail_state = 'fa fa-check ac'
         else
-          thumbnail_state = 'fa fa-remove-sign noac'
+          thumbnail_state = 'fa fa-ban noac'
       end
       cpath = appparams_path(:id => a.id)
     end
