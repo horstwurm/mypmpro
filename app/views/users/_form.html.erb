@@ -49,10 +49,16 @@
                       <input type="checkbox" name="my-checkbox2" checked>
                       <%= f.label I18n.t :anonym %>
                     </div>
+                    <% if false %>
                     <div class="form-group">
                       <input type="checkbox" name="my-checkbox1" checked>
                       <%= f.label I18n.t :kalender %>
                     </div>
+                    <% end %>
+                    <span class="switch switch-lg">
+                      <%= f.check_box :calendar, :id => "calendar", class:"switch calendar" %>
+                      <label for="calendar"><%= f.label I18n.t :kalender %></label>
+                     </div>
                       <slider>
                         <b><%= I18n.t :uhrzeitvonbis %></b> <input id="ex2" type="text" class="span2" value="" data-slider-min="0" data-slider-max="24" data-slider-step="1" data-slider-value="[<%= @user.time_from %>,<%= @user.time_to %>]"/>
                       </slider>
@@ -101,7 +107,7 @@
                     </div>
                 </div>
                     <div>
-                       <%= f.check_box :calendar, :id => "calendar", class:"form-control hidden" %>
+                       <%= f.check_box :calendar, :id => "calendar", class:"form-control hidden" if false %>
                        <%= f.check_box :anonymous, :id => "anonymous", class:"form-control hidden"%>
                        <%= f.check_box :active, :id => "active", class:"form-control hidden" %>
                        <%= f.check_box :webmaster, :id => "webmaster", class:"form-control hidden"%>
