@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="panel-body">
+                <div class="panel-body ueberschrift">
                     <div class="form-group">
                        <%= f.label I18n.t :picture %><br>
                        <%= image_tag @user.avatar.url(:medium) %><br>
@@ -45,29 +45,41 @@
                         <div class="input-group-addon"> <%= I18n.t :datum %></div>
                       </div>
                     </div>
+                    <% if false %>
                     <div class="form-group">
                       <input type="checkbox" name="my-checkbox2" checked>
                       <%= f.label I18n.t :anonym %>
                     </div>
-                    <% if false %>
                     <div class="form-group">
                       <input type="checkbox" name="my-checkbox1" checked>
                       <%= f.label I18n.t :kalender %>
                     </div>
                     <% end %>
                     <span class="switch switch-lg">
+                      <%= f.check_box :anonymous, :id => "anonym", class:"switch anonym" %>
+                      <label for="anonym"><%= f.label I18n.t :anonym %></label>
+                     </span>
+                     <br>
+                    <span class="switch switch-lg">
                       <%= f.check_box :calendar, :id => "calendar", class:"switch calendar" %>
                       <label for="calendar"><%= f.label I18n.t :kalender %></label>
-                     </div>
+                     </span>
                       <slider>
                         <b><%= I18n.t :uhrzeitvonbis %></b> <input id="ex2" type="text" class="span2" value="" data-slider-min="0" data-slider-max="24" data-slider-step="1" data-slider-value="[<%= @user.time_from %>,<%= @user.time_to %>]"/>
                       </slider>
                       <br><br>
                     <% if current_user.superuser %>
-                        <div class="form-group">
+                        <span class="switch switch-lg">
+                          <%= f.check_box :webmaster, :id => "webmaster", class:"switch webmaster" %>
+                          <label for="webmaster"><%= f.label I18n.t :webmaster %></label>
+                         </span>
+                         <br>
+                         <% if false %>
+                         <div class="form-group">
                           <input type="checkbox" name="my-checkbox4" checked>
                           <%= f.label I18n.t :webmaster %>
                         </div>
+                        <% end %>
                     <% end %>
                     <div class="form-group">
                        <%= f.label I18n.t :adresse%>
@@ -91,26 +103,35 @@
                        <%= f.label I18n.t :organisation %>
                        <%= f.text_field :org, class:"form-control" %>
                     </div>
+                    <span class="switch switch-lg">
+                      <%= f.check_box :active, :id => "active", class:"switch active" %>
+                      <label for="active"><%= f.label I18n.t :active %></label>
+                     </span>
+                     <br>
+                     <% if false %>
                     <div class="form-group">
                       <input type="checkbox" name="my-checkbox3" checked>
                       <%= f.label I18n.t :active %>
                     </div>
+                    <% end %>
                      <%= f.hidden_field :status, class:"form-control" %>
                      <%= f.hidden_field :geo_address, class:"form-control" %>
                      <%= f.hidden_field :longitude, class:"form-control" %>
                      <%= f.hidden_field :latitude, class:"form-control" %>
                     <div class="actions">
-                      <%= f.submit "Speichern", class:"btn btn-primary btn-lg"%>
+                      <%= f.submit "Speichern", class:"btn btn-primary btn-lg btn-submit"%>
                       <%= link_to @user do %>
-                        <i class="btn btn-default btn-lg">Abbrechen</i>
+                        <i class="btn btn-default btn-lg btn-submit">Abbrechen</i>
                       <% end %>
                     </div>
                 </div>
                     <div>
-                       <%= f.check_box :calendar, :id => "calendar", class:"form-control hidden" if false %>
+                       <% if false %>
+                       <%= f.check_box :calendar, :id => "calendar", class:"form-control hidden" %>
                        <%= f.check_box :anonymous, :id => "anonymous", class:"form-control hidden"%>
                        <%= f.check_box :active, :id => "active", class:"form-control hidden" %>
                        <%= f.check_box :webmaster, :id => "webmaster", class:"form-control hidden"%>
+                       <% end %>
                        <%= f.number_field :time_from, :id => "from",  class:"form-control hidden" %>
                        <%= f.number_field :time_to, :id => "to", class:"form-control hidden" %>
                     </div>
@@ -187,7 +208,7 @@
     $('#user_dateofbirth').datepicker({
         format: "yyyy-mm-dd",
         weekStart: 1,
-        language: "en",
+        language: "de",
         daysOfWeekHighlighted: "0,6",
         todayBtn: true,
         todayHighlight: true,

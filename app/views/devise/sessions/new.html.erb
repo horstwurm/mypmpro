@@ -9,10 +9,6 @@
       <br><br>
       <%= form_for(resource, as: resource_name, url: session_path(resource_name), class:"contactForm") do |f| %>
       <%= devise_error_messages! %>
-                  <div class="form-group">
-                    <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
-                    <div class="validation"></div>
-                  </div>
       <div class="form-group">
         <%= f.label I18n.t :email %>
         <%= f.email_field :email, autofocus: true, class:"form-control"%>
@@ -21,11 +17,19 @@
         <%= f.label I18n.t :password %>
         <%= f.password_field :password, autocomplete: "off", class:"form-control"%>
       </div>
+      <% if false %>
       <div class="form-group">
         <input type="checkbox" name="my-checkbox" checked>
         <%= f.hidden_field :remember_me, class:"form-control hidden"  %>
         <%= f.label I18n.t :remember_me %>
       </div>
+      <% end %>
+      
+                    <span class="form-group switch switch-lg">
+                      <%= f.check_box :remember_me, :id => "me", class:"switch me" %>
+                      <label for="me"><%= f.label I18n.t :remember_me %></label>
+                    </span>
+      <br><br>
       <div class="actions">
             <%= f.submit (I18n.t :anmelden), class:"btn btn-primary btn-lg btn-submit" %>
       </div>
@@ -38,6 +42,7 @@
 </div>
 
 </div>
+<% if false %>
 <script>
     $.fn.bootstrapSwitch.defaults.onColor = 'primary';
     $("[name='my-checkbox']").bootstrapSwitch('state',true);
@@ -45,3 +50,4 @@
     $("#remember_me").prop('checked',$("[name='my-checkbox']").bootstrapSwitch('state'));
     });
 </script>
+<% end %>
