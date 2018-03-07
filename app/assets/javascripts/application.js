@@ -21,4 +21,3 @@
 //= require owl.carousel
 //= require bxslider
 //= require bootstrap-switch
-

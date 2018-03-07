@@ -45,7 +45,8 @@
                         <div class="input-group-addon"> <%= I18n.t :datum %></div>
                       </div>
                     </div>
-                    <div class="form-group">
+
+                     <div class="form-group">
                       <input type="checkbox" name="my-checkbox2" checked>
                       <%= f.label I18n.t :anonym %>
                     </div>
@@ -53,8 +54,9 @@
                       <input type="checkbox" name="my-checkbox1" checked>
                       <%= f.label I18n.t :kalender %>
                     </div>
+
                     <% if false %>
-                    <label class="switch">
+                   <label class="switch">
                         <%= f.check_box :anonymous, class:"sliders round" %>
                         <span class="sliders round"></span>
                     </label>
@@ -65,7 +67,13 @@
                         <span class="sliders round"></span>
                     </label>
                     <%= f.label I18n.t :kalender %> 
+                    <%= f.check_box :anonymous, class:"checkboxForm" %>
+                    <%= f.label I18n.t :anonym %> 
+                    <br>
+                    <%= f.check_box :calendar, class:"checkboxForm",  :name => 'my-checkbox1' %>
+                    <%= f.label I18n.t :ckalender %> 
                     <% end %>
+                    
                       <slider>
                         <b><%= I18n.t :uhrzeitvonbis %></b> <input id="ex2" type="text" class="span2" value="" data-slider-min="0" data-slider-max="24" data-slider-step="1" data-slider-value="[<%= @user.time_from %>,<%= @user.time_to %>]"/>
                       </slider>
@@ -130,7 +138,7 @@
                     </div>
                 </div>
                     <div>
-                       <% if false %>
+                       <% if true %>
                        <%= f.check_box :calendar, :id => "calendar", class:"form-control hidden" %>
                        <%= f.check_box :anonymous, :id => "anonymous", class:"form-control hidden"%>
                        <%= f.check_box :active, :id => "active", class:"form-control hidden" %>
