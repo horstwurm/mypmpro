@@ -45,7 +45,6 @@
                         <div class="input-group-addon"> <%= I18n.t :datum %></div>
                       </div>
                     </div>
-                    <% if false %>
                     <div class="form-group">
                       <input type="checkbox" name="my-checkbox2" checked>
                       <%= f.label I18n.t :anonym %>
@@ -54,7 +53,7 @@
                       <input type="checkbox" name="my-checkbox1" checked>
                       <%= f.label I18n.t :kalender %>
                     </div>
-                    <% end %>
+                    <% if false %>
                     <label class="switch">
                         <%= f.check_box :anonymous, class:"sliders round" %>
                         <span class="sliders round"></span>
@@ -66,23 +65,24 @@
                         <span class="sliders round"></span>
                     </label>
                     <%= f.label I18n.t :kalender %> 
+                    <% end %>
                       <slider>
                         <b><%= I18n.t :uhrzeitvonbis %></b> <input id="ex2" type="text" class="span2" value="" data-slider-min="0" data-slider-max="24" data-slider-step="1" data-slider-value="[<%= @user.time_from %>,<%= @user.time_to %>]"/>
                       </slider>
                       <br><br>
                     <% if current_user.superuser %>
+                         <% if false %>
                         <label class="switch">
                             <%= f.check_box :webmaster, class:"sliders round" %>
                             <span class="sliders round"></span>
                         </label>
                         <%= f.label I18n.t :webmaster %> 
+                        <% end %>
                          <br>
-                         <% if false %>
                          <div class="form-group">
                           <input type="checkbox" name="my-checkbox4" checked>
                           <%= f.label I18n.t :webmaster %>
                         </div>
-                        <% end %>
                     <% end %>
                     <div class="form-group">
                        <%= f.label I18n.t :adresse%>
@@ -106,18 +106,18 @@
                        <%= f.label I18n.t :organisation %>
                        <%= f.text_field :org, class:"form-control" %>
                     </div>
+                     <% if false %>
                     <label class="switch">
                         <%= f.check_box :active, class:"sliders round" %>
                         <span class="sliders round"></span>
                     </label>
                     <%= f.label I18n.t :active %> 
+                    <% end %>
                      <br>
-                     <% if false %>
                     <div class="form-group">
                       <input type="checkbox" name="my-checkbox3" checked>
                       <%= f.label I18n.t :active %>
                     </div>
-                    <% end %>
                      <%= f.hidden_field :status, class:"form-control" %>
                      <%= f.hidden_field :geo_address, class:"form-control" %>
                      <%= f.hidden_field :longitude, class:"form-control" %>
