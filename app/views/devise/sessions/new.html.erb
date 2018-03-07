@@ -17,14 +17,12 @@
         <%= f.label I18n.t :password %>
         <%= f.password_field :password, autocomplete: "off", class:"form-control"%>
       </div>
-        <%= f.check_box :remember_me, class:"checkboxForm"%>
-        <%= f.label I18n.t :remember_me %>
-    <% if false %>
       <div class="form-group">
         <input type="checkbox" name="my-checkbox" checked>
         <%= f.label I18n.t :remember_me %>
       </div>
         <%= f.hidden_field :remember_me, class:"form-control hidden"  %>
+        <% if false %>
       <label class="switch">
           <%= f.check_box :remember_me, class:"sliders round" %>
           <span class="sliders round"></span>
@@ -53,7 +51,7 @@
 </div>
 
 <script>
-    $.fn.bootstrapSwitch.defaults.onColor = 'primary';
+    $.fn.bootstrapSwitch.defaults.onColor = 'mycolor';
     $("[name='my-checkbox']").bootstrapSwitch('state',true);
     $("[name='my-checkbox']").on('switchChange.bootstrapSwitch', function () {
     $("#remember_me").prop('checked',$("[name='my-checkbox']").bootstrapSwitch('state'));

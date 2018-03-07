@@ -192,7 +192,7 @@
     	$("#from").val(slideEvt.value[0]);
     	$("#to").val(slideEvt.value[1]);
     });
-    $.fn.bootstrapSwitch.defaults.onColor = 'success';
+    $.fn.bootstrapSwitch.defaults.onColor = 'mycolor';
     $("[name='my-checkbox1']").bootstrapSwitch('state',<%= @user.calendar %>);
     $("[name='my-checkbox1']").on('switchChange.bootstrapSwitch', function () {
     $("#calendar").prop('checked',$("[name='my-checkbox1']").bootstrapSwitch('state'));
