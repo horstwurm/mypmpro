@@ -1,16 +1,6 @@
 <% Rails.root %>
 
-<div class="row">
-    <div class='col-xs-12'>
-      <div class='panel-body'>
-         <%= link_to mobject_path(:id => @question.mobject_id, :topic => "objekte_fragen") do %>
-          <i class="btn btn-primary fa fa-list"></i>
-         <% end %><br>
-      </div>
-    </div>
-</div>
-
-<%= header("Status Frage "+@question.name, false) %>
+<%= header("Status Frage "+@question.name) %>
 
 <div class="row">
   <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
@@ -20,6 +10,10 @@
     <div id="chart3"></div>
   </div>
 </div>
+<%= link_to mobject_path(:id => @question.mobject_id, :topic => "objekte_fragen") do %>
+  <i class="btn btn-default btn-lg">Abbrechen</i>
+<% end %>
+<br><br>
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 

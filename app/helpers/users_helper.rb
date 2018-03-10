@@ -1110,13 +1110,14 @@ def build_medialistNew(items, cname, par)
 
               when "tickets"
                 if item.owner_type == "Mobject"
-                  if isowner(item.mobject)
+                  if isowner(item.owner) or isdeputy(item.owner)
+                  #if isowner(item.mobject)
                     access = true
                   end
                   if item.user_tickets and item.contingent
                     if item.user_tickets.count < item.contingent
         	            html_string = html_string + link_to(new_user_ticket_path(:ticket_id => item.id, :user_id => current_user.id)) do 
-                        content_tag(:i, nil, class:"btn btn-primary fa fa-shopping-cart")
+                        content_tag(:i, nil, class:"btn btn-primary btn-lg fa fa-shopping-cart")
                       end
                     end
                   end
@@ -1171,13 +1172,13 @@ def build_medialistNew(items, cname, par)
                   if item.mtype == "artikel"
                     if par #Artikelauswahl für Edition
                       html_string = html_string + link_to(new_edition_arcticle_path(:edition_id => par, :article_id => item.id)) do
-                        content_tag(:i, nil, class:"fa fa-pencil mediabutton")
+                        content_tag(:i, nil, class:"btn btn-primary btn-lg fa fa-pencil mediabutton")
                       end
                     end
                   end
                   if item.mtype == "umfragen"
                     html_string = html_string + link_to(user_answers_path(:mobject_id => item.id, :user_id => current_user.id)) do
-                      content_tag(:i, nil, class:"fa fa-pencil mediabutton")
+                      content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-pencil mediabutton")
                     end
                     #html_string = html_string + link_to(home_index17_path(:mobject_id => item.id)) do
                     #  content_tag(:i, nil, class:"btn btn-primary fa fa-stats")
@@ -1233,7 +1234,7 @@ def build_medialistNew(items, cname, par)
           end
 
           #kein Info button wenn kein weiterer drill down
-          if cname != "prices" and cname != "crits" and cname != "mdetails" and cname != "madvisors"
+          if cname != "prices" and cname != "crits" and cname != "mdetails" and cname != "madvisors" and cname != "tickets" and cname != "questions" and cname != "comments"
             html_string = html_string + link_to(item, :topic => "info") do 
               content_tag(:i, nil, class:"btn btn-primary btn-lg fa fa-info")
             end
@@ -1291,41 +1292,41 @@ def build_medialistNew(items, cname, par)
                 end
               when "edition_arcticles"
   	            html_string = html_string + link_to(edition_arcticles_path(:edition_id => item.edition_id, :dir => "left", :d_id => item.id)) do 
-                  content_tag(:i, nil, class:"fa fa-chevron-left mediabutton")
+                  content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-chevron-left")
                 end
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"fa fa-trash pull-right mediabutton")
+                  content_tag(:i, nil, class:"btn btn-danger btn-lg fa fa-trash pull-right")
                 end
   	            html_string = html_string + link_to(edit_edition_arcticle_path(:id => item)) do 
-                  content_tag(:i, nil, class:"fa fa-wrench mediabutton")
+                  content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-wrench mediabutton")
                 end
               when "editions"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"fa fa-trash pull-right mediabutton")
+                  content_tag(:i, nil, class:"btn btn-danger btn-lg fa fa-trash pull-right")
                 end
   	            html_string = html_string + link_to(edit_edition_path(:id => item)) do 
-                  content_tag(:i, nil, class:"fa fa-wrench mediabutton")
+                  content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-wrench")
                 end
   	            #html_string = html_string + link_to(edition_arcticles_path(:edition_id => item)) do 
                 #  content_tag(:i, nil, class:"btn btn-primary fa fa-book")
                 #end
               when "comments"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"fa fa-trash pull-right mediabutton")
+                  content_tag(:i, nil, class:"btn btn-danger btn-lg fa fa-trash pull-right")
                 end
   	            html_string = html_string + link_to(edit_comment_path(:id => item)) do 
-                  content_tag(:i, nil, class:"fa fa-wrench mediabutton")
+                  content_tag(:i, nil, class:"btn btn-primary btn-lg fa fa-wrench")
                 end
               when "tickets"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"fa fa-trash pull-right mediabutton")
+                  content_tag(:i, nil, class:"btn btn-danger btn-lg fa fa-trash pull-right")
                 end
   	            html_string = html_string + link_to(edit_ticket_path(:id => item)) do 
-                  content_tag(:i, nil, class:"fa fa-wrench mediabutton")
+                  content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-wrench")
                 end
                when "favourits"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"fa fa-trash pull-right mediabutton")
+                  content_tag(:i, nil, class:"btn btn-danger btn-lg fa fa-trash pull-right")
                 end
               when "madvisors"
                 # if par == "User"
@@ -1347,41 +1348,41 @@ def build_medialistNew(items, cname, par)
 
               when "deputies"
   	            html_string = html_string + link_to(edit_deputy_path(:id => item)) do 
-                  content_tag(:i, nil, class:"fa fa-wrench mediabutton")
+                  content_tag(:i, nil, class:"btn btn-default fa fa-wrench")
                 end
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"fa fa-trash pull-right mediabutton")
+                  content_tag(:i, nil, class:"btn btn-danger fa fa-trash pull-right")
                 end
 
               when "partners"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"fa fa-trash pull-right mediabutton")
+                  content_tag(:i, nil, class:"btn btn-danger fa fa-trash pull-right")
                 end
   	            html_string = html_string + link_to(edit_customer_path(:id => item)) do 
-                  content_tag(:i, nil, class:"fa fa-wrench mediabutton")
+                  content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-wrench")
                 end
   	            html_string = html_string + link_to(accounts_path(:customer_id => item)) do 
-                  content_tag(:i, nil, class:"fa fa-list mediabutton")
+                  content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-list")
                 end
               when "mstats"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"fa fa-trash pull-right mediabutton")
+                  content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-trash pull-right")
                 end
   	            html_string = html_string + link_to(edit_mstat_path(:id => item)) do 
-                  content_tag(:i, nil, class:"fa fa-wrench mediabutton")
+                  content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-wrench")
                 end
   	            html_string = html_string + link_to(accounts_path(:customer_id => item)) do 
-                  content_tag(:i, nil, class:"fa fa-euro mediabutton")
+                  content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-euro")
                 end
               when "nopartners"
                 if par[:user_id]
     	            html_string = html_string + link_to(new_customer_path(:user_id => par[:user_id], :partner_id => item)) do 
-                    content_tag(:i, nil, class:"fa fa-pencil mediabutton")
+                    content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-pencil")
                   end
                 end
                 if par[:company_id]
     	            html_string = html_string + link_to(new_customer_path(:company_id => par[:company_id], :partner_id => item)) do 
-                    content_tag(:i, nil, class:"fa fa-pencil mediabutton")
+                    content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-pencil")
                   end
                 end
               when "searches"
@@ -1393,13 +1394,13 @@ def build_medialistNew(items, cname, par)
                 end
               when "msponsors"
   	            html_string = html_string + link_to(tickets_path :msponsor_id => item.id) do 
-                  content_tag(:i, nil, class:"fa fa-barcode mediabutton")
+                  content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-barcode")
                 end
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"fa fa-trash pull-right mediabutton")
+                  content_tag(:i, nil, class:"btn btn-danger btn-lg fa fa-trash pull-right")
                 end
   	            html_string = html_string + link_to(edit_msponsor_path(:id => item)) do 
-                  content_tag(:i, nil, class:"fa fa-wrench mediabutton")
+                  content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-wrench")
                 end
               when "mdetails"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
@@ -1415,26 +1416,26 @@ def build_medialistNew(items, cname, par)
                 end
               when "questions"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"fa fa-trash pull-right mediabutton")
+                  content_tag(:i, nil, class:"btn btn-danger btn-lg fa fa-trash pull-right")
                 end
   	            html_string = html_string + link_to(mobject_path(:id => item.mobject_id, :topic => "objekte_fragen", :dir => "left", :q_id => item.id)) do 
-                  content_tag(:i, nil, class:"fa fa-chevron-left mediabutton")
+                  content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-chevron-left mediabutton")
                 end
   	            html_string = html_string + link_to(edit_question_path(:id => item)) do 
-                  content_tag(:i, nil, class:"fa fa-wrench mediabutton")
+                  content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-wrench mediabutton")
                 end
                 if item.mcategory.name == "multiple" or item.mcategory.name == "single"  
                   html_string = html_string + link_to(home_index16_path(:question_id => item.id)) do 
-                    content_tag(:i, nil, class:"fa fa-stats mediabutton")
+                    content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-signal")
                   end
                 end
 
               when "mratings"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"fa fa-trash pull-right mediabutton")
+                  content_tag(:i, nil, class:"btn btn-danger btn-lg fa fa-trash pull-right")
                 end
   	            html_string = html_string + link_to(edit_mrating_path(:id => item)) do 
-                  content_tag(:i, nil, class:"fa fa-wrench mediabutton")
+                  content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-wrench")
                 end
               when "transactions"
                 if item.status == "erfasst"
@@ -1449,10 +1450,10 @@ def build_medialistNew(items, cname, par)
                   #  end
                   #end
     	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                    content_tag(:i, nil, class:"fa fa-trash pull-right mediabutton")
+                    content_tag(:i, nil, class:"btn btn-danger btn-lg fa fa-trash pull-right")
                   end
     	            html_string = html_string + link_to(edit_transaction_path(:id => item)) do 
-                    content_tag(:i, nil, class:"fa fa-wrench mediabutton")
+                    content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-wrench")
                   end
                 end
                 if item.status == "freigegeben"
@@ -2397,7 +2398,7 @@ def action_buttons4(object_type, item, topic)
 end
 
 
-def action_buttons3(object_type, item, topic)
+def action_buttonsx(object_type, item, topic)
 
   html_string = '<div id="mysidenavright" class="sidenavright">'
   html_string = html_string + '<a href="javascript:void(0)" class="closebtn" onclick="closeNavRight()">&times;</a>'
@@ -3022,6 +3023,8 @@ def getinfo2(topic)
       info = "lock"
     when :kategorien
       info = "folder-open"
+    when "info"
+      info = "info"
   end
   ret = Hash.new
   ret = {"info" => info, "infotext" => infotext}
@@ -3780,52 +3783,42 @@ def build_edition(edition)
 end
 
 def build_article(article)
-#html_string = "<div class=panel-body>"
   html_string = ""
   html_string = html_string + "<div class='row'>"
 
-    article.mdetails.order(:sequence).each do |d|
-
-      if d.textoptions != "blog" and d.textoptions != "bewertung"
-      
-      html_string = html_string + "<div class='col-xs-12 col-sm-6 col-md-6 col-lg-4 xl-4'>"
-        html_string = html_string + "<div class='row'>"
+    article.mdetails.where('textoptions != ? and textoptions != ?', "blog", "bewertung").order(:sequence).each do |d|
+        html_string = html_string + "<div class='col-xs-12 col-sm-6 col-md-6 col-lg-4 xl-4'>"
+          html_string = html_string + "<div class='row'>"
           if d.avatar_file_name
             html_string = html_string + "<div class='col-xs-6 col-sm-6 col-md-6 col-lg-6'>"
               html_string = html_string + showImage2(:medium, d, false)
             html_string = html_string + "</div>"
             html_string = html_string + "<div class='col-xs-6 col-sm-6 col-md-6 col-lg-6'>"
-              html_string = html_string + "<artikel_subheader>" + d.name + "</artikel_subheader><br><br>"
+              html_string = html_string + "<h2>" + d.name + "</h2><br><br>"
             html_string = html_string + "</div>"
-            
           else
             html_string = html_string + "<div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>"
-              html_string = html_string + "<artikel_subheader>"+ d.name + "</artikel_subheader><br><br>"
+              html_string = html_string + "<h2>"+d.name + "</h2><br><br>"
             html_string = html_string + "</div>"
           end
           html_string = html_string + "<br>"
           
           case d.textoptions
             when "zitat"
-              html_string = html_string + "<artikel_quote>" + '"' + d.description + '"' + "</artikel_quote><br>"
+              html_string = html_string + '"' + d.description + '"'
             when "link"
-              html_string = html_string + "<artikel_link>"
               html_string = html_string + link_to(url_with_protocol(d.description), target: "_blank") do
                 content_tag(:div, d.description)
               end
-              html_string = html_string + "</artikel_link>"
 
             when "abstimmung"
-                html_string = html_string + "<div class='panel panel-blog'>"
-                  
+                html_string = html_string + "<div class='panel'>"
                   if user_signed_in?
                     @url = url_for(action: action_name, controller: controller_name)
                     html_string = html_string + link_to(new_mlike_path :mobject_id => article.id, :user_id => current_user.id, :like => true, :return_url => @url) do
-                      #content_tag(:i, nil, class:"btn btn-primary fa fa-plus")
                       content_tag(:span, content_tag(:b, "Ja")+content_tag(:span, article.mlikes.where('likeit=?',true).count.to_s, class:"badge"), class:"btn btn-primary fa fa-thumbs-up")
                     end
                     html_string = html_string + link_to(new_mlike_path :mobject_id => article.id, :user_id => current_user.id, :like => false, :return_url => @url) do
-                      #content_tag(:i, nil, class:"btn btn-primary fa fa-plus")
                       content_tag(:span, content_tag(:b, "Nein")+content_tag(:span, article.mlikes.where('likeit=?',false).count.to_s, class:"badge"), class:"btn btn-primary fa fa-thumbs-down")
                     end
                   else
@@ -3835,7 +3828,7 @@ def build_article(article)
                 html_string = html_string + "</div>"
               
             when "text"
-              html_string = html_string + "<artikel_content>" + d.description + "</artikel_content><br>"
+              html_string = html_string + d.description
           end
           
           if d.document_file_name
@@ -3844,73 +3837,50 @@ def build_article(article)
               content_tag(:i, nil, class:'btn btn-primary btn-xs fa fa-cloud-download')
             end
           end
-          
-        html_string = html_string + "</div><br>"
+          html_string = html_string + "</div><br>"
       html_string = html_string + "</div>"
-    end
-    end
-    
-    article.mdetails.order(:sequence).each do |d|
-      
-      html_string = html_string + "<div class='col-xs-12 col-sm-12 col-md-12 col-lg-12 xl-12'>"
+  end
+  html_string = html_string + "</div>"
+
+#return html_string.html_safe
+
+  html_string = html_string + "<div class='row'>"
+    article.mdetails.where('textoptions == ? or textoptions == ?', "blog", "bewertung").order(:sequence).each do |d|
         case d.textoptions
           when "bewertung"
-              #html_string = html_string + "<artikel_subheader>"+ d.name + "</artikel_header><br>"
-              html_string = html_string + "<div class='row'>"
-                html_string = html_string + "<div class='panel-group' id='accordionB"+article.id.to_s+"' role='tablist' aria-multiselectable='true'>"
-                  html_string = html_string + "<div class='panel panel-blog'>"
-                  
-                    html_string = html_string + "<h4 class='panel panel-blog'>"
-                      html_string = html_string + "<a role='button' data-toggle='collapse' data-parent='#accordionB"+article.id.to_s+"' href='#collapseTwoB"+article.id.to_s+"' aria-expanded='true' aria-controls='collapseOne'>"
-                        html_string = html_string + "<artikel_subheader><i class='fa fa-chevron-down'> </i>"+ d.name + "</artikel_header> "
-                        #html_string = html_string + link_to(mobject_path :mobject_id => article.id, :topic => :bewertungen) do
-                        if user_signed_in?
-                          html_string = html_string + link_to(new_mrating_path(:mobject_id => article.id, :user_id => current_user.id)) do
-                            content_tag(:i, content_tag(:i," bewerten"), class:"btn btn-primary fa fa-star")
-                          end
-                        end
-                      html_string = html_string + "</a>"
-                    html_string = html_string + "</h4>"
-                    html_string = html_string + "<div id='collapseTwoB"+article.id.to_s+"' class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingOne'>"
-                      html_string = html_string + build_medialistNew(article.mratings.order(created_at: :desc), "mratings", "User")
-                    html_string = html_string + "</div>"
-                      
+                html_string = html_string + "<div class='panel' id='accordionB"+article.id.to_s+"' role='tablist' aria-multiselectable='true'>"
+                  html_string = html_string + "<a role='button' data-toggle='collapse' data-parent='#accordionB"+article.id.to_s+"' href='#collapseTwoB"+article.id.to_s+"' aria-expanded='true' aria-controls='collapseOne'>"
+                    html_string = html_string + "<i class='fa fa-chevron-down'> </i>"+ d.name
+                    if user_signed_in?
+                      html_string = html_string + link_to(new_mrating_path(:mobject_id => article.id, :user_id => current_user.id)) do
+                        content_tag(:i, content_tag(:i," bewerten"), class:"btn btn-primary fa fa-star")
+                      end
+                    end
+                  html_string = html_string + "</a>"
+                  html_string = html_string + "<div id='collapseTwoB"+article.id.to_s+"' class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingOne'>"
+                    html_string = html_string + build_medialistNew(article.mratings.order(created_at: :desc), "mratings", "user")
                   html_string = html_string + "</div>"
                 html_string = html_string + "</div>"
-              html_string = html_string + "</div>"
 
           when "blog"
-              #html_string = html_string + "<artikel_subheader>"+ d.name + "</artikel_header><br>"
-              html_string = html_string + "<div class='row'>"
-                html_string = html_string + "<div class='panel-group' id='accordionG"+article.id.to_s+"' role='tablist' aria-multiselectable='true'>"
-                  html_string = html_string + "<div class='panel panel-blog'>"
-                  
-                    html_string = html_string + "<h4 class='panel panel-blog'>"
-                      html_string = html_string + "<a role='button' data-toggle='collapse' data-parent='#accordionG"+article.id.to_s+"' href='#collapseTwoG"+article.id.to_s+"' aria-expanded='true' aria-controls='collapseOne'>"
-                        html_string = html_string + "<artikel_subheader><i class='fa fa-chevron-down'> </i>" + d.name + "</artikel_header> "
-                        #html_string = html_string + link_to(mobject_path :mobject_id => article.id, :topic => "Blog") do
-                        if user_signed_in?
-                          html_string = html_string + link_to(new_comment_path(:mobject_id => article.id, :user_id => current_user.id)) do
-                            content_tag(:i, content_tag(:i," kommentieren"), class:"btn btn-primary fa fa-comment")
-                          end
-                        end
-                      html_string = html_string + "</a>"
-                    html_string = html_string + "</h4>"
+                html_string = html_string + "<div class='panel' id='accordionG"+article.id.to_s+"' role='tablist' aria-multiselectable='true'>"
+                  html_string = html_string + "<a role='button' data-toggle='collapse' data-parent='#accordionG"+article.id.to_s+"' href='#collapseTwoG"+article.id.to_s+"' aria-expanded='true' aria-controls='collapseOne'>"
+                    html_string = html_string + "<i class='fa fa-chevron-down'> </i>" + d.name                      
+                    if user_signed_in?
+                      html_string = html_string + link_to(new_comment_path(:mobject_id => article.id, :user_id => current_user.id)) do
+                        content_tag(:i, content_tag(:i," kommentieren"), class:"btn btn-primary fa fa-comment")
+                      end
+                    end
+                  html_string = html_string + "</a>"
                     html_string = html_string + "<div id='collapseTwoG"+article.id.to_s+"' class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingOne'>"
-                      html_string = html_string + build_medialistNew(article.comments.order(created_at: :desc), "comments", "User")
+                      html_string = html_string + build_medialistNew(article.comments.order(created_at: :desc), "comments", "user")
                     html_string = html_string + "</div>"
-                      
-                  html_string = html_string + "</div>"
                 html_string = html_string + "</div>"
-              html_string = html_string + "</div>"
-
         end
-      html_string = html_string + "</div>"        
     end
 
   html_string = html_string + "</div>"
-#html_string = html_string + "</div>"
-return html_string.html_safe
+  return html_string.html_safe
 end 
 
 

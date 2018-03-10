@@ -1,62 +1,46 @@
+  <section id="superuser" class="section-padding wow fadeIn delay-05s">
     <div class="header">
       <div class="bg-color">
         <header id="main-header">
-          <nav class="navbar navbar-default navbar-fixed-top">
-            <div class="container">
-              <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-                <a class="navbar-brand" href="#">TG<span class="logo-dec">Cloud</span></a>
-              </div>
-              <div class="collapse navbar-collapse" id="myNavbar">
-                <ul class="nav navbar-nav navbar-right">
-
-      				<% if $controller_list.include?(controller_name) and (action_name == "index") %>
-      					<% @items = url_for(action: action_name, controller: controller_name) %>
-                <li class="">
-      					<%= form_tag @items, method: 'get' do %>
-      						<div class="form-inline">
-      							<div class="form-group">
-      								  <%= search_field_tag 'search', nil, class: 'form-control', placeholder: 'Suchen...' %>
-      								  <% button_tag "", type: 'submit', class: "btn btn-nav btn-xs fa fa-search" %>
-      							</div>
-      						</div>
-      					<% end %>
-                </li>
-      				<% end %>
-
-                  <li class="active"><a href="../#main-header">Home</a></li>
-                  <li class=""><a href="../#myservices">myServices</a></li>
-                  <% if false %>
-                  <li class=""><a href="../#yield">Data</a></li>
-                  <li class=""><a href="../#feature">About</a></li>
-                  <li class=""><a href="../#service">Services</a></li>
-                  <li class=""><a href="../#portfolio">Portfolio</a></li>
-                  <% end %>
-                  <li class=""><a href="../#testimonial">Kundenfeedback</a></li>
-                  <li class=""><a href="../#blog">Blog</a></li>
-                  <li class=""><a href="../#contact">Kontakt</a></li>
-                  <li class=""><a href="../#superuser">Admin</a></li>
-                 </ul>
-              </div>
-            </div>
-          </nav>
         </header>
         <div class="wrapper">
           <div class="container">
             <div class="row">
               <div class="banner-info text-center wow fadeIn delay-05s">
-                <h1 class="bnr-title">Willkommen bei TG<span>cloud</span></h1>
-                <% if user_signed_in? %>
-                  <%= contactChip(current_user) %>
-                <% end %>
-                <br>
-               <h2 class="bnr-sub-title">Starten Sie jetzt !!</h2>
-                <p class="bnr-para">Registrieren Sie sich noch heute und profitieren Sie sofort.<br> </p>
+               <h2 class="bnr-sub-title">Systemadministration</h2>
                 <div class="brn-btn">
+                <% if user_signed_in? %>
+    					   <% if current_user.webmaster %>
+    							<%= link_to webmasters_path do %>
+          			      <i class="btn btn-download"><%= I18n.t :webmaster %></i>
+          					<% end %>
+    					   <% end %>
+    					   <% if current_user.superuser %>
+                    <%= link_to appparams_path do %>
+        				    	<i class="btn btn-download"><%= I18n.t :funktionsmgt %></i>
+        					  <% end %>
+                    <%= link_to home_index9_path do %>
+        				    	<i class="btn btn-download"><%= I18n.t :tabellenmgt %></i>
+        					  <% end %>
+        						<%= link_to home_index2_path do %>
+        				    	<i class="btn btn-download"><%= (I18n.t :userstat) %></i>
+        						<% end %>
+        						<% if current_user.id == 1 %>
+            						<%= link_to home_index17_path(:mailgunflag => true) do %>
+            				    	<i class="btn btn-more">Mailgun ON</i>
+            				    <% end %>
+            						<%= link_to home_index17_path(:mailgunflag => false) do %>
+            				    	<i class="btn btn-more">Mailgun OFF</i>
+            				    <% end %>
+            						<%= link_to iots_path do %>
+            				    	<i class="btn btn-more">IoT test</i>
+            				    <% end %>
+            						<%= link_to home_temptest_path do %>
+            				    	<i class="btn btn-more">test it</i>
+            				    <% end %>
+        					    <% end %>
+    					   <% end %>
+    					 <% end %>
                   <% if user_signed_in? %>
         					  <%= link_to(destroy_user_session_path, method: :delete) do %>
         				    	<i class="btn btn-more">Abmelden</i>
@@ -144,6 +128,7 @@
 </div>
 <br><br><br><br><br>
 <% end %>
+</section>
 
 <% if false %>
 	<%= render ("layouts/header2") %>
@@ -156,3 +141,4 @@ $(document).ready(function(){
 </script>
 
 <% end %>
+

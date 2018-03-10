@@ -120,15 +120,7 @@
                         <% end %>
                       <% end %>
                       
-                      <div class="row">
-                        <div class='col-xs-12'>
-                          <div class='panel-heading header'>
-                            <li_header> 
-                              <%= "Anzahl Teilnehmer "+useranswers.count.to_s %>
-                            </li_header>
-                          </div>
-                        </div>
-                      </div>
+                      <%= header("Anzahl Teilnehmer "+useranswers.count.to_s) %>
 
                       <div class="row">
                         
@@ -140,6 +132,7 @@
                           <div id="chartq"></div>
                         </div>
                         <% end %>
+                        <br>
  
                          <% @mobject.questions.each do |q| %>
                           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
@@ -351,7 +344,6 @@
 
               <% else %>
 
-                <br>
                	<%= build_article(@mobject) %>
 
               <% end %>

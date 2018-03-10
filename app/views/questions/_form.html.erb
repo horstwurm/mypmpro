@@ -11,18 +11,7 @@
             </div>
         <% end %>
 
-        <div class="row">
-            <div class="col-md-6">
-              <div class="panel panel-heading header">
-              <li_header>
-                <%= link_to mobject_path(:id => @question.mobject_id, :topic => "objekte_fragen") do %>
-                  <i class="btn btn-primary fa fa-list"></i>
-                <% end %>
-                <%= @question.mobject.mtype.upcase %>
-                </li_header>
-              </div>
-            </div>
-        </div>
+        <%= header(@question.mobject.mtype.upcase) %>
 
         <div class="row">
             <div class="col-md-6">
@@ -46,6 +35,9 @@
                 <%= f.hidden_field :mobject_id, class:"form-control" %>
                 <div class="actions">
                    <%= f.submit "Speichern",  class:"btn btn-primary btn-lg"%>
+                  <%= link_to mobject_path(:id => @question.mobject_id, :topic => "objekte_fragen") do %>
+                    <i class="btn btn-default btn-lg">Abbrechen</i>
+                  <% end %>
                 </div>
               </div>
           </div>

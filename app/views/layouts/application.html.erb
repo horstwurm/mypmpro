@@ -8,6 +8,8 @@
 <% $usemailgun = true %>
 <% init_apps %>
 <% $switch_color = "#ACC550" %>
+<% $graph_color = "#ACC550" %>
+<% $graph_color = "orange" %>
 <% $app_name = "myTGCloud" %>
 <% I18n.locale = :de %>
 
@@ -66,13 +68,15 @@
   
       <%= render 'layouts/portfolio' %>
 
-      <% end %>  
-  
       <%= render 'layouts/testimonial' %>
   
       <%= render 'layouts/blog' %>
+
       <%= render 'layouts/contact' %>
 
+      <% end %>  
+
+      <%= render 'layouts/superuser' %>
   
       <% flash.each do |name, msg| %>
         <% content_tag(:div, msg, class:"alert alert-warning") %>

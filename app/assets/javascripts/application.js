@@ -17,7 +17,7 @@
 //= require bootstrap.min
 //= require bootstrap-sprockets
 //= require bootstrap-datepicker
+//= require bootstrap-switch
 //= require bootstrap-slider
 //= require owl.carousel
 //= require bxslider
-//= require bootstrap-switch
