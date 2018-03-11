@@ -1847,7 +1847,6 @@ def build_nav2(domain, item, domain2, anz)
         html_string = html_string + link_to(user_path(:id => item.id, :topic => domain2)) do
           content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]) 
         end
-
       when "institutionen"
         html_string = '<class="dropdown-item">'
         html_string = link_to(company_path(:id => item.id, :topic => domain2)) do
@@ -2949,8 +2948,8 @@ def getinfo2(topic)
       info = "blackboard"
     when :angebote
       info = "shopping-cart"
-    when :angebotestandard, :info
-      info = "info-sign"
+    when :angebotestandard
+      info = "ban"
     when :angeboteaktion, :aktionen, :kalenderaktionen
       info = "exclamation-sign"
     when :stellenanzeigen, :kalenderstellenanzeigen
@@ -2998,7 +2997,7 @@ def getinfo2(topic)
     when :projektdashboard, :aktivitaeten, :cfstatistik
       info = "dashboard"
     when :auftragscontrolling
-      info = "eye-open"
+      info = "cube"
     when :substruktur
       info = "cog"
     when :fragen
@@ -3023,8 +3022,8 @@ def getinfo2(topic)
       info = "lock"
     when :kategorien
       info = "folder-open"
-    when "info"
-      info = "info"
+    when :info
+      info = "bookmark"
   end
   ret = Hash.new
   ret = {"info" => info, "infotext" => infotext}
