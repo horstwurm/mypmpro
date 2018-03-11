@@ -9,53 +9,39 @@
               <div class="banner-info text-center wow fadeIn delay-05s">
                <h2 class="bnr-sub-title">Systemadministration</h2>
                 <div class="brn-btn">
-                <% if user_signed_in? %>
-    					   <% if current_user.webmaster %>
-    							<%= link_to webmasters_path do %>
-          			      <i class="btn btn-download"><%= I18n.t :webmaster %></i>
-          					<% end %>
-    					   <% end %>
-    					   <% if current_user.superuser %>
-                    <%= link_to appparams_path do %>
-        				    	<i class="btn btn-download"><%= I18n.t :funktionsmgt %></i>
-        					  <% end %>
-                    <%= link_to home_index9_path do %>
-        				    	<i class="btn btn-download"><%= I18n.t :tabellenmgt %></i>
-        					  <% end %>
-        						<%= link_to home_index2_path do %>
-        				    	<i class="btn btn-download"><%= (I18n.t :userstat) %></i>
-        						<% end %>
-        						<% if current_user.id == 1 %>
-            						<%= link_to home_index17_path(:mailgunflag => true) do %>
-            				    	<i class="btn btn-more">Mailgun ON</i>
-            				    <% end %>
-            						<%= link_to home_index17_path(:mailgunflag => false) do %>
-            				    	<i class="btn btn-more">Mailgun OFF</i>
-            				    <% end %>
-            						<%= link_to iots_path do %>
-            				    	<i class="btn btn-more">IoT test</i>
-            				    <% end %>
-            						<%= link_to home_temptest_path do %>
-            				    	<i class="btn btn-more">test it</i>
-            				    <% end %>
-        					    <% end %>
-    					   <% end %>
-    					 <% end %>
                   <% if user_signed_in? %>
-        					  <%= link_to(destroy_user_session_path, method: :delete) do %>
-        				    	<i class="btn btn-more">Abmelden</i>
-        					  <% end %>
-        					<% else %>
-        					  <%= link_to new_user_registration_path do %>
-        				    	<i class="btn btn-download">Registrieren</i>
-        					  <% end %>
-          					<%= link_to new_user_session_path do %>
-          			      <i class="btn btn-more">Anmelden</i>
-          					<% end %> 
-                  <% end %>
-                </div>
-                <div class="overlay-detail">
-                  <a href="#yield"><i class="fa fa-angle-down"></i></a>
+      					   <% if current_user.webmaster %>
+      							<%= link_to webmasters_path do %>
+            			      <i class="btn btn-download"><%= I18n.t :webmaster %></i>
+            					<% end %>
+      					   <% end %>
+      					   <% if current_user.superuser %>
+                      <%= link_to appparams_path do %>
+          				    	<i class="btn btn-download"><%= I18n.t :funktionsmgt %></i>
+          					  <% end %>
+                      <%= link_to home_index9_path do %>
+          				    	<i class="btn btn-download"><%= I18n.t :tabellenmgt %></i>
+          					  <% end %>
+          						<%= link_to home_index2_path do %>
+          				    	<i class="btn btn-download"><%= (I18n.t :userstat) %></i>
+          						<% end %>
+          						<br>
+          						<% if current_user.id == 1 %>
+              						<%= link_to home_index17_path(:mailgunflag => true) do %>
+              				    	<i class="btn btn-more">Mailgun ON</i>
+              				    <% end %>
+              						<%= link_to home_index17_path(:mailgunflag => false) do %>
+              				    	<i class="btn btn-more">Mailgun OFF</i>
+              				    <% end %>
+              						<%= link_to iots_path do %>
+              				    	<i class="btn btn-more">IoT test</i>
+              				    <% end %>
+              						<%= link_to home_temptest_path do %>
+              				    	<i class="btn btn-more">test it</i>
+              				    <% end %>
+          					    <% end %>
+      					   <% end %>
+      					 <% end %>
                 </div>
               </div>
             </div>
