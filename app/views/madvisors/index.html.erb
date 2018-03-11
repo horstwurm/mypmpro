@@ -50,55 +50,55 @@
                       <% end %>
                     <% else %>
                       <%= link_to madvisors_path :delete_madvisor_id => u.id, :page => session[:page], :mobject_id => @mobject.id do %>
-                        <i class="btn btn-danger fa fa-remove-sign"></i>
+                        <i class="btn btn-danger fa fa-ban"></i>
                       <% end %>
                     <% end %>
                   <% when "projekte" %>
                     <% if !grade %>
                       <%= link_to madvisors_path :senior_madvisor_id => u.id, :page => session[:page], :mobject_id => @mobject.id  do %>
-                        <i class="btn btn-primary fa fa-king"></i>
+                        <i class="btn btn-primary fa fa-user-plus"></i>
                       <% end %>
                       <%= link_to madvisors_path :madvisor_id => u.id, :page => session[:page], :mobject_id => @mobject.id  do %>
-                        <i class="btn btn-primary fa fa-pawn"></i>
+                        <i class="btn btn-primary fa fa-child"></i>
                       <% end %>
                     <% else %>
                       <%= link_to madvisors_path :delete_madvisor_id => u.id, :page => session[:page], :mobject_id => @mobject.id do %>
-                        <i class="btn btn-danger fa fa-remove-sign"></i>
+                        <i class="btn btn-danger fa fa-ban"></i>
                       <% end %>
                     <% end %>
                   <% when "gruppen" %>
                     <% if !grade %>
                       <% if false %>
                       <%= link_to madvisors_path :senior_madvisor_id => u.id, :page => session[:page], :mobject_id => @mobject.id  do %>
-                        <i class="btn btn-primary fa fa-king"></i>
+                        <i class="btn btn-primary fa fa-user-plus"></i>
                       <% end %>
                       <% end %>
                       <%= link_to madvisors_path :madvisor_id => u.id, :page => session[:page], :mobject_id => @mobject.id  do %>
-                        <i class="btn btn-primary fa fa-pawn"></i>
+                        <i class="btn btn-primary fa fa-child"></i>
                       <% end %>
                     <% else %>
                       <%= link_to madvisors_path :delete_madvisor_id => u.id, :page => session[:page], :mobject_id => @mobject.id do %>
-                        <i class="btn btn-danger fa fa-remove-sign"></i>
+                        <i class="btn btn-danger fa fa-ban"></i>
                       <% end %>
                     <% end %>
                   <% when "innovationswettbewerbe" %>
                     <% if !grade %>
                       <%= link_to madvisors_path :senior_madvisor_id => u.id, :page => session[:page], :mobject_id => @mobject.id  do %>
-                        <i class="btn btn-primary fa fa-king"></i>
+                        <i class="btn btn-primary fa fa-user-plus"></i>
                       <% end %>
                       <%= link_to madvisors_path :madvisor_id => u.id, :page => session[:page], :mobject_id => @mobject.id  do %>
-                        <i class="btn btn-primary fa fa-pawn"></i>
+                        <i class="btn btn-primary fa fa-child"></i>
                       <% end %>
                     <% else %>
                       <%= link_to madvisors_path :delete_madvisor_id => u.id, :page => session[:page], :mobject_id => @mobject.id do %>
-                        <i class="btn btn-danger fa fa-remove-sign"></i>
+                        <i class="btn btn-danger fa fa-ban"></i>
                       <% end %>
                     <% end %>
                   <% else %>
                     <% if !grade %>
                     <% else %>
                       <%= link_to madvisors_path :delete_madvisor_id => u.id, :page => session[:page], :mobject_id => @mobject.id do %>
-                        <i class="btn btn-danger fa fa-remove-sign"></i>
+                        <i class="btn btn-danger fa fa-ban"></i>
                       <% end %>
                     <% end %>
                 <% end %>
