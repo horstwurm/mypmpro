@@ -24,7 +24,6 @@ gem 'sprockets-rails'
 gem 'devise'
 gem 'geocoder'
 gem 'gmaps4rails'
-gem 'paperclip'
 gem 'will_paginate'
 gem 'bootstrap-slider-rails'
 gem "bootstrap-switch-rails"
@@ -37,7 +36,9 @@ gem 'momentjs-rails'
 gem 'jquery-turbolinks'
 gem "font-awesome-rails"
 
-gem 'aws-sdk', '~>2.3'
+gem 'paperclip'
+gem 'aws-sdk-s3', '~>1'
+
 gem 'rqrcode-with-patches', '~> 0.5.4'
 gem 'rqrcode_png'
 gem 'mailgun-ruby', '~>1.1.6'
