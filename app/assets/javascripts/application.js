@@ -21,3 +21,6 @@
 //= require bootstrap-slider
 //= require owl.carousel
 //= require bxslider
+//= require moment 
+//= require fullcalendar
+//= require_tree .

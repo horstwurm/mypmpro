@@ -30,10 +30,13 @@ gem 'bootstrap-slider-rails'
 gem "bootstrap-switch-rails"
 gem 'bootstrap-datepicker-rails'
 gem 'owlcarousel-rails'
-gem 'fullcalendar.io-rails'
+
+gem 'fullcalendar-rails'
 gem 'momentjs-rails'
+
 gem 'jquery-turbolinks'
 gem "font-awesome-rails"
+
 gem 'aws-sdk', '~>2.3'
 gem 'rqrcode-with-patches', '~> 0.5.4'
 gem 'rqrcode_png'

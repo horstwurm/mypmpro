@@ -56,7 +56,10 @@
 
       <%= render 'layouts/header' %>
   
-      <%= yield %>
+      <section id="yield">
+        <br><br><br><br>
+        <%= yield %>
+      </section>
 
       <% if false %>
   
@@ -75,6 +78,8 @@
       <%= render 'layouts/contact' %>
 
       <% end %>  
+
+      <%= render 'layouts/partner' %>
 
       <%= render 'layouts/superuser' %>
   
@@ -120,3 +125,9 @@
   myFunction();
   </script>
 <% end %>
+
+<script>
+function scrollTo(hash) {
+    location.hash = "#yield";
+}
+</script>

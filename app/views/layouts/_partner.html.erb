@@ -1,0 +1,42 @@
+  <section id="partner" class="section-padding wow fadeIn delay-05s">
+    <div class="header">
+      <div class="bg-color">
+        <div class="wrapper">
+          <div class="container">
+            <div class="row">
+              <div class="banner-info text-center wow fadeIn delay-05s">
+               <h2 class="bnr-sub-title">Unsere Partner</h2>
+                <p class="bnr-para">Unterstützen Sie TGCloud und werden Sie Partner. Sie profitieren von zahlreichen Mehrwertservices<br> </p>
+                <div class="brn-btn">
+					<% @p = Company.where('partner=? and name=?',true,"Thurgauer Kantonalbank") if false %>
+					<% @p = Company.where('partner=?',true) %>
+					<% @p.each do |p| %>
+						<% if p.partner_links %>
+							<% anz = p.partner_links.where('active=?',true).count %>
+							<% if anz > 0 %>
+				                <h3 class="bnr-sub-title"><%= p.name %></h3>
+								<% random = Random.new(Time.new.to_i) %>
+								<% r = random.rand(anz) + 1 %>
+								<% counter = 0 %>
+								<% p.partner_links.where('active=?',true).each do |pl| %>
+								  <% counter = counter + 1 %>
+								  <% if pl.link and counter == r or 2>1 %>
+						    	      <%= link_to url_with_protocol(pl.link), :target => '_blank' do %>
+						    	      	<% if pl.avatar %>
+											<%= image_tag pl.avatar(:medium), class:'img-rounded' %>
+										<% end %>
+									  <% end %>
+								  <% end %>
+						        <% end %>
+						    <% end %>
+						<% end %>
+					<% end %>
+					<br><br>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>

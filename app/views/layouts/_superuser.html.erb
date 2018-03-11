@@ -1,8 +1,7 @@
+<% if user_signed_in? and (current_user.superuser or current_user.webmaster) %>
   <section id="superuser" class="section-padding wow fadeIn delay-05s">
     <div class="header">
       <div class="bg-color">
-        <header id="main-header">
-        </header>
         <div class="wrapper">
           <div class="container">
             <div class="row">
@@ -10,38 +9,38 @@
                <h2 class="bnr-sub-title">Systemadministration</h2>
                 <div class="brn-btn">
                   <% if user_signed_in? %>
-      					   <% if current_user.webmaster %>
-      							<%= link_to webmasters_path do %>
-            			      <i class="btn btn-download"><%= I18n.t :webmaster %></i>
-            					<% end %>
-      					   <% end %>
-      					   <% if current_user.superuser %>
-                      <%= link_to appparams_path do %>
-          				    	<i class="btn btn-download"><%= I18n.t :funktionsmgt %></i>
-          					  <% end %>
-                      <%= link_to home_index9_path do %>
-          				    	<i class="btn btn-download"><%= I18n.t :tabellenmgt %></i>
-          					  <% end %>
-          						<%= link_to home_index2_path do %>
-          				    	<i class="btn btn-download"><%= (I18n.t :userstat) %></i>
-          						<% end %>
-          						<br>
-          						<% if current_user.id == 1 %>
-              						<%= link_to home_index17_path(:mailgunflag => true) do %>
-              				    	<i class="btn btn-more">Mailgun ON</i>
-              				    <% end %>
-              						<%= link_to home_index17_path(:mailgunflag => false) do %>
-              				    	<i class="btn btn-more">Mailgun OFF</i>
-              				    <% end %>
-              						<%= link_to iots_path do %>
-              				    	<i class="btn btn-more">IoT test</i>
-              				    <% end %>
-              						<%= link_to home_temptest_path do %>
-              				    	<i class="btn btn-more">test it</i>
-              				    <% end %>
-          					    <% end %>
-      					   <% end %>
-      					 <% end %>
+	  				   <% if current_user.webmaster %>
+	  						<%= link_to webmasters_path do %>
+	    			      		<i class="btn btn-download"><%= I18n.t :webmaster %></i>
+	    					<% end %>
+	  				   <% end %>
+	  				   <% if current_user.superuser %>
+	                      <%= link_to appparams_path do %>
+	          				<i class="btn btn-download"><%= I18n.t :funktionsmgt %></i>
+	          			  <% end %>
+	                      <%= link_to home_index9_path do %>
+          				    <i class="btn btn-download"><%= I18n.t :tabellenmgt %></i>
+          				  <% end %>
+	  					  <%= link_to home_index2_path do %>
+	  				    	<i class="btn btn-download"><%= (I18n.t :userstat) %></i>
+	  					  <% end %>
+          				  <br>
+          				<% end %>
+  						<% if current_user.id == 1 %>
+      						<%= link_to home_index17_path(:mailgunflag => true) do %>
+      				    	  <i class="btn btn-more">Mailgun ON</i>
+      				    	<% end %>
+      						<%= link_to home_index17_path(:mailgunflag => false) do %>
+      				    	  <i class="btn btn-more">Mailgun OFF</i>
+      				    	<% end %>
+      						<%= link_to iots_path do %>
+      				    		<i class="btn btn-more">IoT test</i>
+      				    	<% end %>
+      						<%= link_to home_temptest_path do %>
+      				    		<i class="btn btn-more">test it</i>
+      				    	<% end %>
+      					<% end %>
+      				<% end %>
                 </div>
               </div>
             </div>
@@ -49,82 +48,5 @@
         </div>
       </div>
     </div>
-    <!--/ HEADER-->
-    <!---->
-
-<% if false %>
-
-<% controller_name + action_name %>
-<% if (controller_name == "home" and action_name == "index11") or (controller_name == "home" and action_name == "index18") %>
-<% else %>
-<div class="nav-panel-black navbar-fixed-top">
-	<div class="container-fluid">
-		<marquee height="100%" scrolldelay="150"><%= ticker() %></marquee>	
-		<div class="row">
-			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 pull-left">
-				<%= link_to home_index3_path do %>
-			            <i class="fa fa-home" style="font-size:3em"></i>
-				<% end %>
-			</div>
-
-			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				<% if user_signed_in? %>
-					<%= contactChip(current_user) %>
-				<% end %>
-			</div>
-			
-			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 pull-right">
-				<% if user_signed_in? %>
-					<%= link_to(destroy_user_session_path, method: :delete) do %>
-				    	<i class="fa fa-log-out pull-right" style="font-size:3em"></i>
-					<% end %>
-				<% else %>
-					<%= link_to new_user_session_path do %>
-			            <i class="fa fa-log-in pull-right" style="font-size:3em"></i>
-					<% end %> 
-				<% end %>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<% if $controller_list.include?(controller_name) and (action_name == "index") %>
-					<% @items = url_for(action: action_name, controller: controller_name) %>
-					<%= form_tag @items, method: 'get' do %>
-						<div class="form-inline">
-							<div class="form-group">
-								  <%= search_field_tag 'search', nil, class: 'form-control', placeholder: 'Suchen...' %>
-								  <% button_tag "", type: 'submit', class: "btn btn-nav btn-xs fa fa-search" %>
-							</div>
-						</div>
-					<% end %>
-				<% end %>
-				
-				<% if !flash.empty? and false %>
-				    <% flash.each do |name, msg| %>
-				      <% content_tag(:div, msg, class:"alert alert-warning") %>
-				      <message><fade><%= msg %></fade></message> 
-				    <% end %>
-				<% end %>
-
-			</div>
-		</div>
-
-	</div>
-</div>
-<br><br><br><br><br>
-<% end %>
 </section>
-
-<% if false %>
-	<%= render ("layouts/header2") %>
 <% end %>
-
-<script>
-$(document).ready(function(){
-        $("fade").fadeOut(10000);
-});
-</script>
-
-<% end %>
-

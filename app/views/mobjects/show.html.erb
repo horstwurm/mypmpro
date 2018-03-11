@@ -1934,7 +1934,31 @@ $(document).ready(function(){
     <% end %>
 
     <% if @topic == "objekte_kalendervermietungen" %>
-      $('#calendar').fullCalendar({
+        $('#calendar').fullCalendar({
+            now: '<%= DateTime.now %>',
+            allDaySlot: false,
+            timeFormat: 'H(:mm)',
+            defaultView: 'basicWeek',
+            defaultView: 'basicDay',
+            defaultView: 'basicWeek',
+            defaultView: 'listYear',
+            defaultView: 'month',
+            defaultView: 'agendaWeek',
+            slotDuration: '1:00:00',
+            contentHeight: 'auto',
+            <% if @mobject.time_from and @mobject.time_to %>
+              minTime: '<%= @mobject.time_from %>:00',
+              maxTime: '<%= @mobject.time_to %>:00',
+            <% end %>
+            textColor: 'white',
+            firstDay: 1,
+            weekNumbers: true,
+            events: [<%= raw @array %> ]
+        });
+    <% end %>
+
+  <% if @topic == "objekte_signcal" %>
+      return $('#calendar').fullCalendar({
           now: '<%= DateTime.now %>',
           allDaySlot: false,
           timeFormat: 'H(:mm)',
@@ -1942,38 +1966,14 @@ $(document).ready(function(){
           defaultView: 'basicDay',
           defaultView: 'basicWeek',
           defaultView: 'listYear',
-          defaultView: 'month',
           defaultView: 'agendaWeek',
+          defaultView: 'month',
           slotDuration: '1:00:00',
           contentHeight: 'auto',
-          <% if @mobject.time_from and @mobject.time_to %>
-            minTime: '<%= @mobject.time_from %>:00',
-            maxTime: '<%= @mobject.time_to %>:00',
-          <% end %>
           textColor: 'white',
           firstDay: 1,
           weekNumbers: true,
           events: [<%= raw @array %> ]
-      });
-    <% end %>
-
-  <% if @topic == "objekte_signcal" %>
-    $('#calendar').fullCalendar({
-        now: '<%= DateTime.now %>',
-        allDaySlot: false,
-        timeFormat: 'H(:mm)',
-        defaultView: 'basicWeek',
-        defaultView: 'basicDay',
-        defaultView: 'basicWeek',
-        defaultView: 'listYear',
-        defaultView: 'agendaWeek',
-        defaultView: 'month',
-        slotDuration: '1:00:00',
-        contentHeight: 'auto',
-        textColor: 'white',
-        firstDay: 1,
-        weekNumbers: true,
-        events: [<%= raw @array %> ]
     });
   <% end %>
   
@@ -2054,7 +2054,7 @@ $(document).ready(function(){
       document.addEventListener("turbolinks:load", function() {callme();})
 
   <% when "objekte_signcal" %>
-      document.addEventListener("turbolinks:load", function() {$('#calendar').fullCalendar();} %>',
+      document.addEventListener("turbolinks:load", function() {$('#calendar').fullCalendar({}));
 
   <% when "objekte_signstat" %>
       document.addEventListener("turbolinks:load", function() {drawSign1();drawSign2();})
