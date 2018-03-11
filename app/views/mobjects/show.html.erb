@@ -1508,7 +1508,7 @@ $(document).ready(function(){
               title: "<%= I18n.t :rapportiertekostenkumuliert %>",
             <% end %>
             // colors: ['#ACC550','#2E6B33'],
-            colors: ['<%= $graph_color1 %>', '<% $graph_color2 %>'],
+            colors: ['<%= $graph_color1 %>', '<%= $graph_color2 %>'],
             // legend: { position: 'bottom' }
           };
 
@@ -1530,7 +1530,7 @@ $(document).ready(function(){
             <% if @c_scope == "kosten" %>
               title: "<%= I18n.t :rapportiertekostenmonat %>",
             <% end %>
-            colors: ['<%= $graph_color1 %>', '<% $graph_color2 %>'],
+            colors: ['<%= $graph_color1 %>', '<%= $graph_color2 %>'],
             // colors: ['#ACC550','#2E6B33'],
             // legend: { position: 'bottom' }
           };
@@ -1572,7 +1572,7 @@ $(document).ready(function(){
                 <% if @c_scope == "kosten" %>
                   title: "<%= I18n.t :rapportiertekostenuser %>",
                 <% end %>
-                colors: ['<%= $graph_color1 %>', '<% $graph_color2 %>'],
+                colors: ['<%= $graph_color1 %>', '<%= $graph_color2 %>'],
                 // colors: ['#ACC550','#2E6B33'],
                 // legend: { position: 'bottom' }
               };
