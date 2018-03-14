@@ -1,16 +1,14 @@
   <div class="row">
-    <header>
-    <%= header("<queryshow><i class='fa fa-filter', style='font-size:2em'></i></queryshow><queryhide><i class='fa fa-remove', style='font-size:2em'></i></queryhide>Institutionen <span class='badge'>" + @compsanz.to_s + "</span>") %>
-    <query>
-    <% if user_signed_in? %>
-          <%= link_to new_search_path(:user_id => current_user.id, :search_domain => "institutionen", :controller_name => @controller_name) do %>
-              <i class="btn btn-primary fa fa-plus">Neue Abfrage</i>
-          <% end %>
-          <% @searches = Search.where('search_domain=? and user_id=?', "institutionen", current_user.id) %>
-          <%= build_medialistNew(@searches, "searches", nil) %>
-    <% end %>
-    </query>
-    </header>
+    <%= header("<button type='button' class='btn btn-default fa fa-filter' data-toggle='collapse' data-target='#demo'></button> Institutionen <span class='badge'>" + @companz.to_s + "</span>") %>
+    <div id="demo" class="collapse">
+      <% if user_signed_in? %>
+            <%= link_to new_search_path(:user_id => current_user.id, :search_domain => "institutionen", :controller_name => @controller_name) do %>
+                <i class="btn btn-primary fa fa-plus">Neue Abfrage</i>
+            <% end %>
+            <% @searches = Search.where('search_domain=? and user_id=?', "institutionen", current_user.id) %>
+            <%= build_medialistNew(@searches, "searches", nil) %>
+      <% end %>
+    </div>
   </div>
 
     <div class="panel">
@@ -23,10 +21,6 @@
     </div>
   </div>
 
-  <% if false %>
-  <%= build_medialist("col-sm-6 col-md-4 col-lg-3",@companies,"companies", true) %>
-  <% end %>
-  
   <%= build_medialistNew(@companies,"companies","panel") %>
 
   <div class="panel">
@@ -89,26 +83,4 @@ function initialize() {
 
 <script>
   document.addEventListener("turbolinks:load", function() {initialize();})
-</script>
-
-<script>
-$(document).ready(function(){
-    $("query").hide();
-    $("queryhide").hide();
-    $("queryhide").hide();
-
-    $("queryshow").click(function(){
-        $("query").show();
-        $("queryshow").hide();
-        $("queryhide").show();
-
-    });
-    
-    $("queryhide").click(function(){
-        $("query").hide();
-        $("queryshow").show();
-        $("queryhide").hide();
-    });
-  
-});
 </script>

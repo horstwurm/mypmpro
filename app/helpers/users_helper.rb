@@ -1833,9 +1833,9 @@ def build_nav2(domain, item, domain2, anz)
 
   if (!user_signed_in? and $activeapps.include?(domain2)) or (user_signed_in? and getUserCreds.include?(domain2)) or (user_signed_in? and current_user.superuser)
     if anz > 0 
-      btn = "active"
+      btn = "menu-active"
     else
-      btn = "inactive"
+      btn = "menu-inactive"
     end
 
     pos = domain2.index("_")
@@ -1844,8 +1844,9 @@ def build_nav2(domain, item, domain2, anz)
     case domain
       when "personen"
         html_string = '<class="dropdown-item">'
+        html_string=""
         html_string = html_string + link_to(user_path(:id => item.id, :topic => domain2)) do
-          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]) 
+          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" dropdown-item fa fa-" + getinfo2(infosymbol)["info"]+" "+btn) 
         end
       when "institutionen"
         html_string = '<class="dropdown-item">'
@@ -1884,6 +1885,7 @@ def build_nav2(domain, item, domain2, anz)
         end
     end
   end
+  #html_string = html_string + "<br><br>"
   return html_string.html_safe
 end
 

@@ -187,6 +187,7 @@
 <% end %>
 
 <script>
+  $(document).ready(function(){
     $("#ex2").slider({});
     $("#ex2").on("slide", function(slideEvt) {
     	$("#from").val(slideEvt.value[0]);
@@ -213,6 +214,7 @@
     $("[name='my-checkbox4']").on('switchChange.bootstrapSwitch', function () {
     $("#webmaster").prop('checked',$("[name='my-checkbox4']").bootstrapSwitch('state'));
     });
+  });
 </script>
 
 <script type="text/javascript">

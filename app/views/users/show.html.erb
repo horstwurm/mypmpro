@@ -1385,7 +1385,7 @@ function initPosMap() {
               <% if @c_scope == "Kosten" %>
               title: "<%= (I18n.t :rapportiertekosten) %>",
               <% end %>
-              colors: ['<%= $graph_color %>'],
+              colors: ['<%= $graph_color1 %>'],
               legend: { position: 'bottom' }
             };
             var chart = new google.visualization.ColumnChart(document.getElementById('<%="auftragschart"+t.mobject_id.to_s %>'));
