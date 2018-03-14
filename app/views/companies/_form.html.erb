@@ -19,7 +19,7 @@
                 </div>
             </div>
              <div class="col-md-6">
-                 <div class="panel-body">
+                 <div class="panel-body ueberschrift">
                       <div class="form-group">
                         <%= f.label "Firmenlogo" %><br/>
                          <% if @company.avatar_file_name %>
@@ -86,9 +86,9 @@
                        <%= f.label (I18n.t :aktiv) %>
                      </div>
                      <div class="actions">
-                        <%= f.submit "Speichern",  class:"btn btn-primary btn-lg"%>
+                        <%= f.submit "Speichern",  class:"btn btn-primary btn-lg btn-submit"%>
                        <%= link_to @company do %>
-                         <i class="btn btn-default btn-lg">Abbrechen</i>
+                         <i class="btn btn-default btn-lg btn-submit">Abbrechen</i>
                        <% end %>
                      </div>
                        <%= f.check_box :active, :id => "active", class:"form-control hidden"%>
@@ -132,7 +132,8 @@
 </script>
 
  <script>
-     $.fn.bootstrapSwitch.defaults.onColor = 'success';
+  $(document).ready(function(){
+     $.fn.bootstrapSwitch.defaults.onColor = 'mycolor';
      $("[name='my-checkbox1']").bootstrapSwitch('state',<%= @company.active %>);
      $("[name='my-checkbox1']").on('switchChange.bootstrapSwitch', function () {
      $("#active").prop('checked',$("[name='my-checkbox1']").bootstrapSwitch('state'));
@@ -145,6 +146,7 @@
      $("[name='my-checkbox3']").on('switchChange.bootstrapSwitch', function () {
      $("#partner").prop('checked',$("[name='my-checkbox3']").bootstrapSwitch('state'));
      });
+  });
 </script>
 
 <script>

@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-              <div class="panel-body">
+              <div class="panel-body ueberschrift">
                 <div class="form-group">
                   <%= f.label I18n.t :bezeichnung %>
                   <%= f.text_field :name, autofocus: true, class:"form-control" %>
@@ -290,15 +290,15 @@
                  <%= f.number_field :time_from, :id => "time_from", class:"form-control hidden"%>
                  <%= f.number_field :time_to, :id => "time_to", class:"form-control hidden"%>
                 <div class="actions">
-                   <%= f.submit (I18n.t :speichern),  class:"btn btn-primary btn-lg"%>
+                   <%= f.submit (I18n.t :speichern),  class:"btn btn-primary btn-lg btn-submit"%>
                   <% if @mobject.owner_type == "User" %>
                     <%= link_to user_path(:id => @mobject.owner_id, :topic => "personen_" + @mobject.mtype) do %>
-                      <i class="btn btn-default btn-lg">Abbrechen</i>
+                      <i class="btn btn-default btn-lg btn-submit">Abbrechen</i>
                     <% end %>
                   <% end %>
                   <% if @mobject.owner_type == "Company" %>
                     <%= link_to company_path(:id => @mobject.owner_id, :topic => "institutionen_" + @mobject.mtype) do %>
-                      <i class="btn btn-default btn-lg">Abbrechen</i>
+                      <i class="btn btn-default btn-lg btn-submit">Abbrechen</i>
                     <% end %>
                   <% end %>
                 </div>
@@ -352,7 +352,7 @@
       	$("#time_from").val(slideEvt.value[0]);
       	$("#time_to").val(slideEvt.value[1]);
      });
-     $.fn.bootstrapSwitch.defaults.onColor = 'success';
+     $.fn.bootstrapSwitch.defaults.onColor = 'mycolor';
      $("[name='my-checkbox1']").bootstrapSwitch('state',<%= @mobject.active %>);
      $("[name='my-checkbox1']").on('switchChange.bootstrapSwitch', function () {
      $("#active").prop('checked',$("[name='my-checkbox1']").bootstrapSwitch('state'));

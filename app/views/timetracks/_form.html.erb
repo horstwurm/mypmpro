@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="panel-body">
+                <div class="panel-body ueberschrift">
 
                     <% if @mobs %>
                       <div class="form-group">
@@ -63,9 +63,9 @@
                       </div>
                     </div>
                     <div class="actions">
-                       <%= f.submit (I18n.t :speichern), class:"btn btn-primary btn-lg"%>
+                       <%= f.submit (I18n.t :speichern), class:"btn btn-primary btn-lg btn-submit"%>
                         <%= link_to user_path(:id => @timetrack.user_id, :topic => "personen_zeiterfassung") do %>
-                          <i class="btn btn-default btn-lg">Abbrechen</i>
+                          <i class="btn btn-default btn-lg btn-submit">Abbrechen</i>
                         <% end %>
                     </div>
                     <%= f.hidden_field :user_id, class:"form-control"  %>
@@ -84,7 +84,7 @@
     $('#timetrack_datum').datepicker({
         format: "yyyy-mm-dd",
         weekStart: 1,
-        language: "en",
+        language: "de",
         daysOfWeekHighlighted: "0,6",
         todayBtn: true,
         todayHighlight: true,
