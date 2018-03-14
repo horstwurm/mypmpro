@@ -19,7 +19,7 @@
         </div>
         <div class="row">
             <div class="col-md-4">
-                <div class="panel panel-body">
+                <div class="panel panel-body ueberschrift">
 
                     <% if @planning.costortime == "aufwand" %>
                         <div class="form-group">
@@ -42,9 +42,9 @@
                         </div>
                     <% end %>
                     <div class="actions">
-                       <%= f.submit (I18n.t :speichern), class:"btn btn-primary btn-lg"%>
+                       <%= f.submit (I18n.t :speichern), class:"btn btn-primary btn-lg btn-submit"%>
                         <%= link_to user_path(:id => @planning.user_id, :topic => "personen_ressourcenplanung", :year => @planning.jahr, :mode => "Jahr") do %>
-                          <i class="btn btn-default btn-lg">Abbrechen</i>
+                          <i class="btn btn-default btn-lg btn-submit">Abbrechen</i>
                         <% end %>
                     </div>
                     <%= f.hidden_field :user_id, class:"form-control"  %>

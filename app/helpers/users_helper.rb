@@ -1846,42 +1846,42 @@ def build_nav2(domain, item, domain2, anz)
         html_string = '<class="dropdown-item">'
         html_string=""
         html_string = html_string + link_to(user_path(:id => item.id, :topic => domain2)) do
-          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" dropdown-item fa fa-" + getinfo2(infosymbol)["info"]+" "+btn) 
+          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:"fa fa-" + getinfo2(infosymbol)["info"]+" "+btn) 
         end
       when "institutionen"
         html_string = '<class="dropdown-item">'
         html_string = link_to(company_path(:id => item.id, :topic => domain2)) do
-          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]) 
+          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]+" "+btn) 
         end
       when "objekte"
         html_string = '<class="dropdown-item">'
         html_string = link_to(mobject_path(:id => item.id, :topic => domain2)) do
-          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]) 
+          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]+" "+btn) 
         end
       when "tabellen"
         html_string = '<class="dropdown-item">'
         html_string = link_to home_index9_path do
-          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]) 
+          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]+" "+btn) 
         end
       when "editionen"
         html_string = '<class="dropdown-item">'
         html_string = link_to(mobject_path(:id => item.mobject_id, :topic => "objekte_ausgaben")) do
-          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]) 
+          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]+" "+btn) 
         end
       when "edition"
         html_string = '<class="dropdown-item">'
         html_string = link_to(edition_path(:id => item.id)) do
-          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]) 
+          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]+" "+btn) 
         end
       when "edition_artikel"
         html_string = '<class="dropdown-item">'
         html_string = link_to(edition_arcticles_path(:edition_id => item.id)) do
-          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]) 
+          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]+" "+btn) 
         end
       when "edition_artikeln"
         html_string = '<class="dropdown-item">'
         html_string = link_to(edition_path(:id => item.id)) do
-          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]) 
+          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]+" "+btn) 
         end
     end
   end
@@ -2072,7 +2072,7 @@ def action_buttons4(object_type, item, topic)
             if $activeapps.include?("institutionen_favoriten") or current_user.superuser
               if (item.user_id == current_user.id) or isdeputy(item) or current_user.superuser
                 html_string = html_string + link_to(new_favourit_path(:object_name => "Company", :object_id => item.id, :user_id => current_user.id)) do
-                  content_tag(:i, " " + (I18n.t :fav), class: "btn btn-default fa fa-copyright-mark")
+                  content_tag(:i, " " + (I18n.t :fav), class: "btn btn-default fa fa-heart")
                 end
               end
             end
@@ -2919,7 +2919,7 @@ def getinfo2(topic)
     when :zeiterfassung
       info = "safari"
     when :ressourcenplanung
-      info = "screenshot"
+      info = "first-order"
     when :gruppen
       info = "th"
     when :zugriffsberechtigungen, :projektberechtigungen
