@@ -4,6 +4,13 @@
     Author: BootstrapMade.com
     Author URL: https://bootstrapmade.com
 */
+ $color1: #ACC550;     /* light green TKB */
+ $color2: #2E6B33;     /* dunkelgruen TKB */
+ $color3: white;
+ $color4: #F5F5F5;     /* hellgrau */
+ $color5: grey;
+
+
 
 body {
   line-height: 1.4;
@@ -776,6 +783,12 @@ Responsive media queries
 ***********************************/
 
 @media (min-width: 768px) and (max-width: 980px) {
+/* custom */
+    .blog-sec:hover {
+      background-color: $color4;
+      box-shadow: 2px 2px 10px #B1B1B1;
+    }
+
   .service-item, .blog-sec, .wrap-item, .loction-info {
     margin-bottom: 15px;
   }
@@ -788,12 +801,24 @@ Responsive media queries
 }
 
 @media (min-width: 451px) and (max-width: 767px) {
+/* custom */
+    .blog-sec:hover {
+      background-color: $color4;
+      box-shadow: 2px 2px 10px #B1B1B1;
+    }
+
   .service-item, .blog-sec, .wrap-item, .loction-info {
     margin-bottom: 15px;
   }
 }
 
 @media (min-width: 20px) and (max-width: 450px) {
+/* custom */
+    .blog-sec:hover {
+      background-color: $color4;
+      box-shadow: 2px 2px 10px #B1B1B1;
+    }
+
   .navbar-default .navbar-brand {
     padding-left: 16px;
     margin-top: 0px;
@@ -851,6 +876,7 @@ Responsive media queries
     line-height: 22px;
     text-align: center;
   }
+
 }
 
 /* ========================================================================================================k */
@@ -952,3 +978,4 @@ Responsive media queries
     from {bottom: 30px; opacity: 1;}
     to {bottom: 0; opacity: 0;}
 }
+
