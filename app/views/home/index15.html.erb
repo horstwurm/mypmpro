@@ -8,7 +8,7 @@
     </div>
 </div>
 
-<%= header("Frage "+@question.name, false) %>
+<%= header("Frage "+@question.name) %>
 
 <div class="row">
     <div class='col-xs-12'>
@@ -63,7 +63,7 @@
                       <% end %><br>
                     <% else %>
                       <%= link_to home_index15_path(:question_id => @question.id, :user_answer_id => @ua.id) do %>
-                        <i class="btn btn-primary fa fa-unchecked"></i>
+                        <i class="btn btn-primary fa fa-ban"></i>
                       <% end %><br>
                     <% end %>
                     <% end %>

@@ -1,6 +1,6 @@
 
 <div class="row">
-    <%= header(@questionaire.mtype.to_s + " " + @questionaire.name.to_s + " <span class='badge'>" + @questions.count.to_s + "</span>", true) %>
+    <%= header(@questionaire.mtype.to_s + " " + @questionaire.name.to_s + " <span class='badge'>" + @questions.count.to_s + "</span>") %>
 </div>
 
 <%= build_questionaire(@questionaire) %>
