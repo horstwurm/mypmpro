@@ -781,14 +781,13 @@ cta
 Responsive media queries
 ************************************
 ***********************************/
-
-@media (min-width: 768px) and (max-width: 980px) {
 /* custom */
     .blog-sec:hover {
       background-color: $color4;
       box-shadow: 2px 2px 10px #B1B1B1;
     }
 
+@media (min-width: 768px) and (max-width: 980px) {
   .service-item, .blog-sec, .wrap-item, .loction-info {
     margin-bottom: 15px;
   }
@@ -801,24 +800,12 @@ Responsive media queries
 }
 
 @media (min-width: 451px) and (max-width: 767px) {
-/* custom */
-    .blog-sec:hover {
-      background-color: $color4;
-      box-shadow: 2px 2px 10px #B1B1B1;
-    }
-
   .service-item, .blog-sec, .wrap-item, .loction-info {
     margin-bottom: 15px;
   }
 }
 
 @media (min-width: 20px) and (max-width: 450px) {
-/* custom */
-    .blog-sec:hover {
-      background-color: $color4;
-      box-shadow: 2px 2px 10px #B1B1B1;
-    }
-
   .navbar-default .navbar-brand {
     padding-left: 16px;
     margin-top: 0px;

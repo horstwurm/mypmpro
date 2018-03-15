@@ -1,3 +1,4 @@
+<%= header(@mobject.mtype + " " + @mobject.name) %>
 <%= navigate2("objekte", @mobject, @topic) %>
 
 <div id="main">
@@ -15,11 +16,6 @@
 
   <div class="row">
       <div class='col-xs-12'>
-      
-      <% if false %>  
-      <%= action_buttons2("objekte", @mobject, @topic) %>
-      <% end %>
-      
       <% case @topic %>
         <% when "objekte_info" %>
 

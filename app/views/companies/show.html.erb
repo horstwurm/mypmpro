@@ -1,64 +1,58 @@
+<%= header(@company.name) %>
+
 <%= navigate2("institutionen", @company, @topic) %>
 
 <div id="main">
   <div class="row">
       <div class='col-xs-12'>
       
-      <% if false %>
-      <%= action_buttons2("institutionen", @company, @topic) %>
-      <% end %>
-      
        <% case @topic %>
         <% when "institutionen_info" %>
         
           <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-              <%= header((I18n.t :adresse)) %>
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
               <div class="panel-body">
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                   <% case @company.status %>
-                      <% when "CHECK" %>
-                        <i class="fa fa-question-sign"></i>
-                      <% when "OK" %>
-                        <i class="fa fa-ok-circle"></i>
-                      <% when "NOK" %>
-                        <i class="fa fa-ban-circle"></i>
-                    <% end %>
-                    <b><%= (I18n.t :status) %></b>
-                    <br>
-                    <%= showImage2(:medium, @company, true) %>
-                    <br>
-                    <b><i class="fa fa-folder-open"></i><%= (I18n.t :branche) %></b><br>
-                    <%= @company.mcategory.name %>
-                    <br><br>
-                    <b><i class="fa fa-home"></i><%= (I18n.t :adresse) %></b><br>
-                    <% if @company.address1 and @company.address1 != "" %>
-                      <%= @company.address1 %><br> 
-                    <% end %>
-                    <% if @company.address2 and @company.address2 != "" %>
-                      <%= @company.address2 %><br> 
-                    <% end %>
-                    <% if @company.address3 and @company.address3 != "" %>
-                      <%= @company.address3 %><br> 
-                    <% end %>
-                    <br>
-                    <b><%= (I18n.t :verantwortlich) %></b><br>
-                    <%= showImage2(:small, @company.user, true) %>
-                    <br>
-                    <%= @company.user.name + " " + @company.user.lastname %>
-                    <br>
-                    <cite><%= @company.created_at.strftime("%d.%m.%Y") %></cite><br>
-                </div>
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                  <i class="fa fa-map-marker pull-left" onclick="return init_map(0);"></i>
-                  <div id="map">
-                    <div id="map-canvas"></div>
-                  </div>
-                </div>
+                 <% case @company.status %>
+                    <% when "CHECK" %>
+                      <i class="fa fa-question-sign"></i>
+                    <% when "OK" %>
+                      <i class="fa fa-ok-circle"></i>
+                    <% when "NOK" %>
+                      <i class="fa fa-ban-circle"></i>
+                  <% end %>
+                  <b><%= (I18n.t :status) %></b>
+                  <br>
+                  <%= showImage2(:medium, @company, true) %>
+                  <br>
+                  <b><i class="fa fa-folder-open"></i><%= (I18n.t :branche) %></b><br>
+                  <%= @company.mcategory.name %>
+                  <br><br>
+                  <b><i class="fa fa-home"></i><%= (I18n.t :adresse) %></b><br>
+                  <% if @company.address1 and @company.address1 != "" %>
+                    <%= @company.address1 %><br> 
+                  <% end %>
+                  <% if @company.address2 and @company.address2 != "" %>
+                    <%= @company.address2 %><br> 
+                  <% end %>
+                  <% if @company.address3 and @company.address3 != "" %>
+                    <%= @company.address3 %><br> 
+                  <% end %>
+                  <br>
+                  <b><%= (I18n.t :verantwortlich) %></b><br>
+                  <%= showImage2(:small, @company.user, true) %>
+                  <br>
+                  <%= @company.user.name + " " + @company.user.lastname %>
+                  <br>
+                  <cite><%= @company.created_at.strftime("%d.%m.%Y") %></cite><br>
               </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-              <%= header((I18n.t :aktivitaeten)) %>
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+              <i class="fa fa-map-marker pull-left" onclick="return init_map(0);"></i>
+              <div id="map">
+                <div id="map-canvas"></div>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
               <div class="panel-body">
                 <% if $activeapps.include?("institutionenaktivitaeten") or (user_signed_in? and current_user.superuser) %>
                     <i class="fa fa-map-marker pull-left" onclick="return drawChart();"></i>

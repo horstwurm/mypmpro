@@ -29,16 +29,16 @@
       				<% end %>
 
                   <li class="active"><a href="../#main-header">Home</a></li>
-                  <li class=""><a href="../#myservices">myServices</a></li>
+                  <li class=""><a href="../#myservices">Services</a></li>
                   <% if false %>
                   <li class=""><a href="../#yield">Data</a></li>
                   <li class=""><a href="../#feature">About</a></li>
                   <li class=""><a href="../#service">Services</a></li>
                   <li class=""><a href="../#portfolio">Portfolio</a></li>
-                  <% end %>
                   <li class=""><a href="../#testimonial">Kundenfeedback</a></li>
                   <li class=""><a href="../#blog">Blog</a></li>
                   <li class=""><a href="../#contact">Kontakt</a></li>
+                  <% end %>
                   <li class=""><a href="../#partner">Partner</a></li>
                   <% if user_signed_in? and (current_user.superuser or current_user.webmaster) %>
                     <li class=""><a href="../#superuser">Admin</a></li>

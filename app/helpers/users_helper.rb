@@ -1811,6 +1811,7 @@ def navigate2(object, item, topic)
 
     html_string = html_string + '</ul>'
 
+    if false
     html_string = html_string + '<div class="panel-body">'
       html_string = html_string + '<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">'
         case object
@@ -1822,7 +1823,8 @@ def navigate2(object, item, topic)
         html_string = html_string + '<h1>'+header+'</h1>'
       html_string = html_string + '</div>'
     html_string = html_string + '</div>'
-
+    end
+    
     return html_string.html_safe
     
 end
@@ -3273,9 +3275,9 @@ def build_kachel_access(topic, mode, user)
           @credential = user.credentials.where('appparam_id=?',a.id).first
       end
       if @credential.access
-          thumbnail_state = 'fa fa-ok-sign ac'
+          thumbnail_state = 'fa fa-check ac'
         else
-          thumbnail_state = 'fa fa-remove-sign noac'
+          thumbnail_state = 'fa fa-ban noac'
       end
       cpath = user_path(:id => @credential.user_id, :credential_id => @credential.id, :topic => "personen_zugriffsberechtigungen")
     end
