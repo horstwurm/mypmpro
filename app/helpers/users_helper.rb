@@ -290,7 +290,7 @@ def build_medialistNew(items, cname, par)
             #**************************************************************************************************************
             #IMAGE NAME
             #**************************************************************************************************************
-          html_string = html_string + '<h3>'
+          html_string = html_string + '<h4>'
             case items.table_name
               when "deputies"
                 html_string = html_string + User.find(item.userid).name + " " + User.find(item.userid).lastname
