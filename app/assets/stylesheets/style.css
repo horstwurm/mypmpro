@@ -782,8 +782,11 @@ Responsive media queries
 ************************************
 ***********************************/
 /* custom */
-    .blog-sec:hover {
+
+    .blog-sec {
       background-color: $color4;
+    }
+    .blog-sec:hover {
       box-shadow: 2px 2px 10px #B1B1B1;
     }
 
