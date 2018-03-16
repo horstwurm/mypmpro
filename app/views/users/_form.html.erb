@@ -14,7 +14,7 @@
 
 
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <div class="panel-body ueberschrift">
                     <h1><%= @user.fullname %></h1> 
                 </div>
@@ -148,7 +148,7 @@
                        <%= f.number_field :time_to, :id => "to", class:"form-control hidden" %>
                     </div>
             </div>
-                
+            <% if false %>    
             <div class="col-md-6">
                 <div class="panel-body">
                     <% if @user.latitude and @user.longitude %>
@@ -161,9 +161,11 @@
                 </div>
                 
             </div>
+            <% end %>
         </div>
     <% end %>
 
+<% if false %>
 <% if @user.latitude and @user.longitude %>
 <script type="text/javascript">
     var latitudes = [<%= @user.latitude %>];
@@ -184,6 +186,7 @@
     }
     init_map(0);
 </script>
+<% end %>
 <% end %>
 
 <script>

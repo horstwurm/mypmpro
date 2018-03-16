@@ -13,23 +13,13 @@
         <% end %>
 
         <div class="row">
-            <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading header">
-                      <li_header>
-                      <%= link_to company_path(:id => @partner_link.company_id, :topic => "institutionen_partnerlinks") do %>
-                        <i class="btn btn-primary fa fa-list"></i>
-                      <% end %>
-                      <%= I18n.t :partnerlinks %>
-                      </li_header>
-                    </div>
+            <div class="col-md-6">
+                <div class="panel-body ueberschrift">
+                    <h1><%= @partner_link.company.name + " " + (I18n.t :partnerlinks) %></h1>
                 </div>
             </div>
-        </div>
-
-        <div class="row">
             <div class="col-md-6">
-                <div class="panel-body">
+                <div class="panel-body ueberschrift">
                      <div class="form-group">
                        <%= f.label (I18n.t :picture) %><br/>
                         <% if @partner_link.avatar_file_name %>
@@ -54,7 +44,10 @@
                       <%= f.label (I18n.t :active) %>
                     </div>
                     <div class="actions">
-                       <%= f.submit (I18n.t :speichern),  class:"btn btn-primary btn-lg"%>
+                       <%= f.submit (I18n.t :speichern),  class:"btn btn-primary btn-lg btn-submit"%>
+                      <%= link_to company_path(:id => @partner_link.company_id, :topic => "institutionen_partnerlinks") do %>
+                        <i class="btn btn-submit btn-lg">Abbrechen</i>
+                      <% end %>
                     </div>
                     <%= f.hidden_field :company_id %>
                 </div>
@@ -65,7 +58,7 @@
     <% end %>                
 
 <script>
-     $.fn.bootstrapSwitch.defaults.onColor = 'success';
+     $.fn.bootstrapSwitch.defaults.onColor = 'mycolor';
      $("[name='my-checkbox1']").bootstrapSwitch('state',<%= @partner_link.active %>);
      $("[name='my-checkbox1']").on('switchChange.bootstrapSwitch', function () {
      $("#active").prop('checked',$("[name='my-checkbox1']").bootstrapSwitch('state'));

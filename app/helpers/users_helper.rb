@@ -283,6 +283,8 @@ def build_medialistNew(items, cname, par)
                   end
               when "transactions"
                 html_string = html_string + showImage2(:medium, @ac_ver.customer.owner, true)
+              when "partner_links"
+                html_string = html_string + showImage2(:medium, item, false)
             end
           html_string = html_string + '</div>'
 
@@ -355,6 +357,13 @@ def build_medialistNew(items, cname, par)
                 end
                 if Object.const_get(item.object_name).to_s == "Company"
                     html_string = html_string + @item.name 
+                end
+              when "partner_links"
+                if item.name
+                    html_string = html_string + item.name + "<br>"
+                end
+                if item.link
+                    html_string = html_string + item.link 
                 end
               when "transactions"
                 @ac_ver = Account.find(item.account_ver)
@@ -1035,6 +1044,10 @@ def build_medialistNew(items, cname, par)
           access = false
           if user_signed_in?
             case cname
+              when "partner_links"
+                if current_user.id = item.company.user_id or isdeputy(item.company.user_id)
+                  access = true
+                end
               when "prices"
                 if isowner(item.mobject)
                   access = true
@@ -1234,7 +1247,7 @@ def build_medialistNew(items, cname, par)
           end
 
           #kein Info button wenn kein weiterer drill down
-          if cname != "prices" and cname != "crits" and cname != "mdetails" and cname != "madvisors" and cname != "tickets" and cname != "questions" and cname != "comments"
+          if cname != "prices" and cname != "crits" and cname != "mdetails" and cname != "madvisors" and cname != "tickets" and cname != "questions" and cname != "comments" and cname != "partner_links"
             html_string = html_string + link_to(item, :topic => "info") do 
               content_tag(:i, nil, class:"btn btn-primary btn-lg fa fa-info")
             end
@@ -1242,6 +1255,13 @@ def build_medialistNew(items, cname, par)
  
           if access
             case cname 
+              when "partner_links"
+  	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
+                  content_tag(:i, nil, class:"btn btn-danger btn-lg fa fa-trash pull-right")
+                end
+  	            html_string = html_string + link_to(edit_partner_link_path(:id => item)) do 
+                  content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-wrench")
+                end
               when "companies"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
                   content_tag(:i, nil, class:"btn btn-danger btn-lg fa fa-trash pull-right")

@@ -13,7 +13,7 @@
         <% end %>
 
         <div class="row">
-           <div class="col-md-12">
+           <div class="col-md-6">
                 <div class="panel-body ueberschrift">
                     <h1><%= @mobject.name %></h1> 
                 </div>
@@ -310,7 +310,7 @@
                 <%= f.check_box :signage, :id => "signage", class:"form-control hidden" %>
               </div>
           </div>
-                
+          <% if false %>
           <div class="col-md-6">
             <div class="panel-body">
               <% if @mobject.latitude and @mobject.longitude %>
@@ -319,11 +319,13 @@
                 </div>
               <% end %>
           </div>
+          <% end %>
 
         </div>
     </div>
 <% end %>                
 
+<% if false %>
 <% if @mobject.latitude and @mobject.longitude %>
 <script type="text/javascript">
     var latitudes = [<%= @mobject.latitude %>];
@@ -344,6 +346,7 @@
     }
     init_map(0);
 </script>
+<% end %>
 <% end %>
 
 <script>

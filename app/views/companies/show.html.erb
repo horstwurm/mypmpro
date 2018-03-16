@@ -77,40 +77,8 @@
           <%= build_medialistNew(@company.mobjects.where('mtype=?',"sensoren"), "mobjects", nil) %>
 
         <% when "institutionen_partnerlinks" %>
-          <div class="panel-body">
-            <% @company.partner_links.each do |pl| %>
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                  <div class="thumbnail" align="center">
-                    <anzeigetext>
-                      <%= pl.name %><br>
-                    </anzeigetext>
-                    <ntext>
-                    <%= pl.link %>
-                    </ntext>
-                    <ntext>
-                    <%= align_text(pl.description) %>
-                    </ntext>
-                    <br>
-                    <%= showImage2(:medium, pl, false) %>
-                    <br>
-                    <% if user_signed_in? %>
-                      <% if current_user.id == @company.user_id %>
-                        <% if @company.partner %>
-                          <%= link_to edit_partner_link_path(pl) do %>
-                            <i class="btn btn-primary fa fa-wrench"></i>
-                          <% end %>
-                          <%= link_to pl, method: :delete, data: { confirm: (I18n.t :sindsiesicher) } do %>
-                            <i class="btn btn-danger fa fa-trash"></i>
-                          <% end %>
-                        <% end %>
-                      <% end %>
-                    <% end %>
-                    <br><br>
-                  </div>
-                 </div>
-            <% end %>
-          </div>
-          
+          <%= build_medialistNew(@company.partner_links, "partner_links", nil) %>
+
         <!--########################################################################################################################-->
         <!--# inactive code-->
         <!--########################################################################################################################-->
