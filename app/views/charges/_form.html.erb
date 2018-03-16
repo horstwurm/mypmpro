@@ -13,18 +13,10 @@
 
         <div class="row">
             <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading header">
-                      <li_header>
-                      <%= link_to user_path(:id => @charge.owner_id, :topic => "personen_charges") do %>
-                        <i class="btn btn-primary fa fa-list"></i>
-                      <% end %>
-                      </li_header>
-                    </div>
+                <div class="panel ueberschrift">
+                    <h1><%= header(@charge.owner.fullname + " " + (I18n.t :tgcloudzahlung)) %></h1>
                 </div>
             </div>
-        </div>
-        <div class="row">
             <div class="col-md-6">
                 <div class="panel-body">
                     <div class="form-group">
@@ -65,10 +57,12 @@
                       </script>
                     <% if false %>
                       <div class="actions">
-                         <%= f.submit (I18n.t :speichern),  class:"btn btn-primary btn-lg"%>
+                         <%= f.submit (I18n.t :speichern),  class:"btn btn-primary btn-lg btn-submit"%>
                       </div>
                     <% end %>
-                    
+                     <%= link_to user_path(:id => @charge.owner_id, :topic => "personen_charges") do %>
+                       <i class="btn btn-default btn-lg btn-submit">Abbrechen</i>
+                     <% end %>
                 </div>
             </div>
         </div>

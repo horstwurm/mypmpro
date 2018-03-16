@@ -2,16 +2,16 @@
 
   <div class="row">
     <% @item = Object.const_get(@object_name).find(@object_id) %>
-    <%= action_buttons2("Account", @item, nil) %>
+    <%= action_buttons4("Account", @item, nil) %>
   </div>
 
   <div class="row">
-    <%= header("Kontoübersicht " + @user.fullname, true) %>
+    <%= header("Kontoübersicht " + @user.fullname) %>
   </div>
   
   <div class="row">
 
-          <%= header("Kontoübersicht (privat)", true) %>
+          <%= header("Kontoübersicht (privat)") %>
           <div class='col-xs-12'><div class="panel-body">
             <% @ali = [] %>
             <% @partners = Company.where('partner=?',true) %>
@@ -36,7 +36,7 @@
           </div></div>
 
           <% @user.companies.each do |c| %>
-            <%= header("Kontoübersicht "+c.name, true) %>
+            <%= header("Kontoübersicht "+c.name) %>
             <div class='col-xs-12'><div class="panel-body">
               <% @ali = [] %>
               <% @partners = Company.where('partner=?',true) %>

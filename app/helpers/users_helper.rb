@@ -190,7 +190,7 @@ def build_medialistNew(items, cname, par)
               when "deputies"
                   html_string = html_string + showImage2(:medium, User.find(item.userid), true)
                when "appparams"
-                  html_string = html_string + image_tag(item.right+".png", :size => "100x100")
+                  html_string = html_string + image_tag(item.right+".png", :size => "250x250")
               when "prices"
                   html_string = html_string + showImage2(:medium, item, false)
               when "crits"
@@ -395,63 +395,70 @@ def build_medialistNew(items, cname, par)
           html_string = html_string + '<div class="blog-comment">'
           case items.table_name
               when "appparams"
+                html_string = html_string + "<trans>"
 
                 html_string = html_string + '<i class="fa fa-pencil"></i>'+ (I18n.t :abo) + '<br><br>'
 
-                if par == "user"
-                  @charges = item.charges.where('owner_id=? and owner_type=?', current_user.id, "User").order(created_at: :desc)
-                else
-                  @charges = item.charges.where('owner_id=? and owner_type=?', current_user.id, "Company").order(created_at: :desc)
-                end
-                startdatum = Date.today
-                @charges.each do |c|
-
-                  html_string = html_string + '<i class="fa fa-calendar"></i> '
-                  html_string = html_string + c.date_from.strftime("%d-%m-%Y") + "-" + c.date_to.strftime("%d-%m-%Y")
-                  
-                  if c.date_to > startdatum
-                    startdatum = c.date_to
+                if user_signed_in?
+                  if par == "user"
+                    @charges = item.charges.where('owner_id=? and owner_type=?', current_user.id, "User").order(created_at: :desc)
+                  else
+                    @charges = item.charges.where('owner_id=? and owner_type=?', current_user.id, "Company").order(created_at: :desc)
                   end
-                  if c.date_to < Date.today
-                    proc = 0
-                  end  
-                  if c.date_from > Date.today
-                    proc = 100
-                  end
-                  if c.date_from <= Date.today and c.date_to >= Date.today
-                    days = c.date_to - c.date_from
-                    days_used = c.date_to - Date.today
-                    proc = (days_used/days*100).to_i
-                  end
-                  if proc > 0
-                    if proc >= 30
-                      progresscolor = "success"
+                  startdatum = Date.today
+                  @charges.each do |c|
+  
+                    html_string = html_string + '<i class="fa fa-calendar"></i> '
+                    html_string = html_string + c.date_from.strftime("%d-%m-%Y") + "-" + c.date_to.strftime("%d-%m-%Y")
+                    
+                    if c.date_to > startdatum
+                      startdatum = c.date_to
                     end
-                    if proc > 10 and proc < 30
-                      progresscolor = "warning"
+                    if c.date_to < Date.today
+                      proc = 0
+                    end  
+                    if c.date_from > Date.today
+                      proc = 100
                     end
-                    if proc <= 10 
-                      progresscolor = "danger"
+                    if c.date_from <= Date.today and c.date_to >= Date.today
+                      days = c.date_to - c.date_from
+                      days_used = c.date_to - Date.today
+                      proc = (days_used/days*100).to_i
                     end
-                    html_string = html_string + '<div class="progress">'
-                    html_string = html_string + '<div class="progress-bar progress-bar-' + progresscolor + ' progress-bar-striped" role="progressbar2" aria-valuenow="' + proc.to_s + '" aria-valuemin="0" aria-valuemax="100" style="width:' + proc.to_s + '%">'
-                    html_string = html_string + '<span class="sr-only">40% Complete (success)</span>'
-                    html_string = html_string + '</div>'
-                    html_string = html_string + '</div>'
+                    if proc > 0
+                      if proc >= 30
+                        progresscolor = "success"
+                      end
+                      if proc > 10 and proc < 30
+                        progresscolor = "warning"
+                      end
+                      if proc <= 10 
+                        progresscolor = "danger"
+                      end
+                      html_string = html_string + '<div class="progress">'
+                      html_string = html_string + '<div class="progress-bar progress-bar-' + progresscolor + ' progress-bar-striped" role="progressbar2" aria-valuenow="' + proc.to_s + '" aria-valuemin="0" aria-valuemax="100" style="width:' + proc.to_s + '%">'
+                      html_string = html_string + '<span class="sr-only">40% Complete (success)</span>'
+                      html_string = html_string + '</div>'
+                      html_string = html_string + '</div>'
+                    end
                   end
-                end
                 
-                if item.fee
-                  html_string = html_string + link_to(new_charge_path(:user_id => current_user.id, :appparam_id => item.id, :datum => startdatum, :plan => "monthly")) do
-                    content_tag(:i, content_tag(:div,sprintf("%05.2f CHF/m",item.fee/100)), class:"btn btn-special")
+                  if item.fee
+                    html_string = html_string + link_to(new_charge_path(:user_id => current_user.id, :appparam_id => item.id, :datum => startdatum, :plan => "monthly")) do
+                      content_tag(:i, content_tag(:div,sprintf("%05.2f CHF/m",item.fee/100)), class:"btn btn-submit")
+                    end
+                    #html_string = html_string + " " + sprintf("%05.2f CHF/Monat",item.fee/100) 
+                    #html_string = html_string + "<br><br>"
+                    html_string = html_string + link_to(new_charge_path(:user_id => current_user.id, :appparam_id => item.id, :datum => startdatum, :plan => "yearly")) do
+                      content_tag(:i, content_tag(:div,sprintf("%05.2f CHF/y",item.fee/10)), class:"btn btn-submit")
+                    end
+                    #html_string = html_string + " " + sprintf("%05.2f CHF/y",item.fee/10) 
                   end
-                  #html_string = html_string + " " + sprintf("%05.2f CHF/Monat",item.fee/100) 
-                  #html_string = html_string + "<br><br>"
-                  html_string = html_string + link_to(new_charge_path(:user_id => current_user.id, :appparam_id => item.id, :datum => startdatum, :plan => "yearly")) do
-                    content_tag(:i, content_tag(:div,sprintf("%05.2f CHF/y",item.fee/10)), class:"btn btn-special")
-                  end
-                  #html_string = html_string + " " + sprintf("%05.2f CHF/y",item.fee/10) 
+                else
+                      html_string = html_string + content_tag(:i, content_tag(:div,sprintf("%05.2f CHF/m",item.fee/100)), class:"btn btn-submit")
+                      html_string = html_string + content_tag(:i, content_tag(:div,sprintf("%05.2f CHF/y",item.fee/10)), class:"btn btn-submit")
                 end
+                html_string = html_string + "</trans>"
 
               when "deputies"
                 html_string = html_string + '<i class="fa fa-calendar"></i> '
@@ -1247,7 +1254,7 @@ def build_medialistNew(items, cname, par)
           end
 
           #kein Info button wenn kein weiterer drill down
-          if cname != "prices" and cname != "crits" and cname != "mdetails" and cname != "madvisors" and cname != "tickets" and cname != "questions" and cname != "comments" and cname != "partner_links"
+          if cname != "prices" and cname != "crits" and cname != "mdetails" and cname != "madvisors" and cname != "tickets" and cname != "questions" and cname != "comments" and cname != "partner_links" and cname != "appparams"
             html_string = html_string + link_to(item, :topic => "info") do 
               content_tag(:i, nil, class:"btn btn-primary btn-lg fa fa-info")
             end
@@ -1929,19 +1936,19 @@ def action_buttons4(object_type, item, topic)
         when "personen_info"
           #html_string = html_string + '<li class="nav-item">'
             html_string = html_string + link_to(users_path) do
-              content_tag(:i, " " + (I18n.t :personenuebersicht), class:"btn btn-default fa fa-search") 
+              content_tag(:i, " " + (I18n.t :suchen), class:"btn btn-default fa fa-search") 
             end
           #html_string = html_string + '</li>'
           if user_signed_in? 
             if current_user.id == item.id or isdeputy(item) or current_user.superuser
                 #html_string = html_string + '<li class="nav-item">'
                   html_string = html_string + link_to(edit_user_path(item)) do
-                    content_tag(:i, " "+(I18n.t :datenaendern), class: "btn btn-primary fa fa-wrench")
+                    content_tag(:i, " "+(I18n.t :aendern), class: "btn btn-primary fa fa-wrench")
                   end
                 #html_string = html_string + '</li>'
                 #html_string = html_string + '<li class="nav-item">'
                   html_string = html_string + link_to(item, method: :delete, data: { confirm: (I18n.t :sindsiesicher)})  do
-                      content_tag(:i, " " + (I18n.t :datenloeschen), class: "btn btn-danger fa fa-trash red")
+                      content_tag(:i, " " + (I18n.t :loeschen), class: "btn btn-danger fa fa-trash red")
                   end
                 #html_string = html_string + '</li>'
             end
@@ -1950,12 +1957,14 @@ def action_buttons4(object_type, item, topic)
                 content_tag(:i, " " + (I18n.t :fraud), class: "btn btn-warning fa fa-ban orange")
               end
             #html_string = html_string + '</li>'
+            if false 
             if $activeapps.include?("personen_transaktionen") or isdeputy(item) or current_user.superuser
               #html_string = html_string + '<li class="nav-item">'
                 html_string = html_string + link_to(listaccount_index_path(:user_id => current_user.id, :user_id_ver => item.id, :company_id_ver => nil, :ref => (I18n.t :verguetungan)+item.name + " " + item.lastname, :object_name => "User", :object_id => item.id, :amount => nil)) do
                   content_tag(:i, " " + (I18n.t :trx), class: "btn btn-default fa fa-euro")
                 end
               #html_string = html_string + '</li>'
+            end
             end
             if $activeapps.include?("personen_mappositionen") or isdeputy(item) or current_user.superuser
               #html_string = html_string + '<li class="nav-item">'
