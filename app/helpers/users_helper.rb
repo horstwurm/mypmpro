@@ -2086,15 +2086,15 @@ def action_buttons4(object_type, item, topic)
       case topic
         when "institutionen_info"
           html_string = html_string + link_to(companies_path(:page => session[:page]), title: (I18n.t :institutionen)) do
-            content_tag(:i, " " + (I18n.t :institutionenuebersicht), class:"btn btn-default fa fa-search") 
+            content_tag(:i, " " + (I18n.t :suchen), class:"btn btn-default fa fa-search") 
           end
           if user_signed_in?
             if current_user.id == item.user_id or isdeputy(item) or current_user.superuser
               html_string = html_string + link_to(edit_company_path(item), title: (I18n.t :bearbeiten)) do
-                content_tag(:i, " "+(I18n.t :datenaendern), class: "btn btn-primary fa fa-wrench")
+                content_tag(:i, " "+(I18n.t :aendern), class: "btn btn-primary fa fa-wrench")
               end
               html_string = html_string + link_to(item, method: :delete, data: { confirm: (I18n.t :sindsiesicher) }) do
-                  content_tag(:i, " " + (I18n.t :datenloeschen), class: "btn btn-danger fa fa-trash red")
+                  content_tag(:i, " " + (I18n.t :loeschen), class: "btn btn-danger fa fa-trash red")
               end
             end
             html_string = html_string + link_to(new_webmaster_path(:object_name => "Company", :object_id => item.id, :user_id => current_user.id)) do
@@ -2107,12 +2107,14 @@ def action_buttons4(object_type, item, topic)
                 end
               end
             end
+            if false
             if $activeapps.include?("institutionen_transaktionen") or current_user.superuser
               if (item.user_id == current_user.id) or isdeputy(item) or current_user.superuser
                 html_string = html_string + link_to(listaccount_index_path :user_id => current_user.id, :user_id_ver => nil, :company_id_ver => item.id, :ref => (I18n.t :verguetungan)+item.name, :object_name => "Company", :object_id => item.id, :amount => nil) do
                   content_tag(:i, " " + (I18n.t :trx), class: "btn btn-default fa fa-euro")
                 end
               end
+            end
             end
           end
 

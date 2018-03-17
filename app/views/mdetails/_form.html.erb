@@ -14,13 +14,13 @@
     </div>
 
      <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <div class="panel-body ueberschrift">
                 <h1><%= @mdetail.mobject.name %></h1> 
             </div>
         </div>
         <div class="col-md-6">
-            <div class="panel panel-body">
+            <div class="panel panel-body ueberschrift">
                   <% if @mdetail.mobject.mtype == "artikel" %>
                       <%= f.label I18n.t :textoptionen %>
                       <%= f.radio_button :textoptions, "text" %> <%= I18n.t :text %><br>
@@ -66,6 +66,12 @@
                     </div>
                     <br>
                   <% end %>
+                  <div class="actions">
+                    <%= f.submit (I18n.t :speichern), class:"btn btn-primary btn-lg btn-submit"%>
+                    <%= link_to mobject_path(:id => @mdetail.mobject_id, :topic => "objekte_details") do %>
+                      <i class="btn btn-default btn-lg btn-submit">Abbrechen</i>
+                    <% end %>
+                  </div>
                   <div>
                       <%= f.hidden_field :mobject_id, class:"form-control" %>
                       <%= f.hidden_field :mtype, class:"form-control" %>
@@ -73,18 +79,6 @@
                 </div>
             </div>
         </div>
-     </div>
-     <div class="row">
-        <div class="col-md-6">
-            <div class="actions">
-              <%= f.submit (I18n.t :speichern), class:"btn btn-primary btn-lg"%>
-              <%= link_to mobject_path(:id => @mdetail.mobject_id, :topic => "objekte_details") do %>
-                <i class="btn btn-default btn-lg">Abbrechen</i>
-              <% end %>
-            </div>
-        </div>
-      </div>
-    </div>
   <% end %>
 
 <script>
