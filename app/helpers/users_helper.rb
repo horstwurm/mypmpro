@@ -2240,12 +2240,12 @@ def action_buttons4(object_type, item, topic)
               if isowner(item) or isdeputy(item.owner)
                 if @mobject.mtype == "kampagnen"
                   html_string = html_string + link_to(new_signage_cal_path(:kam_id => @mobject.id)) do
-                      content_tag(:i, " " + (I18n.t :standorte) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange") 
+                      content_tag(:i, " " + (I18n.t :standorte), class:"btn btn-primary fa fa-plus orange") 
                   end
                 end
                 if @mobject.mtype == "standorte"
                   html_string = html_string + link_to(new_signage_cal_path(:loc_id => @mobject.id)) do
-                      content_tag(:i, " " + (I18n.t :kampagnen) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange") 
+                      content_tag(:i, " " + (I18n.t :kampagnen), class:"btn btn-primary fa fa-plus orange") 
                   end
                 end
               end
@@ -2733,12 +2733,12 @@ def action_buttonsx(object_type, item, topic)
               if isowner(item) or isdeputy(item.owner)
                 if @mobject.mtype == "kampagnen"
                   html_string = html_string + link_to(new_signage_cal_path(:kam_id => @mobject.id)) do
-                      content_tag(:i, " " + (I18n.t :standorte) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
+                      content_tag(:i, " " + (I18n.t :standorte), class:"fa fa-plus orange") 
                   end
                 end
                 if @mobject.mtype == "standorte"
                   html_string = html_string + link_to(new_signage_cal_path(:loc_id => @mobject.id)) do
-                      content_tag(:i, " " + (I18n.t :kampagnen) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
+                      content_tag(:i, " " + (I18n.t :kampagnen), class:"fa fa-plus orange") 
                   end
                 end
               end
@@ -3887,7 +3887,7 @@ def build_article(article)
                     html_string = html_string + "<i class='fa fa-chevron-down'> </i>"+ d.name
                     if user_signed_in?
                       html_string = html_string + link_to(new_mrating_path(:mobject_id => article.id, :user_id => current_user.id)) do
-                        content_tag(:i, content_tag(:i," bewerten"), class:"btn btn-primary fa fa-star")
+                        html_string = html_string + l
                       end
                     end
                   html_string = html_string + "</a>"
@@ -4474,6 +4474,130 @@ def contactChip(owner)
   end
   html = html + '</div>'
   return html.html_safe
+end
+
+def build_cal(mode, scope1, scope2, scope3, datum)
+
+html_string = ""
+html_string = html_string + "<table class='table table-responsive table-week'>"
+  html_string = html_string + "<thead>"
+    html_string = html_string + "<th colspan='3'></th>"
+    if mode == "Woche"
+      startdate = Date.parse(datum) - Date.parse(datum).cwday+1
+      enddate = startdate+7
+      for i in 0..6
+        if Date.today.cwday-1 == i
+          html_string = html_string + "<th class='table-week actdate dateheader'>"
+        else
+          html_string = html_string + "<th class='table-week dateheader'>"
+        end
+        html_string = html_string + $wochentage[i]+"<br>"
+        html_string = html_string + (startdate + i).strftime("%d.%m.%Y").to_s
+        html_string = html_string + "</th>"
+      end
+    end
+    if mode == "Monat"
+      startdate = Date.parse(datum).beginning_of_month
+      enddate = Date.parse(datum).end_of_month+1
+      for i in 1..enddate-startdate
+        if Date.today.day == i and Date.today >= startdate and Date.today <= enddate
+          html_string = html_string + "<th class='table-week actdate dateheader'>"
+        else
+          html_string = html_string + "<th class='table-week dateheader'>"
+        end
+        html_string = html_string + i.to_s
+        html_string = html_string + "</th>"
+      end
+    end
+  html_string = html_string + "</thead>"
+  html_string = html_string + "<body 'table-week'>"
+
+    case scope1
+      when "signage_cals"
+        if scope2 == "locations"
+          @cals = SignageCal.where('mkampagne=? and date_from<=? and date_to>=?',scope3, enddate, startdate)
+        end
+        if scope2 == "campaigns"
+          @cals = SignageCal.where('mstandort=? and date_from<=? and date_to>=?',scope3, enddate, startdate)
+        end
+        @cals.each do |c|
+          html_string = html_string + "<tr>"
+            if scope2 == "locations" and c.mstandort
+              @obj = Mobject.find(c.mstandort)
+            end
+            if scope2 == "campaigns" and c.mkampagne
+              @obj = Mobject.find(c.mkampagne)
+            end
+            html_string = html_string + "<td>"
+              html_string = html_string + showFirstImage2(:small, @obj, @obj.mdetails)
+            html_string = html_string + "</td>"
+            
+            html_string = html_string + "<td>"
+              html_string = html_string + @obj.name + " " + c.time_from.to_s + "-" + c.time_to.to_s + " Uhr" 
+
+            html_string = html_string + "</td>"
+              
+            html_string = html_string + "<td>"
+      			if @obj.owner_id == current_user.id or isdeputy(current_user)
+    				  if !c.confirmed
+    				    if scope2 == "locations"
+                      html_string = html_string + link_to(signage_cals_path(:confirm_id => c.id, :loc_id => c.mstandort)) do
+                        content_tag(:i, nil, class:"btn btn-primary btn-xs fa fa-check")
+                      end
+                end
+    				    if scope2 == "campaigns"
+                      html_string = html_string + link_to(signage_cals_path(:confirm_id => c.id, :kam_id => c.mkampagne)) do
+                        content_tag(:i, nil, class:"btn btn-primary btn-xs fa fa-check")
+                      end
+                end
+              else
+    				    if scope2 == "locations"
+                      html_string = html_string + link_to(signage_cals_path(:noconfirm_id => c.id, :loc_id => c.mstandort)) do
+                        content_tag(:i, nil, class:"btn btn-primary btn-xs fa fa-ban")
+                      end
+                end
+    				    if scope2 == "campaigns"
+                      html_string = html_string + link_to(signage_cals_path(:noconfirm_id => c.id, :loc_id => c.mkampagne)) do
+                        content_tag(:i, nil, class:"btn btn-primary btn-xs fa fa-ban")
+                      end
+                end
+              end
+              html_string = html_string + link_to(edit_signage_cal_path(c)) do
+                content_tag(:i, nil, class:"btn btn-primary btn-xs fa fa-wrench")
+              end
+  				    html_string = html_string + link_to(c, method: :delete, data: { confirm: 'Are you sure?' }) do
+                content_tag(:i, nil, class:"btn btn-danger btn-xs fa fa-trash")
+              end
+            end
+            html_string = html_string + "</td>"
+            if mode == "Woche"
+              for k in 0..6
+                if startdate+k >= c.date_from and startdate+k <= c.date_to
+                  html_string = html_string + "<td class='colfilled'>"
+                  html_string = html_string + "<div class='box'></div>"
+                else
+                  html_string = html_string + "<td>"
+                end
+                html_string = html_string + "</td>"
+              end
+            end
+            if mode == "Monat"
+              for k in 0..enddate-startdate
+                if startdate+k >= c.date_from and startdate+k <= c.date_to
+                  html_string = html_string + "<td class='colfilled'>"
+                  html_string = html_string + "<div class='boxmon'></div>"
+                else
+                  html_string = html_string + "<td>"
+                end
+                html_string = html_string + "</td>"
+              end
+            end
+          html_string = html_string + "</tr>"
+        end
+    end
+  html_string = html_string + "</body>"
+html_string = html_string + "</table>"
+return html_string.html_safe
 end
 
 end    

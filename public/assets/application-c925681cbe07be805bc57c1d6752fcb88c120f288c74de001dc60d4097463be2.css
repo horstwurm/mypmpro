@@ -12251,7 +12251,10 @@ button.close {
     Author: BootstrapMade.com
     Author URL: https://bootstrapmade.com
 */
-/* line 8, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* light green TKB */
+/* dunkelgruen TKB */
+/* hellgrau */
+/* line 15, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 body {
   line-height: 1.4;
   font-family: 'Roboto', sans-serif;
@@ -12262,40 +12265,40 @@ body {
   overflow-x: hidden;
 }
 
-/* line 18, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 25, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 ol, ul {
   list-style: none;
 }
 
-/* line 22, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 29, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 blockquote, q {
   quotes: none;
 }
 
-/* line 26, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 33, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 blockquote:before, blockquote:after, q:before, q:after {
   content: '';
   content: none;
 }
 
-/* line 31, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 38, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-/* line 36, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 43, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Raleway', sans-serif;
   font-weight: 600;
 }
 
-/* line 41, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 48, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .section-padding {
   padding: 60px 0px;
 }
 
-/* line 45, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 52, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 #loader {
   position: absolute;
   left: 50%;
@@ -12332,7 +12335,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 /* Add animation to "page content" */
-/* line 82, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 89, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .animate-bottom {
   position: relative;
   -webkit-animation-name: animatebottom;
@@ -12366,7 +12369,7 @@ h1, h2, h3, h4, h5, h6 {
 HEADER
 ************************************
 ***********************************/
-/* line 118, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 125, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .header {
   background: url(/assets/bg-banner02-022f58d00e35c14f744f96d475b0734497ece8543cbefdd5990413cf9859f8ef.jpg) no-repeat fixed;
   background-size: cover;
@@ -12374,13 +12377,13 @@ HEADER
   position: relative;
 }
 
-/* line 125, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 132, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .bg-color {
   background-color: rgba(0, 0, 0, 0.5);
   min-height: 650px;
 }
 
-/* line 132, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 139, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .navbar-default {
   background-color: transparent;
   border: 0px;
@@ -12389,40 +12392,40 @@ HEADER
 }
 
 @media (max-width: 768px) {
-  /* line 140, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+  /* line 147, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
   .navbar-default {
     background: rgba(64, 75, 97, 0.9);
   }
 }
-/* line 144, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 151, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .navbar-default .navbar-brand:focus, .navbar-default .navbar-brand:hover {
   color: #002F2F;
 }
 
-/* line 148, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 155, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .top-nav-collapse {
   padding: 0;
   background: rgba(64, 75, 97, 0.9);
 }
 
-/* line 153, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 160, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .logo-dec {
   color: #be9e21;
 }
 
-/* line 157, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 164, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .navbar-default .navbar-brand {
   color: #fff;
   font-family: 'Raleway', sans-serif;
   font-weight: 700;
 }
 
-/* line 163, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 170, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
   color: #fff;
 }
 
-/* line 167, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 174, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .navbar-brand {
   padding: 0px;
   font-size: 24px;
@@ -12431,7 +12434,7 @@ HEADER
   margin-top: 6px;
 }
 
-/* line 175, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 182, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .navbar-default .navbar-nav > li > a {
   padding: 5px 10px;
   font-size: 14px;
@@ -12443,37 +12446,37 @@ HEADER
   transition: color 0.2s ease-out;
 }
 
-/* line 187, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 194, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
   color: #be9e21;
   background-color: transparent;
 }
 
-/* line 192, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 199, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover {
   background-color: transparent;
   color: #be9e21;
 }
 
-/* line 197, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 204, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .banner-info {
   padding-top: 140px;
   color: #fff;
 }
 
-/* line 202, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 209, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .bnr-title, .bnr-sub-title {
   font-family: 'Fira Sans', sans-serif;
 }
 
-/* line 206, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 213, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 h1.bnr-title {
   font-size: 18px;
   text-transform: uppercase;
   letter-spacing: 2px;
 }
 
-/* line 212, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 219, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 h2.bnr-sub-title {
   font-size: 45px;
   text-transform: uppercase;
@@ -12481,12 +12484,12 @@ h2.bnr-sub-title {
   font-weight: 700;
 }
 
-/* line 219, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 226, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .bnr-para {
   font-weight: 300;
 }
 
-/* line 223, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 230, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .btn-download, .btn-more, .btn-download:hover, .btn-download:focus, .btn-more:focus {
   text-transform: uppercase;
   margin-top: 50px;
@@ -12504,25 +12507,25 @@ h2.bnr-sub-title {
   transition: all 0.3s;
 }
 
-/* line 240, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 247, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .btn-download {
   background-color: #be9e21;
 }
 
-/* line 244, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 251, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .btn-more, .btn-more:focus {
   margin-left: 15px;
   border: 1px solid #be9e21;
   color: #be9e21;
 }
 
-/* line 250, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 257, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .btn-more:hover {
   background: #be9e21;
   color: #fff;
 }
 
-/* line 255, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 262, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .overlay-detail a i {
   text-align: center;
   position: absolute;
@@ -12536,24 +12539,24 @@ h2.bnr-sub-title {
 features
 ************************************
 ***********************************/
-/* line 269, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 276, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .title, .service-title {
   font-family: 'Fira Sans', sans-serif;
   font-size: 35px;
   text-transform: uppercase;
 }
 
-/* line 275, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 282, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .item-img {
   margin-bottom: 15px;
 }
 
-/* line 279, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 286, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .sub-title {
   font-size: 20px;
 }
 
-/* line 283, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 290, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .bottom-line {
   margin-top: 20px;
   margin-bottom: 40px;
@@ -12564,23 +12567,23 @@ features
   background-color: #BE9E21;
 }
 
-/* line 293, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 300, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .wrap-item h3 {
   font-size: 24px;
   line-height: 25px;
 }
 
-/* line 298, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 305, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .pad-bt15 {
   padding-bottom: 15px;
 }
 
-/* line 302, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 309, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .sec-sub-title {
   padding-top: 30px;
 }
 
-/* line 306, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 313, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .sec-sub-title {
   font-size: 16px;
   font-weight: bold;
@@ -12590,18 +12593,18 @@ features
   line-height: 1.7;
 }
 
-/* line 315, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 322, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 #service {
   background-color: #F3F4F8;
 }
 
-/* line 319, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 326, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 ul.service-list li i {
   color: #002F2F;
   padding-right: 10px;
 }
 
-/* line 324, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 331, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .learn-more, .learn-more:hover, .learn-more:focus {
   height: 50px;
   width: 175px;
@@ -12620,7 +12623,7 @@ ul.service-list li i {
   -webkit-transition: all 0.3s;
 }
 
-/* line 342, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 349, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .visit-portfolio, .visit-portfolio:hover, .visit-portfolio:focus {
   height: 50px;
   width: 175px;
@@ -12637,7 +12640,7 @@ ul.service-list li i {
   -webkit-transition: all 0.3s;
 }
 
-/* line 358, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 365, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .bx-wrapper img {
   width: 70px;
   display: inline-block;
@@ -12646,7 +12649,7 @@ ul.service-list li i {
   margin-bottom: 15px;
 }
 
-/* line 366, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 373, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .service-item h3 span {
   opacity: 0.7;
   font-size: 75px;
@@ -12657,45 +12660,45 @@ ul.service-list li i {
   padding-right: 6px;
 }
 
-/* line 376, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 383, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .service-item h3 {
   font-weight: 700;
 }
 
-/* line 380, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 387, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .service-item p {
   opacity: 0.6;
   color: inherit;
   padding: 10px 0px;
 }
 
-/* line 386, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 393, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .service-item a {
   color: #be9e21;
 }
 
-/* line 390, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 397, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .mr-btn-15 {
   margin-bottom: 15px;
 }
 
-/* line 394, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 401, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .padding-right-zero {
   padding-right: 0px !important;
 }
 
-/* line 398, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 405, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .bx-wrapper {
   margin: 0 auto 35px;
 }
 
-/* line 402, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 409, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .portfolio-item {
   position: relative;
   overflow: hidden;
 }
 
-/* line 407, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 414, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .portfolio-item figure {
   margin: 0;
   padding: 0;
@@ -12703,7 +12706,7 @@ ul.service-list li i {
   cursor: pointer;
 }
 
-/* line 414, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 421, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .portfolio-item figure img {
   display: block;
   position: relative;
@@ -12711,7 +12714,7 @@ ul.service-list li i {
   margin: -15px 0;
 }
 
-/* line 421, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 428, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .portfolio-item figure figcaption {
   display: block;
   position: absolute;
@@ -12719,7 +12722,7 @@ ul.service-list li i {
   box-sizing: border-box;
 }
 
-/* line 430, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 437, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .portfolio-item figure h2 {
   font-family: 'Fira Sans', sans-serif;
   color: #fff;
@@ -12728,7 +12731,7 @@ ul.service-list li i {
   padding-bottom: 15px;
 }
 
-/* line 438, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 445, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .portfolio-item figure p {
   display: block;
   line-height: 18px;
@@ -12737,7 +12740,7 @@ ul.service-list li i {
   text-align: left;
 }
 
-/* line 446, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 453, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .portfolio-item figure figcaption {
   top: 0;
   left: 0;
@@ -12753,20 +12756,20 @@ ul.service-list li i {
   text-align: center;
 }
 
-/* line 463, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 470, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .portfolio-item figure img {
   -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
   transition: all 0.5s;
 }
 
-/* line 470, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 477, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .portfolio-item figure:hover img, figure.hover img {
   -webkit-transform: rotateY(180deg);
   transform: rotateY(180deg);
 }
 
-/* line 476, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 483, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .portfolio-item figure:hover figcaption, figure.hover figcaption {
   -webkit-transform: rotateY(0);
   transform: rotateY(0);
@@ -12777,25 +12780,25 @@ ul.service-list li i {
 TESTIMONIAL
 ************************************
 ***********************************/
-/* line 488, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 495, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 #testimonial {
   background: url(/assets/banner-2627e8f197b6734723604fee5bb91581f91eb068f808e51a58f4a15d83bef9ee.jpg) no-repeat;
   background-size: cover;
   min-height: 390px;
 }
 
-/* line 494, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 501, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .bg-testicolor {
   background-color: RGBA(73, 84, 105, 0.61);
   min-height: 390px;
 }
 
-/* line 499, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 506, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .white {
   color: #fff !important;
 }
 
-/* line 503, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 510, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .testimonial-item ul li blockquote {
   font-size: 18px;
   line-height: 32px;
@@ -12811,7 +12814,7 @@ TESTIMONIAL
   border: 0;
 }
 
-/* line 518, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 525, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .testimonial-item ul li small {
   font-size: 16px;
   color: #fff;
@@ -12822,7 +12825,7 @@ TESTIMONIAL
   width: 100%;
 }
 
-/* line 528, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 535, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .bx-viewport {
   height: 235px !important;
   background-color: transparent !important;
@@ -12830,13 +12833,13 @@ TESTIMONIAL
   box-shadow: none !important;
 }
 
-/* line 535, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 542, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .testimonial-item ul li blockquote::before {
   content: '“';
   left: 30px;
 }
 
-/* line 540, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 547, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .testimonial-item ul li blockquote::before, .testimonial-item ul li blockquote::after {
   position: absolute;
   font-weight: 300;
@@ -12846,7 +12849,7 @@ TESTIMONIAL
   top: 62%;
 }
 
-/* line 549, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 556, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .testimonial-item ul li blockquote::after {
   content: '”';
   right: 30px;
@@ -12857,7 +12860,7 @@ TESTIMONIAL
 Blog
 ************************************
 ***********************************/
-/* line 560, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 567, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .blog-info h2 {
   text-transform: capitalize;
   font-weight: 600;
@@ -12866,55 +12869,55 @@ Blog
   padding-top: 5px;
 }
 
-/* line 568, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 575, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .blog-comment {
   margin-top: 12px;
   min-height: 30px;
 }
 
-/* line 573, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 580, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .blog-info p, .blog-comment p {
   color: #949494;
 }
 
-/* line 577, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 584, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .blog-comment p:first-child {
   float: left;
 }
 
-/* line 581, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 588, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .blog-comment p:last-child {
   float: right;
   margin-right: 0;
 }
 
-/* line 586, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 593, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .blog-comment p i {
   color: #949494;
 }
 
-/* line 590, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 597, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .read-more {
   color: #949494;
   margin-top: 15px;
   display: inline-block;
 }
 
-/* line 596, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 603, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .blog-img {
   position: relative;
   margin-bottom: 20px;
   overflow: hidden;
 }
 
-/* line 602, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 609, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .blog-img img:hover {
   opacity: 1;
   -webkit-transform: scale(1.05);
   transform: scale(1.05);
 }
 
-/* line 611, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 618, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .blog-img img {
   width: 100%;
   opacity: 0.8;
@@ -12926,12 +12929,12 @@ Blog
 contact
 ************************************
 ***********************************/
-/* line 627, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 634, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 #contact {
   background-color: #495469;
 }
 
-/* line 631, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 638, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .btn-submit, .btn-submit:hover, .btn-submit:focus {
   background-color: transparent;
   border-radius: 60px;
@@ -12942,7 +12945,7 @@ contact
   padding: 6px 20px;
 }
 
-/* line 641, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 648, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .form-control {
   background-color: transparent;
   border-radius: 0px;
@@ -12950,19 +12953,19 @@ contact
   border-color: #be9e21;
 }
 
-/* line 648, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 655, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .form-control:focus {
   border-color: #be9e21;
   outline: 0;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
 }
 
-/* line 655, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 662, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .contact-form input.form-control {
   color: #fff;
 }
 
-/* line 659, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 666, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .validation {
   color: red;
   display: none;
@@ -12971,7 +12974,7 @@ contact
   font-size: 13px;
 }
 
-/* line 667, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 674, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 #sendmessage {
   color: green;
   border: 1px solid green;
@@ -12982,7 +12985,7 @@ contact
   margin-bottom: 15px;
 }
 
-/* line 677, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 684, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 #errormessage {
   color: red;
   display: none;
@@ -12993,17 +12996,17 @@ contact
   margin-bottom: 15px;
 }
 
-/* line 687, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 694, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 #sendmessage.show, #errormessage.show, .show {
   display: block;
 }
 
-/* line 691, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 698, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .loction-info p {
   margin-bottom: 25px;
 }
 
-/* line 695, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 702, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .loction-info p i {
   color: #be9e21;
 }
@@ -13013,12 +13016,12 @@ contact
 contact
 ************************************
 ***********************************/
-/* line 705, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 712, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 #footer {
   padding: 20px 0px;
 }
 
-/* line 709, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 716, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .scrollToTop {
   position: fixed;
   bottom: 12px;
@@ -13035,12 +13038,12 @@ contact
   display: none;
 }
 
-/* line 725, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 732, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .white-bg {
   background-color: #fff;
 }
 
-/* line 729, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 736, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 #footer a {
   color: #be9e21;
   font-weight: 400;
@@ -13056,12 +13059,12 @@ Responsive media queries
 cta
 ************************************
 ***********************************/
-/* line 746, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 753, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .cta {
   background-color: #495469;
 }
 
-/* line 750, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 757, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .cta .cta-info {
   width: 100%;
   float: left;
@@ -13069,13 +13072,13 @@ cta
   border-radius: 5px;
 }
 
-/* line 757, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 764, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .cta .cta-info .cta-txt h3 {
   font-size: 32px;
   margin-bottom: 10px;
 }
 
-/* line 762, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 769, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .cta .cta-info .cta-btn {
   margin-top: 16px;
   background-color: #be9e21;
@@ -13091,107 +13094,118 @@ cta
 Responsive media queries
 ************************************
 ***********************************/
+/* custom */
+/* line 786, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+.blog-sec {
+  background-color: #F5F5F5;
+}
+
+/* line 789, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+.blog-sec:hover {
+  box-shadow: 2px 2px 10px #B1B1B1;
+}
+
 @media (min-width: 768px) and (max-width: 980px) {
-  /* line 779, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+  /* line 794, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
   .service-item, .blog-sec, .wrap-item, .loction-info {
     margin-bottom: 15px;
   }
 
-  /* line 782, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+  /* line 797, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
   .portfolio-item figure figcaption {
     padding: 55px 30px;
   }
 
-  /* line 785, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+  /* line 800, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
   .padding-right-zero {
     padding-right: 15px !important;
   }
 }
 @media (min-width: 451px) and (max-width: 767px) {
-  /* line 791, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+  /* line 806, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
   .service-item, .blog-sec, .wrap-item, .loction-info {
     margin-bottom: 15px;
   }
 }
 @media (min-width: 20px) and (max-width: 450px) {
-  /* line 797, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+  /* line 812, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
   .navbar-default .navbar-brand {
     padding-left: 16px;
     margin-top: 0px;
   }
 
-  /* line 801, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+  /* line 816, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
   .banner-info {
     padding-top: 40px;
   }
 
-  /* line 804, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+  /* line 819, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
   h1.bnr-title {
     font-size: 16px;
   }
 
-  /* line 807, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+  /* line 822, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
   h2.bnr-sub-title {
     font-size: 33px;
   }
 
-  /* line 810, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+  /* line 825, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
   body {
     font-size: 14px;
   }
 
-  /* line 813, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+  /* line 828, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
   .btn-download, .btn-more, .btn-download:hover, .btn-more:hover, .btn-download:focus, .btn-more:focus {
     font-size: 12px;
     padding: 7px 18px;
   }
 
-  /* line 817, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+  /* line 832, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
   .wrap-item h3 {
     font-size: 18px;
   }
 
-  /* line 820, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+  /* line 835, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
   .title, .service-title {
     font-size: 28px;
   }
 
-  /* line 823, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+  /* line 838, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
   .sub-title {
     font-size: 15px;
   }
 
-  /* line 826, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+  /* line 841, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
   .service-item, .blog-sec, .wrap-item, .loction-info {
     margin-bottom: 15px;
   }
 
-  /* line 829, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+  /* line 844, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
   .loction-info {
     padding: 0px 15px;
   }
 
-  /* line 832, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+  /* line 847, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
   .portfolio-item figure figcaption {
     padding: 30px 30px;
   }
 
-  /* line 835, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+  /* line 850, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
   .padding-right-zero {
     padding-right: 15px !important;
   }
 
-  /* line 838, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+  /* line 853, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
   .portfolio-item figure p {
     font-size: 14px;
   }
 
-  /* line 841, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+  /* line 856, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
   .portfolio-item figure h2 {
     font-size: 18px;
   }
 
-  /* line 844, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+  /* line 859, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
   .testimonial-item ul li blockquote {
     font-size: 14px;
     line-height: 22px;
@@ -13199,7 +13213,7 @@ Responsive media queries
     padding: 0 40px;
   }
 
-  /* line 850, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+  /* line 865, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
   .navbar-default .navbar-nav > li > a {
     line-height: 22px;
     text-align: center;
@@ -13207,25 +13221,25 @@ Responsive media queries
 }
 /* ========================================================================================================k */
 /* CUSTOM */
-/* line 859, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 875, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .btn-inactive {
   background-color: grey;
   color: white;
 }
 
-/* line 864, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 880, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .btn-active {
   background-color: orange;
   color: white;
 }
 
-/* line 869, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 885, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .ueberschrift {
   background-color: #495469 !important;
   color: white;
 }
 
-/* line 874, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 890, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .form-control {
   background-color: transparent;
   border-radius: 0px;
@@ -13233,21 +13247,21 @@ Responsive media queries
   border-color: #be9e21;
 }
 
-/* line 881, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 897, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .form-control:focus {
   border-color: #be9e21;
   outline: 0;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
 }
 
-/* line 888, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 904, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .jumbotron {
   box-shadow: 2px 2px 10px #B1B1B1;
   background: transparent !important;
   background: #495469 !important;
 }
 
-/* line 894, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 910, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .chip {
   display: inline-block;
   padding: 0 25px;
@@ -13258,7 +13272,7 @@ Responsive media queries
   background-color: #f1f1f1;
 }
 
-/* line 905, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 921, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 .chip img {
   float: left;
   margin: 0 10px 0 -25px;
@@ -13267,7 +13281,7 @@ Responsive media queries
   border-radius: 50%;
 }
 
-/* line 914, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 930, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 #snackbar {
   visibility: hidden;
   min-width: 250px;
@@ -13284,7 +13298,7 @@ Responsive media queries
   font-size: 17px;
 }
 
-/* line 930, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
+/* line 946, /home/ubuntu/workspace/app/assets/stylesheets/style.css */
 #snackbar.show {
   visibility: visible;
   -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
@@ -13336,46 +13350,46 @@ Responsive media queries
 /* hellgrau */
 /* ========================================================================================================k */
 /* CUSTOM */
-/* line 10, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 13, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .ac {
   color: green;
 }
 
-/* line 14, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 17, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .noac {
   color: red;
 }
 
-/* line 18, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 21, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .btn-inactive {
-  background-color: grey;
-  color: white;
+  background-color: transparent;
+  color: grey;
 }
 
-/* line 23, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 26, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .btn-active {
   background-color: orange;
   color: white;
 }
 
-/* line 28, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 31, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .menu-inactive {
   color: grey;
   font-size: 16px;
 }
 
-/* line 33, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 36, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .menu-active {
   font-size: 16px;
 }
 
-/* line 37, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 40, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .ueberschrift {
   background-color: #495469 !important;
   color: white;
 }
 
-/* line 42, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 45, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .form-control {
   background-color: transparent;
   border-radius: 0px;
@@ -13383,21 +13397,21 @@ Responsive media queries
   border-color: #be9e21;
 }
 
-/* line 49, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 52, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .form-control:focus {
   border-color: #be9e21;
   outline: 0;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
 }
 
-/* line 56, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 59, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .jumbotron {
   box-shadow: 2px 2px 10px #B1B1B1;
   background: transparent !important;
   background: #495469 !important;
 }
 
-/* line 62, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 65, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .chip {
   display: inline-block;
   padding: 0 25px;
@@ -13408,7 +13422,7 @@ Responsive media queries
   background-color: #f1f1f1;
 }
 
-/* line 73, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 76, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .chip img {
   float: left;
   margin: 0 10px 0 -25px;
@@ -13417,7 +13431,7 @@ Responsive media queries
   border-radius: 50%;
 }
 
-/* line 82, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 85, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 #snackbar {
   visibility: hidden;
   min-width: 250px;
@@ -13434,7 +13448,7 @@ Responsive media queries
   font-size: 17px;
 }
 
-/* line 98, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 101, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 #snackbar.show {
   visibility: visible;
   -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
@@ -13483,7 +13497,7 @@ Responsive media queries
 }
 /* ========================================================================================================k */
 /*  */
-/* line 127, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 130, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .kampagne_image {
   #position: absolute;
   position: relative;
@@ -13494,7 +13508,7 @@ Responsive media queries
   margin: 10px;
 }
 
-/* line 137, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 140, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .sideinfo_image {
   position: relative;
   top: 60px;
@@ -13504,7 +13518,7 @@ Responsive media queries
   margin: 10px;
 }
 
-/* line 146, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 149, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .signage_right {
   background-color: #ACC550;
   position: absolute;
@@ -13518,7 +13532,7 @@ Responsive media queries
   font-size: 17px;
 }
 
-/* line 159, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 162, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .kampagne_message_header {
   position: absolute;
   color: grey;
@@ -13534,7 +13548,7 @@ Responsive media queries
   width: 60%;
 }
 
-/* line 175, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 178, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .sideinfo_message_header {
   position: relative;
   color: #2E6B33;
@@ -13550,7 +13564,7 @@ Responsive media queries
   margin: 10px;
 }
 
-/* line 191, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 194, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .kampagne_message_body {
   position: absolute;
   color: grey;
@@ -13566,7 +13580,7 @@ Responsive media queries
   width: 60%;
 }
 
-/* line 207, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 210, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .sideinfo_message_body {
   position: relative;
   color: white;
@@ -13581,7 +13595,7 @@ Responsive media queries
   margin: 10px;
 }
 
-/* line 222, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 225, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .signage_footer {
   background-color: #ACC550;
   position: absolute;
@@ -13594,7 +13608,7 @@ Responsive media queries
   font-size: 17px;
 }
 
-/* line 234, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 237, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .signage_header {
   background-color: #F5F5F5;
   position: absolute;
@@ -13608,7 +13622,7 @@ Responsive media queries
   font-size: 17px;
 }
 
-/* line 247, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 250, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .signage_qrcode {
   position: absolute;
   position: fixed;
@@ -13617,11 +13631,11 @@ Responsive media queries
   right: 0px;
 }
 
-/* line 255, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 258, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .signage {
   color: grey !important;
 }
-/* line 257, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 260, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .signage .panel-signage {
   background: white !important;
   display: block;
@@ -13631,7 +13645,7 @@ Responsive media queries
   padding: 0;
 }
 
-/* line 267, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 270, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .signage_background {
   min-height: 100%;
   min-width: 100%;
@@ -13641,7 +13655,7 @@ Responsive media queries
 /*******************************************************************************************************/
 /* GOOGLE MAPs */
 /*******************************************************************************************************/
-/* line 276, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 279, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 #map, #map2, #map3 {
   height: 750px;
   border-radius: 16px 16px;
@@ -13652,20 +13666,20 @@ Responsive media queries
   border-width: 7px;
 }
 
-/* line 285, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 288, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 #map-canvas, #map-canvas2, #map-canvas3 {
   height: 384px;
   width: 100%;
 }
 
 /* Bootstrap Css Map Fix*/
-/* line 291, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 294, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 #map-container #map-canvas img {
   max-width: none;
 }
 
 /* Bootstrap Css Map Fix*/
-/* line 295, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 298, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 #map-container #map-canvas label {
   width: auto;
   display: inline;
@@ -13674,7 +13688,7 @@ Responsive media queries
 /*******************************************************************************************************/
 /* PAGINATION */
 /*******************************************************************************************************/
-/* line 302, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 305, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .digg_pagination {
   background: white;
   cursor: default;
@@ -13682,7 +13696,7 @@ Responsive media queries
   /* self-clearing method: */
 }
 
-/* line 307, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 310, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .digg_pagination a, .digg_pagination span, .digg_pagination em {
   padding: 0.2em 0.5em;
   display: block;
@@ -13690,13 +13704,13 @@ Responsive media queries
   margin-right: 1px;
 }
 
-/* line 312, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 315, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .digg_pagination .disabled {
   color: #999999;
   border: 0px solid #dddddd;
 }
 
-/* line 315, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 318, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .digg_pagination .current {
   font-style: normal;
   font-weight: bold;
@@ -13706,21 +13720,21 @@ Responsive media queries
   border: 0px solid #2e6ab1;
 }
 
-/* line 322, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 325, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .digg_pagination a {
   text-decoration: none;
   color: #105cb6;
   border: 0px solid #9aafe5;
 }
 
-/* line 326, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 329, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .digg_pagination a:hover, .digg_pagination a:focus {
   color: #000033;
   background: white;
   border-color: #000033;
 }
 
-/* line 330, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 333, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .digg_pagination .page_info {
   background: #2e6ab1;
   color: white;
@@ -13730,14 +13744,14 @@ Responsive media queries
   text-align: center;
 }
 
-/* line 337, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 340, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .digg_pagination .page_info b {
   color: #000033;
   background: #6aa6ed;
   padding: 0.1em 0.25em;
 }
 
-/* line 341, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 344, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .digg_pagination:after {
   content: ".";
   display: block;
@@ -13746,17 +13760,17 @@ Responsive media queries
   visibility: hidden;
 }
 
-/* line 347, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 350, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 * html .digg_pagination {
   height: 1%;
 }
 
-/* line 349, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 352, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 *:first-child + html .digg_pagination {
   overflow: hidden;
 }
 
-/* line 352, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 355, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .switch {
   position: relative;
   display: inline-block;
@@ -13764,12 +13778,12 @@ Responsive media queries
   height: 34px;
 }
 
-/* line 359, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 362, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .switch input {
   display: none;
 }
 
-/* line 361, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 364, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .sliders {
   position: absolute;
   cursor: pointer;
@@ -13781,7 +13795,7 @@ Responsive media queries
   transition: .4s;
 }
 
-/* line 373, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 376, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .sliders:before {
   position: absolute;
   content: "";
@@ -13793,37 +13807,63 @@ Responsive media queries
   transition: .4s;
 }
 
-/* line 385, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 388, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 input:checked + .sliders {
   background-color: #be9e21;
 }
 
-/* line 390, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 393, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 input:focus + .sliders {
   box-shadow: 0 0 1px #2196F3;
 }
 
-/* line 394, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 397, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 input:checked + .sliders:before {
   -webkit-transform: translateX(26px);
   transform: translateX(26px);
 }
 
 /* Rounded sliders */
-/* line 401, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 404, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .sliders.round {
   border-radius: 34px;
 }
 
-/* line 405, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 408, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .sliders.round:before {
   border-radius: 50%;
 }
 
-/* line 410, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 413, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-mycolor {
   color: #fff;
   background: #ff9933;
+}
+
+/* line 422, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+.dateheader {
+  font-size: 10px;
+  font-weight: bold;
+}
+
+/* line 427, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+.actdate {
+  background: #495469;
+  color: white;
+}
+
+/* line 432, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+.box {
+  background-color: white;
+  width: 100px;
+  border-top: 10px solid #BE9E21;
+}
+
+/* line 438, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+.boxmon {
+  background-color: white;
+  width: 20px;
+  border-top: 10px solid #BE9E21;
 }
 
 /*! =======================================================

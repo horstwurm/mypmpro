@@ -399,64 +399,81 @@ class MobjectsController < ApplicationController
           @cal.save
         end
       end
-
-      counter = 0 
-      @array = ""
-      if @mobject.mtype == "standorte"
-        @cals = SignageCal.where('mstandort=?', @mobject.id)
-        session[:signage_cal_mode] = "loc"
+      if !@c_datum
+        @c_datum = Date.today
       end
-      if @mobject.mtype == "kampagnen"
-        @cals = SignageCal.where('mkampagne=?', @mobject.id)
-        session[:signage_cal_mode] = "kam"
+     if params[:mode]
+        @c_mode = params[:mode]
+      else
+        @c_mode = "Woche"
       end
-      if @cals
-        @anz = @cals.count
-        @cals.each do |c|
-          
-          if @mobject.mtype == "kampagnen"
-            @obj = Mobject.find(c.mstandort)
-          end
-          if @mobject.mtype == "standorte"
-            @obj = Mobject.find(c.mkampagne)
-          end
-
-          info = '<i class="fa fa-calender"></i>'
-  
-          time_from = c.time_from.to_s
-          if c.time_from.to_s.length == 1
-            time_from = "0"+c.time_from.to_s
-          end
-          time_to = c.time_to.to_s
-          if c.time_to.to_s.length == 1
-            time_to = "0"+c.time_to.to_s
-          end
-          @calstart = c.date_from.strftime("%Y-%m-%d")+"T"+time_from+":00"
-          @calend = c.date_to.strftime("%Y-%m-%d")+"T"+time_to+":00"
-
-          @calstart = c.date_from.strftime("%Y-%m-%d")
-          @calend = c.date_to.strftime("%Y-%m-%d")
-          
-          counter = counter + 1
-          @array = @array + "{"
-          @array = @array + "color: '#ACC550',"
-          @array = @array + "textColor: 'white',"
-          @array = @array + "info: '" + info + "', "
-          @array = @array + "title: '" + @obj.name + "', "
-          @array = @array + "start: '" + @calstart + "', "
-          @array = @array + "end: '" + @calend + "', "
-          if @loc
-            @array = @array + "url: '" + mobject_path(:id => c.mkampagne, :topic => "objekte_info") +"'" 
-          end
-          if @kam
-            @array = @array + "url: '" + mobject_path(:id => c.mstandort, :topic => "objekte_info") +"'" 
-          end
-          @array = @array + "}"
-          if @cals.count >= counter
-            @array = @array + ", "
-          end
+      if params[:year]
+        @c_year = params[:year]
+      else
+        @c_year = Date.today.year
       end
-    end
+      if params[:month]
+        @c_month = params[:month]
+      else
+        @c_month = Date.today.month
+      end
+      if params[:week]
+        @c_week = params[:week]
+      else
+        @c_week = Date.today.cweek
+      end
+      if params[:day]
+        @c_day = params[:day]
+      else
+        @c_day = Date.today
+      end
+      if params[:dir] == ">"
+        if @c_mode == "Woche"
+          if @c_week.to_i == 52
+            @c_week =  1
+            @c_year = @c_year.to_i + 1
+          else
+            @c_week = @c_week.to_i + 1
+          end
+          @c_day = Date.parse(@c_day) + 7
+        end
+        if @c_mode == "Monat"
+          if @c_month.to_i == 12
+            @c_month =  1
+            @c_year = @c_year.to_i + 1
+          else
+            @c_month = @c_month.to_i + 1
+          end
+          @c_day = Date.parse(@c_day) + 31
+        end
+        if @c_mode == "Jahr"
+          @c_year = @c_year.to_i + 1
+        end
+      end
+      if params[:dir] == "<"
+        if @c_mode == "Woche"
+          if @c_week.to_i == 1
+            @c_week =  52
+            @c_year = @c_year.to_i - 1
+          else
+            @c_week = @c_week.to_i - 1
+          end
+          @c_day = Date.parse(@c_day) - 7
+        end 
+        if @c_mode == "Monat"
+          if @c_month.to_i == 1
+            @c_month =  12
+            @c_year = @c_year.to_i - 1
+          else
+            @c_month = @c_month.to_i - 1
+          end
+          @c_day = Date.parse(@c_day) - 31
+        end
+        if @c_mode == "Jahr"
+          @c_year = @c_year.to_i - 1
+        end
+      end
+
   end
     
   end

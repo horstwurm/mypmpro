@@ -3,6 +3,9 @@
  $color3: white;
  $color4: #F5F5F5;     /* hellgrau */
  $color5: grey;
+ $colorgold:  #BE9E21;
+ $colorblue: #495469;
+
 
 /* ========================================================================================================k */
 /* CUSTOM */
@@ -414,4 +417,30 @@ input:checked + .sliders:before {
 
 trans {
 
+}
+
+.dateheader {
+    font-size: 10px;
+    font-weight:bold;
+}
+
+.actdate {
+    background:$colorblue;
+    color:white;
+}
+
+.box {
+    background-color: white;
+    width: 100px;
+    border-top: 10px solid $colorgold;
+}
+
+.boxmon {
+    background-color: white;
+    width: 20px;
+    border-top: 10px solid $colorgold;
+}
+
+.colfilled {
+  //background:$color1;
 }

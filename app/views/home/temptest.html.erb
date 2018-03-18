@@ -1,2 +1,8 @@
 
-<%= image_tag(User.first.avatar) %>
+<h1>Kalender</h1>
+
+<div class='container'>
+    <%= build_cal("week","signage_cals", "locations", 42, Date.today) %>
+    <%= build_cal("week","signage_cals", "campaigns", 37, Date.today) %>
+    <%= build_cal("week","signage_cals", "campaigns", 38, Date.today) %>
+</div>
