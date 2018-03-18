@@ -2169,7 +2169,7 @@ def action_buttons4(object_type, item, topic)
        case topic
           when "objekte_info"
              html_string = html_string + link_to(mobjects_path(:mtype =>item.mtype)) do
-              content_tag(:i, " " + (I18n.t item.mtype.to_sym) + " " + (I18n.t :suchen), class:"btn btn-default fa fa-search") 
+              content_tag(:i, " "+ (I18n.t :suchen), class:"btn btn-default fa fa-search") 
              end
 
             if false 
