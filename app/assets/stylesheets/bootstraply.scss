@@ -444,3 +444,10 @@ trans {
 .colfilled {
   //background:$color1;
 }
+
+idea_rating, sensorwert {
+    font-size: 40px;
+    font-weight:bold;
+    color: $colorgold;
+    text-align: center;
+}

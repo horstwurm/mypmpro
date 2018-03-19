@@ -12,16 +12,13 @@
   <% end %>
 
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
         <div class="panel-body ueberschrift">
             <h1><%= (I18n.t :rating) + " " + @idea_rating.idea.header + " " + @idea_rating.crit.name %></h1> 
         </div>
     </div>
-  </div>
-
-   <div class="row">
-    <div class="col-md-10">
-      <div class="panel panel-body">
+    <div class="col-md-6">
+      <div class="panel panel-body ueberschrift">
         <div class="form-group">
           <%= f.label (I18n.t :rating) %><br/>
           <div class="form-group">
@@ -36,18 +33,12 @@
         <%= f.hidden_field :crit_id, class:"form-control" %>
         <%= f.hidden_field :idea_id, class:"form-control" %>
         <%= f.number_field :rating, :id => "rating", class:"form-control hidden"%>
-      </div>
-    </div>
-   </div>
-
-   <div class="row">
-      <div class="col-md-6">
-          <div class="actions">
-            <%= f.submit "Speichern", class:"btn btn-primary btn-lg"%>
-            <%= link_to idea_ratings_path(:idea_id => @idea_rating.idea_id) do %>
-              <i class="btn btn-default btn-lg">Abbrechen</i>
-            <% end %>
-          </div>
+        <div class="actions">
+          <%= f.submit "Speichern", class:"btn btn-primary btn-lg btn-submit"%>
+          <%= link_to idea_ratings_path(:idea_id => @idea_rating.idea_id) do %>
+            <i class="btn btn-default btn-lg btn-submit">Abbrechen</i>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>
@@ -56,6 +47,10 @@
 <script>
 $("#ex2").slider({});
 $("#ex2").on("slide", function(slideEvt) {
+	$("#rating").val(slideEvt.value);
+	init_map(slideEvt.value)
+});
+$("#ex2").on("slide slideStop", function(slideEvt) {
 	$("#rating").val(slideEvt.value);
 	init_map(slideEvt.value)
 });

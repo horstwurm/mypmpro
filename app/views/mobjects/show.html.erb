@@ -563,9 +563,11 @@
               </div>
           </div>
           <% if @mobject.mtype == "kampagnen" %>
+            <% session[:signage_cal_mode] = "kam" %>
             <%= build_cal(@c_mode,"signage_cals", "locations", @mobject.id, @c_day.to_s) %>
           <% end %>
           <% if @mobject.mtype == "standorte" %>
+            <% session[:signage_cal_mode] = "loc" %>
             <%= build_cal(@c_mode,"signage_cals", "campaigns", @mobject.id, @c_day.to_s) %>
           <% end %>
 

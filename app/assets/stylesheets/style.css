@@ -9,6 +9,8 @@
  $color3: white;
  $color4: #F5F5F5;     /* hellgrau */
  $color5: grey;
+ $colorgold:  #BE9E21;
+ $colorblue: #495469;
 
 
 
@@ -784,10 +786,13 @@ Responsive media queries
 /* custom */
 
     .blog-sec {
-      background-color: $color4;
+      margin:10px;
+      background-color:$color4;
     }
     .blog-sec:hover {
       box-shadow: 2px 2px 10px #B1B1B1;
+      background-color:$colorblue;
+      color: $colorgold;  
     }
 
 @media (min-width: 768px) and (max-width: 980px) {

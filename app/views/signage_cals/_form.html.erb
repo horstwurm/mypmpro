@@ -1,4 +1,4 @@
-
+<%= session[:signage_cal_mode] %>
     <%= form_for @signage_cal do |f| %>
 
         <% if @signage_cal.errors.any? %>
@@ -17,10 +17,10 @@
             <div class="col-md-6">
                 <div class="panel-body ueberschrift">
                   <h1>
-                  <% if @loc %>
+                  <% if session[:signage_cal_mode] == "loc" %>
                     <%= header((I18n.t :kampagnen) + " für Standort " + @loc.name) %>
                   <% end %>
-                  <% if @kam %>
+                  <% if session[:signage_cal_mode] == "kam"  %>
                     <%= header((I18n.t :standorte) + " für Kampagne " + @kam.name) %>
                   <% end %>
                   </h1>
@@ -71,12 +71,12 @@
                      <%= f.hidden_field :confirmed, class:"form-control" %>
                     <div class="actions">
                       <%= f.submit (I18n.t :speichern),  class:"btn btn-primary btn-lg btn-submit"%>
-                      <% if @kam %>
+                      <% if session[:signage_cal_mode] == "kam" %>
                         <%= link_to mobject_path(:id => @signage_cal.mkampagne, :topic => "objekte_signcal") do %>
                           <i class="btn btn-default btn-lg btn-submit">Abbrechen</i>
                         <% end %>
                       <% end %>
-                      <% if @loc %>
+                      <% if session[:signage_cal_mode] == "loc" %>
                         <%= link_to mobject_path(:id => @signage_cal.mstandort, :topic => "objekte_signcal") do %>
                           <i class="btn btn-default btn-lg btn-submit">Abbrechen</i>
                         <% end %>

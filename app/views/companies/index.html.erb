@@ -3,7 +3,7 @@
     <div id="demo" class="collapse">
       <% if user_signed_in? %>
             <%= link_to new_search_path(:user_id => current_user.id, :search_domain => "institutionen", :controller_name => @controller_name) do %>
-                <i class="btn btn-primary fa fa-plus">Neue Abfrage</i>
+                <i class="btn btn-primary fa fa-plus">Abfrage</i>
             <% end %>
             <% @searches = Search.where('search_domain=? and user_id=?', "institutionen", current_user.id) %>
             <%= build_medialistNew(@searches, "searches", nil) %>

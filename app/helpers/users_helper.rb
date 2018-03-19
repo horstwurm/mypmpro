@@ -197,7 +197,7 @@ def build_medialistNew(items, cname, par)
                   html_string = html_string + image_tag("kriterien.png", :size => "250x250")
                   html_string = html_string + "<br><br>"
                   if !par
-                    html_string = html_string + "<rating>" + item.rating.to_s + "</rating>" 
+                    html_string = html_string + "<idea_rating>" + item.rating.to_s + "</idea_rating>" 
                   end
               when "ideas"
                 if par == "user"
@@ -547,23 +547,23 @@ def build_medialistNew(items, cname, par)
                     html_string = html_string + '</div>'
                     html_string = html_string + '</div>'
                   end
-                  html_string = html_string + "<preis>" + (item.rating * @idearating.rating).to_s + "</preis>"
+                  html_string = html_string + "<idea_rating>" + (item.rating * @idearating.rating).to_s + "</idea_rating>"
                 end
                 #html_string = html_string + '<i class="fa fa-pencil"></i> '
                 html_string = html_string + "<br><b>" + item.description + "</b><br>"
 
               when "ideas"
                 if item.crowdrating and item.crowdrating > 0
-                  html_string = html_string + '<i class="fa fa-star"></i> '
+                  html_string = html_string + '<i class="fa fa-certificate"></i> '
                   html_string = html_string + "<rating>" 
                   item.crowdrating.round.times do
-                    html_string = html_string + '<i class="fa fa-star"></i> '
+                    html_string = html_string + '<i class="fa fa-certificate"></i> '
                   end
                   html_string = html_string + "</rating>" 
                   html_string = html_string + sprintf("(%3.1f)",item.crowdrating) + "<br>" 
                 end
                 if item.rating
-                  html_string = html_string + '<i class="fa fa-education"></i> '
+                  html_string = html_string + '<i class="fa fa-certificate"></i> '
                   html_string = html_string + "<rating>" + sprintf("%3.1f",item.rating) + "</rating><br>" 
                 end
                 
@@ -715,16 +715,17 @@ def build_medialistNew(items, cname, par)
                     if item.mcategory.name == "Wert"
                       if item.sensors.last
                         html_string = html_string + '<br>'
-                        html_string = html_string + "<analogwert>" + item.sensors.last.value.to_s + "</analogwert>"
+                        html_string = html_string + "<sensorwert>" + item.sensors.last.value.to_s + "</sensorwert>"
                         html_string = html_string + '<br><br>'
                       end
                     end
                     if item.mcategory.name == "Schalter"
                       if item.sensors.last
+                        html_string = html_string + '<br>'
                         if item.sensors.last.value > 0
-                          html_string = html_string + image_tag("switch_on.jpg", size: "80x80")
+                          html_string = html_string + "<sensorwert>An</sensorwert>"
                         else
-                          html_string = html_string + image_tag("switch_off.jpg", size: "80x80")
+                          html_string = html_string + "<sensorwert>Aus</sensorwert>"
                         end
                         html_string = html_string + '<br><br>'
                       end
@@ -1084,7 +1085,7 @@ def build_medialistNew(items, cname, par)
                 end
                 if array.include?(current_user.id)
     	            html_string = html_string + link_to(idea_ratings_path(:idea_id => item)) do 
-                    content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-education")
+                    content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-certificate")
                   end
                 end
                 if (item.user_id == current_user.id) or isdeputy(item.user)
@@ -1355,7 +1356,7 @@ def build_medialistNew(items, cname, par)
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
                   content_tag(:i, nil, class:"btn btn-danger btn-lg fa fa-trash pull-right")
                 end
-              when "madvisors"
+               when "madvisors"
                 # if par == "User"
     	           # html_string = html_string + link_to(user_path(:id => item.user_id, :topic => "Kalendereintraege")) do 
                 #     content_tag(:i, nil, class:"btn btn-primary fa fa-calendar")
@@ -1372,6 +1373,7 @@ def build_medialistNew(items, cname, par)
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
                   content_tag(:i, nil, class:"btn btn-danger btn-lg fa fa-trash pull-right")
                 end
+                html_string = html_string + "<br><br>"
 
               when "deputies"
   	            html_string = html_string + link_to(edit_deputy_path(:id => item)) do 
@@ -2189,7 +2191,7 @@ def action_buttons4(object_type, item, topic)
              if item.mtype == "innovationswettbewerbe"
               if user_signed_in?
                 html_string = html_string + link_to(new_idea_path(:mobject_id => item.id, :user_id => current_user.id)) do
-                  content_tag(:i, " " + (I18n.t :ideen) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange") 
+                  content_tag(:i, " " + (I18n.t :ideen), class:"btn btn-primary fa fa-plus orange") 
                 end
               end
              end
@@ -2197,12 +2199,12 @@ def action_buttons4(object_type, item, topic)
              if user_signed_in?
                if isowner(item) or isdeputy(item.owner)
          	        html_string = html_string + link_to(edit_mobject_path(item), title: (I18n.t :bearbeiten)) do
-                    content_tag(:i, " "+(I18n.t :datenaendern), class: "btn btn-primary fa fa-wrench")
+                    content_tag(:i, " "+(I18n.t :aendern), class: "btn btn-primary fa fa-wrench")
                   end
                end
                if isowner(item)
          	        html_string = html_string + link_to(item, method: :delete, data: { confirm: (I18n.t :sindsiesicher) } ) do
-                    content_tag(:i, " " + (I18n.t :datenloeschen), class: "btn btn-danger fa fa-trash red")
+                    content_tag(:i, " " + (I18n.t :loeschen), class: "btn btn-danger fa fa-trash red")
                    end
                end
                html_string = html_string + link_to(new_webmaster_path(:object_name => "Mobject", :object_id => item.id, :user_id => current_user.id)) do
