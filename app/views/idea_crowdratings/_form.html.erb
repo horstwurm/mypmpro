@@ -55,6 +55,10 @@ $("#ex2").on("slide", function(slideEvt) {
 	$("#rating").val(slideEvt.value);
 	init_map(slideEvt.value)
 });
+$("#ex2").on("slide slideStop", function(slideEvt) {
+	$("#rating").val(slideEvt.value);
+	init_map(slideEvt.value)
+});
 </script>
 
 <script>

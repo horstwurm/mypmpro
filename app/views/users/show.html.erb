@@ -811,7 +811,7 @@
         <% when "personen_crowdfunding" %>
           <%= build_medialistNew(@user.mobjects.where('mtype=?',"crowdfunding"), "mobjects", nil) %>
         <% when "personen_ideen" %>
-          <%= build_medialistNew(@user.ideas, "ideas", "Idee") %>
+          <%= build_medialistNew(@user.ideas, "ideas", "idee") %>
         <% when "personen_innovationswettbewerbe" %>
           <%= build_medialistNew(@user.mobjects.where('mtype=?',"innovationswettbewerbe"), "mobjects", nil) %>
         <% when "personen_umfragen" %>

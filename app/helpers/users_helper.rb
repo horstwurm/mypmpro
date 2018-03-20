@@ -201,10 +201,18 @@ def build_medialistNew(items, cname, par)
                   end
               when "ideas"
                 if par == "user"
-                  html_string = html_string + showImage2(:medium, item.user, true)
+                  if item.avatar_file_name
+                    html_string = html_string + showImage2(:medium, item, true)
+                  else
+                    html_string = html_string + showImage2(:medium, item.user, true)
+                  end
                 end
                 if par == "idee"
-                  html_string = html_string + showFirstImage2(:medium, item.mobject, item.mobject.mdetails)
+                  if item.avatar_file_name
+                    html_string = html_string + showImage2(:medium, item, true)
+                  else
+                    html_string = html_string + showFirstImage2(:medium, item.mobject, item.mobject.mdetails)
+                  end
                 end
               when "edition_arcticles"
                 html_string = html_string + showFirstImage2(:medium, item.mobject, item.mobject.mdetails)
@@ -555,16 +563,16 @@ def build_medialistNew(items, cname, par)
               when "ideas"
                 if item.crowdrating and item.crowdrating > 0
                   html_string = html_string + '<i class="fa fa-certificate"></i> '
-                  html_string = html_string + "<rating>" 
+                  html_string = html_string + "<idea_rating>" 
                   item.crowdrating.round.times do
                     html_string = html_string + '<i class="fa fa-certificate"></i> '
                   end
-                  html_string = html_string + "</rating>" 
+                  html_string = html_string + "</idea_rating>" 
                   html_string = html_string + sprintf("(%3.1f)",item.crowdrating) + "<br>" 
                 end
                 if item.rating
-                  html_string = html_string + '<i class="fa fa-certificate"></i> '
-                  html_string = html_string + "<rating>" + sprintf("%3.1f",item.rating) + "</rating><br>" 
+                  #html_string = html_string + '<i class="fa fa-certificate"></i> '
+                  html_string = html_string + "<idea_rating>" + sprintf("%3.1f",item.rating) + "</idea_rating><br>" 
                 end
                 
                 html_string = html_string + '<i class="fa fa-user"></i> '
@@ -897,9 +905,9 @@ def build_medialistNew(items, cname, par)
                     end
                     
                     if item.mtype == "innovationswettbewerbe"
-                      html_string = html_string + link_to(mobject_path(:id => item.id, :topic => "objekte_ideen")) do
-                        content_tag(:i, nil, class:"fa fa-info mediabuttonred")
-                      end
+                      #html_string = html_string + link_to(mobject_path(:id => item.id, :topic => "objekte_ideen")) do
+                        #content_tag(:i, nil, class:"fa fa-certificate")
+                      #end
                       html_string = html_string + " <fire>" + item.ideas.count.to_s + " " + (I18n.t :ideen)
                       html_string = html_string + '</fire><br><br>'
                     end
@@ -1232,7 +1240,7 @@ def build_medialistNew(items, cname, par)
                   access = true
                 end
                when "madvisors"
-                if item.user_id == current_user.id or isdeputy(item.mobject.owner)
+                if item.user_id == current_user.id or isdeputy(item.mobject.owner) or current_user.id = item.mobject.owner_id
                   access = true
                 end
 
@@ -2256,7 +2264,7 @@ def action_buttons4(object_type, item, topic)
           when "objekte_ideen"
               if user_signed_in?
                 html_string = html_string + link_to(new_idea_path(:mobject_id => item.id, :user_id => current_user.id)) do
-                  content_tag(:i, " " + (I18n.t :ideen) + " " + (I18n.t :hinzufuegen), class:"btn btn-default fa fa-plus orange") 
+                  content_tag(:i, " " + (I18n.t :ideen) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange") 
                 end
               end
 
@@ -2430,500 +2438,6 @@ def action_buttons4(object_type, item, topic)
          end
         
   end
-  return html_string.html_safe
-end
-
-
-def action_buttonsx(object_type, item, topic)
-
-  html_string = '<div id="mysidenavright" class="sidenavright">'
-  html_string = html_string + '<a href="javascript:void(0)" class="closebtn" onclick="closeNavRight()">&times;</a>'
-
-  case object_type 
-    when "kategorien"
-      #html_string = html_string + link_to(home_index9_path) do
-        #content_tag(:i, nil, class: "fa fa-list")
-      #end
-      html_string = html_string + link_to(new_mcategory_path(:ctype => item)) do
-        content_tag(:i, " " + (I18n.t :kategorie) + " " + (I18n.t :hinzufuegen), class: "fa fa-plus orange")
-      end
-
-    when "personen"
-      case topic
-        when "personen_info"
-          html_string = html_string + link_to(users_path) do
-            content_tag(:i, " " + (I18n.t :personenuebersicht), class:"fa fa-search") 
-          end
-          if user_signed_in? 
-            if current_user.id == item.id or isdeputy(item) or current_user.superuser
-                html_string = html_string + link_to(edit_user_path(item)) do
-                content_tag(:i, " "+(I18n.t :datenaendern), class: "fa fa-wrench")
-              end
-              html_string = html_string + link_to(item, method: :delete, data: { confirm: (I18n.t :sindsiesicher)})  do
-                  content_tag(:i, " " + (I18n.t :datenloeschen), class: "fa fa-trash red")
-              end
-            end
-            html_string = html_string + link_to(new_webmaster_path(:object_name => "User", :object_id => item.id, :user_id => current_user.id)) do
-              content_tag(:i, " " + (I18n.t :fraud), class: "fa fa-ban orange")
-            end
-            if $activeapps.include?("personen_transaktionen") or isdeputy(item) or current_user.superuser
-              html_string = html_string + link_to(listaccount_index_path(:user_id => current_user.id, :user_id_ver => item.id, :company_id_ver => nil, :ref => (I18n.t :verguetungan)+item.name + " " + item.lastname, :object_name => "User", :object_id => item.id, :amount => nil)) do
-                content_tag(:i, " " + (I18n.t :trx), class: "fa fa-euro")
-              end
-            end
-            if $activeapps.include?("personen_mappositionen") or isdeputy(item) or current_user.superuser
-              html_string = html_string + link_to(new_user_position_path(:user_id => current_user.id)) do
-                content_tag(:i, " " + (I18n.t :pos), class: "fa fa-map-marker")
-              end
-            end
-            if $activeapps.include?("personen_mappositionenfavoriten") or isdeputy(item) or current_user.superuser
-              html_string = html_string + link_to(new_favourit_path(:object_name => "User", :object_id => item.id, :user_id => current_user.id)) do
-                content_tag(:i, " " + (I18n.t :fav), class: "fa fa-user")
-              end
-            end
-          end
-
-        when "personen_notizen"
-          if user_signed_in?
-            if current_user.id == item.id or isdeputy(item) or current_user.superuser
-              html_string = html_string + link_to(new_note_path(:user_id => current_user.id)) do
-                content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class: "fa fa-plus orange") 
-              end
-              html_string = html_string + link_to(user_path(:user_id => current_user.id, :topic => @topic, :delusernotes => true),data: { confirm: 'Are you sure?' }) do
-                content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :loeschen), class: "fa fa-plus orange") 
-              end
-            end
-          end
-
-        when "personen_institutionen"
-          html_string = html_string + link_to(companies_path) do
-            content_tag(:i, " " + (I18n.t :institutionenuebersicht), class: "fa fa-copyright-mark")
-          end
-          if user_signed_in?
-            if current_user.id == item.id or isdeputy(item) or current_user.superuser
-              html_string = html_string + link_to(new_company_path(:user_id => current_user.id)) do
-                content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class: "fa fa-plus orange") 
-              end
-            end
-          end
-
-        when "personen_kalendereintraege"
-          if user_signed_in?
-            html_string = html_string + link_to(new_appointment_path(:user_id1 => item.id, :user_id2 => current_user.id))  do
-              content_tag(:i, " " + (I18n.t subtopic(@topic) + " " + (I18n.t :hinzufuegen)), class: "fa fa-plus orange")
-            end
-          end
-
-        when "personen_angebote", "personen_vermietungen", "personen_veranstaltungen", "personen_ausflugsziele", "personen_ausschreibungen", "personen_publikationen", "personen_artikel", "personen_umfragen", "personen_projekte", "personen_gruppen", "personen_innovationswettbewerbe", "personen_sensoren","personen_kleinanzeigen", "personen_stellenanzeigen", "personen_crowdfunding"
-          html_string = html_string + link_to(mobjects_path :mtype => getTopicName(topic)) do
-            content_tag(:i, " " + (I18n.t subtopic(topic).to_sym) + " " + (I18n.t :suchen), class: "fa fa-search")
-          end
-          if user_signed_in?
-            if current_user.id == item.id or isdeputy(item) or current_user.superuser
-              html_string = html_string + link_to(new_mobject_path(:user_id => current_user.id, :mtype => subtopic(topic), :msubtype => nil)) do
-                content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :hinzufuegen), class: "fa fa-plus orange")
-              end
-            end
-            if topic == "personen_projekte"
-              if current_user.id == item.id or isdeputy(item) or current_user.superuser
-                html_string = html_string + link_to(user_path(:id => @user.id, :topic => "personen_export")) do
-                  content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :exportieren), class: "fa fa-download")
-                end
-              end
-            end
-          end
-
-        when "personen_export"
-          if user_signed_in?
-            html_string = html_string + link_to(user_path(:id => @user.id, :topic => topic, :year => @c_year, :month => @c_month, :mode => @c_mode, :topic => topic, :writeexcel => true)) do
-              content_tag(:i, " " + (I18n.t :excel), class: "fa fa-th")
-            end
-          end
-
-        when "personen_emails"
-          if user_signed_in?
-            html_string = html_string + link_to(new_email_path(:m_from_id => current_user.id, :m_to_id => item.id, :back_url => request.original_url)) do
-              content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class: "fa fa-plus orange")
-            end
-          end
-
-        when "personen_tickets"
-          if user_signed_in?
-            if current_user.id == item.id or isdeputy(item) or current_user.superuser
-              html_string = html_string + link_to(ticketuserview_index2_path(:user_id => item.id)) do
-                content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class: "fa fa-plus orange")
-              end
-            end
-          end
-
-        when "personen_stellvertretungen"
-             if user_signed_in?
-              if (item.id == current_user.id) or current_user.superuser
-                html_string = html_string + link_to(deputies_path(:user_id => item.id)) do
-                  content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange")
-                end
-              end
-             end
-             
-        when "personen_zeiterfassung"
-             if user_signed_in?
-              if (item.id == current_user.id) or current_user.superuser
-                html_string = html_string + link_to(new_timetrack_path(:user_id => @user.id, :scope => "aufwand", :datum => @c_datum)) do
-                  content_tag(:i, " " + (I18n.t :aufwand) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange")
-                end
-                html_string = html_string + link_to(new_timetrack_path(:user_id => @user.id, :scope => "kosten", :datum => @c_datum)) do
-                  content_tag(:i, " " + (I18n.t :kosten) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange")
-                end
-              end
-             end
-
-      end
-
-    when "institutionen"
-      case topic
-        when "institutionen_info"
-          html_string = html_string + link_to(companies_path(:page => session[:page]), title: (I18n.t :institutionen)) do
-            content_tag(:i, " " + (I18n.t :institutionenuebersicht), class:"fa fa-search") 
-          end
-          if user_signed_in?
-            if current_user.id == item.user_id or isdeputy(item) or current_user.superuser
-              html_string = html_string + link_to(edit_company_path(item), title: (I18n.t :bearbeiten)) do
-                content_tag(:i, " "+(I18n.t :datenaendern), class: "fa fa-wrench")
-              end
-              html_string = html_string + link_to(item, method: :delete, data: { confirm: (I18n.t :sindsiesicher) }) do
-                  content_tag(:i, " " + (I18n.t :datenloeschen), class: "fa fa-trash red")
-              end
-            end
-            html_string = html_string + link_to(new_webmaster_path(:object_name => "Company", :object_id => item.id, :user_id => current_user.id)) do
-              content_tag(:i, " " + (I18n.t :fraud), class: "fa fa-ban orange")
-            end
-            if $activeapps.include?("institutionen_favoriten") or current_user.superuser
-              if (item.user_id == current_user.id) or isdeputy(item) or current_user.superuser
-                html_string = html_string + link_to(new_favourit_path(:object_name => "Company", :object_id => item.id, :user_id => current_user.id)) do
-                  content_tag(:i, " " + (I18n.t :fav), class: "fa fa-copyright-mark")
-                end
-              end
-            end
-            if $activeapps.include?("institutionen_transaktionen") or current_user.superuser
-              if (item.user_id == current_user.id) or isdeputy(item) or current_user.superuser
-                html_string = html_string + link_to(listaccount_index_path :user_id => current_user.id, :user_id_ver => nil, :company_id_ver => item.id, :ref => (I18n.t :verguetungan)+item.name, :object_name => "Company", :object_id => item.id, :amount => nil) do
-                  content_tag(:i, " " + (I18n.t :trx), class: "fa fa-euro")
-                end
-              end
-            end
-          end
-
-        when "institutionen_angebote", "institutionen_kampagnen", "institutionen_standorte", "institutionen_vermietungen", "institutionen_veranstaltungen", "institutionen_ausflugsziele", "institutionen_ausschreibungen", "institutionen_publikationen", "institutionen_umfragen", "institutionen_projekte", "institutionen_innovationswettbewerbe", "institutionen_sensoren", "institutionen_kleinanzeigen", "institutionen_stellenanzeigen", "institutionen_crowdfunding"
-          html_string = html_string + link_to(mobjects_path :mtype => getTopicName(topic)) do
-            content_tag(:i, " " + (I18n.t subtopic(topic).to_sym) + " " + (I18n.t :suchen), class: "fa fa-search")
-          end
-          if user_signed_in?
-            if (item.user_id == current_user.id) or isdeputy(item) or current_user.superuser
-              html_string = html_string + link_to(new_mobject_path :company_id => item.id, :mtype => subtopic(topic), :msubtype => nil) do
-                content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :hinzufuegen), class: "fa fa-plus orange")
-              end
-            end
-            if topic == "institutionen_projekte"
-              if current_user.id == item.id or isdeputy(item) or current_user.superuser
-                html_string = html_string + link_to(company_path(:id => @company.id, :topic => "institutionen_export")) do
-                  content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :exportieren), class: "fa fa-download")
-                end
-              end
-            end
-          end
-          
-        when "institutionen_partnerlinks"
-          if user_signed_in?
-            if (item.user_id == current_user.id) or isdeputy(item) or current_user.superuser
-              html_string = html_string + link_to(new_partner_link_path :company_id => item.id) do
-                content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :hinzufuegen), class: "fa fa-plus orange")
-              end
-            end
-          end
-
-        when "institutionen_stellvertretungen"
-             if user_signed_in?
-              if (item.user_id == current_user.id) or isdeputy(item) or current_user.superuser
-                html_string = html_string + link_to(deputies_path(:company_id => item.id)) do
-                  content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange")
-                end
-              end
-             end
-
-        when "institutionen_export"
-          if user_signed_in?
-            html_string = html_string + link_to(company_path(:id => @company.id, :year => @c_year, :month => @c_month, :mode => @c_mode, :topic => topic, :writeexcel => true)) do
-              content_tag(:i, " " + (I18n.t :excel), class: "fa fa-th")
-            end
-          end
-
-            
-      end
-
-    when "objekte"
-       case topic
-          when "objekte_info"
-             html_string = html_string + link_to(mobjects_path(:mtype =>item.mtype)) do
-              content_tag(:i, " " + (I18n.t item.mtype.to_sym) + " " + (I18n.t :suchen), class:"fa fa-search") 
-             end
-
-            if false 
-             if session[:edition_id]
-               html_string = html_string + link_to(edition_path(:id => session[:edition_id], :topic => "objekte_info")) do
-                content_tag(:i, " " + (I18n.t :edition), class:"fa fa-book") 
-               end
-             end 
-             end
-             
-             if item.parent and item.parent > 0 
-                html_string = html_string + link_to(mobject_path(:id => item.parent, :mtype => "projekte", :msubtype => nil, :topic => "objekte_info")) do
-                  content_tag(:i, " " + (I18n.t :edition), class:"fa fa-level-up") 
-                end
-             end 
-
-             if item.mtype == "innovationswettbewerbe"
-              if user_signed_in?
-                html_string = html_string + link_to(new_idea_path(:mobject_id => item.id, :user_id => current_user.id)) do
-                  content_tag(:i, " " + (I18n.t :ideen) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
-                end
-              end
-             end
-
-             if user_signed_in?
-               if isowner(item) or isdeputy(item.owner)
-         	        html_string = html_string + link_to(edit_mobject_path(item), title: (I18n.t :bearbeiten)) do
-                    content_tag(:i, " "+(I18n.t :datenaendern), class: "fa fa-wrench")
-                  end
-               end
-               if isowner(item)
-         	        html_string = html_string + link_to(item, method: :delete, data: { confirm: (I18n.t :sindsiesicher) } ) do
-                    content_tag(:i, " " + (I18n.t :datenloeschen), class: "fa fa-trash red")
-                   end
-               end
-               html_string = html_string + link_to(new_webmaster_path(:object_name => "Mobject", :object_id => item.id, :user_id => current_user.id)) do
-                  content_tag(:i, " " + (I18n.t :fraud), class: "fa fa-ban orange")
-               end
-             end
-
-          when "objekte_details"
-              if user_signed_in?
-                if isowner(item) or isdeputy(item.owner)
-                  html_string = html_string + link_to(new_mdetail_path(:mobject_id => item.id, :mtype => "details")) do
-                    content_tag(:i, " " + (I18n.t :details) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus") 
-                  end
-               end
-              end
-
-          when "objekte_substruktur"
-             if user_signed_in?
-                if isowner(item) or isdeputy(item.owner)
-                  if item.owner_type == "User"
-                    html_string = html_string + link_to(new_mobject_path :user_id => item.owner_id, :mtype => "projekte", :msubtype => nil, :parent => item.id) do
-                      content_tag(:i, " " + (I18n.t :substruktur)+ " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
-                    end
-                  end
-                  if item.owner_type == "Company"
-                    html_string = html_string + link_to(new_mobject_path :company_id => item.owner_id, :mtype => "projekte", :msubtype => nil, :parent => item.id) do
-                      content_tag(:i, " " + (I18n.t :substruktur) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
-                    end
-                  end
-               end
-              end
-
-          when "objekte_signcal"
-            if user_signed_in?
-              if isowner(item) or isdeputy(item.owner)
-                if @mobject.mtype == "kampagnen"
-                  html_string = html_string + link_to(new_signage_cal_path(:kam_id => @mobject.id)) do
-                      content_tag(:i, " " + (I18n.t :standorte), class:"fa fa-plus orange") 
-                  end
-                end
-                if @mobject.mtype == "standorte"
-                  html_string = html_string + link_to(new_signage_cal_path(:loc_id => @mobject.id)) do
-                      content_tag(:i, " " + (I18n.t :kampagnen), class:"fa fa-plus orange") 
-                  end
-                end
-              end
-            end
-
-          when "objekte_ideen"
-              if user_signed_in?
-                html_string = html_string + link_to(new_idea_path(:mobject_id => item.id, :user_id => current_user.id)) do
-                  content_tag(:i, " " + (I18n.t :ideen) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
-                end
-              end
-
-          when "objekte_preise"
-              if user_signed_in?
-                if isowner(item) or isdeputy(item.owner)
-                  html_string = html_string + link_to(new_price_path(:mobject_id => item.id)) do
-                      content_tag(:i, " " + (I18n.t :preise) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
-                  end
-               end
-              end
-
-          when "objekte_bewertungskriterien"
-              if user_signed_in?
-                if isowner(item) or isdeputy(item.owner)
-                  html_string = html_string + link_to(new_crit_path(:mobject_id => item.id)) do
-                      content_tag(:i, " " + (I18n.t :bewertungskriterien) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
-                  end
-                end
-              end
-
-          when "objekte_projektberechtigungen", "objekte_gruppenmitglieder", "objekte_jury", "objekte_ansprechpartner"
-             if user_signed_in?
-                if isowner(item) or isdeputy(item.owner)
-                  html_string = html_string + link_to(madvisors_path :user_id => item.owner_id, :mobject_id => item.id, :role => item.mtype) do
-                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
-                  end
-               end
-              end
-
-          when "objekte_ausschreibungsangebote"
-              if user_signed_in?
-                if isowner(item) or isdeputy(item.owner)
-                  html_string = html_string + link_to(new_mdetail_path(:mobject_id => item.id, :mtype => "objekte_ausschreibungsangebote")) do
-                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
-                  end
-               end
-              end
-
-          when "objekte_sensordaten"
-              if user_signed_in?
-                if isowner(item) or isdeputy(item.owner)
-                  html_string = html_string + link_to(mobject_path(:mobject_id => item.id, :topic => "objekte_sensordaten", :delsensordata => true), data: { confirm: (I18n.t :sindsiesicher) }) do
-                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :loeschen), class:"fa fa-trash red") 
-                  end
-               end
-              end
-
-          when "objekte_eintrittskarten"
-              if user_signed_in?
-                if isowner(item) or isdeputy(item.owner)
-                  html_string = html_string + link_to(new_ticket_path(:mobject_id => item.id)) do
-                    content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
-                end
-               end
-              end
-
-          when "objekte_fragen"
-              if user_signed_in?
-                if isowner(item) or isdeputy(item.owner)
-                  html_string = html_string + link_to(new_question_path(:mobject_id => item.id)) do
-                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
-                  end
-               end
-              end
-              
-          when "objekte_ausgaben"
-              if user_signed_in?
-                if isowner(item) or isdeputy(item.owner)
-                  html_string = html_string + link_to(new_edition_path(:mobject_id => item.id)) do
-                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
-                  end
-               end
-              end
-
-          when "objekte_sponsorenengagements"
-            if user_signed_in?
-              html_string = html_string + link_to(new_msponsor_path(:mobject_id => item.id)) do
-                content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
-              end
-            end
-            
-          when "objekte_blog"
-            if user_signed_in?
-    	        html_string = html_string + link_to(new_comment_path :mobject_id => item.id, :user_id => current_user.id) do
-                content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
-              end
-            end
-            
-          when "objekte_bewertungen"
-            if user_signed_in?
-    	        html_string = html_string + link_to(new_mrating_path :mobject_id => item.id, :user_id => current_user.id) do
-                content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
-              end
-            end
-            
-          when "objekte_kalendervermietungen"
-            if user_signed_in?
-              html_string = html_string + link_to(new_mcalendar_path(:user_id => current_user.id, :mobject_id => item.id)) do
-                content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
-              end
-            end
-            
-          when "objekte_cftransaktionen"
-              html_string = html_string + link_to(new_mstat_path(:mobject_id => item.id, :dontype => "user")) do
-                content_tag(:i, " " + (I18n.t :persoenlich) + " " + (I18n.t :hinzufuegen), class:"fa fa-user orange") 
-              end
-              html_string = html_string + link_to(new_mstat_path(:mobject_id => item.id, :dontype => "company")) do
-                content_tag(:i, " " + (I18n.t :firmen) + " " + (I18n.t :hinzufuegen), class:"fa fa-copyright-mark orange") 
-              end
-
-          when "objekte_auftragscontrolling"
-            if user_signed_in?
-              html_string = html_string + link_to(mobject_path(:id => @mobject.id, :topic => "objekte_auftragscontrolling", :year => @c_year, :month => @c_month, :mode => @c_mode, :scope => @c_scope, :export => true)) do
-                content_tag(:i, " " + (I18n.t :excel), class:"fa fa-book") 
-              end
-              if @export and @filename
-    	          html_string = html_string +link_to(@filename.remove("public")) do
-                  content_tag(:i, " " + (I18n.t :download) , class:"fa fa-download") 
-                end
-              end
-
-            end
-
-      end
-
-      when "editionen"
-         #html_string = html_string + link_to(mobject_path(:id => item.mobject_id, :topic => "objekte_ausgaben"), title: (I18n.t :editionen)) do
-          #  content_tag(:i, " " + (I18n.t :editionen) + " " + (I18n.t :hinzufuegen), class:"fa fa-list") 
-         #end
-
-      when "edition"
-         html_string = html_string + link_to(edition_path(:id => item.id, :topic => "edition")) do
-            content_tag(:i, " " + (I18n.t :editionen) + " " + (I18n.t :aendern), class:"fa fa-wrench") 
-         end
-
-      when "ideenbewertung"
-         html_string = html_string + link_to(mobject_path(:id => item.mobject.id, :topic => "objekte_ideen")) do
-            content_tag(:i, " " + (I18n.t :ideen) + " " + (I18n.t :hinzufuegen), class:"fa fa-list") 
-         end
-
-      when "crowdideenbewertung"
-         html_string = html_string + link_to(mobject_path(:id => item.mobject.id, :topic => "objekte_ideen")) do
-            content_tag(:i, " " + (I18n.t :ideenbewertung) + " " + (I18n.t :hinzufuegen), class:"fa fa-list") 
-         end
-         if user_signed_in?
-          html_string = html_string + link_to(new_idea_crowdrating_path(:idea_id => item.id, :user_id => current_user.id)) do
-            content_tag(:i, " " + (I18n.t :editionen) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
-          end
-        end
-
-      when "artikeledition"
-         html_string = html_string + link_to(mobject_path(:id => item.mobject_id, :topic => "objekte_ausgaben")) do
-            content_tag(:i, " " + (I18n.t :zurueckzurausgabe), class:"fa fa-list") 
-         end
-         if user_signed_in?
-          if isowner(item) or isdeputy(item.owner)
-            html_string = html_string + link_to(mobjects_path(:mtype => "artikel", :edition_id => item.id)) do
-              content_tag(:i, " " + (I18n.t :artikel) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
-            end
-          end
-         end
-
-      when "edition_artikeln"
-         if user_signed_in?
-          if isowner(item.mobject) or isdeputy(item.mobject.owner)
-            html_string = html_string + link_to(mobjects_path(:mtype => "artikel", :edition_id => item.id)) do
-              content_tag(:i, " " + (I18n.t :artikel) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
-            end
-          end
-         end
-        
-  end
-  html_string = html_string + '</div>'
   return html_string.html_safe
 end
 

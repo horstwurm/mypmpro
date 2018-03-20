@@ -14,16 +14,13 @@
     </div>
 
     <div class="row">
-       <div class="col-md-12">
+       <div class="col-md-6">
             <div class="panel-body ueberschrift">
                 <h1><%= (I18n.t :preis) + " " + @price.mobject.name %></h1> 
             </div>
         </div>
-    </div>
-
-    <div class="row">
        <div class="col-md-6">
-          <div class="panel panel-body">
+          <div class="panel panel-body ueberschrift">
             <div class="form-group">
               <preis><%= @price.sequence %>.</preis><%= f.label (I18n.t :preis) %><br/>
               <%= f.text_field :name, autofocus: true, class:"form-control"%>
@@ -38,9 +35,9 @@
             <%= f.hidden_field :mobject_id, class:"form-control" %>
             <%= f.hidden_field :sequence, class:"form-control" %>
             <div class="actions">
-              <%= f.submit "Speichern", class:"btn btn-primary btn-lg"%>
+              <%= f.submit "Speichern", class:"btn btn-primary btn-lg btn-submit"%>
               <%= link_to mobject_path(:id => @price.mobject_id, :topic => "objekte_preise") do %>
-                <i class="btn btn-default btn-lg">Abbrechen</i>
+                <i class="btn btn-default btn-lg btn-submit">Abbrechen</i>
               <% end %>
             </div>
           </div>

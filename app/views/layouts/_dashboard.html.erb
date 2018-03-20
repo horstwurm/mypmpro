@@ -1,0 +1,142 @@
+  <section id="dashboard" class="section-padding wow fadeIn delay-05s">
+    <div class="header">
+      <div class="bg-color">
+        <div class="wrapper">
+          <div class="container">
+            <div class="row">
+              <div class="banner-info text-center wow fadeIn delay-05s">
+               <h2 class="bnr-sub-title">TGCloud Cockpit</h2>
+                <p class="bnr-para">Alles auf einem Blick...<br> </p>
+                <div class="brn-btn">
+                	
+            <% @projects = Mobject.where('mtype=?',"projekte") %> 
+            <div class="row">
+              <% @projects.each do |m| %>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                  <div class="panel panel-dashboard">
+                    <div class="row">
+                      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <%= content_tag(:i, nil, class:"fa fa-" + getinfo2(:projekte)["info"], style:"font-size:4em") %>
+                      </div>
+                      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <huge>
+                        <%= m.name %><br><br>
+                        </huge>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <div class="row" align="Center">
+                          <div id="costchart<%= m.id %>"></div>
+                        </div>
+                      </div>
+                      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <div class="row" align="Center">
+                          <div id="effortchart<%= m.id %>"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <huge>
+                        <p id="cost<%= m.id %>"></p>
+                        </huge>
+                      </div>
+                      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <huge>
+                        <p id="effort<%= m.id %>"></p>
+                        </huge>
+                      </div>
+                    </div>
+                  </div>
+                </div>  
+              <% end %>
+            </div>
+                	
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+<script>
+
+google.charts.load('current', {'packages':['corechart']});
+<% @projects.each do |p| %>
+
+  window.costdataset_<%= p.id %> = [["Zeit", "Wert"],[Date(),0]];
+  google.charts.setOnLoadCallback(costfunc<%= p.id %>);
+  function costfunc<%= p.id %>() {
+    var data = google.visualization.arrayToDataTable(costdataset_<%= p.id %>);
+    var options = {
+      title: "<%= I18n.t :kosten %>",
+      colors: ['#ACC550'],
+      curveType: 'function',
+      width:150,
+      height:150,
+      legend: { position: 'bottom' }
+    };
+    var chart = new google.visualization.LineChart(document.getElementById('costchart<%= p.id %>'));
+    chart.draw(data, options);
+  }
+  
+  window.effortdataset_<%= p.id %> = [["Zeit", "Wert"],[Date(),0]];
+  google.charts.setOnLoadCallback(effortfunc<%= p.id %>);
+  function effortfunc<%= p.id %>() {
+    var data = google.visualization.arrayToDataTable(effortdataset_<%= p.id %>);
+    var options = {
+      title: "<%= I18n.t :aufwand %>",
+      colors: ['#ACC550'],
+      curveType: 'function',
+      width:150,
+      height:150,
+      legend: { position: 'bottom' }
+    };
+    var chart = new google.visualization.LineChart(document.getElementById('effortchart<%= p.id %>'));
+    chart.draw(data, options);
+  }
+<% end %>
+
+window.setInterval(callme, 15000 );
+
+function callme() {
+  $.ajax({
+
+      // url: "http://tkbinfo-horstwurm.c9users.io/home/dashboard_projectdata.json?pid=<%= @mobject.id %>",
+      url: "https://mytgcloud.herokuapp.com/home/dashboard_projectdata.json?pid=<%= @mobject.id %>",
+
+      //force to handle it as text
+      dataType: "text",
+      success: function(data) {
+
+          //data downloaded so we call parseJSON function 
+          //and pass downloaded data
+          var json = $.parseJSON(data);
+
+          //alert(json[0].id + json[0].kategorie + " " + json[0].summe);
+
+          <% @projects.each do |p| %>
+            for (var i=0;i<json.length;++i)
+            {
+              if (json[i].id == <%= p.id %>) {
+                if (json[i].kategorie == "kosten") {
+                  $("#cost<%= p.id  %>").text(json[i].summe + " CHF");
+                  costdataset_<%= p.id %>.push([Date(), json[i].summe]);
+                  google.charts.setOnLoadCallback(costfunc<%= p.id %>);
+                }
+                if (json[i].kategorie == "aufwand") {
+                  $("#effort<%= p.id  %>").text( parseInt( (json[i].summe)/8) + " PT");
+                  effortdataset_<%= p.id %>.push([Date(), json[i].summe]);
+                  google.charts.setOnLoadCallback(effortfunc<%= p.id %>);
+                }
+              }
+            }
+          <% end %>
+        }
+    });
+}
+
+</script>

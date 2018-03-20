@@ -12,38 +12,38 @@
     <% end %>
 
     <div class="row">
-       <div class="col-md-12">
+       <div class="col-md-6">
             <div class="panel-body ueberschrift">
                 <h1><%= (I18n.t :bewertungskriterien) + " " + @crit.mobject.name  %></h1> 
             </div>
         </div>
-    </div>
-
-    <div class="row">
         <div class="col-md-6">
-          <div class="form-group">
-            <%= f.label (I18n.t :bezeichnung) %><br/>
-            <%= f.text_field :name, autofocus: true, class:"form-control"%>
-          </div>
-          <div class="form-group">
-            <%= f.label (I18n.t :beschreibung) %><br/>
-            <%= f.text_area :description, rows: 5, class:"form-control"%>
-          </div>
-          <div class="form-group">
-            <%= f.label (I18n.t :gewichtung) %><br/>
+          <div class="panel-body ueberschrift">
             <div class="form-group">
-              <input id="ex2" data-slider-id='ex2Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="<%= @crit.rating %>"/>
+              <%= f.label (I18n.t :bezeichnung) %><br/>
+              <%= f.text_field :name, autofocus: true, class:"form-control"%>
             </div>
-          </div>
+            <div class="form-group">
+              <%= f.label (I18n.t :beschreibung) %><br/>
+              <%= f.text_area :description, rows: 5, class:"form-control"%>
+            </div>
+            <div class="form-group">
+              <%= f.label (I18n.t :gewichtung) %><br/>
+              <div class="form-group">
+                <input id="ex2" data-slider-id='ex2Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="<%= @crit.rating %>"/>
+              </div>
+            </div>
             <div class="actions">
-              <%= f.submit "Speichern", class:"btn btn-primary btn-lg"%>
+              <%= f.submit "Speichern", class:"btn btn-primary btn-lg btn-submit"%>
               <%= link_to mobject_path(:id => @crit.mobject_id, :topic => "objekte_bewertungskriterien") do %>
-                <i class="btn btn-default btn-lg">Abbrechen</i>
+                <i class="btn btn-default btn-lg btn-submit">Abbrechen</i>
               <% end %>
             </div>
-          <div class="form-group">
-          <%= f.hidden_field :mobject_id, class:"form-control" %>
-          <%= f.number_field :rating, :id => "rating", class:"form-control hidden"%>
+            <div class="form-group">
+              <%= f.hidden_field :mobject_id, class:"form-control" %>
+              <%= f.number_field :rating, :id => "rating", class:"form-control hidden"%>
+            </div>
+          </div>
         </div>
       </div>
   <% end %>
@@ -51,6 +51,10 @@
 <script>
 $("#ex2").slider({});
 $("#ex2").on("slide", function(slideEvt) {
+	$("#rating").val(slideEvt.value);
+	init_map(slideEvt.value)
+});
+$("#ex2").on("slide slideStop", function(slideEvt) {
 	$("#rating").val(slideEvt.value);
 	init_map(slideEvt.value)
 });
