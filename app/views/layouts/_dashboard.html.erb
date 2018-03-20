@@ -10,12 +10,12 @@
                 <div class="brn-btn">
                 	
                   <h3>
-                    <span class='logo-dec'><div id="field1"></div></span>
-                    <div id="field2"></div>
-                    <div id="field3"></div>
-                    <div id="field4"></div>
-                    <div id="field5"></div>
-                    <div id="field6"></div>
+                    User Online: <span class="logo-dec"><div id="field1" style="display:inline"></div></span>
+                    Projekte: <span class="logo-dec"><div id="field2" style="display:inline"></div></span>
+                    Leistungserfassungen: <span class="logo-dec"><div id="field3" style="display:inline"></div></span>
+                    Kapazitätsplanungen: <span class="logo-dec"><div id="field4" style="display:inline"></div></span>
+                    Wettbewerbe: <span class="logo-dec"><div id="field5" style="display:inline"></div></span>
+                    Ideen: <span class="logo-dec"><div id="field6" style="display:inline"></div></span>
                   </h3>
 
                 </div>
@@ -50,12 +50,12 @@ function callme() {
         //data downloaded so we call parseJSON function 
         //and pass downloaded data
         var json = $.parseJSON(data);
-        $("#field1").text("User Online: "+json[0].user);
-        $("#field2").text("Projekte: "+json[1].projekte);
-        $("#field3").text("Leistungserfassung: "+json[2].aufwand);
-        $("#field4").text("Kapazitäten: "+json[3].kapa);
-        $("#field5").text("Wettbewerbe: "+json[4].wettbewerbe);
-        $("#field6").text("Ideen: "+json[5].ideen);
+        $("#field1").text(json[0].user);
+        $("#field2").text(json[1].projekte);
+        $("#field3").text(json[2].aufwand);
+        $("#field4").text(json[3].kapa);
+        $("#field5").text(json[4].wettbewerbe);
+        $("#field6").text(json[5].ideen);
         //alert(json[0].id + json[0].kategorie + " " + json[0].summe);
       }
   });
