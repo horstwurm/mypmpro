@@ -1088,7 +1088,7 @@ def build_medialistNew(items, cname, par)
                 #    content_tag(:i, nil, class:"btn btn-primary fa fa-star")
                 #end
                 array = []
-                item.mobject.madvisors.each do |m|
+                item.mobject.madvisors.where('grade=? or grade=?',"Jury-Mitglied", "Jury-Vorsitz").each do |m|
                   array << m.user_id
                 end
                 if array.include?(current_user.id)
@@ -1166,7 +1166,7 @@ def build_medialistNew(items, cname, par)
                 end 
 
               when "favourits", "searches", "mratings", "comments"
-                if item.user_id == current_user.id or isdeputy(item)
+                if item.user_id == current_user.id or isdeputy(item.user)
                   access=true
                 end 
 
@@ -2310,6 +2310,9 @@ def action_buttons4(object_type, item, topic)
                   html_string = html_string + link_to(mobject_path(:mobject_id => item.id, :topic => "objekte_sensordaten", :delsensordata => true), data: { confirm: (I18n.t :sindsiesicher) }) do
                       content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :loeschen), class:"btn btn-danger fa fa-trash red") 
                   end
+                  html_string = html_string + link_to(new_sensor_path(:mobject_id => item.id)) do
+                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange") 
+                  end
                end
               end
 
@@ -3225,6 +3228,9 @@ def init_apps
     hash = Hash.new
     hash = {"domain" => "objekte", "right" => "cftransaktionen", "access" => false, "info" => "news"}
     @array << hash
+    hash = Hash.new
+    hash = {"domain" => "objekte", "right" => "sensordaten", "access" => true, "info" => "news"}
+    @array << hash
     
     for i in 0..@array.length-1
       c = Appparam.new
@@ -3355,7 +3361,7 @@ def build_article(article)
           
           case d.textoptions
             when "zitat"
-              html_string = html_string + '"' + d.description + '"'
+              html_string = html_string + '<zitat>"' + d.description + '"</zitat>'
             when "link"
               html_string = html_string + link_to(url_with_protocol(d.description), target: "_blank") do
                 content_tag(:div, d.description)
@@ -3403,7 +3409,7 @@ def build_article(article)
                     html_string = html_string + "<i class='fa fa-chevron-down'> </i>"+ d.name
                     if user_signed_in?
                       html_string = html_string + link_to(new_mrating_path(:mobject_id => article.id, :user_id => current_user.id)) do
-                        html_string = html_string + l
+                        content_tag(:i, content_tag(:i," bewerten"), class:"btn btn-primary fa fa-star")
                       end
                     end
                   html_string = html_string + "</a>"

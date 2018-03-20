@@ -22,7 +22,7 @@
         <div class="col-md-6">
             <div class="panel panel-body ueberschrift">
                   <% if @mdetail.mobject.mtype == "artikel" %>
-                      <%= f.label I18n.t :textoptionen %>
+                      <%= f.label I18n.t :textoptionen %><br>
                       <%= f.radio_button :textoptions, "text" %> <%= I18n.t :text %><br>
                       <%= f.radio_button :textoptions, "link" %> <%= I18n.t :link %><br>
                       <%= f.radio_button :textoptions, "zitat" %> <%= I18n.t :zitat %><br>

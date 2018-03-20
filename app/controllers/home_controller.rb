@@ -292,6 +292,7 @@ def arduino
       format.json 
         msg = []
         msg << {:user => User.where("updated_at > ?", 10.minutes.ago).count}
+        msg << {:reg => User.count}
         msg << {:projekte => Mobject.where("mtype=?", "projekte").count}
         msg << {:aufwand => Timetrack.count}
         msg << {:kapa => Planning.count}

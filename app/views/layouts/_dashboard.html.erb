@@ -11,11 +11,12 @@
                 	
                   <h3>
                     User Online: <span class="logo-dec"><div id="field1" style="display:inline"></div></span>
-                    Projekte: <span class="logo-dec"><div id="field2" style="display:inline"></div></span>
-                    Leistungserfassungen: <span class="logo-dec"><div id="field3" style="display:inline"></div></span>
-                    Kapazitätsplanungen: <span class="logo-dec"><div id="field4" style="display:inline"></div></span>
-                    Wettbewerbe: <span class="logo-dec"><div id="field5" style="display:inline"></div></span>
-                    Ideen: <span class="logo-dec"><div id="field6" style="display:inline"></div></span>
+                    User registriert: <span class="logo-dec"><div id="field2" style="display:inline"></div></span>
+                    Projekte: <span class="logo-dec"><div id="field3" style="display:inline"></div></span>
+                    Leistungserfassungen: <span class="logo-dec"><div id="field4" style="display:inline"></div></span>
+                    Kapazitätsplanungen: <span class="logo-dec"><div id="field5" style="display:inline"></div></span>
+                    Wettbewerbe: <span class="logo-dec"><div id="field6" style="display:inline"></div></span>
+                    Ideen: <span class="logo-dec"><div id="field7" style="display:inline"></div></span>
                   </h3>
 
                 </div>
@@ -51,11 +52,12 @@ function callme() {
         //and pass downloaded data
         var json = $.parseJSON(data);
         $("#field1").text(json[0].user);
-        $("#field2").text(json[1].projekte);
-        $("#field3").text(json[2].aufwand);
-        $("#field4").text(json[3].kapa);
-        $("#field5").text(json[4].wettbewerbe);
-        $("#field6").text(json[5].ideen);
+        $("#field2").text(json[1].reg);
+        $("#field3").text(json[2].projekte);
+        $("#field4").text(json[3].aufwand);
+        $("#field5").text(json[4].kapa);
+        $("#field6").text(json[5].wettbewerbe);
+        $("#field7").text(json[6].ideen);
         //alert(json[0].id + json[0].kategorie + " " + json[0].summe);
       }
   });

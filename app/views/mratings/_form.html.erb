@@ -11,31 +11,34 @@
             </div>
         <% end %>
 
-        <%= header("BEWERTUNG "+ @mrating.mobject.name) %>
-
         <div class="row">
-              <div class="col-md-6">
-                  <div class="panel-body">
-                    <div class="form-group">
-                      <%= f.label "Benutzerbewertung" %><br/>
-                      <% for i in 1..5 %>
-                          <%= f.radio_button :rating, i.to_i %>
-                          <% i.times do %>
-                            <% image_tag("rating_star.jpg", :size => "50x50" , class:"img-rounded") %>
-                            <i class="fa fa-star"></i>
-                          <% end %><br>
-                      <% end %>
-                      <%= f.text_area :comment, rows: 3, class:"form-control"%>
-                    </div>
-                   <%= f.hidden_field :user_id, class:"form-control" %>
-                   <%= f.hidden_field :mobject_id, class:"form-control" %>
-                   <div class="actions">
-                      <%= f.submit "Speichern",  class:"btn btn-primary btn-lg"%>
-                      <%= link_to mobject_path(:id => @mrating.mobject_id, :topic => "Ratings") do %>
-                        <i class="btn btn-default btn-lg fa fa">Abbrechen</i>
-                      <% end %>
-                   </div>
+          <div class="col-md-6">
+            <div class="panel-body ueberschrift">
+              <h1><%= header("BEWERTUNG für "+ @mrating.mobject.name) %></h1>
+            </div>
+          </div>
+          <div class="col-md-6">
+              <div class="panel-body ueberschrift">
+                <div class="form-group">
+                  <%= f.label "Benutzerbewertung" %><br/>
+                  <% for i in 1..5 %>
+                      <%= f.radio_button :rating, i.to_i %>
+                      <% i.times do %>
+                        <% image_tag("rating_star.jpg", :size => "50x50" , class:"img-rounded") %>
+                        <i class="fa fa-star"></i>
+                      <% end %><br>
+                  <% end %>
+                  <%= f.text_area :comment, rows: 3, class:"form-control"%>
                 </div>
+               <%= f.hidden_field :user_id, class:"form-control" %>
+               <%= f.hidden_field :mobject_id, class:"form-control" %>
+               <div class="actions">
+                  <%= f.submit "Speichern",  class:"btn btn-primary btn-lg btn-submit"%>
+                  <%= link_to mobject_path(:id => @mrating.mobject_id, :topic => "Ratings") do %>
+                    <i class="btn btn-default btn-submit btn-lg fa fa">Abbrechen</i>
+                  <% end %>
+               </div>
             </div>
         </div>
+      </div>
     <% end %>

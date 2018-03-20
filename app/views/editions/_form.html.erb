@@ -13,22 +13,12 @@
 
         <div class="row">
             <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading header">
-                      <li_header>
-                      <%= link_to mobject_path(:id => @edition.mobject_id, :topic => "objekte_ausgaben") do %>
-                        <i class="btn btn-primary fa fa-list"></i>
-                      <% end %>
-                      <%= (I18n.t :ausgabe) + " " + @edition.mobject.name %>
-                      </li_header>
-                    </div>
+                <div class="panel panel-body ueberschrift">
+                      <h1><%= header((I18n.t :ausgabe) + " " + @edition.mobject.name) %></h1>
                 </div>
             </div>
-        </div>
-
-        <div class="row">
             <div class="col-md-6">
-                <div class="panel-body">
+                <div class="panel-body ueberschrift">
                       <div class="form-group">
                         <%= f.label (I18n.t :picture) %><br/>
                          <% if @edition.avatar_file_name %>
@@ -56,7 +46,10 @@
                      <%= f.hidden_field :mobject_id, class:"form-control" %>
                      <%= f.hidden_field :status, class:"form-control" %>
                     <div class="actions">
-                       <%= f.submit (I18n.t :speichern),  class:"btn btn-primary btn-lg"%>
+                       <%= f.submit (I18n.t :speichern),  class:"btn btn-primary btn-lg btn-submit"%>
+                      <%= link_to mobject_path(:id => @edition.mobject_id, :topic => "objekte_ausgaben") do %>
+                        <i class="btn btn-primary btn-lg btn-submit">Abbrechen</i>
+                      <% end %>
                     </div>
                 </div>
                 
@@ -69,13 +62,13 @@
     $('#edition_release_date').datepicker({
         format: "yyyy-mm-dd",
         weekStart: 1,
-        language: "en",
+        language: "de",
         daysOfWeekHighlighted: "0,6",
         todayBtn: true,
         todayHighlight: true,
         firstDay: 1}
     );
-     $.fn.bootstrapSwitch.defaults.onColor = 'success';
+     $.fn.bootstrapSwitch.defaults.onColor = 'mycolor';
      $("[name='my-checkbox1']").bootstrapSwitch('state',<%= @edition.active %>);
      $("[name='my-checkbox1']").on('switchChange.bootstrapSwitch', function () {
      $("#active").prop('checked',$("[name='my-checkbox1']").bootstrapSwitch('state'));
