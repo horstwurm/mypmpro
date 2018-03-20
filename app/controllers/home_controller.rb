@@ -295,6 +295,8 @@ def arduino
         msg << {:projekte => Mobject.where("mtype=?", "projekte").count}
         msg << {:aufwand => Timetrack.count}
         msg << {:kapa => Planning.count}
+        msg << {:wettbewerbe => Mobject.where('mtype=?',"innovationswettbewerbe").count}
+        msg << {:ideen => Idea.count}
         render :json => msg.to_json
     end
 end
