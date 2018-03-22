@@ -176,6 +176,8 @@ def build_medialistNew(items, cname, par)
     end
     
     if item and show
+
+        #html_string = html_string + items.table_name
       
         html_string = html_string + '<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-12">'
           html_string = html_string + '<div class="blog-sec">'
@@ -214,6 +216,14 @@ def build_medialistNew(items, cname, par)
                     html_string = html_string + showFirstImage2(:medium, item.mobject, item.mobject.mdetails)
                   end
                 end
+              when "publication_articles"
+                if par == "publikation"
+                  @par = Mobject.find(item.publication)
+                end
+                if par == "artikel"
+                  @par = Mobject.find(item.article)
+                end
+                html_string = html_string + showFirstImage2(:medium, @par, @par.mdetails)
               when "edition_arcticles"
                 html_string = html_string + showFirstImage2(:medium, item.mobject, item.mobject.mdetails)
               when "editions"
@@ -320,6 +330,8 @@ def build_medialistNew(items, cname, par)
                 html_string = html_string + item.header
               when "questions"
                 html_string = html_string + item.name
+              when "publication_articles"
+                html_string = html_string + @par.name
               when "edition_arcticles"
                 html_string = html_string + item.mobject.name
               when "editions"
@@ -598,35 +610,6 @@ def build_medialistNew(items, cname, par)
                   end
                 end
 
-              when "edition_arcticles"
-                html_string = html_string + '<i class="fa fa-pencil"></i> '
-                html_string = html_string + item.mobject.owner.name + " " + item.mobject.owner.lastname
-
-              when "editions"
-                html_string = html_string + '<i class="fa fa-calendar"></i> '
-                if item.release_date 
-                  html_string = html_string +  item.release_date.strftime("%d.%m.%Y") + '<br><br>'
-                end 
-                html_string = html_string + " <fire>" + item.edition_arcticles.count.to_s + " " + (I18n.t :artikel)
-                html_string = html_string + '</fire><br><br>'
-
-                #html_string = html_string + '<i class="fa fa-pencil"></i> '
-                #html_string = html_string + item.description + "<br><br>"
-                item.edition_arcticles.order(:sequence).last(5).each do |ea|
-                  #html_string = html_string + link_to(mobject_path(:id => ea.mobject.id)) do 
-                  #  content_tag(:i, nil, class:"fa fa-text-background")
-                  #end
-                  html_string = html_string + " " + ea.mobject.name + " (" + ea.mobject.owner.name + " " + ea.mobject.owner.lastname + ")<br>"
-                  #html_string = html_string + "<div class='row'>"
-                    #html_string = html_string + '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">'
-                      #html_string = html_string + showFirstImage2(:small, ea.mobject, ea.mobject.mdetails)
-                    #html_string = html_string + "</div>"
-                    #html_string = html_string + '<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">'
-                      #html_string = html_string + " " + ea.mobject.name + "<br>"
-                    #html_string = html_string + "</div>"
-                  #html_string = html_string + "</div>"
-                end
-                
               when "comments"
                 html_string = html_string + "<blog>'" + item.description + "'</blog>"
 
@@ -768,18 +751,16 @@ def build_medialistNew(items, cname, par)
                     end
 
                   when "publikationen"
-                    html_string = html_string + " <fire>" + item.editions.count.to_s + " " + (I18n.t :editions)
-                    html_string = html_string + '</fire><br><br>'
-                    html_string = html_string + "<fire>"                    
-                       item.editions.order(release_date: :desc).last(5).each do |e|
-                          html_string = html_string + link_to(edition_path(:id => e.id, :topic => "artikel_info")) do
-                            #content_tag(:div, showImage2(:small, e, false)) + content_tag(:div, e.name)
-                            content_tag(:div, e.name, class:"mediabuttonred")
-                          end
-                          #html_string = html_string + "<br>"
+                    @a = PublicationArticle.where('publication=?',item.id).order(sequence: :asc)
+                    html_string = html_string + " <fire>" + @a.count.to_s + " " + (I18n.t :artikel) + '</fire><br>'
+                     @a.each do |a|
+                        html_string = html_string + link_to(mobject_path(:id => a.article, :topic => "objekte_info")) do
+                          #content_tag(:div, showImage2(:small, e, false)) + content_tag(:div, e.name)
+                          content_tag(:div, Mobject.find(a.article).name, class:"fa fa-book mediabuttonred")
                         end
-                    html_string = html_string + "</fire>"                    
-                    html_string = html_string + '<br>'
+                        #html_string = html_string + "<br>"
+                      end
+                    html_string = html_string + '<br><br>'
                     
                   when "projekte"
                     if !item.date_from
@@ -1060,6 +1041,12 @@ def build_medialistNew(items, cname, par)
           access = false
           if user_signed_in?
             case cname
+              when "publikation_artikel"
+                if par = "artikel"
+                  if current_user.id = Mobject.find(item.article).owner_id or isdeputy(Mobject.find(item.article).owner_id)
+                    access = true
+                  end
+                end
               when "partner_links"
                 if current_user.id = item.company.user_id or isdeputy(item.company.user_id)
                   access = true
@@ -1200,7 +1187,7 @@ def build_medialistNew(items, cname, par)
                   end
                   if item.mtype == "artikel"
                     if par #Artikelauswahl für Edition
-                      html_string = html_string + link_to(new_edition_arcticle_path(:edition_id => par, :article_id => item.id)) do
+                       html_string = html_string + link_to(new_publication_article_path(:publication => session[:publication], :article => item.id)) do
                         content_tag(:i, nil, class:"btn btn-primary btn-lg fa fa-pencil mediabutton")
                       end
                     end
@@ -1263,7 +1250,7 @@ def build_medialistNew(items, cname, par)
           end
 
           #kein Info button wenn kein weiterer drill down
-          if cname != "prices" and cname != "crits" and cname != "mdetails" and cname != "madvisors" and cname != "tickets" and cname != "questions" and cname != "comments" and cname != "partner_links" and cname != "appparams"
+          if cname != "prices" and cname != "crits" and cname != "mdetails" and cname != "madvisors" and cname != "tickets" and cname != "questions" and cname != "comments" and cname != "partner_links" and cname != "appparams" and cname != "publikation_artikel"
             html_string = html_string + link_to(item, :topic => "info") do 
               content_tag(:i, nil, class:"btn btn-primary btn-lg fa fa-info")
             end
@@ -1326,26 +1313,15 @@ def build_medialistNew(items, cname, par)
   	            html_string = html_string + link_to(edit_idea_crowdrating_path(:id => item)) do 
                   content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-wrench")
                 end
-              when "edition_arcticles"
-  	            html_string = html_string + link_to(edition_arcticles_path(:edition_id => item.edition_id, :dir => "left", :d_id => item.id)) do 
-                  content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-chevron-left")
+              when "publikation_artikel"
+                if par == "artikel"
+    	            html_string = html_string + link_to(mobject_path(:id => item.publication, :topic => "objekte_artikel", :dir => "left", :publication_article_id => item.id)) do 
+                    content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-chevron-left")
+                  end
                 end
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"btn btn-danger btn-lg fa fa-trash pull-right")
+                  content_tag(:i, item.sequence, class:"btn btn-danger btn-lg fa fa-trash pull-right")
                 end
-  	            html_string = html_string + link_to(edit_edition_arcticle_path(:id => item)) do 
-                  content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-wrench mediabutton")
-                end
-              when "editions"
-  	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"btn btn-danger btn-lg fa fa-trash pull-right")
-                end
-  	            html_string = html_string + link_to(edit_edition_path(:id => item)) do 
-                  content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-wrench")
-                end
-  	            #html_string = html_string + link_to(edition_arcticles_path(:edition_id => item)) do 
-                #  content_tag(:i, nil, class:"btn btn-primary fa fa-book")
-                #end
               when "comments"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
                   content_tag(:i, nil, class:"btn btn-danger btn-lg fa fa-trash pull-right")
@@ -1605,7 +1581,7 @@ def header(header)
     html_string = ""
     #html_string = html_string + '<div class="container">'
       html_string = html_string + '<div class="panel-body ueberschrift">'
-        html_string = html_string + header
+        html_string = html_string + header.upcase
       html_string = html_string + "</div>"
     #html_string = html_string + "</div>"
 
@@ -1652,13 +1628,6 @@ def navigate2(object, item, topic)
     html_string = html_string + '<div class="dropdown-menu">'
 
   case object
-    when "edition_artikeln"
-      html_string = html_string + build_nav2("edition_artikeln",item,"artikel_ausgaben",1)
-
-    when "editionen"
-      html_string = html_string + build_nav2("editionen",item,"editionen_ausgaben",item.edition_arcticles.count)
-      html_string = html_string + build_nav2("edition_artikel",item,"edition_artikel",item.edition_arcticles.count)
-      
     when "tabellen"
       html_string = html_string + build_nav2("tabellen",item,"tabellen_kategorien",1)
       
@@ -1798,10 +1767,10 @@ def navigate2(object, item, topic)
           html_string = html_string + build_nav2("objekte",item,"objekte_ideen",item.ideas.count)
         end
         if item.mtype == "publikationen"
-          html_string = html_string + build_nav2("objekte",item,"objekte_ausgaben",item.editions.count)
+          html_string = html_string + build_nav2("objekte",item,"objekte_artikel", PublicationArticle.where('publication=?',item.id).count)
         end
-        if item.mtype == "artikel" and @edition_id
-          html_string = html_string + build_nav2("edition",Edition.find(@edition_id),"objekte_ausgabe",1)
+        if item.mtype == "artikel"
+          html_string = html_string + build_nav2("objekte",item,"objekte_publikationen", PublicationArticle.where('article=?',item.id).count)
         end
         if item.mtype == "sensoren"
           html_string = html_string + build_nav2("objekte",item,"objekte_sensordaten",item.sensors.count)
@@ -1902,24 +1871,19 @@ def build_nav2(domain, item, domain2, anz)
         html_string = link_to home_index9_path do
           content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]+" "+btn) 
         end
-      when "editionen"
+      when "publikation_artikel"
         html_string = '<class="dropdown-item">'
-        html_string = link_to(mobject_path(:id => item.mobject_id, :topic => "objekte_ausgaben")) do
+        html_string = link_to(mobject_path(:id => item.mobject_id, :topic => "objekte_info")) do
           content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]+" "+btn) 
         end
-      when "edition"
+      when "publikationen"
         html_string = '<class="dropdown-item">'
-        html_string = link_to(edition_path(:id => item.id)) do
+        html_string = link_to(mobject_path(:id => item.publication)) do
           content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]+" "+btn) 
         end
-      when "edition_artikel"
+      when "artikel"
         html_string = '<class="dropdown-item">'
-        html_string = link_to(edition_arcticles_path(:edition_id => item.id)) do
-          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]+" "+btn) 
-        end
-      when "edition_artikeln"
-        html_string = '<class="dropdown-item">'
-        html_string = link_to(edition_path(:id => item.id)) do
+        html_string = link_to(mobject_path(:id => item.article)) do
           content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]+" "+btn) 
         end
     end
@@ -2182,14 +2146,12 @@ def action_buttons4(object_type, item, topic)
               content_tag(:i, " "+ (I18n.t :suchen), class:"btn btn-default fa fa-search") 
              end
 
-            if false 
-             if session[:edition_id]
-               html_string = html_string + link_to(edition_path(:id => session[:edition_id], :topic => "objekte_info")) do
-                content_tag(:i, " " + (I18n.t :edition), class:"btn btn-default fa fa-book") 
+             if item.mtype == "artikel" and session[:publication]
+               html_string = html_string + link_to(mobject_path(:id => session[:publication], :topic => "objekte_artikel")) do
+                content_tag(:i, " " + Mobject.find(session[:publication]).name, class:"btn btn-primary fa fa-book") 
                end
              end 
-             end
-             
+
              if item.parent and item.parent > 0 
                 html_string = html_string + link_to(mobject_path(:id => item.parent, :mtype => "projekte", :msubtype => nil, :topic => "objekte_info")) do
                   content_tag(:i, " " + (I18n.t :edition), class:"btn btn-default fa fa-level-up") 
@@ -2334,10 +2296,10 @@ def action_buttons4(object_type, item, topic)
                end
               end
               
-          when "objekte_ausgaben"
+          when "objekte_artikel"
               if user_signed_in?
                 if isowner(item) or isdeputy(item.owner)
-                  html_string = html_string + link_to(new_edition_path(:mobject_id => item.id)) do
+                  html_string = html_string + link_to(mobjects_path(:mtype => "artikel", :publication => item.id)) do
                       content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange") 
                   end
                end
@@ -2419,27 +2381,6 @@ def action_buttons4(object_type, item, topic)
           end
         end
 
-      when "artikeledition"
-         html_string = html_string + link_to(mobject_path(:id => item.mobject_id, :topic => "objekte_ausgaben")) do
-            content_tag(:i, " " + (I18n.t :zurueckzurausgabe), class:"btn btn-default fa fa-list") 
-         end
-         if user_signed_in?
-          if isowner(item) or isdeputy(item.owner)
-            html_string = html_string + link_to(mobjects_path(:mtype => "artikel", :edition_id => item.id)) do
-              content_tag(:i, " " + (I18n.t :artikel) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange") 
-            end
-          end
-         end
-
-      when "edition_artikeln"
-         if user_signed_in?
-          if isowner(item.mobject) or isdeputy(item.mobject.owner)
-            html_string = html_string + link_to(mobjects_path(:mtype => "artikel", :edition_id => item.id)) do
-              content_tag(:i, " " + (I18n.t :artikel) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange") 
-            end
-          end
-         end
-        
   end
   return html_string.html_safe
 end
@@ -2909,10 +2850,10 @@ def init_apps
     hash = {"domain" => "hauptmenue", "right" => "news", "access" => false, "info" => "news", "fee" => 0}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "hauptmenue", "right" => "personen", "access" => false, "info" => "news", "fee" => 0}
+    hash = {"domain" => "hauptmenue", "right" => "personen", "access" => true, "info" => "news", "fee" => 0}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "hauptmenue", "right" => "institutionen", "access" => false, "info" => "news", "fee" => 0}
+    hash = {"domain" => "hauptmenue", "right" => "institutionen", "access" => true, "info" => "news", "fee" => 0}
     @array << hash
     hash = Hash.new
     hash = {"domain" => "hauptmenue", "right" => "angebote", "access" => false, "info" => "news", "fee" => 0}
@@ -2936,31 +2877,31 @@ def init_apps
     hash = {"domain" => "hauptmenue", "right" => "kleinanzeigen", "access" => false, "info" => "news", "fee" => 0}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "hauptmenue", "right" => "publikationen", "access" => false, "info" => "news", "fee" => 0}
+    hash = {"domain" => "hauptmenue", "right" => "publikationen", "access" => true, "info" => "news", "fee" => 300}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "hauptmenue", "right" => "artikel", "access" => false, "info" => "news", "fee" => 0}
+    hash = {"domain" => "hauptmenue", "right" => "artikel", "access" => true, "info" => "news", "fee" => 300}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "hauptmenue", "right" => "innovationswettbewerbe", "access" => false, "info" => "payable", "fee" => 500}
+    hash = {"domain" => "hauptmenue", "right" => "innovationswettbewerbe", "access" => true, "info" => "payable", "fee" => 500}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "hauptmenue", "right" => "umfragen", "access" => false, "info" => "payable", "fee" => 300}
+    hash = {"domain" => "hauptmenue", "right" => "umfragen", "access" => true, "info" => "payable", "fee" => 300}
     @array << hash
     hash = Hash.new
     hash = {"domain" => "hauptmenue", "right" => "projekte", "access" => true, "info" => "payable", "fee" => 700}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "hauptmenue", "right" => "sensoren", "access" => false, "info" => "news", "fee" => 0}
+    hash = {"domain" => "hauptmenue", "right" => "sensoren", "access" => true, "info" => "news", "fee" => 0}
     @array << hash
     hash = Hash.new
     hash = {"domain" => "hauptmenue", "right" => "crowdfunding", "access" => false, "info" => "news", "fee" => 0}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "hauptmenue", "right" => "standorte", "access" => false, "info" => "news", "fee" => 0}
+    hash = {"domain" => "hauptmenue", "right" => "standorte", "access" => true, "info" => "news", "fee" => 0}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "hauptmenue", "right" => "kampagnen", "access" => false, "info" => "news", "fee" => 0}
+    hash = {"domain" => "hauptmenue", "right" => "kampagnen", "access" => true, "info" => "news", "fee" => 0}
     @array << hash
     hash = Hash.new
     hash = {"domain" => "hauptmenue", "right" => "kalender", "access" => false, "info" => "news", "fee" => 0}
@@ -2978,10 +2919,10 @@ def init_apps
     hash = {"domain" => "personen", "right" => "angebote", "access" => false, "info" => "news"}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "personen", "right" => "ansprechpartner", "access" => true, "info" => "news"}
+    hash = {"domain" => "personen", "right" => "ansprechpartner", "access" => false, "info" => "news"}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "personen", "right" => "institutionen", "access" => false, "info" => "news"}
+    hash = {"domain" => "personen", "right" => "institutionen", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
     hash = {"domain" => "personen", "right" => "stellenanzeigen", "access" => false, "info" => "news"}
@@ -2996,7 +2937,7 @@ def init_apps
     hash = {"domain" => "personen", "right" => "veranstaltungen", "access" => false, "info" => "news"}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "personen", "right" => "sensoren", "access" => false, "info" => "news"}
+    hash = {"domain" => "personen", "right" => "sensoren", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
     hash = {"domain" => "personen", "right" => "anmeldungen", "access" => false, "info" => "news"}
@@ -3011,10 +2952,10 @@ def init_apps
     hash = {"domain" => "personen", "right" => "ausschreibungen", "access" => false, "info" => "news"}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "personen", "right" => "innovationswettbewerbe", "access" => false, "info" => "news"}
+    hash = {"domain" => "personen", "right" => "innovationswettbewerbe", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "personen", "right" => "ideen", "access" => false, "info" => "news"}
+    hash = {"domain" => "personen", "right" => "ideen", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
     hash = {"domain" => "personen", "right" => "crowdfunding", "access" => false, "info" => "news"}
@@ -3023,22 +2964,22 @@ def init_apps
     hash = {"domain" => "personen", "right" => "crowdfundingbeitraege", "access" => false, "info" => "news"}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "personen", "right" => "bewertungen", "access" => false, "info" => "news"}
+    hash = {"domain" => "personen", "right" => "bewertungen", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "personen", "right" => "favoriten", "access" => false, "info" => "news"}
+    hash = {"domain" => "personen", "right" => "favoriten", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
     hash = {"domain" => "personen", "right" => "gruppen", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "personen", "right" => "publikationen", "access" => false, "info" => "news"}
+    hash = {"domain" => "personen", "right" => "publikationen", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "personen", "right" => "artikel", "access" => false, "info" => "news"}
+    hash = {"domain" => "personen", "right" => "artikel", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "personen", "right" => "umfragen", "access" => false, "info" => "news"}
+    hash = {"domain" => "personen", "right" => "umfragen", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
     hash = {"domain" => "personen", "right" => "projekte", "access" => true, "info" => "news"}
@@ -3102,7 +3043,7 @@ def init_apps
     hash = {"domain" => "institutionen", "right" => "ausschreibungen", "access" => false, "info" => "news"}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "institutionen", "right" => "innovationswettbewerbe", "access" => false, "info" => "news"}
+    hash = {"domain" => "institutionen", "right" => "innovationswettbewerbe", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
     hash = {"domain" => "institutionen", "right" => "crowdfunding", "access" => false, "info" => "news"}
@@ -3111,13 +3052,13 @@ def init_apps
     hash = {"domain" => "institutionen", "right" => "crowdfundingbeitraege", "access" => false, "info" => "news"}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "institutionen", "right" => "publikationen", "access" => false, "info" => "news"}
+    hash = {"domain" => "institutionen", "right" => "publikationen", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "institutionen", "right" => "umfragen", "access" => false, "info" => "news"}
+    hash = {"domain" => "institutionen", "right" => "umfragen", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "institutionen", "right" => "sensoren", "access" => false, "info" => "news"}
+    hash = {"domain" => "institutionen", "right" => "sensoren", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
     hash = {"domain" => "institutionen", "right" => "projekte", "access" => true, "info" => "news"}
@@ -3135,19 +3076,19 @@ def init_apps
     hash = {"domain" => "institutionen", "right" => "emails", "access" => false, "info" => "news"}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "institutionen", "right" => "favoriten", "access" => false, "info" => "news"}
+    hash = {"domain" => "institutionen", "right" => "favoriten", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "institutionen", "right" => "partnerlinks", "access" => false, "info" => "news"}
+    hash = {"domain" => "institutionen", "right" => "partnerlinks", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "institutionen", "right" => "aktivitaeten", "access" => false, "info" => "news"}
+    hash = {"domain" => "institutionen", "right" => "aktivitaeten", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "institutionen", "right" => "standorte", "access" => false, "info" => "news"}
+    hash = {"domain" => "institutionen", "right" => "standorte", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "institutionen", "right" => "kampagnen", "access" => false, "info" => "news"}
+    hash = {"domain" => "institutionen", "right" => "kampagnen", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
     hash = {"domain" => "institutionen", "right" => "charges", "access" => true, "info" => "news"}
@@ -3190,28 +3131,28 @@ def init_apps
     hash = {"domain" => "objekte", "right" => "ausschreibungsangebote", "access" => false, "info" => "news"}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "objekte", "right" => "bewertungen", "access" => false, "info" => "news"}
+    hash = {"domain" => "objekte", "right" => "bewertungen", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "objekte", "right" => "blog", "access" => false, "info" => "news"}
+    hash = {"domain" => "objekte", "right" => "blog", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "objekte", "right" => "fragen", "access" => false, "info" => "news"}
+    hash = {"domain" => "objekte", "right" => "fragen", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "objekte", "right" => "umfrageteilnehmer", "access" => false, "info" => "news"}
+    hash = {"domain" => "objekte", "right" => "umfrageteilnehmer", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "objekte", "right" => "jury", "access" => false, "info" => "news"}
+    hash = {"domain" => "objekte", "right" => "jury", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "objekte", "right" => "preise", "access" => false, "info" => "news"}
+    hash = {"domain" => "objekte", "right" => "preise", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "objekte", "right" => "ideen", "access" => false, "info" => "news"}
+    hash = {"domain" => "objekte", "right" => "ideen", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "objekte", "right" => "bewertungskriterien", "access" => false, "info" => "news"}
+    hash = {"domain" => "objekte", "right" => "bewertungskriterien", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
     hash = {"domain" => "objekte", "right" => "gruppenmitglieder", "access" => true, "info" => "news"}
@@ -3230,6 +3171,12 @@ def init_apps
     @array << hash
     hash = Hash.new
     hash = {"domain" => "objekte", "right" => "sensordaten", "access" => true, "info" => "news"}
+    @array << hash
+    hash = Hash.new
+    hash = {"domain" => "objekte", "right" => "publikationen", "access" => true, "info" => "news"}
+    @array << hash
+    hash = Hash.new
+    hash = {"domain" => "objekte", "right" => "artikel", "access" => true, "info" => "news"}
     @array << hash
     
     for i in 0..@array.length-1

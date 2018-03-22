@@ -4,9 +4,8 @@ class MobjectsController < ApplicationController
   # GET /mobjects
   def index
 
-    if params[:edition_id]
-      session[:edition_id] = params[:edition_id]
-      @edition_id = params[:edition_id]
+    if params[:publication]
+      session[:publication] = params[:publication]
     end
 
     @controller_name = controller_name
@@ -49,7 +48,7 @@ class MobjectsController < ApplicationController
       session[:parent] = nil
     end
 
-    @mobjects = Mobject.search(current_user, nil, nil, params[:filter_id], session[:mtype], session[:msubtype], params[:search], params[:parent]).order(created_at: :desc).page(params[:page]).per_page(10)
+    @mobjects = Mobject.search(current_user, nil, nil, params[:filter_id], session[:mtype], session[:msubtype], params[:search], params[:parent]).order(created_at: :desc).page(params[:page]).per_page(50)
     @mobanz = @mobjects.count
     @mtype = session[:mtype]
     @msubtype = session[:msubtype]
@@ -90,11 +89,7 @@ class MobjectsController < ApplicationController
     end
     
     if !params[:topic]
-      if @mobject.mtype == "publikationen"
-        @topic = "objekte_ausgaben"
-      else
-        @topic = "objekte_info"
-      end
+      @topic = "objekte_info"
     else
       @topic = params[:topic]
     end
@@ -339,6 +334,38 @@ class MobjectsController < ApplicationController
 
           end
 
+        end
+      end
+
+      if @topic == "objekte_artikel"
+        if params[:dir]
+          @sorter = []
+          @articles = PublicationArticle.where('publication=?', @mobject.id).order(:sequence)
+          @articles.each do |q|
+            h = Hash.new
+            h = {:id => q.id, :seq => q.sequence}
+            @sorter << h
+          end
+          @myd = PublicationArticle.find(params[:publication_article_id])
+          if params[:dir] == "left"
+            if @myd and @myd.sequence > 0
+              @myd.sequence = @myd.sequence - 1
+              @myd.save
+              index = -1
+              for i in 0..@sorter.length-1
+                if @myd.id == @sorter[i][:id]
+                  index = i-1
+                end
+              end
+              if index > -1
+                @myd2 = PublicationArticle.find(@sorter[index][:id])
+                if @myd2
+                  @myd2.sequence = @myd2.sequence + 1
+                  @myd2.save
+               end
+              end
+            end
+          end
         end
       end
 

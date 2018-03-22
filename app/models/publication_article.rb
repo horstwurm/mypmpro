@@ -1,0 +1,2 @@
+class PublicationArticle < ApplicationRecord
+end

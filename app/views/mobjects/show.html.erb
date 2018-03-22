@@ -20,9 +20,11 @@
         <% when "objekte_info" %>
 
           <div class="panel-body">
-            
+              <!--ACHTUNG ARTIKEL SPEZIAL            -->
+              <% if @mobject.mtype == "artikel" %>
+                <%= build_article(@mobject) %> 
+              <% end %>
               <% if @mobject.mtype != "artikel" %>
-              
                <% case @mobject.status %>
                   <% when "CHECK" %>
                     <i class="fa fa-question-sign"></i>
@@ -35,6 +37,8 @@
                 <br>
                 <%= carousel2(@mobject, :medium) %>
                 <br><br>
+              <% end %>
+
                 <% case @mobject.msubtype %>
                   <% when "spenden" %>
                     <b><%= I18n.t :spendenziel %></b><br>
@@ -337,12 +341,6 @@
                   <% end %>
                   <br><br>
                 <% end %>
-
-              <% else %>
-
-               	<%= build_article(@mobject) %>
-
-              <% end %>
 
               <% if @mobject.mtype == "projekte" %>
                 <%= header((I18n.t :projekte)) %>
@@ -1325,9 +1323,14 @@
             <%= build_medialistNew(@mobject.questions.order(:sequence), "questions", "user") %>
           </div>
 
-        <% when "objekte_ausgaben" %>
+        <% when "objekte_artikel" %>
           <div class="panel-body">
-            <%= build_medialistNew(@mobject.editions.order(created_at: :desc), "editions", "user") %>
+              <%= build_medialistNew(PublicationArticle.where('publication=?',@mobject.id).order(:sequence), "publikation_artikel", "artikel") %>
+          </div>
+
+        <% when "objekte_publikationen" %>
+          <div class="panel-body">
+              <%= build_medialistNew(PublicationArticle.where('article=?',@mobject.id).order(created_at: :desc), "publikation_artikel", "publikation") %>
           </div>
 
         <% when "objekte_substruktur" %>

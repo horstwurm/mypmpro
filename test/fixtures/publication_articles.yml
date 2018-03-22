@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  publication: 1
+  article: 1
+  status: MyString
+  active: false
+  sequence: 1
+
+two:
+  publication: 1
+  article: 1
+  status: MyString
+  active: false
+  sequence: 1

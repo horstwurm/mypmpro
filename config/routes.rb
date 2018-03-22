@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :publication_articles
   resources :iots
   resources :mvdetails
   resources :notes
