@@ -3306,7 +3306,7 @@ end
 
 def build_article(article)
   
-  if !article.mdetails
+  if !article.mdetails or article.mdetails == 0
     return
   end
   
