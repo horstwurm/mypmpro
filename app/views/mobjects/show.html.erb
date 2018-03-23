@@ -11,7 +11,7 @@
           <div class="panel-body">
               <!--ACHTUNG ARTIKEL SPEZIAL            -->
               <% if @mobject.mtype == "artikel" %>
-                <%= build_article(@mobject) if false %> 
+                <%= build_article(@mobject) %> 
               <% end %>
               <% if @mobject.mtype != "artikel" %>
                <% case @mobject.status %>
