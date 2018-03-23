@@ -3,17 +3,6 @@
 
 <div id="main">
   
-  <% if @edition_id %>
-    <div class="row">
-      <action>
-        <% @edition = Edition.find(@edition_id) %>
-        <% if false %>
-        <%= action_buttons2("Edition", @edition, "Info") %>
-        <% end %>
-      </action> 
-    </div>
-  <% end %>
-
   <div class="row">
       <div class='col-xs-12'>
       <% case @topic %>
@@ -22,7 +11,7 @@
           <div class="panel-body">
               <!--ACHTUNG ARTIKEL SPEZIAL            -->
               <% if @mobject.mtype == "artikel" %>
-                <%= build_article(@mobject) %> 
+                <%= build_article(@mobject) if false %> 
               <% end %>
               <% if @mobject.mtype != "artikel" %>
                <% case @mobject.status %>
