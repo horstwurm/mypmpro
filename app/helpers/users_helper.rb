@@ -750,7 +750,7 @@ def build_medialistNew(items, cname, par)
                     html_string = html_string + '</fire><br><br>'
                        @art.each do |a|
                          if a.article
-                            @arti = Mobject.find(a.article)
+                            @arti = Mobject.where('id=?',a.article)
                             if @arti
                               html_string = html_string + link_to(mobject_path(:id => a.article, :topic => "objekte_info")) do
                                 #content_tag(:div, showImage2(:small, e, false)) + content_tag(:div, e.name)
