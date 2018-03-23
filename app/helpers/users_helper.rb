@@ -3376,7 +3376,7 @@ def build_article(article)
 #return html_string.html_safe
 
   html_string = html_string + "<div class='row'>"
-    article.mdetails.where('textoptions ==? or textoptions ==?', "blog", "bewertung").order(:sequence).each do |d|
+    article.mdetails.where('textoptions=? or textoptions=?', "blog", "bewertung").order(:sequence).each do |d|
         case d.textoptions
           when "bewertung"
                 html_string = html_string + "<div class='panel' id='accordionB"+article.id.to_s+"' role='tablist' aria-multiselectable='true'>"
