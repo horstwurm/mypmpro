@@ -214,10 +214,16 @@ def build_medialistNew(items, cname, par)
                     html_string = html_string + showFirstImage2(:medium, item.mobject, item.mobject.mdetails)
                   end
                 end
-              when "edition_arcticles"
-                html_string = html_string + showFirstImage2(:medium, item.mobject, item.mobject.mdetails)
-              when "editions"
-                html_string = html_string + showImage2(:medium, item, true)
+              when "publication_articles"
+                if par == "artikel"
+                  @pa = Mobject.find(item.article)
+                end
+                if par == "publikationen"
+                  @pa = Mobject.find(item.publication)
+                end
+                if @pa
+                  html_string = html_string + showFirstImage2(:medium, @pa, @pa.mdetails)
+                end
               when "tickets"
                 html_string = html_string + showFirstImage2(:medium, item, item.owner.mdetails)
               when "signage_camps"
@@ -320,10 +326,10 @@ def build_medialistNew(items, cname, par)
                 html_string = html_string + item.header
               when "questions"
                 html_string = html_string + item.name
-              when "edition_arcticles"
-                html_string = html_string + item.mobject.name
-              when "editions"
-                html_string = html_string + item.name
+              when "publication_articles"
+                if @pa
+                  html_string = html_string + @pa.name
+                end
               when "comments", "idea_crowdratings"
                 html_string = html_string + item.user.name + " " + item.user.lastname + " am " + item.created_at.strftime("%d.%m.%Y um %k:%M Uhr")
               when "tickets"
@@ -598,35 +604,6 @@ def build_medialistNew(items, cname, par)
                   end
                 end
 
-              when "edition_arcticles"
-                html_string = html_string + '<i class="fa fa-pencil"></i> '
-                html_string = html_string + item.mobject.owner.name + " " + item.mobject.owner.lastname
-
-              when "editions"
-                html_string = html_string + '<i class="fa fa-calendar"></i> '
-                if item.release_date 
-                  html_string = html_string +  item.release_date.strftime("%d.%m.%Y") + '<br><br>'
-                end 
-                html_string = html_string + " <fire>" + item.edition_arcticles.count.to_s + " " + (I18n.t :artikel)
-                html_string = html_string + '</fire><br><br>'
-
-                #html_string = html_string + '<i class="fa fa-pencil"></i> '
-                #html_string = html_string + item.description + "<br><br>"
-                item.edition_arcticles.order(:sequence).last(5).each do |ea|
-                  #html_string = html_string + link_to(mobject_path(:id => ea.mobject.id)) do 
-                  #  content_tag(:i, nil, class:"fa fa-text-background")
-                  #end
-                  html_string = html_string + " " + ea.mobject.name + " (" + ea.mobject.owner.name + " " + ea.mobject.owner.lastname + ")<br>"
-                  #html_string = html_string + "<div class='row'>"
-                    #html_string = html_string + '<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">'
-                      #html_string = html_string + showFirstImage2(:small, ea.mobject, ea.mobject.mdetails)
-                    #html_string = html_string + "</div>"
-                    #html_string = html_string + '<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">'
-                      #html_string = html_string + " " + ea.mobject.name + "<br>"
-                    #html_string = html_string + "</div>"
-                  #html_string = html_string + "</div>"
-                end
-                
               when "comments"
                 html_string = html_string + "<blog>'" + item.description + "'</blog>"
 
@@ -768,21 +745,16 @@ def build_medialistNew(items, cname, par)
                     end
 
                   when "publikationen"
-                    @a = PublicationArticle.where('publication=?',item.id).order(sequence: :asc)
-                    html_string = html_string + " <fire>" + @a.count.to_s + " " + (I18n.t :articles)
+                    @art = PublicationArticle.where('publication=?',item.id).order(sequence: :asc)
+                    html_string = html_string + " <fire>" + @art.count.to_s + " " + (I18n.t :artikel)
                     html_string = html_string + '</fire><br><br>'
-                    html_string = html_string + "<fire>"                    
-                       @a.each do |a|
+                       @art.each do |a|
                           html_string = html_string + link_to(mobject_path(:id => a.article, :topic => "objekte_info")) do
                             #content_tag(:div, showImage2(:small, e, false)) + content_tag(:div, e.name)
-                            @mo = Mobject.find(a.article)
-                            if @mo
-                              content_tag(:div, @mo.name, class:"mediabuttonred")
-                            end
+                            content_tag(:div, Mobject.find(a.article).name, class:"mediabuttonred")
                           end
                           #html_string = html_string + "<br>"
                         end
-                    html_string = html_string + "</fire>"                    
                     html_string = html_string + '<br>'
                     
                   when "projekte"
@@ -1203,8 +1175,8 @@ def build_medialistNew(items, cname, par)
                     end
                   end
                   if item.mtype == "artikel"
-                    if par #Artikelauswahl für Edition
-                      html_string = html_string + link_to(new_edition_arcticle_path(:edition_id => par, :article_id => item.id)) do
+                    if session[:publication]
+                      html_string = html_string + link_to(new_publication_article_path(:publication => session[:publication], :article => item.id)) do
                         content_tag(:i, nil, class:"btn btn-primary btn-lg fa fa-pencil mediabutton")
                       end
                     end
@@ -1804,8 +1776,8 @@ def navigate2(object, item, topic)
         if item.mtype == "publikationen"
           html_string = html_string + build_nav2("objekte",item,"objekte_artikel", PublicationArticle.where('publication=?',item.id).count)
         end
-        if item.mtype == "artikel" and @edition_id
-          html_string = html_string + build_nav2("edition",Edition.find(@edition_id),"objekte_ausgabe",1)
+        if item.mtype == "artikel"
+          html_string = html_string + build_nav2("objekte",item,"objekte_publikationen", PublicationArticle.where('article=?',item.id).count)
         end
         if item.mtype == "sensoren"
           html_string = html_string + build_nav2("objekte",item,"objekte_sensordaten",item.sensors.count)
@@ -2338,10 +2310,10 @@ def action_buttons4(object_type, item, topic)
                end
               end
               
-          when "objekte_ausgaben"
+          when "objekte_artikel"
               if user_signed_in?
                 if isowner(item) or isdeputy(item.owner)
-                  html_string = html_string + link_to(new_edition_path(:mobject_id => item.id)) do
+                  html_string = html_string + link_to(mobjects_path(:mtype => "artikel", :publication => item.id)) do
                       content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange") 
                   end
                end

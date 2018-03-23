@@ -1319,7 +1319,7 @@
 
         <% when "objekte_publikationen" %>
           <div class="panel-body">
-              <%= build_medialistNew(PublicationArticle.where('article=?',@mobject.id).order(created_at: :desc), "publikation_artikel", "publikation") %>
+              <%= build_medialistNew(PublicationArticle.where('article=?',@mobject.id).order(created_at: :desc), "publikation_artikel", "publikationen") %>
           </div>
 
         <% when "objekte_substruktur" %>
