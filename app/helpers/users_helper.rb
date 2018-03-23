@@ -3313,7 +3313,7 @@ def build_article(article)
   html_string = ""
   html_string = html_string + "<div class='row'>"
 
-    article.mdetails.where('textoptions != ? and textoptions != ?', "blog", "bewertung").order(:sequence).each do |d|
+    article.mdetails.where('textoptions !=? and textoptions !=?', "blog", "bewertung").order(:sequence).each do |d|
         html_string = html_string + "<div class='col-xs-12 col-sm-6 col-md-6 col-lg-4 xl-4'>"
           html_string = html_string + "<div class='row'>"
           if d.avatar_file_name
@@ -3376,7 +3376,7 @@ def build_article(article)
 #return html_string.html_safe
 
   html_string = html_string + "<div class='row'>"
-    article.mdetails.where('textoptions == ? or textoptions == ?', "blog", "bewertung").order(:sequence).each do |d|
+    article.mdetails.where('textoptions ==? or textoptions ==?', "blog", "bewertung").order(:sequence).each do |d|
         case d.textoptions
           when "bewertung"
                 html_string = html_string + "<div class='panel' id='accordionB"+article.id.to_s+"' role='tablist' aria-multiselectable='true'>"
