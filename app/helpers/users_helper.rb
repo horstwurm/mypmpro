@@ -3321,11 +3321,15 @@ def build_article(article)
               html_string = html_string + showImage2(:medium, d, false)
             html_string = html_string + "</div>"
             html_string = html_string + "<div class='col-xs-6 col-sm-6 col-md-6 col-lg-6'>"
-              html_string = html_string + "<h2>" + d.name + "</h2><br><br>"
+              if d.name 
+                html_string = html_string + "<h2>" + d.name + "</h2><br><br>"
+              end
             html_string = html_string + "</div>"
           else
             html_string = html_string + "<div class='col-xs-12 col-sm-12 col-md-12 col-lg-12'>"
-              html_string = html_string + "<h2>"+d.name + "</h2><br><br>"
+              if d.name 
+                html_string = html_string + "<h2>"+d.name + "</h2><br><br>"
+              end 
             html_string = html_string + "</div>"
           end
           html_string = html_string + "<br>"
