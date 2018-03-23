@@ -749,11 +749,11 @@ def build_medialistNew(items, cname, par)
                     html_string = html_string + " <fire>" + @art.count.to_s + " " + (I18n.t :artikel)
                     html_string = html_string + '</fire><br><br>'
                        @art.each do |a|
-                          @arti = Mobject.find(a.article)
+                          @arti = Mobject.find(a.article) if a.article
                           if @arti
                             html_string = html_string + link_to(mobject_path(:id => a.article, :topic => "objekte_info")) do
                               #content_tag(:div, showImage2(:small, e, false)) + content_tag(:div, e.name)
-                              content_tag(:div, Mobject.find(a.article).name, class:"mediabuttonred")
+                              content_tag(:div, @arti.name, class:"mediabuttonred")
                             end
                             #html_string = html_string + "<br>"
                           end
