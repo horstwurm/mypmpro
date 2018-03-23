@@ -775,7 +775,10 @@ def build_medialistNew(items, cname, par)
                        @a.each do |a|
                           html_string = html_string + link_to(mobject_path(:id => a.article, :topic => "objekte_info")) do
                             #content_tag(:div, showImage2(:small, e, false)) + content_tag(:div, e.name)
-                            content_tag(:div, Mobject.find(a.article).name, class:"mediabuttonred")
+                            @mo = Mobject.find(a.article)
+                            if @mo
+                              content_tag(:div, @mo.name, class:"mediabuttonred")
+                            end
                           end
                           #html_string = html_string + "<br>"
                         end
