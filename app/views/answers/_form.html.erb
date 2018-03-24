@@ -31,7 +31,7 @@
                   <%= f.hidden_field :question_id, class:"form-control" %>
                   <div class="actions">
                     <%= f.submit (I18n.t :speichern),  class:"btn btn-primary btn-lg btn-submit"%>
-                    <%= link_to questions_path(:id => @answer.question_id) do %>
+                    <%= link_to mobject_path(:id => @answer.question.mobject_id, :topic => "objekte_fragen") do %>
                       <i class="btn btn-default btn-lg btn-submit">Abbrechen</i>
                     <% end %>
                   </div>
