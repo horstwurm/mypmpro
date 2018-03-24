@@ -4,3 +4,7 @@
 </div>
 
 <%= build_questionaire(@questionaire) %>
+
+<%= link_to mobject_path(:id => @questionaire.id) do %>
+  <i class="btn btn-default btn-lg">Abbrechen</i>
+<% end %>
