@@ -7,7 +7,7 @@
               <div class="banner-info text-center wow fadeIn delay-05s">
                <h2 class="bnr-sub-title">Systemadministration</h2>
                 <div class="brn-btn">
-                  <% if user_signed_in? %>
+                  <% if false %>
     	  				   <% if current_user.webmaster %>
     	  						<%= link_to webmasters_path do %>
     	    			      <i class="btn btn-download"><%= I18n.t :webmaster %></i>
@@ -23,7 +23,6 @@
       	  					  <%= link_to home_index2_path do %>
       	  				    	<i class="btn btn-download"><%= (I18n.t :userstat) %></i>
       	  					  <% end %>
-              				  <br>
               		 <% end %>
       						 <% if current_user.id == 1 %>
           						<%= link_to home_index17_path(:mailgunflag => true) do %>
@@ -39,7 +38,7 @@
           				    		<i class="btn btn-more">test it</i>
           				    <% end %>
         					 <% end %>
-          			  <% end %>
+        					 <% end %>
                 </div>
               </div>
             </div>

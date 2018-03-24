@@ -78,17 +78,16 @@
 
       <%= render 'layouts/contact' %>
 
-      <%= render 'layouts/subscription' %>
-
-      <%= render 'layouts/partner' %>
-
-
       <% end %>  
 
       <% if user_signed_in? and (current_user.superuser or current_user.webmaster) %>
         <%= render 'layouts/superuser' %>
       <% end %>
       <%= render 'layouts/dashboard' %>
+
+      <%= render 'layouts/subscription' %>
+
+      <%= render 'layouts/partner' %>
 
   
       <% flash.each do |name, msg| %>
