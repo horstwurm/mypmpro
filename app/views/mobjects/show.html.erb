@@ -1864,7 +1864,7 @@ $(document).ready(function(){
         
           $.ajax({
     
-              url: "https://mytgcloud.herokuapp.com/home/readsensordata.json?sensor=<%= @mobject.id %>",
+              url: "/home/readsensordata.json?sensor=<%= @mobject.id %>",
               // url: "https://tgcloud-horstwurm.c9users.io/home/readsensordata.json?sensor=<%= @mobject.id %>",
               dataType: "text",
               success: function(data) {
