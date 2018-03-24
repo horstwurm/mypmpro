@@ -9,38 +9,38 @@
                <h2 class="bnr-sub-title">Systemadministration</h2>
                 <div class="brn-btn">
                   <% if user_signed_in? %>
-	  				   <% if current_user.webmaster %>
-	  						<%= link_to webmasters_path do %>
-	    			      		<i class="btn btn-download"><%= I18n.t :webmaster %></i>
-	    					<% end %>
-	  				   <% end %>
-	  				   <% if current_user.superuser %>
-	                  <%= link_to appparams_path do %>
-	          				  <i class="btn btn-download"><%= I18n.t :funktionsmgt %></i>
-	          			  <% end %>
-	                      <%= link_to home_index9_path do %>
-          				    <i class="btn btn-download"><%= I18n.t :tabellenmgt %></i>
-          				  <% end %>
-	  					  <%= link_to home_index2_path do %>
-	  				    	<i class="btn btn-download"><%= (I18n.t :userstat) %></i>
-	  					  <% end %>
-          				  <br>
-          				<% end %>
-  						<% if current_user.id == 1 %>
-      						<%= link_to home_index17_path(:mailgunflag => true) do %>
-      				    	  <i class="btn btn-more">Mailgun ON</i>
-      				    	<% end %>
-      						<%= link_to home_index17_path(:mailgunflag => false) do %>
-      				    	  <i class="btn btn-more">Mailgun OFF</i>
-      				    	<% end %>
-      						<%= link_to iots_path do %>
-      				    		<i class="btn btn-more">IoT test</i>
-      				    	<% end %>
-      						<%= link_to home_temptest_path do %>
-      				    		<i class="btn btn-more">test it</i>
-      				    	<% end %>
-      					<% end %>
-      				<% end %>
+    	  				   <% if current_user.webmaster %>
+    	  						<%= link_to webmasters_path do %>
+    	    			      <i class="btn btn-download"><%= I18n.t :webmaster %></i>
+    	    					<% end %>
+    	  				   <% end %>
+    	  				   <% if current_user.superuser %>
+  	                  <%= link_to appparams_path do %>
+  	          				  <i class="btn btn-download"><%= I18n.t :funktionsmgt %></i>
+  	          			  <% end %>
+  	                  <%= link_to home_index9_path do %>
+            				    <i class="btn btn-download"><%= I18n.t :tabellenmgt %></i>
+            				  <% end %>
+      	  					  <%= link_to home_index2_path do %>
+      	  				    	<i class="btn btn-download"><%= (I18n.t :userstat) %></i>
+      	  					  <% end %>
+              				  <br>
+              		 <% end %>
+      						 <% if current_user.id == 1 %>
+          						<%= link_to home_index17_path(:mailgunflag => true) do %>
+        				    	  <i class="btn btn-more">Mailgun ON</i>
+        				    	<% end %>
+          						<%= link_to home_index17_path(:mailgunflag => false) do %>
+          				    	  <i class="btn btn-more">Mailgun OFF</i>
+          				    <% end %>
+          						<%= link_to iots_path do %>
+          				    		<i class="btn btn-more">IoT test</i>
+          				    <% end %>
+          						<%= link_to home_temptest_path do %>
+          				    		<i class="btn btn-more">test it</i>
+          				    <% end %>
+        					 <% end %>
+          			  <% end %>
                 </div>
               </div>
             </div>

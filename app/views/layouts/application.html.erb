@@ -78,8 +78,6 @@
 
       <%= render 'layouts/contact' %>
 
-      <% end %>  
-
       <%= render 'layouts/subscription' %>
 
       <%= render 'layouts/partner' %>
@@ -87,6 +85,8 @@
       <%= render 'layouts/dashboard' %>
 
       <%= render 'layouts/superuser' %>
+
+      <% end %>  
   
       <% flash.each do |name, msg| %>
         <% content_tag(:div, msg, class:"alert alert-warning") %>
