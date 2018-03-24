@@ -721,7 +721,7 @@ def build_medialistNew(items, cname, par)
 
                   when "veranstaltungen" 
                     if item.eventpart
-                      html_string = html_string + '<i class="fa fa-info"></i> '+(I18n.t :anmeldungerforderlich) + "<br>"
+                      html_string = html_string + '<i class="fa fa-pencil"></i> '+(I18n.t :anmeldungerforderlich) + "<br>"
                     else
                       html_string = html_string + '<i class="fa fa-info"></i> ' + (I18n.t :keineanmeldungerforderlich) + "<br>"
                     end
@@ -729,7 +729,10 @@ def build_medialistNew(items, cname, par)
                     if user_signed_in?
                       @angemeldet = current_user.madvisors.where('mobject_id=? and role=?', item.id, "eventteilnehmer").first
                       if @angemeldet
-                        html_string = html_string + '<i class="fa fa-pencil"></i> '+(I18n.t :angemeldet)+ "<br>"
+                        html_string = html_string + "<fire>"
+                        #html_string = html_string + '<i class="fa fa-pencil"></i> '+(I18n.t :angemeldet)+ "<br>"
+                        html_string = html_string +(I18n.t :angemeldet)+ "<br>"
+                        html_string = html_string + "</fire>"
                       end
                     end
                     html_string = html_string + '<i class="fa fa-calendar"></i> '
@@ -1121,7 +1124,7 @@ def build_medialistNew(items, cname, par)
 
               when "tickets"
                 if item.owner_type == "Mobject"
-                  if isowner(item.owner) or isdeputy(item.owner)
+                  if current_user.id == item.owner.owner.id or isdeputy(item.owner.owner)
                   #if isowner(item.mobject)
                     access = true
                   end
@@ -1171,11 +1174,11 @@ def build_medialistNew(items, cname, par)
                     if item.eventpart
                       if @angemeldet
           	            html_string = html_string + link_to(mobjects_path(:del_part_id => item.id, :topic => :veranstaltung)) do 
-                          content_tag(:i, nil, class:"fa fa-pencil mediabutton")
+                          content_tag(:i, nil, class:"btn btn-primary btn-lg fa fa-pencil mediabutton")
                         end
                       else
           	            html_string = html_string + link_to(mobjects_path(:set_part_id => item.id, :topic => :veranstaltung)) do 
-                          content_tag(:i, nil, class:"fa fa-pencilmediabutton")
+                          content_tag(:i, nil, class:"btn btn-primary btn-lg fa fa-pencil mediabutton")
                         end
                       end
                     end
@@ -1247,7 +1250,7 @@ def build_medialistNew(items, cname, par)
           #kein Info button wenn kein weiterer drill down
           if cname != "prices" and cname != "crits" and cname != "mdetails" and cname != "madvisors" and cname != "tickets" and cname != "questions" and cname != "comments" and cname != "partner_links" and cname != "appparams"
             html_string = html_string + link_to(item, :topic => "info") do 
-              content_tag(:i, nil, class:"btn btn-primary btn-lg fa fa-info")
+              content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-info")
             end
           end
  
@@ -1695,7 +1698,7 @@ def navigate2(object, item, topic)
         html_string = html_string + build_nav2("institutionen",item,"institutionen_innovationswettbewerbe",item.mobjects.where('mtype=?',"innovationswettbewerbe").count)
         html_string = html_string + build_nav2("institutionen",item,"institutionen_publikationen", item.mobjects.where('mtype=?',"publikationen").count)
         html_string = html_string + build_nav2("institutionen",item,"institutionen_veranstaltungen",item.mobjects.where('mtype=?',"veranstaltungen").count)
-        html_string = html_string + build_nav2("institutionen",item,"institutionen_sponsorenengagements",item.msponsors.count)
+        #html_string = html_string + build_nav2("institutionen",item,"institutionen_sponsorenengagements",item.msponsors.count)
         html_string = html_string + build_nav2("institutionen",item,"institutionen_sensoren",item.mobjects.where('mtype=?',"sensoren").count)
         html_string = html_string + build_nav2("institutionen",item,"institutionen_ausflugsziele",item.mobjects.where('mtype=?',"ausflugsziele").count)
         html_string = html_string + build_nav2("institutionen",item,"institutionen_kleinanzeigen",item.mobjects.where('mtype=?',"kleinanzeigen").count)
@@ -1780,7 +1783,7 @@ def navigate2(object, item, topic)
         end
         if item.mtype == "veranstaltungen"
           html_string = html_string + build_nav2("objekte",item,"objekte_eintrittskarten",item.tickets.count)
-          html_string = html_string + build_nav2("objekte",item,"objekte_sponsorenengagements",item.msponsors.count)
+          #html_string = html_string + build_nav2("objekte",item,"objekte_sponsorenengagements",item.msponsors.count)
           html_string = html_string + build_nav2("objekte",item,"objekte_teilnehmerveranstaltung",item.madvisors.where('role=?',"eventteilnehmer").count)
         end
         if item.mtype == "vermietungen"
@@ -2036,7 +2039,7 @@ def action_buttons4(object_type, item, topic)
           if user_signed_in?
             if current_user.id == item.id or isdeputy(item) or current_user.superuser
               html_string = html_string + link_to(ticketuserview_index2_path(:user_id => item.id)) do
-                content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class: "btn btn-primary fa fa-plus orange")
+                content_tag(:i, " " + (I18n.t subtopic(@topic)) + " " + (I18n.t :hinzufuegen), class: "btn btn-primary fa fa-plus")
               end
             end
           end
@@ -2292,7 +2295,7 @@ def action_buttons4(object_type, item, topic)
               if user_signed_in?
                 if isowner(item) or isdeputy(item.owner)
                   html_string = html_string + link_to(new_ticket_path(:mobject_id => item.id)) do
-                    content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"fa fa-plus orange") 
+                    content_tag(:i, " " + (I18n.t :eintrittskarten) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange") 
                 end
                end
               end

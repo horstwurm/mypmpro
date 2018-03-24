@@ -12,11 +12,13 @@
             </div>
         <% end %>
         
-        <%= header((I18n.t :ticket) + " " + @ticket.owner_type + " " + @ticket.owner_id.to_s ) %>
-
         <div class="row">
             <div class="col-md-6">
-                <div class="panel-body">
+              <%= header((I18n.t :ticket) + " " + @ticket.owner.name ) %>
+            </div>
+
+            <div class="col-md-6">
+                <div class="panel-body ueberschrift"->
                     <div class="form-group">
                       <%= f.label (I18n.t :bezeichnung) %><br/>
                       <%= f.text_field :name, class:"form-control"%>
@@ -49,15 +51,15 @@
                      <%= f.hidden_field :owner_type, class:"form-control" %>
                      <%= f.hidden_field :owner_id, class:"form-control" %>
                     <div class="actions">
-                      <%= f.submit (I18n.t :speichern),  class:"btn btn-primary btn-lg"%>
+                      <%= f.submit (I18n.t :speichern),  class:"btn btn-primary btn-lg btn-submit"%>
                       <% if @ticket.owner_type == "Msponsor" %>
                         <%= link_to tickets_path :msponsor_id => @ticket.owner_id do %>
-                          <i class="btn btn-default btn-lg">Abbrechen</i>
+                          <i class="btn btn-default btn-lg btn-submit">Abbrechen</i>
                         <% end %>
                       <% end %>
                       <% if @ticket.owner_type == "Mobject" %>
                         <%= link_to tickets_path :mobject_id => @ticket.owner_id do %>
-                          <i class="btn btn-default btn-lg">Abbrechen</i>
+                          <i class="btn btn-default btn-lg btn-submit">Abbrechen</i>
                         <% end %>
                       <% end %>
                     </div>
