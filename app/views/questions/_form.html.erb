@@ -29,10 +29,12 @@
                 <div class="form-group">
                       <%= f.collection_select :mcategory_id, Mcategory.where('ctype=?',"fragetyp").order(:name), :id, :name, {}, :readonly => true, class:"form-control" %>
                 </div>
+                <% if false %>
                 <div class="form-group">
                   <%= f.label "Reihenfolge" %><br/>
                   <%= f.number_field :sequence, class:"form-control"%>
                 </div>
+                <% end %>
                 <%= f.hidden_field :mobject_id, class:"form-control" %>
                 <div class="actions">
                    <%= f.submit "Speichern",  class:"btn btn-primary btn-lg btn-submit"%>

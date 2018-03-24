@@ -15,31 +15,27 @@
 
         <div class="row">
             <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading header">
-                      <li_header>
-                      <%= (I18n.t :antwort) + " " + @answer.question.name %>
-                      </li_header>
-                    </div>
+                <div class="panel-body ueberschrift">
+                  <%= header(@answer.question.name) %>
                 </div>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6">
-                <div class="panel-body">
-                    <% case @answer.question.mcategory.name.upcase %>
-                      <% when "multiple".upcase, "single".upcase %>
-                        <div class="form-group">
-                          <%= f.label (I18n.t :antwortoption) %>
-                          <%= f.text_field :name, class:"form-control"%>
-                        </div>
+          <div class="col-md-6">
+              <div class="panel-body ueberschrift">
+                  <% case @answer.question.mcategory.name.upcase %>
+                    <% when "multiple".upcase, "single".upcase %>
+                      <div class="form-group">
+                        <%= f.label (I18n.t :antwortoption) %>
+                        <%= f.text_field :name, class:"form-control"%>
+                      </div>
+                  <% end %>
+                  <%= f.hidden_field :question_id, class:"form-control" %>
+                  <div class="actions">
+                    <%= f.submit (I18n.t :speichern),  class:"btn btn-primary btn-lg btn-submit"%>
+                    <%= link_to questions_path(:id => @answer.question_id) do %>
+                      <i class="btn btn-default btn-lg btn-submit">Abbrechen</i>
                     <% end %>
-                    <%= f.hidden_field :question_id, class:"form-control" %>
-                    <div class="actions">
-                      <%= f.submit (I18n.t :speichern),  class:"btn btn-primary btn-lg"%>
-                    </div>
-                </div>
-            </div>
+                  </div>
+              </div>
+          </div>
         </div>
     <% end %>
