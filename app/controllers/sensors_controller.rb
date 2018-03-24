@@ -15,7 +15,11 @@ class SensorsController < ApplicationController
   # GET /sensors/new
   def new
     @sensor = Sensor.new
-  end
+    @sensor.mobject_id = params[:mobject_id]
+    @sensor.value = 1
+    @sensor.save
+    redirect_to mobject_path(:id => @sensor.mobject_id, :topic => "objekte_sensordaten"), notice: 'Sensor was successfully created.'
+end
 
   # GET /sensors/1/edit
   def edit
