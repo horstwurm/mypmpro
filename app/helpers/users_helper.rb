@@ -1577,7 +1577,7 @@ def header(header)
     html_string = ""
     #html_string = html_string + '<div class="container">'
       html_string = html_string + '<div class="panel-body ueberschrift">'
-        html_string = html_string + header
+        html_string = html_string + "<h1>"+header+"</h1>"
       html_string = html_string + "</div>"
     #html_string = html_string + "</div>"
 
@@ -1739,7 +1739,7 @@ def navigate2(object, item, topic)
             end
           end
           html_string = html_string + build_nav2("objekte",item,"objekte_auftragscontrolling", item.timetracks.count)
-          html_string = html_string + build_nav2("objekte",item,"objekte_projektdashboard", item.timetracks.count)
+          #html_string = html_string + build_nav2("objekte",item,"objekte_projektdashboard", item.timetracks.count)
         end
         if item.mtype == "gruppen"
           html_string = html_string + build_nav2("objekte",item,"objekte_gruppenmitglieder", item.madvisors.where('role=?',item.mtype).count)
@@ -2561,8 +2561,8 @@ def build_services
     html_string = ""
     html_string = html_string + '<div class="container"><div class="row">'
     html_string = html_string + '<div class="col-md-12 text-center">'
-    html_string = html_string + '<h2 class="service-title pad-bt15">Unser Serviceportfolio</h2>'
-    html_string = html_string + '<p class="sub-title pad-bt15">folgende Services sind aktuell verfügbar.</p>'
+    html_string = html_string + '<h2 class="service-title pad-bt15">Services</h2>'
+    #html_string = html_string + '<p class="sub-title pad-bt15">folgende Services sind aktuell verfügbar.</p>'
     html_string = html_string + '<hr class="bottom-line">'
     html_string = html_string + '</div>'
 

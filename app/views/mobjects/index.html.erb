@@ -1,6 +1,10 @@
 
   <div class="row">
-    <%= header("<button type='button' class='btn btn-default fa fa-filter' data-toggle='collapse' data-target='#demo'></button>" + @mtype.to_s + " " + @msubtype.to_s + " " + @filter_id.to_s + " " + @search.to_s + "<span class='badge'>" + @mobanz.to_s + "</span>") %>
+    <% if user_signed_in? %>
+      <%= header("<button type='button' class='btn btn-default fa fa-filter' data-toggle='collapse' data-target='#demo'></button>" + @mtype.to_s + " " + @msubtype.to_s + " " + @filter_id.to_s + " " + @search.to_s + "<span class='badge'>" + @mobanz.to_s + "</span>") %>
+    <% else %>
+      <%= header(@mtype.to_s + " " + @msubtype.to_s + " " + @filter_id.to_s + " " + @search.to_s + "<span class='badge'>" + @mobanz.to_s + "</span>") %>
+    <% end %> 
     <div id="demo" class="collapse">
       <% if user_signed_in? %>
 		    <%= link_to new_search_path(:user_id => current_user.id, :search_domain => "objekte", :controller_name => @controller_name, :mtype => @mtype, :msubtype => @msubtype) do %>

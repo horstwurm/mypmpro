@@ -109,7 +109,7 @@
                         <% end %>
                       <% end %>
                       
-                      <%= header("Anzahl Teilnehmer "+useranswers.count.to_s) %>
+                      <%= header("Anzahl Teilnehmer "+ "<span class='badge'>" + useranswers.count.to_s + "</span>") %>
 
                       <div class="row">
                         
@@ -126,7 +126,7 @@
                          <% @mobject.questions.each do |q| %>
                           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                             <div>
-                              <%= header(( I18n.t :frage) +q.name) %>
+                              <%= header(q.name) %>
                             </div>
                             <div id="<%="chart"+q.id.to_s %>"></div>
                           </div>
@@ -1163,7 +1163,7 @@
                   <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                     <div>
                       <% @user = User.find(u.user_id) %>
-                      <%= header((I18n.t :personen) + " " + @user.name + " " + @user.lastname) %>
+                      <%= header(@user.name + " " + @user.lastname) %>
                       
                       <!--Sicht Monat/MA -->
                       <% if @c_mode == "alles" %>
@@ -1456,7 +1456,6 @@
 <script>
 
 $(document).ready(function(){
-
       google.charts.load('current', {'packages':['corechart']});
 
       <% if @topic == "objekte_auftragscontrolling" %>
@@ -1605,7 +1604,7 @@ $(document).ready(function(){
             var data = google.visualization.arrayToDataTable(dataset<%= q.id.to_s %>);
             var options = {
               title: "<%= I18n.t :antworten %>",
-              colors: ['#ACC550'],
+              colors: ['<%= $graph_color1 %>'],
               legend: { position: 'bottom' }
             };
             var chart = new google.visualization.ColumnChart(document.getElementById('<%="chart"+q.id.to_s %>'));
@@ -1783,11 +1782,11 @@ $(document).ready(function(){
         var data = google.visualization.arrayToDataTable(sensordataset);
         var options = {
           title: "Sensordaten <%= @mobject.name + " (ID:" + @mobject.id.to_s + ")" %>",
-          colors: ['#FF0000','#0000FF','#ACC550'],
+          colors: ['#ff0000','<%= $graph_color1 %>','#ff0000'],
           curveType: 'function',
           legend: { position: 'bottom' }
         };
-        <% if @mobject.mcategory.name == "Wert" %>
+        <% if @mobject.mcategory.name == "Wert" or 1 < 2 %>
           var chart = new google.visualization.LineChart(document.getElementById('sensorchart'));
         <% else %>
           var chart = new google.visualization.ColumnChart(document.getElementById('sensorchart'));
@@ -1983,7 +1982,6 @@ $(document).ready(function(){
   <% end %>
 
 });
-
 </script>
 
 <script>
@@ -1997,9 +1995,6 @@ $(document).ready(function(){
   <% when "objekte_projektdashboard" %>
       document.addEventListener("turbolinks:load", function() {callme();})
 
-  <% when "objekte_projektdashboard" %>
-      document.addEventListener("turbolinks:load", function() {callme();})
-
   <% when "objekte_signstat" %>
       document.addEventListener("turbolinks:load", function() {drawSign1();drawSign2();})
 
@@ -2007,6 +2002,8 @@ $(document).ready(function(){
       document.addEventListener("turbolinks:load", function() {})
 
 <% end %>
+
+
 </script>
 
 <script>$('.dropdown-toggle').dropdown()</script>
