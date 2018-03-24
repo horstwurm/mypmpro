@@ -84,9 +84,10 @@
 
       <%= render 'layouts/dashboard' %>
 
+      <% end %>  
+
       <%= render 'layouts/superuser' %>
 
-      <% end %>  
   
       <% flash.each do |name, msg| %>
         <% content_tag(:div, msg, class:"alert alert-warning") %>
