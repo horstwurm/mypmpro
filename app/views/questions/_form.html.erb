@@ -11,20 +11,21 @@
             </div>
         <% end %>
 
-        <%= header(@question.mobject.mtype.upcase) %>
-
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 ueberschrift">
+              <div class="panel-body">
+                <%= header(@question.mobject.name.upcase) %>
+              </div>
+            </div>
+            <div class="col-md-6 ueberschrift">
               <div class="panel-body">
                 <div class="form-group">
                   <%= f.label (I18n.t :frage) %><br/>
                   <%= f.text_field :name, autofocus: true, class:"form-control"%>
-                </div>
                 <div class="form-group">
                   <%= f.label (I18n.t :beschreibung) %><br/>
                   <%= f.text_area :description, rows: 5, class:"form-control"%>
                 </div>
-                
                 <div class="form-group">
                       <%= f.collection_select :mcategory_id, Mcategory.where('ctype=?',"fragetyp").order(:name), :id, :name, {}, :readonly => true, class:"form-control" %>
                 </div>
@@ -34,14 +35,13 @@
                 </div>
                 <%= f.hidden_field :mobject_id, class:"form-control" %>
                 <div class="actions">
-                   <%= f.submit "Speichern",  class:"btn btn-primary btn-lg"%>
+                   <%= f.submit "Speichern",  class:"btn btn-primary btn-lg btn-submit"%>
                   <%= link_to mobject_path(:id => @question.mobject_id, :topic => "objekte_fragen") do %>
-                    <i class="btn btn-default btn-lg">Abbrechen</i>
+                    <i class="btn btn-default btn-lg btn-submit">Abbrechen</i>
                   <% end %>
                 </div>
               </div>
+            </div>
           </div>
-                
         </div>
-    </div>
 <% end %>                
