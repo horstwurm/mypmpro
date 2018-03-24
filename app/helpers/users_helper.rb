@@ -1105,10 +1105,11 @@ def build_medialistNew(items, cname, par)
                   access = true
                 end
 
-              when "edition_arcticles"
-                #if isowner(item.mobject)
+              when "publikation_artikel"
+                @mob = Mobject.find(item.publication)
+                if isowner(@mob) or isdeputy(@mob.owner)
                   access = true
-                #end
+                end
 
               when "editions"
   	            html_string = html_string + link_to(edition_arcticles_path(:edition_id => item)) do 
@@ -1307,25 +1308,15 @@ def build_medialistNew(items, cname, par)
   	            html_string = html_string + link_to(edit_idea_crowdrating_path(:id => item)) do 
                   content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-wrench")
                 end
-              when "edition_arcticles"
-  	            html_string = html_string + link_to(edition_arcticles_path(:edition_id => item.edition_id, :dir => "left", :d_id => item.id)) do 
+              when "publikation_artikel"
+  	            html_string = html_string + link_to(mobject_path(:id => item.publication, :topic => "objekte_artikel", :dir => "left", :publication_article_id => item.id)) do 
                   content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-chevron-left")
                 end
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
                   content_tag(:i, nil, class:"btn btn-danger btn-lg fa fa-trash pull-right")
                 end
-  	            html_string = html_string + link_to(edit_edition_arcticle_path(:id => item)) do 
-                  content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-wrench mediabutton")
-                end
-              when "editions"
-  	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
-                  content_tag(:i, nil, class:"btn btn-danger btn-lg fa fa-trash pull-right")
-                end
-  	            html_string = html_string + link_to(edit_edition_path(:id => item)) do 
-                  content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-wrench")
-                end
-  	            #html_string = html_string + link_to(edition_arcticles_path(:edition_id => item)) do 
-                #  content_tag(:i, nil, class:"btn btn-primary fa fa-book")
+  	            #html_string = html_string + link_to(edit_edition_arcticle_path(:id => item)) do 
+                  #content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-wrench mediabutton")
                 #end
               when "comments"
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
