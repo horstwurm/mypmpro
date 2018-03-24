@@ -2899,7 +2899,7 @@ def init_apps
     hash = {"domain" => "hauptmenue", "right" => "stellenanzeigen", "access" => false, "info" => "news", "fee" => 0}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "hauptmenue", "right" => "veranstaltungen", "access" => false, "info" => "news", "fee" => 0}
+    hash = {"domain" => "hauptmenue", "right" => "veranstaltungen", "access" => true, "info" => "news", "fee" => 0}
     @array << hash
     hash = Hash.new
     hash = {"domain" => "hauptmenue", "right" => "ausflugsziele", "access" => false, "info" => "news", "fee" => 0}
