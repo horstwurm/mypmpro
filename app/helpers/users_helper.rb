@@ -3204,7 +3204,7 @@ def init_apps
     hash = {"domain" => "objekte", "right" => "sensordaten", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "objekte", "right" => "ausgaben", "access" => false, "info" => "news"}
+    hash = {"domain" => "objekte", "right" => "artîkel", "access" => false, "info" => "news"}
     @array << hash
     
     for i in 0..@array.length-1

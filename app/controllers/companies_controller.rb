@@ -136,7 +136,7 @@ class CompaniesController < ApplicationController
   def create
     @company = Company.new(company_params)
     if @company.save
-      redirect_to user_path(:id => @company.user_id, :topic => "institutionen_info"), notice: (I18n.t :act_create)
+      redirect_to user_path(:id => @company.user_id, :topic => "personen_institutionen"), notice: (I18n.t :act_create)
       # redirect_to @company, notice: 'Company was successfully created.'
     else
       render :new
