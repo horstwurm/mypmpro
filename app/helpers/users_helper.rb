@@ -2911,7 +2911,7 @@ def init_apps
     hash = {"domain" => "hauptmenue", "right" => "kleinanzeigen", "access" => false, "info" => "news", "fee" => 0}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "hauptmenue", "right" => "publikationen", "access" => true, "info" => "news", "payable" => 500}
+    hash = {"domain" => "hauptmenue", "right" => "publikationen", "access" => true, "info" => "payable", "fee" => 300}
     @array << hash
     hash = Hash.new
     hash = {"domain" => "hauptmenue", "right" => "artikel", "access" => true, "info" => "news", "fee" => 0}
@@ -2932,7 +2932,7 @@ def init_apps
     hash = {"domain" => "hauptmenue", "right" => "crowdfunding", "access" => false, "info" => "news", "fee" => 0}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "hauptmenue", "right" => "standorte", "access" => true, "info" => "news", "fee" => 0}
+    hash = {"domain" => "hauptmenue", "right" => "standorte", "access" => true, "info" => "payable", "fee" => 1200}
     @array << hash
     hash = Hash.new
     hash = {"domain" => "hauptmenue", "right" => "kampagnen", "access" => true, "info" => "news", "fee" => 700}
