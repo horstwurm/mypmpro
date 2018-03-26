@@ -1,0 +1,45 @@
+  <section id="news" class="section-padding wow fadeIn delay-05s">
+    <div class="header">
+      <div class="bg-color">
+        <div class="wrapper">
+          <div class="container">
+            <div class="row">
+              <div class="banner-info text-center wow fadeIn delay-05s">
+               <h2 class="bnr-sub-title">News</h2>
+                <div class="brn-btn">
+                  
+                  <div class="ttestimonial-item">
+                    <ul class="bxslider1">
+                      <% Mobject.last(5).each do |m| %>
+                        <li>
+                          <blockquote>
+                            <%= showFirstImage2(:medium, m, m.mdetails) %>
+                            <p>Come a day there won't be room for naughty men like us to slip about at all. This job goes south, there well may not be another. </p>
+                          </blockquote>
+                          <small>Shaun Paul, Client</small>
+                        </li>
+                      <% end %>
+                        <li>
+                        <blockquote>
+                          <%= image_tag("thumb.png") %>
+                          <p>So here is us, on the raggedy edge. Don't push me, and I won't push you.</p>
+                        </blockquote>
+                        <small>John Doe, Client</small>
+                      </li>
+                    </ul>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+<script>
+$(document).ready(function(){
+  $('.bxslider1').bxSlider();
+});
+</script>

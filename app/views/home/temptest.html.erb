@@ -1,69 +1,103 @@
+   <div id="chart_div"></div>
+   <div id="curve_chart"></div>
 
-    <div id="chart_div" style="width: 900px; height: 500px;"></div>
-    <div id="button">Test</div>
-
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-
-    var rowData1 = [['Month', 'Bolivia', 'Ecuador', 'Madagascar', 'Papua  Guinea',
-                     'Rwanda', 'Average'],
-                    ['2004/05', 165, 938, 522, 998, 450, 114.6],
-                    ['2005/06', 135, 1120, 599, 1268, 288, 382],
-                    ['2006/07', 157, 1167, 587, 807, 397, 623],
-                    ['2007/08', 139, 1110, 615, 968, 215, 409.4],
-                    ['2008/09', 136, 691, 629, 1026, 366, 569.6]];
-    var rowData2 = [['Month', 'Bolivia', 'Ecuador', 'Madagascar', 'Papua  Guinea',
-                     'Rwanda', 'Average'],
-                    ['2004/05', 122, 638, 722, 998, 450, 614.6],
-                    ['2005/06', 100, 1120, 899, 1268, 288, 682],
-                    ['2006/07', 183, 167, 487, 207, 397, 623],
-                    ['2007/08', 200, 510, 315, 1068, 215, 609.4],
-                    ['2008/09', 123, 491, 829, 826, 366, 569.6]];
-
-    // Create and populate the data tables.
-    var data = [];
-    data[0] = rowData1;
-    data[1] = rowData2;
-
-      google.charts.load("current", {packages:["corechart"]});
+   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+   <script type="text/javascript">
+      google.charts.load('current', {'packages':['gauge']});
       google.charts.setOnLoadCallback(drawChart);
+
       function drawChart() {
-        var data = google.visualization.arrayToDataTable
-            ([['X', '1', '2', '3', '4', '5', '6'],
-              [1, 2, 3, 4, 5, 6, 7],
-              [2, 3, 4, 5, 6, 7, 8],
-              [3, 4, 5, 6, 7, 8, 9],
-              [4, 5, 6, 7, 8, 9, 10],
-              [5, 6, 7, 8, 9, 10, 11],
-              [6, 7, 8, 9, 10, 11, 12]
+
+        var data = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Memory', 80],
+          ['CPU', 55],
+          ['Network', 68]
         ]);
 
         var options = {
-          legend: 'none',
-          series: {
-            0: { color: '#e2431e' },
-            1: { color: '#e7711b' },
-            2: { color: '#f1ca3a' },
-            3: { color: '#6f9654' },
-            4: { color: '#1c91c0' },
-            5: { color: '#43459d' },
-          },
-         animation:{
-            duration: 1000,
-            easing: 'out'
-          }
+          width: 400, height: 120,
+          redFrom: 90, redTo: 100,
+          yellowFrom:75, yellowTo: 90,
+          minorTicks: 5
         };
 
-        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+
+        chart.draw(data, options);
+
+        setInterval(function() {
+          data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
+          chart.draw(data, options);
+        }, 13000);
+        setInterval(function() {
+          data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
+          chart.draw(data, options);
+        }, 5000);
+        setInterval(function() {
+          data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
+          chart.draw(data, options);
+        }, 26000);
+      }
+    
+      google.charts.load('current', {'packages':['gauge']});
+      google.charts.setOnLoadCallback(drawChart1);
+
+      function drawChart1() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Memory', 80],
+          ['CPU', 55],
+          ['Network', 68]
+        ]);
+
+        var options = {
+          width: 400, height: 120,
+          redFrom: 90, redTo: 100,
+          yellowFrom:75, yellowTo: 90,
+          minorTicks: 5
+        };
+
+        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+
+        chart.draw(data, options);
+
+        setInterval(function() {
+          data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
+          chart.draw(data, options);
+        }, 13000);
+        setInterval(function() {
+          data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
+          chart.draw(data, options);
+        }, 5000);
+        setInterval(function() {
+          data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
+          chart.draw(data, options);
+        }, 26000);
+      }
+
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart2);
+
+      function drawChart2() {
+        var data = google.visualization.arrayToDataTable([
+          ['Year', 'Sales', 'Expenses'],
+          ['2004',  1000,      400],
+          ['2005',  1170,      460],
+          ['2006',  660,       1120],
+          ['2007',  1030,      540]
+        ]);
+
+        var options = {
+          title: 'Company Performance',
+          curveType: 'function',
+          backgroundColor:'transparent',
+          legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
         chart.draw(data, options);
       }
-    </script>
-
-
-<script>
-    document.getElementById('button').onclick = function() {
-      alert("hi");
-      data = google.visualization.arrayToDataTable(data[1])
-      drawChart();
-    }
-</script>
+     </script>

@@ -458,3 +458,9 @@ zitat {
     font-style:italic;
     color: $colorgold;
 }
+
+#chart_div, #curve_chart {
+    opacity:0.5;
+    text-align:center;
+    background-color:transparent;
+}
