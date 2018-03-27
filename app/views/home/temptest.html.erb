@@ -101,3 +101,85 @@
         chart.draw(data, options);
       }
      </script>
+     
+     
+<div class="news blue">
+
+  <span>News</span>
+
+  <ul>
+    
+    <% User.all.each do |u| %>
+      <li><%= showImage2(:small, u, false) %><%= u.name %></li>
+      <li><%= image_tag(u.avatar_file_name,:size => :small) + u.name %></li>
+      <li><%= u.fullname %></li>
+    <% end %>
+
+    <li><a href="#"><%= image_tag('gruppen.png', :size => "20x20") %>Neues Projekt von Thrugaur KB</li>
+
+    <li><a href="#">Neuer Artikel von Hans Heini</a></li>
+
+    <li><a href="#">Text 3</a></li>
+
+    <li><a href="#">Text 4</a></li>
+
+  </ul>
+
+</div>
+
+                  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                      <% i=0 %>
+                      <% Mobject.order(created_at: :desc).last(5).each do |m| %>
+                        <% if i == 0 %>
+                          <% active = "class='active'" %>
+                        <% else %>
+                          <% active = "" %>
+                        <% end %>
+                        <% line = "<li data-target='#myCarousel' data-slide-to='" + i.to_s + "' " + active + "></li>" %>
+                        <%= line.html_safe %>
+                        <% i = i+ 1 %>
+                      <% end %>
+                    </ol>
+                    
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner">
+                      <% i=0 %>
+                      <% Mobject.order(created_at: :asc).last(5).each do |m| %>
+                          <% if i==0 %>
+                            <div class="item active">
+                            <% i = i + 1 %>
+                          <% else %>
+                            <div class="item">
+                          <% end %>
+                          <h1><%= m.name %></h1>
+                          <%= link_to m do %>
+                            <% if m.mdetails == nil or m.mdetails.count == 0  %>
+                              <%= image_tag(m.mtype + ".png", :width => "100%" ) %>
+                            <% else %>
+                              <% pic = m.mdetails.first %>
+                              <% if pic.avatar_file_name %>
+                                <%= image_tag(pic.avatar, :width => "100%") %>
+                              <% else %>
+                                <%= image_tag(m.mtype + ".png", :width => "100%") %>
+                              <% end %>
+                            <% end %>
+                          <% end %>
+                          </div>
+                      <% end %>
+                    </div>
+                    
+                    <!-- Left and right controls -->
+                    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                      <span class="glyphicon glyphicon-chevron-left"></span>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                      <span class="glyphicon glyphicon-chevron-right"></span>
+                      <span class="sr-only">Next</span>
+                    </a>
+                    
+                  </div>
+
+                </div>

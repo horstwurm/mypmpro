@@ -8,28 +8,44 @@
                <h2 class="bnr-sub-title">News</h2>
                 <div class="brn-btn">
                   
-                  <div class="ttestimonial-item">
-                    <ul class="bxslider1">
-                      <% Mobject.last(5).each do |m| %>
-                        <li>
-                          <blockquote>
-                            <%= showFirstImage2(:medium, m, m.mdetails) %>
-                            <p>Come a day there won't be room for naughty men like us to slip about at all. This job goes south, there well may not be another. </p>
-                          </blockquote>
-                          <small>Shaun Paul, Client</small>
-                        </li>
-                      <% end %>
-                        <li>
-                        <blockquote>
-                          <%= image_tag("thumb.png") %>
-                          <p>So here is us, on the raggedy edge. Don't push me, and I won't push you.</p>
-                        </blockquote>
-                        <small>John Doe, Client</small>
-                      </li>
-                    </ul>
+              <div class="container">
+                <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="news blue">
+                      <!--<span>News</span>-->
+                      <ul>
+                        <% Mobject.last(10).each do |m| %>
+                            <li>
+                              <div class="row">
+                                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                  <%= showFirstImage2(:small, m, m.mdetails) %>
+                                </div>
+                                <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                  <b><%= m.created_at.strftime("%d.%m.%Y") %></b><br>
+                                  <%= m.mtype %>
+                                  <%= link_to m do %>
+                                    <%= m.name %> von 
+                                  <% end %>
+                                  <% if m.owner_type == "User" %>
+                                    <%= m.owner.name + " " + m.owner.lastname %>
+                                  <% end %>
+                                  <% if m.owner_type == "Company" %>
+                                    <%= m.owner.name %>
+                                  <% end %>
+                                </div>
+                              </div>
+                            </li>
+                        <% end %>
+                      </ul>
+                    </div>
                   </div>
-                  
+
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                   <div id="curve_chart"></div>
+                  </div>
                 </div>
+              </div>
+                
               </div>
             </div>
           </div>
@@ -38,8 +54,106 @@
     </div>
 </section>
 
-<script>
-$(document).ready(function(){
-  $('.bxslider1').bxSlider();
-});
-</script>
+                   <div id="chart_div"></div>
+
+
+   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+   <script type="text/javascript">
+      google.charts.load('current', {'packages':['gauge']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Memory', 80],
+          ['CPU', 55],
+          ['Network', 68]
+        ]);
+
+        var options = {
+          width: 400, height: 120,
+          redFrom: 90, redTo: 100,
+          yellowFrom:75, yellowTo: 90,
+          minorTicks: 5
+        };
+
+        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+
+        chart.draw(data, options);
+
+        setInterval(function() {
+          data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
+          chart.draw(data, options);
+        }, 13000);
+        setInterval(function() {
+          data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
+          chart.draw(data, options);
+        }, 5000);
+        setInterval(function() {
+          data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
+          chart.draw(data, options);
+        }, 26000);
+      }
+    
+      google.charts.load('current', {'packages':['gauge']});
+      google.charts.setOnLoadCallback(drawChart1);
+
+      function drawChart1() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Memory', 80],
+          ['CPU', 55],
+          ['Network', 68]
+        ]);
+
+        var options = {
+          width: 400, height: 120,
+          redFrom: 90, redTo: 100,
+          yellowFrom:75, yellowTo: 90,
+          minorTicks: 5
+        };
+
+        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+
+        chart.draw(data, options);
+
+        setInterval(function() {
+          data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
+          chart.draw(data, options);
+        }, 13000);
+        setInterval(function() {
+          data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
+          chart.draw(data, options);
+        }, 5000);
+        setInterval(function() {
+          data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
+          chart.draw(data, options);
+        }, 26000);
+      }
+
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart2);
+
+      function drawChart2() {
+        var data = google.visualization.arrayToDataTable([
+          ['Year', 'Sales', 'Expenses'],
+          ['2004',  1000,      400],
+          ['2005',  1170,      460],
+          ['2006',  660,       1120],
+          ['2007',  1030,      540]
+        ]);
+
+        var options = {
+          title: 'Company Performance',
+          curveType: 'function',
+          backgroundColor:'transparent',
+          legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+        chart.draw(data, options);
+      }
+     </script>

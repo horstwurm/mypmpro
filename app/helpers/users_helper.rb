@@ -1524,10 +1524,10 @@ def showFirstImage2(size, item, details)
         if pic.avatar_file_name
           image_tag pic.avatar(size), class:"img-rounded img-responsive"
         else
-          image_tag(item.mtype + ".png", :size => ssize, class:"card-img-top img-responsive")
+          image_tag(item.mtype + ".png", :size => ssize, class:"img-responsive")
         end
       else
-        image_tag(item.mtype + ".png", :size => ssize, class:"card-img-top img-responsive")
+        image_tag(item.mtype + ".png", :size => ssize, class:"img-responsive")
       end
     end
     return html_string.html_safe

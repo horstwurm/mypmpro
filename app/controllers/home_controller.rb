@@ -5,25 +5,22 @@ end
 
 def index
     @users = User.select("date(created_at) as datum, count(id) as summe").group("date(created_at)")
-    @anz_pk = ""
+    @anz_pk = [['Datum','Anzahl']]
     @users.each do |i|
-      @anz_pk = @anz_pk + "['" + i.datum.to_s + "', " + i.summe.to_s + "],"
+      @anz_pk << [i.datum.to_s, i.summe]
     end
-    @anz_pk = @anz_pk[0, @anz_pk.length - 1]    
 
     @companies = Company.select("date(created_at) as datum, count(id) as summe").group("date(created_at)")
-    @anz_fk = ""
+    @anz_fk = [['Datum','Anzahl']]
     @companies.each do |i|
-      @anz_fk = @anz_fk + "['" + i.datum.to_s + "', " + i.summe.to_s + "],"
+      @anz_fk << [i.datum.to_s,  i.summe]
     end
-    @anz_fk = @anz_fk[0, @anz_fk.length - 1]    
 
     @objects = Mobject.select("date(created_at) as datum, count(id) as summe").group("date(created_at)")
-    @anz_obj = ""
+    @anz_obj = [['Datum','Anzahl']]
     @objects.each do |i|
-      @anz_obj = @anz_obj + "['" + i.datum.to_s + "', " + i.summe.to_s + "],"
+      @anz_obj << [i.datum.to_s, i.summe]
     end
-    @anz_obj = @anz_obj[0, @anz_obj.length - 1]    
 
   if user_signed_in?
     #redirect_to current_user
