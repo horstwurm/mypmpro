@@ -1919,6 +1919,13 @@ def action_buttons4(object_type, item, topic)
     when "personen"
       case topic
         when "personen_info"
+          if $activeapps.include?("personen_favoriten") or isdeputy(item) or current_user.superuser
+            #html_string = html_string + '<li class="nav-item">'
+              html_string = html_string + link_to(new_favourit_path(:object_name => "User", :object_id => item.id, :user_id => current_user.id)) do
+                content_tag(:i, " " + (I18n.t :fav), class: "btn btn-default fa fa-user")
+              end
+            #html_string = html_string + '</li>'
+          end
           #html_string = html_string + '<li class="nav-item">'
             html_string = html_string + link_to(users_path) do
               content_tag(:i, " " + (I18n.t :suchen), class:"btn btn-default fa fa-search") 
@@ -1955,13 +1962,6 @@ def action_buttons4(object_type, item, topic)
               #html_string = html_string + '<li class="nav-item">'
                 html_string = html_string + link_to(new_user_position_path(:user_id => current_user.id)) do
                   content_tag(:i, " " + (I18n.t :pos), class: "btn btn-default fa fa-map-marker")
-                end
-              #html_string = html_string + '</li>'
-            end
-            if $activeapps.include?("personen_mappositionenfavoriten") or isdeputy(item) or current_user.superuser
-              #html_string = html_string + '<li class="nav-item">'
-                html_string = html_string + link_to(new_favourit_path(:object_name => "User", :object_id => item.id, :user_id => current_user.id)) do
-                  content_tag(:i, " " + (I18n.t :fav), class: "btn btn-default fa fa-user")
                 end
               #html_string = html_string + '</li>'
             end
