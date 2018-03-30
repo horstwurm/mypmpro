@@ -1030,6 +1030,7 @@
           <div class="panel-body">
             <%= build_medialistNew(@user.favourits, "favourits", nil) %>
           </div>
+          <% if false %>
           <% if $activeapps.include?("personen_mappositionenfavoriten") or (user_signed_in? and current_user.superuser) %>
             <%= header((I18n.t :favoriten)) %>
             <div class="panel-body">
@@ -1037,6 +1038,7 @@
                 <div id="map-canvas2"></div>
                 </div>
             </div>
+          <% end %>
           <% end %>
           
     	 <% when "personen_kundenbeziehungen" %>

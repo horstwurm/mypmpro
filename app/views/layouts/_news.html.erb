@@ -11,6 +11,8 @@
               <div class="container">
                 <div class="row">
                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    
+                    <h2>TGCloud</h2>
 
                     <div class="news blue">
                       <!--<span>News</span>-->
@@ -45,49 +47,69 @@
                     
                     <% if user_signed_in? %>
 
-                    <div class="news blue">
-                      <!--<span>News</span>-->
-                      <ul>
-
-                            <!--last AZ Rapport-->
-                            <li>
-                              <% t = current_user.timetracks.last %>
-                              <% if t %>
+                      <h2>myNews</h2>
+  
+                      <div class="news2 blue">
+                        <!--<span>News2</span>-->
+                        <ul>
+  
+                          <!--last AZ Rapport-->
+                          <li>
+                            <% t = current_user.timetracks.last %>
+                            <% if t %>
+                              <div class="row">
+                                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                  <%= showFirstImage2(:small, t.mobject,  t.mobject.mdetails) %>
+                                </div>
+                                <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                  <b><%= t.created_at.strftime("%d.%m.%Y") %></b><br>
+                                  <%= link_to t.mobject do %>
+                                    <%= t.amount %> für <%= t.mobject.name %>
+                                  <% end %>
+                                </div>
+                              </div>
+                            <% end %>
+                          </li>
+  
+                          <!--Favourits-->
+                          <% f = Favourit.where('object_name=? and object_id=?', "User", current_user.id).last(5) %>
+                          <% f.each do |m| %>
+                              <% u=User.find(m.user_id) %>
+                              <li>
                                 <div class="row">
                                   <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                    <%= showFirstImage2(:small, t.mobject,  t.mobject.mdetails) %>
+                                    <%= showImage2(:small, u, true) %>
                                   </div>
                                   <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                    <b><%= t.created_at.strftime("%d.%m.%Y") %></b><br>
-                                    <%= link_to t.mobject do %>
-                                      <%= t.amount %> für <%= t.mobject.name %>
-                                    <% end %>
+                                    <b><%= m.created_at.strftime("%d.%m.%Y") %></b><br>
+                                    <%= u.name + " " + u.lastname + " hat SIe als Favourit zugefügt" %>
                                   </div>
                                 </div>
-                              <% end %>
-                            </li>
-
-                            <!--Favourits-->
-                              <% f = Favourit.where('object_name=? and object_id=?', "User", current_user.id).last(5) %>
-                              <% f.last(10).each do |m| %>
-                                  <% u=User.find(m.user_id) %>
-                                  <li>
-                                    <div class="row">
-                                      <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                        <%= showImage2(:small, u, true) %>
-                                      </div>
-                                      <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                        <b><%= m.created_at.strftime("%d.%m.%Y") %></b><br>
-                                        <%= u.name + " " + u.lastname + " hat SIe als Favourit zugefügt" %>
-                                      </div>
-                                    </div>
-                                  </li>
-                              <% end %>
-                          
+                              </li>
+                          <% end %>
+  
+                          <!--eMails-->
+                          <% f = Email.where('m_to=?', current_user.id).last(5) %>
+                          <% f.each do |m| %>
+                              <% u=User.find(m.m_from) %>
+                              <li>
+                                <div class="row">
+                                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    <%= showImage2(:small, u, true) %>
+                                  </div>
+                                  <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                    <b><%= m.created_at.strftime("%d.%m.%Y") %></b><br>
+                                    <%= m.header + " " + m.body %>
+                                  </div>
+                                </div>
+                              </li>
                           <% end %>
 
-                      </ul>
-                    </div>
+                        </ul>
+                      </div>
+
+                    <% end %>
+
                   </div>
 
                   </div>

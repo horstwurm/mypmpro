@@ -5,6 +5,7 @@
  $color5: grey;
  $colorgold:  #BE9E21;
  $colorblue: #495469;
+ $colorbluelight: #f0f2f5;
 
 
 /* ========================================================================================================k */
@@ -30,11 +31,26 @@
 
 .menu-inactive {
     color:grey;
-    font-size: 16px;
+    font-size: 10px;
 }
 
 .menu-active {
-    font-size: 16px;
+    background-color:$colorbluelight;
+    font-size: 10px;
+}
+
+.menu-selected {
+    background-color:$colorblue;
+    color:white;
+    a:hover {
+        color:white;
+    }
+}
+
+.menu-badge {
+    background-color:$colorblue;
+    font-size: 10px;
+    color:white;
 }
 
 .ueberschrift {
@@ -476,7 +492,7 @@ zitat {
 	60%  {margin-top: -360px}
 	70%  {margin-top: -420px}
 	80%  {margin-top: -480px}
-	90%  {margin-top: -560px}
+	90%  {margin-top: -540px}
 	100% {margin-top: 0}
 }
 
@@ -486,7 +502,7 @@ zitat {
   //box-shadow: inset 0 -15px 30px rgba(0,0,0,0.4), 0 5px 10px rgba(0,0,0,0.5);
   border-color: $colorgold;
   border-style:solid;
-  width: 350px;
+  width: 300px;
   height: 240px;
   margin: 20px auto;
   overflow: hidden;
@@ -528,6 +544,70 @@ zitat {
 
 .news ul:hover { animation-play-state: paused }
 .news span:hover+ul { animation-play-state: paused }
+
+//@import url(http://fonts.googleapis.com/css?family=Raleway);
+@keyframes ticker2 {
+	0%   {margin-top: -540px}
+	10%  {margin-top: -480px}
+	20%  {margin-top: -420px}
+	30%  {margin-top: -360px}
+	40%  {margin-top: -300px}
+	50%  {margin-top: -240px}
+	60%  {margin-top: -180px}
+	70%  {margin-top: -120px}
+	80%  {margin-top: -60px}
+	90%  {margin-top: -0px}
+	100% {margin-top: -540px}
+}
+
+//body { background: #333; width: 100%; height: 100% }
+
+.news2 {
+  //box-shadow: inset 0 -15px 30px rgba(0,0,0,0.4), 0 5px 10px rgba(0,0,0,0.5);
+  border-color: $colorgold;
+  border-style:solid;
+  width: 300px;
+  height: 240px;
+  margin: 20px auto;
+  overflow: hidden;
+  border-radius: 4px;
+  padding: 3px;
+  -webkit-user-select: none
+} 
+
+.news2 span {
+  float: left;
+  color: #fff;
+  padding: 6px;
+  position: relative;
+  top: 1%;
+  border-radius: 4px;
+  box-shadow: inset 0 -15px 30px rgba(0,0,0,0.4);
+  //font: 16px 'Raleway', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-user-select: none;
+  cursor: pointer
+}
+
+.news2 ul {
+  float: left;
+  padding-left: 20px;
+  animation: ticker2 10s cubic-bezier(1, 0, .5, 0) infinite;
+  -webkit-user-select: none
+}
+
+.news2 ul li {line-height: 30px; list-style: none }
+
+.news2 ul li a {
+  color: #fff;
+  //text-decoration: none;
+  //font: 14px 'Raleway',Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-user-select: none
+}
+
+.news2 ul:hover { animation-play-state: paused }
+.news2 span:hover+ul { animation-play-state: paused }
 
 /* OTHER COLORS */
 //.blue { background: #347fd0 }

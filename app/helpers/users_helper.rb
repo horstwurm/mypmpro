@@ -1622,9 +1622,9 @@ def navigate2(object, item, topic)
   html_string = ""
   
   html_string = html_string + '<ul class="nav nav-tabs">'
-  html_string = html_string + '<li class="nav-item dropdown">'
-    html_string = html_string + '<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Info</a>'
-    html_string = html_string + '<div class="dropdown-menu">'
+  #html_string = html_string + '<li class="nav-item dropdown">'
+    #html_string = html_string + '<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Info</a>'
+    #html_string = html_string + '<div class="dropdown-menu">'
 
   case object
     when "edition_artikeln"
@@ -1817,11 +1817,12 @@ def navigate2(object, item, topic)
         end
 
     end
-    html_string = html_string + '</div></li>'
+    #html_string = html_string + '</div></li>'
+    html_string = html_string + '</ul>'
     
     html_string = html_string + action_buttons4(object, item, topic)
 
-    html_string = html_string + '</ul>'
+    #html_string = html_string + '</ul>'
 
     if false
     html_string = html_string + '<div class="panel-body">'
@@ -1842,14 +1843,25 @@ def navigate2(object, item, topic)
 end
 
 def build_nav2(domain, item, domain2, anz)
-  
-  html_string=""
+  #html_string = ""
+  #html_string="<li>"
+  html_string = '<li class="nav-item">'
 
   if (!user_signed_in? and $activeapps.include?(domain2)) or (user_signed_in? and getUserCreds.include?(domain2)) or (user_signed_in? and current_user.superuser)
-    if anz > 0 
-      btn = "menu-active"
+
+    if anz > 0
+        badge = content_tag(:span, anz.to_s, class:"badge menu-badge")
     else
-      btn = "menu-inactive"
+        badge = ""
+    end 
+    if @topic == domain2 
+      sel = "menu-selected"
+    else
+      if anz > 0 
+        sel = "menu-active"
+      else
+        sel = "menu-inactive"
+      end
     end
 
     pos = domain2.index("_")
@@ -1857,48 +1869,20 @@ def build_nav2(domain, item, domain2, anz)
     
     case domain
       when "personen"
-        html_string = '<class="dropdown-item">'
-        html_string=""
-        html_string = html_string + link_to(user_path(:id => item.id, :topic => domain2)) do
-          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:"fa fa-" + getinfo2(infosymbol)["info"]+" "+btn) 
-        end
+        unipath = user_path(:id => item.id, :topic => domain2)
       when "institutionen"
-        html_string = '<class="dropdown-item">'
-        html_string = link_to(company_path(:id => item.id, :topic => domain2)) do
-          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]+" "+btn) 
-        end
+        unipath = company_path(:id => item.id, :topic => domain2)
       when "objekte"
-        html_string = '<class="dropdown-item">'
-        html_string = link_to(mobject_path(:id => item.id, :topic => domain2)) do
-          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]+" "+btn) 
-        end
+        unipath = mobject_path(:id => item.id, :topic => domain2)
       when "tabellen"
-        html_string = '<class="dropdown-item">'
-        html_string = link_to home_index9_path do
-          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]+" "+btn) 
-        end
-      when "editionen"
-        html_string = '<class="dropdown-item">'
-        html_string = link_to(mobject_path(:id => item.mobject_id, :topic => "objekte_ausgaben")) do
-          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]+" "+btn) 
-        end
-      when "edition"
-        html_string = '<class="dropdown-item">'
-        html_string = link_to(edition_path(:id => item.id)) do
-          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]+" "+btn) 
-        end
-      when "edition_artikel"
-        html_string = '<class="dropdown-item">'
-        html_string = link_to(edition_arcticles_path(:edition_id => item.id)) do
-          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]+" "+btn) 
-        end
-      when "edition_artikeln"
-        html_string = '<class="dropdown-item">'
-        html_string = link_to(edition_path(:id => item.id)) do
-          content_tag(:i, " " + getinfo2(infosymbol)["infotext"], class:" fa fa-" + getinfo2(infosymbol)["info"]+" "+btn) 
-        end
+        unipath = home_index9_path
     end
   end
+  html_string = html_string + link_to(unipath, :class => "nav-link active" + sel) do
+    #content_tag(:span, " " + getinfo2(infosymbol)["infotext"] + content_tag(:span,anz.to_s, class:"badge"), class:"fa fa-" + getinfo2(infosymbol)["info"] )
+    content_tag(:span, content_tag(:b, " " + getinfo2(infosymbol)["infotext"]) + " " + badge, class:"fa fa-" + getinfo2(infosymbol)["info"])
+  end
+  html_string = html_string + "</li>"
   #html_string = html_string + "<br><br>"
   return html_string.html_safe
 end
@@ -1919,19 +1903,19 @@ def action_buttons4(object_type, item, topic)
     when "personen"
       case topic
         when "personen_info"
-          if $activeapps.include?("personen_favoriten") or isdeputy(item) or current_user.superuser
-            #html_string = html_string + '<li class="nav-item">'
-              html_string = html_string + link_to(new_favourit_path(:object_name => "User", :object_id => item.id, :user_id => current_user.id)) do
-                content_tag(:i, " " + (I18n.t :fav), class: "btn btn-default fa fa-user")
-              end
-            #html_string = html_string + '</li>'
-          end
           #html_string = html_string + '<li class="nav-item">'
             html_string = html_string + link_to(users_path) do
               content_tag(:i, " " + (I18n.t :suchen), class:"btn btn-default fa fa-search") 
             end
           #html_string = html_string + '</li>'
           if user_signed_in? 
+            if $activeapps.include?("personen_favoriten") or isdeputy(item) or current_user.superuser
+              #html_string = html_string + '<li class="nav-item">'
+                html_string = html_string + link_to(new_favourit_path(:object_name => "User", :object_id => item.id, :user_id => current_user.id)) do
+                  content_tag(:i, " " + (I18n.t :fav), class: "btn btn-default fa fa-user")
+                end
+              #html_string = html_string + '</li>'
+            end
             if current_user.id == item.id or isdeputy(item) or current_user.superuser
                 #html_string = html_string + '<li class="nav-item">'
                   html_string = html_string + link_to(edit_user_path(item)) do
