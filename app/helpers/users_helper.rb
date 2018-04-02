@@ -1580,7 +1580,7 @@ def header(header)
     html_string = ""
     #html_string = html_string + '<div class="container">'
       html_string = html_string + '<div class="panel-body ueberschrift">'
-        html_string = html_string + "<h1>"+header+"</h1>"
+        html_string = html_string + "<h3>"+header+"</h3>"
       html_string = html_string + "</div>"
     #html_string = html_string + "</div>"
 
@@ -1620,8 +1620,33 @@ end
 def navigate2(object, item, topic)
 
   html_string = ""
+
+  html_string = html_string + "<nav class='navbar navbar-default'>"
+    html_string = html_string + "<div class='container'>"
+      html_string = html_string + "<div class='navbar-header'>"
+        html_string = html_string + "<button type='button' class='navbar-toggle' data-toggle='collapse' data-target='#myMenuNavbar'>"
+        html_string = html_string + "<span class='icon-bar'></span>"
+        html_string = html_string + "<span class='icon-bar'></span>"
+        html_string = html_string + "<span class='icon-bar'></span>"
+        html_string = html_string + "</button>"
+      html_string = html_string + "</div>"
+      
+      html_string = html_string + "<div class='collapse navbar-collapse' id='myMenuNavbar'>"
+        html_string = html_string + "<ul class='nav navbar-nav navbar-left'>"
+          html_string = html_string + "<li>Test</li>"
+          html_string = html_string + "<li>Test</li>"
+          html_string = html_string + "<li>Test</li>"
+          html_string = html_string + "<li>Test</li>"
+          html_string = html_string + "<li>Test</li>"
+          html_string = html_string + "<li>Test</li>"
+        html_string = html_string + "</ul>"
+      html_string = html_string + "</div>"
+
+    html_string = html_string + "</div>"
+
   
   html_string = html_string + '<ul class="nav nav-pills">'
+
   #html_string = html_string + '<li class="nav-item dropdown">'
     #html_string = html_string + '<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Info</a>'
     #html_string = html_string + '<div class="dropdown-menu">'
