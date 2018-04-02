@@ -1648,6 +1648,8 @@ def navigate2(object, item, topic)
       html_string = html_string + build_nav2("ideenbewertung",item,"ideenbewertung",1)
       
     when "personen"
+      html_string = html_string + build_nav2("personen",item,"personen_menu",0)
+
       html_string = html_string + build_nav2("personen",item,"personen_info",1)
       html_string = html_string + build_nav2("personen",item,"personen_notizen", item.notes.count)
       html_string = html_string + build_nav2("personen",item,"personen_mappositionen", item.user_positions.count)
@@ -1691,8 +1693,6 @@ def navigate2(object, item, topic)
         html_string = html_string + build_nav2("personen",item,"personen_transaktionen", item.transactions.where('ttype=?', "payment").count)
         html_string = html_string + build_nav2("personen",item,"personen_emails", Email.where('m_to=? or m_from=?', item.id, item.id).count)
         end
-      html_string = html_string + build_nav2("personen",item,"personen_menu",0)
-
 
       when "institutionen"
         html_string = html_string + build_nav2("institutionen",item,"institutionen_info",1)
@@ -1839,14 +1839,43 @@ end
 
 def build_nav2(domain, item, domain2, anz)
   
-  html_string = ""
-  
-  if (!user_signed_in? and $activeapps.include?(domain2)) or (user_signed_in? and getUserCreds.include?(domain2)) or (user_signed_in? and current_user.superuser)
+  pos = domain2.index("_")
+  infosymbol = (domain2[pos+1..domain2.length-1]).to_sym
+  txt = getinfo2(infosymbol)["infotext"]
 
-    pos = domain2.index("_")
-    infosymbol = (domain2[pos+1..domain2.length-1]).to_sym
-    txt = getinfo2(infosymbol)["infotext"]
-    
+  case domain
+    when "personen"
+      unipath = user_path(:id => item.id, :topic => domain2)
+    when "institutionen"
+      unipath = company_path(:id => item.id, :topic => domain2)
+    when "objekte"
+      unipath = mobject_path(:id => item.id, :topic => domain2)
+    when "tabellen"
+      unipath = home_index9_path
+  end
+
+  html_string = ""
+
+  if infosymbol == :menu
+    case domain
+      when "personen"
+        unipath = user_path(:id => item.id, :topic => @topic, :menu => @menu)
+      when "institutionen"
+        unipath = company_path(:id => item.id, :topic => domain2, :menu => @menu)
+      when "objekte"
+        unipath = mobject_path(:id => item.id, :topic => domain2, :menu => @menu)
+      when "tabellen"
+        unipath = home_index9_path
+    end
+    html_string = html_string + '<li class="nav-item">'
+      html_string = html_string + link_to(unipath, :class => "nav-link ") do
+        content_tag(:span, content_tag(:b, " "), class:"fa fa-" + getinfo2(infosymbol)["info"])
+      end
+    html_string = html_string + "</li>"
+  end
+  
+  if (!user_signed_in? and $activeapps.include?(domain2)) or (user_signed_in? and getUserCreds.include?(domain2)) or (user_signed_in? and current_user.superuser) and infosymbol != :menu
+
     if anz > 0 and infosymbol != :info
         badge = content_tag(:span, anz.to_s, class:"badge menu-badge")
     else
@@ -1862,18 +1891,7 @@ def build_nav2(domain, item, domain2, anz)
       end
     end
     
-    case domain
-      when "personen"
-        unipath = user_path(:id => item.id, :topic => domain2, :menu => @menu)
-      when "institutionen"
-        unipath = company_path(:id => item.id, :topic => domain2, :menu => @menu)
-      when "objekte"
-        unipath = mobject_path(:id => item.id, :topic => domain2, :menu => @menu)
-      when "tabellen"
-        unipath = home_index9_path
-    end
-
-    if @menu or anz>0
+    if @menu == "t" or anz>0
       html_string = html_string + '<li class="nav-item">'
         html_string = html_string + link_to(unipath, :class => "nav-link " + sel) do
           #content_tag(:span, " " + getinfo2(infosymbol)["infotext"] + content_tag(:span,anz.to_s, class:"badge"), class:"fa fa-" + getinfo2(infosymbol)["info"] )

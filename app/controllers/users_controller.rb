@@ -55,14 +55,15 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
 
+   if !@menu
+     @menu="f"
+   end
    if params[:menu]
-     if @menu
-       @menu = false
+     if params[:menu] == "f"
+       @menu = "t"
      else
-       @menu = true
+       @menu = "f"
      end
-   else
-     @menu = false
    end
     
    if params[:topic]
