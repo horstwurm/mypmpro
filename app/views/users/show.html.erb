@@ -408,8 +408,12 @@
                   <% @date_start %>
                   <% @date_end %>
 
-                  <%= link_to new_timetrack_path(:user_id => @user.id, :scope => @c_scope, :datum => @c_datum) do %>
-                    <span><i class="btn btn-primary %> fa fa-plus"></i></span>
+                  <% if user_signed_in? %> 
+                    <% if @user.id == current_user.id or isdeputy(@user) %>
+                      <%= link_to new_timetrack_path(:user_id => @user.id, :scope => @c_scope, :datum => @c_datum) do %>
+                        <span><i class="btn btn-primary %> fa fa-plus"></i></span>
+                      <% end %>
+                    <% end %>
                   <% end %>
 
                   <%= link_to user_path(:id => @user.id, :topic => "personen_zeiterfassung", :year => @c_year, :month => @c_month, :mode => "Datum", :scope => @c_scope, :tdatum => @c_datum) do %>
