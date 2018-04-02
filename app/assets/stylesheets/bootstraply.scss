@@ -35,15 +35,34 @@
 }
 
 .menu-active {
-    background-color:$colorbluelight;
-    font-size: 10px;
+    //background-color:$colorbluelight;
+    //font-size: 10px;
 }
 
 .menu-selected {
-    background-color:$colorblue;
+    background-color:$colorgold;
     color:white;
     a:hover {
         color:white;
+    }
+    .badge {
+        background-color:white;
+        color:$colorblue;
+    }
+}
+
+.nav-pills {
+    color:white!important;
+    background-color:$colorblue!important;
+}
+
+.nav-item a:hover{
+    border-color:transparent;
+    color:$colorgold;
+    background-color:$colorblue!important;
+    .badge {
+        background-color:grey;
+        color:$colorgold;
     }
 }
 

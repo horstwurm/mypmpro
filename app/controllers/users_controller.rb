@@ -54,6 +54,16 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+
+   if params[:menu]
+     if @menu
+       @menu = false
+     else
+       @menu = true
+     end
+   else
+     @menu = false
+   end
     
    if params[:topic]
      @topic = params[:topic]

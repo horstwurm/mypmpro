@@ -1621,7 +1621,7 @@ def navigate2(object, item, topic)
 
   html_string = ""
   
-  html_string = html_string + '<ul class="nav nav-tabs">'
+  html_string = html_string + '<ul class="nav nav-pills">'
   #html_string = html_string + '<li class="nav-item dropdown">'
     #html_string = html_string + '<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Info</a>'
     #html_string = html_string + '<div class="dropdown-menu">'
@@ -1684,6 +1684,8 @@ def navigate2(object, item, topic)
         html_string = html_string + build_nav2("personen",item,"personen_transaktionen", item.transactions.where('ttype=?', "payment").count)
         html_string = html_string + build_nav2("personen",item,"personen_emails", Email.where('m_to=? or m_from=?', item.id, item.id).count)
         end
+      html_string = html_string + build_nav2("personen",item,"personen_menu",0)
+
 
       when "institutionen"
         html_string = html_string + build_nav2("institutionen",item,"institutionen_info",1)
@@ -1843,19 +1845,26 @@ def navigate2(object, item, topic)
 end
 
 def build_nav2(domain, item, domain2, anz)
-  #html_string = ""
-  #html_string="<li>"
-  html_string = '<li class="nav-item">'
-
+  
   if (!user_signed_in? and $activeapps.include?(domain2)) or (user_signed_in? and getUserCreds.include?(domain2)) or (user_signed_in? and current_user.superuser)
 
-    if anz > 0
+    pos = domain2.index("_")
+    infosymbol = (domain2[pos+1..domain2.length-1]).to_sym
+    
+    #html_string = ""
+    #html_string="<li>"
+    html_string = '<li class="nav-item">'
+
+    txt=""
+    if anz > 0 and infosymbol != :info
         badge = content_tag(:span, anz.to_s, class:"badge menu-badge")
     else
         badge = ""
     end 
     if @topic == domain2 
-      sel = "menu-selected"
+      txt = getinfo2(infosymbol)["infotext"]
+      sel = "active menu-selected"
+      #sel = "active"
     else
       if anz > 0 
         sel = "menu-active"
@@ -1863,27 +1872,29 @@ def build_nav2(domain, item, domain2, anz)
         sel = "menu-inactive"
       end
     end
-
-    pos = domain2.index("_")
-    infosymbol = (domain2[pos+1..domain2.length-1]).to_sym
     
     case domain
       when "personen"
-        unipath = user_path(:id => item.id, :topic => domain2)
+        unipath = user_path(:id => item.id, :topic => domain2, :menu => @menu)
       when "institutionen"
-        unipath = company_path(:id => item.id, :topic => domain2)
+        unipath = company_path(:id => item.id, :topic => domain2, :menu => @menu)
       when "objekte"
-        unipath = mobject_path(:id => item.id, :topic => domain2)
+        unipath = mobject_path(:id => item.id, :topic => domain2, :menu => @menu)
       when "tabellen"
         unipath = home_index9_path
     end
+
+    if @menu or anz>0
+      html_string = html_string + link_to(unipath, :class => "nav-link " + sel) do
+        #content_tag(:span, " " + getinfo2(infosymbol)["infotext"] + content_tag(:span,anz.to_s, class:"badge"), class:"fa fa-" + getinfo2(infosymbol)["info"] )
+        #content_tag(:span, content_tag(:b, " " + getinfo2(infosymbol)["infotext"]) + " " + badge, class:"fa fa-" + getinfo2(infosymbol)["info"])
+        content_tag(:span, content_tag(:b, " " + txt) + " " + badge, class:"fa fa-" + getinfo2(infosymbol)["info"])
+      end
+      html_string = html_string + "</li>"
+    end
+    #html_string = html_string + "<br><br>"
   end
-  html_string = html_string + link_to(unipath, :class => "nav-link active" + sel) do
-    #content_tag(:span, " " + getinfo2(infosymbol)["infotext"] + content_tag(:span,anz.to_s, class:"badge"), class:"fa fa-" + getinfo2(infosymbol)["info"] )
-    content_tag(:span, content_tag(:b, " " + getinfo2(infosymbol)["infotext"]) + " " + badge, class:"fa fa-" + getinfo2(infosymbol)["info"])
-  end
-  html_string = html_string + "</li>"
-  #html_string = html_string + "<br><br>"
+
   return html_string.html_safe
 end
 
@@ -2413,6 +2424,8 @@ def getinfo2(topic)
   end
 
   case topic
+    when :menu
+      info = "medium"
     when :notizen
       info = "paperclip"
     when :stellvertretungen
