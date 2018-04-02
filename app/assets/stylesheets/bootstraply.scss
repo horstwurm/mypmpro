@@ -29,47 +29,40 @@
       color:white;
 }
 
-.menu-inactive {
-    color:grey;
-    font-size: 10px;
-}
-
-.menu-active {
-    //background-color:$colorbluelight;
-    //font-size: 10px;
-}
-
-.menu-selected {
-    background-color:$colorgold;
+.menu-header {
     color:white;
-    a:hover {
-        color:white;
-    }
+    background-color:$colorgold!important;
     .badge {
         background-color:white;
-        color:$colorblue;
+        color:$colorgold;
     }
 }
 
-.nav-pills {
+#myMenuNavbar {
     color:white!important;
     background-color:$colorblue!important;
-}
-
-.nav-item a:hover{
-    border-color:transparent;
-    color:$colorgold;
-    background-color:$colorblue!important;
-    .badge {
-        background-color:white;
-        color:$colorblue;
+    
+    .menu-inactive {
+        color:grey;
     }
-}
 
-.menu-badge {
-    background-color:$colorblue;
-    font-size: 10px;
-    color:white;
+    .menu-selected {
+        color:white;
+        background-color:$colorgold!important;
+        .badge {
+            background-color:white;
+            color:$colorgold;
+        }
+    }
+
+    .nav-item a:hover{
+        color:$colorgold;
+        background-color:$colorblue!important;
+        .badge {
+            background-color:$colorgold;
+            color:$colorblue;
+        }
+    }
 }
 
 .ueberschrift {

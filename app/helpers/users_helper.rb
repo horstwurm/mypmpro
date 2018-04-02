@@ -1622,34 +1622,16 @@ def navigate2(object, item, topic)
   html_string = ""
 
   html_string = html_string + "<nav class='navbar navbar-default'>"
-    html_string = html_string + "<div class='container'>"
-      html_string = html_string + "<div class='navbar-header'>"
-        html_string = html_string + "<button type='button' class='navbar-toggle' data-toggle='collapse' data-target='#myMenuNavbar'>"
-        html_string = html_string + "<span class='icon-bar'></span>"
-        html_string = html_string + "<span class='icon-bar'></span>"
-        html_string = html_string + "<span class='icon-bar'></span>"
-        html_string = html_string + "</button>"
-      html_string = html_string + "</div>"
-      
-      html_string = html_string + "<div class='collapse navbar-collapse' id='myMenuNavbar'>"
-        html_string = html_string + "<ul class='nav navbar-nav navbar-left'>"
-          html_string = html_string + "<li>Test</li>"
-          html_string = html_string + "<li>Test</li>"
-          html_string = html_string + "<li>Test</li>"
-          html_string = html_string + "<li>Test</li>"
-          html_string = html_string + "<li>Test</li>"
-          html_string = html_string + "<li>Test</li>"
-        html_string = html_string + "</ul>"
-      html_string = html_string + "</div>"
-
+    html_string = html_string + "<div class='navbar-header'>"
+      html_string = html_string + "<button type='button' class='navbar-toggle' data-toggle='collapse' data-target='#myMenuNavbar'>"
+      html_string = html_string + "<span class='icon-bar'></span>"
+      html_string = html_string + "<span class='icon-bar'></span>"
+      html_string = html_string + "<span class='icon-bar'></span>"
+      html_string = html_string + "</button>"
     html_string = html_string + "</div>"
-
-  
-  html_string = html_string + '<ul class="nav nav-pills">'
-
-  #html_string = html_string + '<li class="nav-item dropdown">'
-    #html_string = html_string + '<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Info</a>'
-    #html_string = html_string + '<div class="dropdown-menu">'
+    
+    html_string = html_string + "<div class='collapse navbar-collapse' id='myMenuNavbar'>"
+      html_string = html_string + "<ul class='nav navbar-nav navbar-left'>"
 
   case object
     when "edition_artikeln"
@@ -1844,52 +1826,34 @@ def navigate2(object, item, topic)
         end
 
     end
-    #html_string = html_string + '</div></li>'
+
     html_string = html_string + '</ul>'
+    html_string = html_string + '</div>'
+    html_string = html_string + '</nav>'
     
     html_string = html_string + action_buttons4(object, item, topic)
 
-    #html_string = html_string + '</ul>'
-
-    if false
-    html_string = html_string + '<div class="panel-body">'
-      html_string = html_string + '<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">'
-        case object
-          when "personen"
-            header = item.name + " " + item.lastname
-          else
-            header = item.name
-        end
-        html_string = html_string + '<h1>'+header+'</h1>'
-      html_string = html_string + '</div>'
-    html_string = html_string + '</div>'
-    end
-    
     return html_string.html_safe
     
 end
 
 def build_nav2(domain, item, domain2, anz)
   
+  html_string = ""
+  
   if (!user_signed_in? and $activeapps.include?(domain2)) or (user_signed_in? and getUserCreds.include?(domain2)) or (user_signed_in? and current_user.superuser)
 
     pos = domain2.index("_")
     infosymbol = (domain2[pos+1..domain2.length-1]).to_sym
+    txt = getinfo2(infosymbol)["infotext"]
     
-    #html_string = ""
-    #html_string="<li>"
-    html_string = '<li class="nav-item">'
-
-    txt=""
     if anz > 0 and infosymbol != :info
         badge = content_tag(:span, anz.to_s, class:"badge menu-badge")
     else
         badge = ""
     end 
-    if @topic == domain2 
-      txt = getinfo2(infosymbol)["infotext"]
+    if @topic == domain2
       sel = "active menu-selected"
-      #sel = "active"
     else
       if anz > 0 
         sel = "menu-active"
@@ -1910,14 +1874,14 @@ def build_nav2(domain, item, domain2, anz)
     end
 
     if @menu or anz>0
-      html_string = html_string + link_to(unipath, :class => "nav-link " + sel) do
-        #content_tag(:span, " " + getinfo2(infosymbol)["infotext"] + content_tag(:span,anz.to_s, class:"badge"), class:"fa fa-" + getinfo2(infosymbol)["info"] )
-        #content_tag(:span, content_tag(:b, " " + getinfo2(infosymbol)["infotext"]) + " " + badge, class:"fa fa-" + getinfo2(infosymbol)["info"])
-        content_tag(:span, content_tag(:b, " " + txt) + " " + badge, class:"fa fa-" + getinfo2(infosymbol)["info"])
-      end
+      html_string = html_string + '<li class="nav-item">'
+        html_string = html_string + link_to(unipath, :class => "nav-link " + sel) do
+          #content_tag(:span, " " + getinfo2(infosymbol)["infotext"] + content_tag(:span,anz.to_s, class:"badge"), class:"fa fa-" + getinfo2(infosymbol)["info"] )
+          #content_tag(:span, content_tag(:b, " " + getinfo2(infosymbol)["infotext"]) + " " + badge, class:"fa fa-" + getinfo2(infosymbol)["info"])
+          content_tag(:span, content_tag(:b, " " + txt) + " " + badge, class:"fa fa-" + getinfo2(infosymbol)["info"])
+        end
       html_string = html_string + "</li>"
     end
-    #html_string = html_string + "<br><br>"
   end
 
   return html_string.html_safe
