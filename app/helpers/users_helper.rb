@@ -1695,6 +1695,9 @@ def navigate2(object, item, topic)
         end
 
       when "institutionen"
+
+        html_string = html_string + build_nav2("institutionen",item,"institutionen_menu",0)
+
         html_string = html_string + build_nav2("institutionen",item,"institutionen_info",1)
         html_string = html_string + build_nav2("institutionen",item,"institutionen_projekte", item.mobjects.where('mtype=? and parent=?',"projekte",0).count)
         if item.partner
@@ -1731,6 +1734,9 @@ def navigate2(object, item, topic)
         end
 
       when "objekte"
+
+        html_string = html_string + build_nav2("objekte",item,"objekte_menu",0)
+
         if item.owner_type == "User"
           html_string = html_string + build_nav2("personen",item.owner,"personen_"+item.mtype,1)
         end
