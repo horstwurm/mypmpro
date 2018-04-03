@@ -455,6 +455,26 @@ end
 def dashboard_project
 end
 
+def readLastValue
+  msg = []
+  if params[:sensor]
+    @sensor = Mobject.find(params[:sensor])
+    @iot = @sensor.sensors.last
+    if @iot
+      msg << {:datum => @iot.created_at.strftime("%H:%m"), :wert => @iot.value}
+    else
+      msg << {:datum => Date.today.strftime("%H:%m"), :wert => 0}
+    end
+  else
+      msg << {:datum => Date.today.strftime("%H:%m"), :wert => 0}
+  end
+  respond_to do |format|
+    format.json 
+      render :json => msg.to_json
+    format.html
+  end
+end
+
 def readsensordata
   if params[:sensor]
     @sensor = Mobject.find(params[:sensor])

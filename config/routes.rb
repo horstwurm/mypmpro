@@ -73,6 +73,7 @@ Rails.application.routes.draw do
   get 'home/dashboard_projectdata'
   get 'home/Umfragen_data'
   get 'home/readsensordata'
+  get 'home/readLastValue'
   get 'home/writesensordata'
   get 'home/readusernotes'
   get 'home/writeusernotes'
