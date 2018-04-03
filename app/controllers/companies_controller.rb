@@ -28,6 +28,18 @@ class CompaniesController < ApplicationController
 
   # GET /companies/1
   def show
+
+   if !@menu
+     @menu="f"
+   end
+   if params[:menu]
+     if params[:menu] == "f"
+       @menu = "t"
+     else
+       @menu = "f"
+     end
+   end
+    
      if params[:topic]
        @topic = params[:topic]
      else 

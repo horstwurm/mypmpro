@@ -1896,7 +1896,7 @@ def build_nav2(domain, item, domain2, anz)
         sel = "menu-inactive"
       end
     end
-    
+
     if @menu == "t" or anz>0
       html_string = html_string + '<li class="nav-item">'
         html_string = html_string + link_to(unipath, :class => "nav-link " + sel) do
