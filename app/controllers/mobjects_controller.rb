@@ -125,7 +125,8 @@ class MobjectsController < ApplicationController
       end
     end
     
-    if @topic == "objekte_kalendervermietungen"
+    if @topic == "objekte_kalendervermietungen" and false
+
      counter = 0 
      @array = ""
      @cals = @mobject.mcalendars
@@ -423,19 +424,37 @@ class MobjectsController < ApplicationController
         end
       end
 
-  if @topic == "objekte_signcal"
+  if @topic == "objekte_signcal" or @topic == "objekte_kalendervermietungen"
       if params[:confirm_id]
-        @cal = SignageCal.find(params[:confirm_id])
-        if @cal
-          @cal.confirmed = true
-          @cal.save
+        if @topic == "objekte_signcal"
+          @cal = SignageCal.find(params[:confirm_id])
+          if @cal
+            @cal.confirmed = true
+            @cal.save
+          end
+        end
+        if @topic == "objekte_kalendervermietungen"
+          @cal = Mcalendar.find(params[:confirm_id])
+          if @cal
+            @cal.confirmed = true
+            @cal.save
+          end
         end
       end
       if params[:noconfirm_id]
-        @cal = SignageCal.find(params[:noconfirm_id])
-        if @cal
-          @cal.confirmed = false
-          @cal.save
+        if @topic == "objekte_signcal"
+          @cal = SignageCal.find(params[:noconfirm_id])
+          if @cal
+            @cal.confirmed = false
+            @cal.save
+          end
+        end
+        if @topic == "objekte_kalendervermietungen"
+          @cal = Mcalendar.find(params[:noconfirm_id])
+          if @cal
+            @cal.confirmed = false
+            @cal.save
+          end
         end
       end
       if !@c_datum

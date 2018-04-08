@@ -205,12 +205,14 @@
 
                   <% when "publikationen" %>
                   <% when "vermietungen" %>
-                      <div class="form-group">
-                        <%= f.label I18n.t :zeitvonbis %>
+                      <% if false %>
                         <div class="form-group">
-                        <input id="ex1" type="text" class="span2" value="" data-slider-min="0" data-slider-max="24" data-slider-step="1" data-slider-value="[<%= @mobject.time_from %>,<%= @mobject.time_to %>]"/> <b> Uhrzeit: von-bis</b>
+                          <%= f.label I18n.t :zeitvonbis %>
+                          <div class="form-group">
+                          <input id="ex1" type="text" class="span2" value="" data-slider-min="0" data-slider-max="24" data-slider-step="1" data-slider-value="[<%= @mobject.time_from %>,<%= @mobject.time_to %>]"/> <b> Uhrzeit: von-bis</b>
+                          </div>
                         </div>
-                      </div>
+                      <% end %>
 
                   <% when "angebote" %>
                       <div class="form-group">

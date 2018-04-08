@@ -178,9 +178,11 @@
                       <% end %>
     
                    <% when "vermietungen" %>
+                    <% if false %>
                     <b><%= (I18n.t :mietzeiten) %></b><br>
                     von:<%= @mobject.time_from %> bis: <%= @mobject.time_to %> Uhr
                     <br><br>
+                    <% end %>
                     <b><%= (I18n.t :standort) %></b><br>
                     <%= @mobject.address1 if @mobject.address1 %><br>
                     <%= @mobject.address2 if @mobject.address2 %><br>
@@ -1333,7 +1335,51 @@
           </div>
 
         <% when "objekte_kalendervermietungen" %>
-          <div id='calendar'></div>
+          <div class="row">
+              <div class='col-xs-12'>
+                <div class='panel-body'>
+                  <% case @c_mode %>
+                    <% when "Woche" %>
+                      <% btn_m = "inactive" %>
+                      <% btn_y = "inactive" %>
+                      <% btn_w = "active" %>
+                      <% btn_d = "inactive" %>
+                    <% when "Monat" %>
+                      <% btn_m = "active" %>
+                      <% btn_y = "inactive" %>
+                      <% btn_w = "inactive" %>
+                      <% btn_d = "inactive" %>
+                    <% when "Jahr" %>
+                      <% btn_y = "active" %>
+                      <% btn_m = "inactive" %>
+                      <% btn_w = "inactive" %>
+                      <% btn_d = "inactive" %>
+                    <% when "Datum" %>
+                      <% btn_y = "inactive" %>
+                      <% btn_m = "inactive" %>
+                      <% btn_w = "inactive" %>
+                      <% btn_d = "active" %>
+                  <% end %>
+                  <%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_kalendervermietungen",  :year => @c_year, :month => @c_month, :mode => "Woche", :week => @c_week, :day => @c_day) do %>
+                    <span><i class="btn btn-<%= btn_w %> fa fa-calendar"> <%= @c_week %></i></span>
+                  <% end %>
+                  <%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_kalendervermietungen", :year => @c_year, :month => @c_month, :mode => "Monat", :week => @c_week, :day => @c_day) do %>
+                    <span><i class="btn btn-<%= btn_m %> fa fa-calendar"> <%= @c_month %></i></span>
+                  <% end %>
+                  <%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_kalendervermietungen",  :year => @c_year, :month => @c_month, :mode => "Jahr", :week => @c_week, :day => @c_day)  do %>
+                    <span><i class="btn btn-<%= btn_y %> fa fa-calendar"> <%= @c_year %></i></span>
+                  <% end %>
+                  <%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_kalendervermietungen", :dir => "<", :year => @c_year, :month => @c_month, :mode => @c_mode, :week => @c_week,  :day => @c_day)  do %>
+                    <i class="btn btn-primary fa fa-chevron-left"></i>
+                  <% end %>
+                  <%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_kalendervermietungen", :dir => ">", :year => @c_year, :month => @c_month, :mode => @c_mode, :week => @c_week, :day => @c_day) do %>
+                    <i class="btn btn-primary fa fa-chevron-right"></i>
+                  <% end %>
+                </div>
+              </div>
+          </div>
+          <%= build_cal(@c_mode,"vermietungen", "locations", @mobject.id, @c_day.to_s) %>
+
           <div class="panel-body">
           	<table class="table table-striped">
               <thead>
@@ -1350,19 +1396,21 @@
           				    <% if user_signed_in? %>
           				      <% if (ca.mobject.owner_type == "User" and ca.mobject.owner_id == current_user.id) or (ca.mobject.owner_type == "Company" and ca.mobject.owner.user_id == current_user.id) %>
           				        <% if !ca.confirmed %>
-                            <%= link_to mobject_path(:id => ca.mobject_id, :confirm_id => ca.id, :topic => :kalendervermietungen) do %>
-                              <i class="btn btn-primary btn-xs fa fa-ok"></i>
+                            <%= link_to mobject_path(:id => ca.mobject_id, :confirm_id => ca.id, :topic => "objekte_kalendervermietungen") do %>
+                              <i class="btn btn-primary btn-xs fa fa-question"></i>
                             <% end %>
                           <% else %>
-                            <%= link_to mobject_path(:id => ca.mobject_id, :noconfirm_id => ca.id, :topic => :kalendervermietungen) do %>
-                              <i class="btn btn-primary btn-xs fa fa-remove"></i>
+                            <%= link_to mobject_path(:id => ca.mobject_id, :noconfirm_id => ca.id, :topic => "objekte_kalendervermietungen") do %>
+                              <i class="btn btn-primary btn-xs fa fa-thumbs-up"></i>
                             <% end %>
                           <% end %>
           				      <% end %>
             				    <% if ca.user_id == current_user.id %>
-                          <%= link_to listaccount_index_path :user_id => current_user.id, :user_id_ver => ca.mobject.owner_id, :company_id_ver => ca.mobject.owner_id, :ref => "Vergütung an "+ ca.mobject.name + " " + ca.date_from.strftime("%d.%m.%Y") + " " + ca.time_from.to_s + "Uhr -" + ca.date_to.strftime("%d.%m.%Y") + " " + ca.time_to.to_s + " Uhr", :object_name => "Mobject", :object_id => ca.mobject.id, :amount => 0 do %>
-                            <i class="btn btn-primary btn-xs fa fa-euro"></i>
-                          <% end %>
+            				      <% if false %>
+                            <%= link_to listaccount_index_path :user_id => current_user.id, :user_id_ver => ca.mobject.owner_id, :company_id_ver => ca.mobject.owner_id, :ref => "Vergütung an "+ ca.mobject.name + " " + ca.date_from.strftime("%d.%m.%Y") + " " + ca.time_from.to_s + "Uhr -" + ca.date_to.strftime("%d.%m.%Y") + " " + ca.time_to.to_s + " Uhr", :object_name => "Mobject", :object_id => ca.mobject.id, :amount => 0 do %>
+                              <i class="btn btn-primary btn-xs fa fa-euro"></i>
+                            <% end %>
+                  				<% end %>
           				        <%= link_to edit_mcalendar_path(ca) do %>
                             <i class="btn btn-primary btn-xs fa fa-wrench"></i>
                           <% end %>

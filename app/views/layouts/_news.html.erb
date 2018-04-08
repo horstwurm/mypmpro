@@ -17,7 +17,7 @@
                     <div class="news blue">
                       <!--<span>News</span>-->
                       <ul>
-                        <% Mobject.last(10).each do |m| %>
+                        <% Mobject.order(created_at: :desc).first(10).each do |m| %>
                             <li>
                               <div class="row">
                                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">

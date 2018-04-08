@@ -4075,6 +4075,148 @@ html_string = html_string + "<table class='table table-responsive table-week'>"
             end
           html_string = html_string + "</tr>"
         end
+
+      when "vermietungen"
+        @cals = Mcalendar.where('mobject_id=? and date_from<=? and date_to>=?',scope3, enddate, startdate)
+        @calarray = []
+        @cals.each do |c|
+          @calarray << {:user_id => c.user_id, :date_from => c.date_from, :date_to => c.date_to, :time_from => c.time_from, :time_to => c.time_to}
+        end
+
+        if mode == "Woche" or mode == "Monat"
+          for t in 6..20
+            html_string = html_string + "<tr>"
+            html_string = html_string + "<td>"+t.to_s+" Uhr</td>"
+            html_string = html_string + "<td></td>"
+            html_string = html_string + "<td></td>"
+
+            if mode == "Woche"
+              kmax = 6
+            end
+            if mode == "Monat"
+              kmax = enddate-startdate
+            end
+
+            for k in 0..kmax
+
+              found = false
+              for c in 0..@calarray.length-1 do
+                if @calarray[c][:date_from] == @calarray[c][:date_to]
+                  if (startdate+k >= @calarray[c][:date_from] and startdate+k <= @calarray[c][:date_to]) and (t >= @calarray[c][:time_from] and t <= @calarray[c][:time_to])
+                    found=true
+                    #chip = User.find(@calarray[c][:user_id])
+                  end
+                end
+                if @calarray[c][:date_from] != @calarray[c][:date_to]
+                  if (startdate+k == @calarray[c][:date_from] and t >= @calarray[c][:time_from]) or (startdate+k == @calarray[c][:date_to] and t <= @calarray[c][:time_to]) or (startdate+k > @calarray[c][:date_from] and startdate+k < @calarray[c][:date_to])
+                    
+                    found=true
+                    #chip = User.find(@calarray[c][:user_id])
+                  end
+                end
+                if found
+                    c= @calarray.length+1
+                end
+              end
+              if found
+                html_string = html_string + "<td class='colfilled'>"
+                if mode == "Woche"
+                  html_string = html_string + "<div class='box'></div>"
+                  #html_string = html_string + contactChip(chip)
+                end
+                if mode == "Monat"
+                  html_string = html_string + "<div class='boxmon'></div>"
+                  #html_string = html_string + contactChip(chip)
+                end
+              else
+                html_string = html_string + "<td>"
+              end
+              html_string = html_string + "</td>"
+                
+            end
+            html_string = html_string + "</tr>"
+          end
+        end
+
+        if false
+        @cals = @mobject.mcalendars
+        @cals.each do |c|
+          html_string = html_string + "<tr>"
+            if scope2 == "locations" and c.mstandort
+              @obj = Mobject.find(c.mstandort)
+            end
+            if scope2 == "campaigns" and c.mkampagne
+              @obj = Mobject.find(c.mkampagne)
+            end
+            html_string = html_string + "<td>"
+              html_string = html_string + showFirstImage2(:small, @obj, @obj.mdetails)
+            html_string = html_string + "</td>"
+            
+            html_string = html_string + "<td>"
+              html_string = html_string + @obj.name + " " + c.time_from.to_s + "-" + c.time_to.to_s + " Uhr" 
+
+            html_string = html_string + "</td>"
+              
+            html_string = html_string + "<td>"
+      			if @obj.owner_id == current_user.id or isdeputy(current_user)
+    				  if !c.confirmed
+    				    if scope2 == "locations"
+                      html_string = html_string + link_to(signage_cals_path(:confirm_id => c.id, :loc_id => c.mstandort)) do
+                        content_tag(:i, nil, class:"btn btn-primary btn-xs fa fa-check")
+                      end
+                end
+    				    if scope2 == "campaigns"
+                      html_string = html_string + link_to(signage_cals_path(:confirm_id => c.id, :kam_id => c.mkampagne)) do
+                        content_tag(:i, nil, class:"btn btn-primary btn-xs fa fa-check")
+                      end
+                end
+              else
+    				    if scope2 == "locations"
+                      html_string = html_string + link_to(signage_cals_path(:noconfirm_id => c.id, :loc_id => c.mstandort)) do
+                        content_tag(:i, nil, class:"btn btn-primary btn-xs fa fa-ban")
+                      end
+                end
+    				    if scope2 == "campaigns"
+                      html_string = html_string + link_to(signage_cals_path(:noconfirm_id => c.id, :loc_id => c.mkampagne)) do
+                        content_tag(:i, nil, class:"btn btn-primary btn-xs fa fa-ban")
+                      end
+                end
+              end
+              html_string = html_string + link_to(edit_signage_cal_path(c)) do
+                content_tag(:i, nil, class:"btn btn-primary btn-xs fa fa-wrench")
+              end
+  				    html_string = html_string + link_to(c, method: :delete, data: { confirm: 'Are you sure?' }) do
+                content_tag(:i, nil, class:"btn btn-danger btn-xs fa fa-trash")
+              end
+            end
+            html_string = html_string + "</td>"
+            if mode == "Woche"
+              for k in 0..6
+                if startdate+k >= c.date_from and startdate+k <= c.date_to
+                  html_string = html_string + "<td class='colfilled'>"
+                  html_string = html_string + "<div class='box'></div>"
+                else
+                  html_string = html_string + "<td>"
+                end
+                html_string = html_string + "</td>"
+              end
+            end
+            if mode == "Monat"
+              for k in 0..enddate-startdate
+                if startdate+k >= c.date_from and startdate+k <= c.date_to
+                  html_string = html_string + "<td class='colfilled'>"
+                  html_string = html_string + "<div class='boxmon'></div>"
+                else
+                  html_string = html_string + "<td>"
+                end
+                html_string = html_string + "</td>"
+              end
+            end
+          html_string = html_string + "</tr>"
+        end
+        end
+
+
     end
   html_string = html_string + "</body>"
 html_string = html_string + "</table>"

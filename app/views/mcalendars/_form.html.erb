@@ -13,22 +13,13 @@
 
         <div class="row">
             <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading header">
-                      <li_header>
-                      <%= link_to mobject_path(:id => @mcalendar.mobject_id, :topic => "objekte_kalendervermietungen") do %>
-                        <i class="btn btn-primary fa fa-list"></i>
-                      <% end %>
-                      RESERVATION <%= @mcalendar.mobject.name %>
-                      </li_header>
-                    </div>
+                <div class="panel-body ueberschrift">
+                    <%= header((I18n.t :reservation) + " " + @mcalendar.mobject.name) %>
                 </div>
             </div>
-        </div>
 
-        <div class="row">
             <div class="col-md-6">
-                <div class="panel-body">
+                <div class="panel-body ueberschrift">
                     <div class="form-group">
                       <%= f.label "Datum von" %><br/>
                       <%= f.text_field :date_from, class:"form-control"%>
@@ -46,7 +37,10 @@
                    <%= f.hidden_field :company_id, class:"form-control" %>
                    <%= f.hidden_field :active, class:"form-control" %>
                     <div class="actions">
-                       <%= f.submit "Speichern",  class:"btn btn-primary btn-lg"%>
+                       <%= f.submit "Speichern",  class:"btn btn-primary btn-lg btn-submit"%>
+                      <%= link_to mobject_path(:id => @mcalendar.mobject_id, :topic => "objekte_kalendervermietungen") do %>
+                        <i class="btn btn-primary btn-lg btn-submit">Abbrechen</i>
+                      <% end %>
                     </div>
                 </div>
                 
