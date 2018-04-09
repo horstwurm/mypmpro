@@ -1874,8 +1874,14 @@ def build_nav2(domain, item, domain2, anz)
         unipath = home_index9_path
     end
     html_string = html_string + '<li class="nav-item">'
-      html_string = html_string + link_to(unipath, :class => "nav-link ") do
-        content_tag(:span, content_tag(:b, " "), class:"fa fa-" + getinfo2(infosymbol)["info"])
+      if @menu =="t"
+        html_string = html_string + link_to(unipath, :class => "nav-link ") do
+          content_tag(:i, "", class:"fa fa-minus-circle")
+        end
+      else
+        html_string = html_string + link_to(unipath, :class => "nav-link ") do
+          content_tag(:i, "", class:"fa fa-plus-circle")
+        end
       end
     html_string = html_string + "</li>"
   end
