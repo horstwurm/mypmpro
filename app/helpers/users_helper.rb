@@ -1886,7 +1886,7 @@ def build_nav2(domain, item, domain2, anz)
     html_string = html_string + "</li>"
   end
   
-  if (!user_signed_in? and $activeapps.include?(domain2)) or (user_signed_in? and getUserCreds.include?(domain2)) or (user_signed_in? and current_user.superuser) and infosymbol != :menu
+  if (!user_signed_in? and $activeapps.include?(domain2)) or (user_signed_in? and getUserCreds.include?(domain2)) or (user_signed_in? and current_user.superuser) and infosymbol != :menu or infosymbol == :info
 
     if anz > 0 and infosymbol != :info
         badge = content_tag(:span, anz.to_s, class:"badge menu-badge")
