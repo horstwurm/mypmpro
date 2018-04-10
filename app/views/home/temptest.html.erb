@@ -1,187 +1,351 @@
-  
-  
-   <div id="chart_div"></div>
-   <div id="curve_chart"></div>
-
-   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-   <script type="text/javascript">
-      google.charts.load('current', {'packages':['gauge']});
-      google.charts.setOnLoadCallback(drawChart);
-
-      function drawChart() {
-
-        var data = google.visualization.arrayToDataTable([
-          ['Label', 'Value'],
-          ['Memory', 80],
-          ['CPU', 55],
-          ['Network', 68]
-        ]);
-
-        var options = {
-          width: 400, height: 120,
-          redFrom: 90, redTo: 100,
-          yellowFrom:75, yellowTo: 90,
-          minorTicks: 5
-        };
-
-        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
-
-        chart.draw(data, options);
-
-        setInterval(function() {
-          data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
-          chart.draw(data, options);
-        }, 13000);
-        setInterval(function() {
-          data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
-          chart.draw(data, options);
-        }, 5000);
-        setInterval(function() {
-          data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
-          chart.draw(data, options);
-        }, 26000);
-      }
+    <div class="container">
     
-      google.charts.load('current', {'packages':['gauge']});
-      google.charts.setOnLoadCallback(drawChart1);
-
-      function drawChart1() {
-
-        var data = google.visualization.arrayToDataTable([
-          ['Label', 'Value'],
-          ['Memory', 80],
-          ['CPU', 55],
-          ['Network', 68]
-        ]);
-
-        var options = {
-          width: 400, height: 120,
-          redFrom: 90, redTo: 100,
-          yellowFrom:75, yellowTo: 90,
-          minorTicks: 5
-        };
-
-        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
-
-        chart.draw(data, options);
-
-        setInterval(function() {
-          data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
-          chart.draw(data, options);
-        }, 13000);
-        setInterval(function() {
-          data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
-          chart.draw(data, options);
-        }, 5000);
-        setInterval(function() {
-          data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
-          chart.draw(data, options);
-        }, 26000);
-      }
-
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart2);
-
-      function drawChart2() {
-        var data = google.visualization.arrayToDataTable([
-          ['Year', 'Sales', 'Expenses'],
-          ['2004',  1000,      400],
-          ['2005',  1170,      460],
-          ['2006',  660,       1120],
-          ['2007',  1030,      540]
-        ]);
-
-        var options = {
-          title: 'Company Performance',
-          curveType: 'function',
-          backgroundColor:'transparent',
-          legend: { position: 'bottom' }
-        };
-
-        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-
-        chart.draw(data, options);
-      }
-     </script>
-     
-     
-<div class="news blue">
-
-  <span>News</span>
-
-  <ul>
     
-    <% User.all.each do |u| %>
-      <li><%= showImage2(:small, u, false) %><%= u.name %></li>
-      <li><%= image_tag(u.avatar_file_name,:size => :small) + u.name %></li>
-      <li><%= u.fullname %></li>
-    <% end %>
+    <center>
+    <strong>ORIGINAL</strong>         
+    <br><br>
+    http://bootsnipp.com/snippets/featured/bootstrap-pricing-slider-donations<br><br>
+    <strong>REVISIONS</strong>
+    <h4>- Added jquery.ui.touch-punch.min.js from http://touchpunch.furf.com <br><br>
+        - Due to glitchy dragging, changed css to have normal sized .label on slider, but large transparent tab hidden.
+    </h4>
+    </center>
+      <br><br>
+      
+      <!-- START -->
+      <div class="price-box">
 
-    <li><a href="#"><%= image_tag('gruppen.png', :size => "20x20") %>Neues Projekt von Thrugaur KB</li>
+        <form class="form-horizontal form-pricing" role="form">
 
-    <li><a href="#">Neuer Artikel von Hans Heini</a></li>
+          <div class="price-slider">
+            <h4 class="great">Rot</h4>
+            <span>Minimum $10 is required</span>
+            <div class="col-sm-12">
+             <div id="slider"></div>
+            </div>
+          </div>
+          <div class="price-slider">
+            <h4 class="great">Grün</h4>
+            <span>Minimum 1 day is required</span>
+            <div class="col-sm-12">
+              <div id="slider2"></div>
+            </div>
+          </div>
+          <div class="price-slider">
+            <h4 class="great">Blau</h4>
+            <span>Minimum 1 day is required</span>
+            <div class="col-sm-12">
+              <div id="slider3"></div>
+            </div>
+          </div>
 
-    <li><a href="#">Text 3</a></li>
+          <div class="price-form">
 
-    <li><a href="#">Text 4</a></li>
+            <div class="form-group">
+              <label for="amount" class="col-sm-6 control-label">Amount ($): </label>
+              <span class="help-text">Please choose your amount</span>
+              <div class="col-sm-6">
+                <input type="hidden" id="amount" class="form-control">
+                <p class="price lead" id="amount-label"></p>
+                <span class="price">.00</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="duration" class="col-sm-6 control-label">Duration: </label>
+              <span class="help-text">Choose your commitment</span>
+              <div class="col-sm-6">
+                <input type="hidden" id="duration" class="form-control">
+                <p class="price lead" id="duration-label"></p>
+                <span class="price">days</span>
+              </div>
+            </div>
+            <hr class="style">
+            <div class="form-group total">
+              <label for="total" class="col-sm-6 control-label"><strong>Total: </strong></label>
+              <span class="help-text">(Amount * Days)</span>
+              <div class="col-sm-6">
+                <input type="hidden" id="total" class="form-control">
+                <p class="price lead" id="total-label"></p>
+                <span class="price">.00</span>
+              </div>
+            </div>
 
-  </ul>
+          </div>
 
-</div>
+          <div class="form-group">
+            <div class="col-sm-12">
+              <button type="submit" class="btn btn-primary btn-lg btn-block">Proceed <span class="glyphicon glyphicon-chevron-right pull-right" style="padding-right: 10px;"></span></button>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-12">
+              <img src="http://amirolahmad.github.io/bootstrap-pricing-slider/images/payment.png" class="img-responsive payment" />
+            </div>
+          </div>
 
-                  <div id="myCarousel" class="carousel slide" data-ride="carousel">
-                    <!-- Indicators -->
-                    <ol class="carousel-indicators">
-                      <% i=0 %>
-                      <% Mobject.order(created_at: :desc).last(5).each do |m| %>
-                        <% if i == 0 %>
-                          <% active = "class='active'" %>
-                        <% else %>
-                          <% active = "" %>
-                        <% end %>
-                        <% line = "<li data-target='#myCarousel' data-slide-to='" + i.to_s + "' " + active + "></li>" %>
-                        <%= line.html_safe %>
-                        <% i = i+ 1 %>
-                      <% end %>
-                    </ol>
-                    
-                    <!-- Wrapper for slides -->
-                    <div class="carousel-inner">
-                      <% i=0 %>
-                      <% Mobject.order(created_at: :asc).last(5).each do |m| %>
-                          <% if i==0 %>
-                            <div class="item active">
-                            <% i = i + 1 %>
-                          <% else %>
-                            <div class="item">
-                          <% end %>
-                          <h1><%= m.name %></h1>
-                          <%= link_to m do %>
-                            <% if m.mdetails == nil or m.mdetails.count == 0  %>
-                              <%= image_tag(m.mtype + ".png", :width => "100%" ) %>
-                            <% else %>
-                              <% pic = m.mdetails.first %>
-                              <% if pic.avatar_file_name %>
-                                <%= image_tag(pic.avatar, :width => "100%") %>
-                              <% else %>
-                                <%= image_tag(m.mtype + ".png", :width => "100%") %>
-                              <% end %>
-                            <% end %>
-                          <% end %>
-                          </div>
-                      <% end %>
-                    </div>
-                    
-                    <!-- Left and right controls -->
-                    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-                      <span class="glyphicon glyphicon-chevron-left"></span>
-                      <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="right carousel-control" href="#myCarousel" data-slide="next">
-                      <span class="glyphicon glyphicon-chevron-right"></span>
-                      <span class="sr-only">Next</span>
-                    </a>
-                    
-                  </div>
+        </form>
 
-                </div>
+        <p class="text-center" style="padding-top:10px;font-size:12px;color:#2c3e50;font-style:italic;">Created by <a href="https://twitter.com/AmirolAhmad" target="_blank">AmirolAhmad</a></p>
+
+      </div>
+
+    </div>
+        <script src="http://code.jquery.com/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
+
+<script>
+$(document).ready(function() {
+          $("#slider").slider({
+              animate: true,
+              value:0,
+              min: 0,
+              max: 255,
+              step: 1,
+              slide: function(event, ui) {
+                  update(1,ui.value); //changed
+              }
+          });
+
+          $("#slider2").slider({
+              animate: true,
+              value:0,
+              min: 0,
+              max: 255,
+              step: 1,
+              slide: function(event, ui) {
+                  update(2,ui.value); //changed
+              }
+          });
+
+          $("#slider3").slider({
+              animate: true,
+              value:0,
+              min: 0,
+              max: 255,
+              step: 1,
+              slide: function(event, ui) {
+                  update(3,ui.value); //changed
+              }
+          });
+
+          //Added, set initial value.
+          $("#rot").val(0);
+          $("#gruen").val(0);
+          $("#blau").val(0);
+          $("#amount-label").text(0);
+          $("#duration-label").text(0);
+          
+          update();
+      });
+
+      //changed. now with parameter
+      function update(slider,val) {
+        //changed. Now, directly take value from ui.value. if not set (initial, will use current value.)
+        /* var $rot = slider == 1?val:$("#rot").val();
+        var $gruen = slider == 2?val:$("#gruen").val();
+        var $blau = slider == 3?val:$("#blau").val(); */
+
+
+        var $rot = $( "#slider" ).slider( "value" );
+        var $gruen = $( "#slider2" ).slider( "value" );
+        var $blau = $( "#slider3" ).slider( "value" );
+
+         /* $total = "$" + ($amount * $duration);
+         $( "#amount" ).val($amount);
+         $( "#amount-label" ).text($amount);
+         $( "#duration" ).val($duration);
+         $( "#duration-label" ).text($duration);
+         $( "#total" ).val($total);
+         $( "#total-label" ).text($total); */
+         
+         $( "#total-label" ).text($rot.toString()+$gruen.toString()+$blau.toString());
+
+         $('#slider a').html('<label><span class="glyphicon glyphicon-chevron-left"></span> '+$rot+' <span class="glyphicon glyphicon-chevron-right"></span></label>');
+         $('#slider2 a').html('<label><span class="glyphicon glyphicon-chevron-left"></span> '+$gruen+' <span class="glyphicon glyphicon-chevron-right"></span></label>');
+         $('#slider3 a').html('<label><span class="glyphicon glyphicon-chevron-left"></span> '+$blau+' <span class="glyphicon glyphicon-chevron-right"></span></label>');
+      }
+</script>
+
+    <script>
+        /*!
+ * jQuery UI Touch Punch 0.2.3
+ *
+ * Copyright 2011–2014, Dave Furfero
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ *
+ * Depends:
+ *  jquery.ui.widget.js
+ *  jquery.ui.mouse.js
+ */
+(function ($) {
+
+  // Detect touch support
+  $.support.touch = 'ontouchend' in document;
+
+  // Ignore browsers without touch support
+  if (!$.support.touch) {
+    return;
+  }
+
+  var mouseProto = $.ui.mouse.prototype,
+      _mouseInit = mouseProto._mouseInit,
+      _mouseDestroy = mouseProto._mouseDestroy,
+      touchHandled;
+
+  /**
+   * Simulate a mouse event based on a corresponding touch event
+   * @param {Object} event A touch event
+   * @param {String} simulatedType The corresponding mouse event
+   */
+  function simulateMouseEvent (event, simulatedType) {
+
+    // Ignore multi-touch events
+    if (event.originalEvent.touches.length > 1) {
+      return;
+    }
+
+    event.preventDefault();
+
+    var touch = event.originalEvent.changedTouches[0],
+        simulatedEvent = document.createEvent('MouseEvents');
+    
+    // Initialize the simulated mouse event using the touch event's coordinates
+    simulatedEvent.initMouseEvent(
+      simulatedType,    // type
+      true,             // bubbles                    
+      true,             // cancelable                 
+      window,           // view                       
+      1,                // detail                     
+      touch.screenX,    // screenX                    
+      touch.screenY,    // screenY                    
+      touch.clientX,    // clientX                    
+      touch.clientY,    // clientY                    
+      false,            // ctrlKey                    
+      false,            // altKey                     
+      false,            // shiftKey                   
+      false,            // metaKey                    
+      0,                // button                     
+      null              // relatedTarget              
+    );
+
+    // Dispatch the simulated event to the target element
+    event.target.dispatchEvent(simulatedEvent);
+  }
+
+  /**
+   * Handle the jQuery UI widget's touchstart events
+   * @param {Object} event The widget element's touchstart event
+   */
+  mouseProto._touchStart = function (event) {
+
+    var self = this;
+
+    // Ignore the event if another widget is already being handled
+    if (touchHandled || !self._mouseCapture(event.originalEvent.changedTouches[0])) {
+      return;
+    }
+
+    // Set the flag to prevent other widgets from inheriting the touch event
+    touchHandled = true;
+
+    // Track movement to determine if interaction was a click
+    self._touchMoved = false;
+
+    // Simulate the mouseover event
+    simulateMouseEvent(event, 'mouseover');
+
+    // Simulate the mousemove event
+    simulateMouseEvent(event, 'mousemove');
+
+    // Simulate the mousedown event
+    simulateMouseEvent(event, 'mousedown');
+  };
+
+  /**
+   * Handle the jQuery UI widget's touchmove events
+   * @param {Object} event The document's touchmove event
+   */
+  mouseProto._touchMove = function (event) {
+
+    // Ignore event if not handled
+    if (!touchHandled) {
+      return;
+    }
+
+    // Interaction was not a click
+    this._touchMoved = true;
+
+    // Simulate the mousemove event
+    simulateMouseEvent(event, 'mousemove');
+  };
+
+  /**
+   * Handle the jQuery UI widget's touchend events
+   * @param {Object} event The document's touchend event
+   */
+  mouseProto._touchEnd = function (event) {
+
+    // Ignore event if not handled
+    if (!touchHandled) {
+      return;
+    }
+
+    // Simulate the mouseup event
+    simulateMouseEvent(event, 'mouseup');
+
+    // Simulate the mouseout event
+    simulateMouseEvent(event, 'mouseout');
+
+    // If the touch interaction did not move, it should trigger a click
+    if (!this._touchMoved) {
+
+      // Simulate the click event
+      simulateMouseEvent(event, 'click');
+    }
+
+    // Unset the flag to allow other widgets to inherit the touch event
+    touchHandled = false;
+  };
+
+  /**
+   * A duck punch of the $.ui.mouse _mouseInit method to support touch events.
+   * This method extends the widget with bound touch event handlers that
+   * translate touch events to mouse events and pass them to the widget's
+   * original mouse event handling methods.
+   */
+  mouseProto._mouseInit = function () {
+    
+    var self = this;
+
+    // Delegate the touch handlers to the widget's element
+    self.element.bind({
+      touchstart: $.proxy(self, '_touchStart'),
+      touchmove: $.proxy(self, '_touchMove'),
+      touchend: $.proxy(self, '_touchEnd')
+    });
+
+    // Call the original $.ui.mouse init method
+    _mouseInit.call(self);
+  };
+
+  /**
+   * Remove the touch event handlers
+   */
+  mouseProto._mouseDestroy = function () {
+    
+    var self = this;
+
+    // Delegate the touch handlers to the widget's element
+    self.element.unbind({
+      touchstart: $.proxy(self, '_touchStart'),
+      touchmove: $.proxy(self, '_touchMove'),
+      touchend: $.proxy(self, '_touchEnd')
+    });
+
+    // Call the original $.ui.mouse destroy method
+    _mouseDestroy.call(self);
+  };
+
+})(jQuery);
+        
+    </script>
