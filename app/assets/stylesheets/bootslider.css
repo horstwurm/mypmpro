@@ -1,9 +1,16 @@
+.color-box {
+    margin: 0 auto;
+    background: red;
+	border-radius: 10px;
+	padding: 40px 15px;
+}
+
 .price-box {
     margin: 0 auto;
     background: #E9E9E9;
 	border-radius: 10px;
 	padding: 40px 15px;
-	width: 500px;
+	width: 400px;
 }
 
 .ui-widget-content {
@@ -80,7 +87,7 @@ border:none !important;
 }
 
 h4.great {
-	background: #00ac98;
+	//background: blue;
 	margin: 0 0 25px -60px;
 	padding: 7px 15px;
 	color: #ffffff;
@@ -91,6 +98,16 @@ h4.great {
 	-moz-box-shadow:    2px 4px 5px 0 #ccc;
   	-webkit-box-shadow: 2px 4px 5px 0 #ccc;
   	box-shadow:         2px 4px 5px 0 #ccc;
+}
+
+.rot {
+	background:red;
+}
+.gruen {
+	background:green;
+}
+.blau {
+	background:blue;
 }
 
 .total {
