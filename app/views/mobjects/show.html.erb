@@ -1499,9 +1499,11 @@
               <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 col-xl-9">
                 <% if @mobject.mcategory.name == "Farbe" %>
                   <% @cols = Sensor.select("svalue").distinct.last(10) %>
-                  <% @cols.each do |s| %>
-                    <%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_sensordaten", :sensor_color => s.svalue) do %>
-                      <div class="circle-min" style="background-color:<%= s.svalue %>"></div>
+                  <% if @cols %>
+                    <% @cols.each do |s| %>
+                      <%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_sensordaten", :sensor_color => s.svalue) do %>
+                        <div class="circle-min" style="background-color:<%= s.svalue %>"></div>
+                      <% end %>
                     <% end %>
                   <% end %>
                 <% end %>
