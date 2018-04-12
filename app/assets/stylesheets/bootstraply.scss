@@ -631,3 +631,19 @@ zitat {
 .green span { background: #547d52 }
 .magenta { background: #b63ace }
 .magenta span { background: #842696 }
+
+.circle {
+    display:inline-block;
+	border-radius: 50%;
+	width: 200px;
+	height: 200px; 
+	/* width and height can be anything, as long as they're equal */
+}
+
+.circle-min {
+	border-radius: 50%;
+	display: inline-block;
+	width: 50px;
+	height: 50px; 
+	/* width and height can be anything, as long as they're equal */
+}

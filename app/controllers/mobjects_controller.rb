@@ -99,6 +99,13 @@ class MobjectsController < ApplicationController
     if params[:delsensordata]
       @mobject.sensors.destroy_all
     end
+    if params[:sensor_color]
+      @sensor = Sensor.new
+      @sensor.mobject_id = @mobject.id
+      @sensor.svalue = params[:sensor_color]
+      @sensor.save
+      params[:sensor_color] = nil
+    end
     
     if !params[:topic]
       @topic = "objekte_info"

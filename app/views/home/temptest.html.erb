@@ -1,5 +1,6 @@
+
     <div class="container">
-    
+      
           <div class="price-box">
 
         <form class="form-horizontal form-pricing" role="form">
@@ -27,7 +28,7 @@
 
           <div class="form-group">
             <div class="col-sm-12">
-              <button type="submit" class="btn btn-primary btn-lg btn-block">Proceed <span class="glyphicon glyphicon-chevron-right pull-right" style="padding-right: 10px;"></span></button>
+              <button type="submit" class="btn btn-primary btn-lg" id="but">Speichern<span class="glyphicon glyphicon-chevron-right pull-right" style="padding-right: 10px;"></span></button>
             </div>
           </div>
 
@@ -98,6 +99,7 @@ $(document).ready(function() {
         var c = rgb($rot,$gruen,$blau)
         $("#cbox").text(c);
         $("#cbox").css("background-color",c);
+        //$("#but").css("background-color",c);
 
          $('#slider a').html('<label><span class="glyphicon glyphicon-chevron-left"></span> '+$rot+' <span class="glyphicon glyphicon-chevron-right"></span></label>');
          $('#slider2 a').html('<label><span class="glyphicon glyphicon-chevron-left"></span> '+$gruen+' <span class="glyphicon glyphicon-chevron-right"></span></label>');

@@ -16,9 +16,11 @@ class SensorsController < ApplicationController
   def new
     @sensor = Sensor.new
     @sensor.mobject_id = params[:mobject_id]
-    @sensor.value = 1
-    @sensor.save
-    redirect_to mobject_path(:id => @sensor.mobject_id, :topic => "objekte_sensordaten"), notice: 'Sensor was successfully created.'
+    if @sensor.mobject.mcategory.name != "Farbe"
+      @sensor.value = 1
+      @sensor.save
+      redirect_to mobject_path(:id => @sensor.mobject_id, :topic => "objekte_sensordaten"), notice: 'Sensor was successfully created.'
+    end
 end
 
   # GET /sensors/1/edit
@@ -74,6 +76,6 @@ end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def sensor_params
-      params.require(:sensor).permit(:mobject_id, :value)
+      params.require(:sensor).permit(:mobject_id, :svalue, :bvalue, :value)
     end
 end

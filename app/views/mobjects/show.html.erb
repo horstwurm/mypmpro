@@ -1473,8 +1473,9 @@
                   <div id="sensorgauge"></div>
                 </div>
 
-              <% else %>
+              <% end %>
 
+              <% if @mobject.mcategory.name == "Schalter" %>
                 <% if @mobject.sensors.last %>
                 <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
                   <% if @mobject.sensors.last.value > 0 %>
@@ -1487,8 +1488,26 @@
                 <% end %>
               <% end %>
 
+              <% if @mobject.mcategory.name == "Farbe" %>
+                <% if @mobject.sensors.last %>
+                  <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                    <div class="circle" style="background-color:<%= @mobject.sensors.last.svalue %>">Test</div>
+                  </div>
+                <% end %>
+              <% end %>
+
               <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 col-xl-9">
+                <% if @mobject.mcategory.name == "Farbe" %>
+                  <% @cols = Sensor.select("svalue").distinct.last(10) %>
+                  <% @cols.each do |s| %>
+                    <%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_sensordaten", :sensor_color => s.svalue) do %>
+                      <div class="circle-min" style="background-color:<%= s.svalue %>"></div>
+                    <% end %>
+                  <% end %>
+                <% end %>
+
                 <div id="sensorchart"></div>
+
               </div>
             </div>
           </div>
@@ -1814,13 +1833,28 @@ $(document).ready(function(){
 
     <% if @topic == "objekte_sensordaten" %>
 
-      <% dataset = [["Datum", "Alarm", "Wert"]] %>
-      <% @iots = @mobject.sensors %>
-      <% @iots.each do |i| %>
-        <% if @mobject.mcategory.name == "Wert" %>
-          <% dataset << [i.created_at.to_s, @mobject.alert, i.value] %>
-        <% else %>
-          <% dataset << [i.created_at.to_s, 0, i.value] %>
+      <% if @mobject.mcategory.name == "Farbe" %>
+        <% dataset = [["Farbe","Anzahl"]] %>
+        <% colorset = [] %>
+        <% @cols.each do |t| %>
+          <% @text = t.svalue %>
+          <% @anz = @mobject.sensors.where('svalue=?',t.svalue).count %>
+          <% if @anz and @anz > 0 %>
+            <% dataset << [@text, @anz] %>
+            <% colorset << @text %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <% if @mobject.mcategory.name == "Schalter" or @mobject.mcategory.name == "Wert" %>
+        <% dataset = [["Datum", "Alarm", "Wert"]] %>
+        <% @iots = @mobject.sensors %>
+        <% @iots.each do |i| %>
+          <% if @mobject.mcategory.name == "Wert" %>
+            <% dataset << [i.created_at.to_s, @mobject.alert, i.value] %>
+          <% else %>
+            <% dataset << [i.created_at.to_s, 0, i.value] %>
+          <% end %>
         <% end %>
       <% end %>
   
@@ -1830,14 +1864,18 @@ $(document).ready(function(){
         var data = google.visualization.arrayToDataTable(sensordataset);
         var options = {
           title: "Sensordaten <%= @mobject.name + " (ID:" + @mobject.id.to_s + ")" %>",
-          colors: ['#ff0000','<%= $graph_color1 %>','#ff0000'],
+          <% if @mobject.mcategory.name == "Farbe" %>
+            colors: <%= raw colorset %>,
+          <% else %>
+            colors: ['#ff0000','<%= $graph_color1 %>','#ff0000'],
+          <% end %>
           curveType: 'function',
           legend: { position: 'bottom' }
         };
-        <% if @mobject.mcategory.name == "Wert" or 1 < 2 %>
-          var chart = new google.visualization.LineChart(document.getElementById('sensorchart'));
+        <% if @mobject.mcategory.name == "Farbe" %>
+          var chart = new google.visualization.PieChart(document.getElementById('sensorchart'));
         <% else %>
-          var chart = new google.visualization.ColumnChart(document.getElementById('sensorchart'));
+          var chart = new google.visualization.LineChart(document.getElementById('sensorchart'));
         <% end %>
         chart.draw(data, options);
       }
@@ -1906,7 +1944,9 @@ $(document).ready(function(){
       };
       <% end %>
 
+      <% if @mobject.mcategory.name != "Farbe" %>
       window.setInterval(callme, 5000);
+      <% end %>
 
       function callme() {
         

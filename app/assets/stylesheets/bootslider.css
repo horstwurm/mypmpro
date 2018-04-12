@@ -2,7 +2,7 @@
     margin: 0 auto;
     background: red;
 	border-radius: 10px;
-	padding: 40px 15px;
+	padding: 20px 15px;
 }
 
 .price-box {
@@ -87,9 +87,8 @@ border:none !important;
 }
 
 h4.great {
-	//background: blue;
-	margin: 0 0 25px -60px;
-	padding: 7px 15px;
+	margin: 0 0 -100px 300px;
+	//padding: 7px 15px;
 	color: #ffffff;
 	font-size: 18px;
 	font-weight: 600;
@@ -204,3 +203,31 @@ hr.style {
     border-bottom: 1px dashed #ccc;
     background: #999;
 }
+
+#RGB {
+	height: 20px;
+	background: rgb(128, 128, 128);
+}
+
+#RC .slider-selection {
+	background: #FF8282;
+}
+#RC .slider-handle {
+	background: red;
+}
+#GC .slider-selection {
+	background: #428041;
+}
+#GC .slider-handle {
+	background: green;
+}
+#BC .slider-selection {
+	background: #8283FF;
+}
+#BC .slider-handle {
+	border-bottom-color: blue;
+}
+#R, #G, #B {
+	width: 300px;
+}
+
