@@ -16,10 +16,10 @@
 //= require jquery_ujs
 //= require popper
 //= require bootstrap.min
-//= require jquery.turbolinks
 //= require bootstrap-sprockets
 //= require bootstrap-datepicker
 //= require bootstrap-switch
 //= require bootstrap-slider
 //= require owl.carousel
 //= require bxslider
+//= require turbolinks

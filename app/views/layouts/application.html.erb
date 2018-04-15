@@ -44,7 +44,13 @@
     <script src="../assets/jquery.bxslider.min.js"></script>
     <script src="../assets/custom.js"></script>
    <% end %>
-    
+
+<script>
+  function scrollTo(hash) {
+      location.hash = "#yield";
+    }
+</script>
+
   <body>
   
   <!--ganzer Bildschirm für digital signage-->
@@ -56,11 +62,21 @@
     <div id="myDiv">
 
       <%= render 'layouts/header' %>
-  
+
+    <section id="yield" class="section-padding wow fadeIn delay-05s">
+      <div class="container">
+        <div class="row">
+          <%= yield %>
+        </div>
+      </div>
+    </section>
+
+    <% if false %>
       <section id="yield">
         <br><br><br><br>
         <%= yield %>
       </section>
+    <% end %>
 
       <%= render 'layouts/news' %>
 
@@ -91,7 +107,6 @@
 
       <%= render 'layouts/partner' %>
 
-  
       <% flash.each do |name, msg| %>
         <% content_tag(:div, msg, class:"alert alert-warning") %>
         <div id="snackbar"><%= msg %></div>
@@ -101,28 +116,9 @@
     </div>
   <% end %>
 
-  <% if false %>
-    <%= render 'layouts/header' %>
-    
-    <div class='container-fluid testcontainer'>
-        <% flash.each do |name, msg| %>
-          <% content_tag(:div, msg, class:"alert alert-warning") %>
-          <div id="snackbar"><%= msg %></div>
-        <% end %>
-
-        <!--<% render 'layouts/advertise' %>-->
-
-        <%= yield %>
-
-    </div>
-    <%= render 'layouts/footer' %>
-    
-  <% end %>
-
   </body>
   
 </html>
-
 
 <% if flash and flash.count>0 %>
   <script>
@@ -134,9 +130,3 @@
   myFunction();
   </script>
 <% end %>
-
-<script>
-function scrollTo(hash) {
-    location.hash = "#yield";
-}
-</script>
