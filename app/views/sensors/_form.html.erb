@@ -62,12 +62,15 @@
        <%= f.hidden_field :bvalue, class:"form-control" %>
        <%= f.hidden_field :value, class:"form-control" %>
   <% end %>
+  
+<% if true %>
 <script src="http://code.jquery.com/jquery.min.js"></script>
 <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
-<% if false %>
 <% end %>
+
 <script>
 $(document).ready(function() {
+  
           $("#slider").slider({
               animate: true,
               value:0,
@@ -128,9 +131,6 @@ $(document).ready(function() {
         var $hgruen = $gruen.toString(16);
         var $hblau = $blau.toString(16);
         
-        //alert($hrot.length);
-        if (true) {
-        
         if ($hrot.length == 1) {
           $hrot = "0"+$hrot;
         }
@@ -143,55 +143,20 @@ $(document).ready(function() {
       	$("#svalue").val("#"+$hrot+$hgruen+$hblau);
       	$("#sensor_svalue").val("#"+$hrot+$hgruen+$hblau);
         }
-
-
         $("#cbox").text(c);
         $("#cbox").css("background-color",c);
-        //$("#but").css("background-color",c);
 
-         $('#slider a').html('<label><span class="glyphicon glyphicon-chevron-left"></span> '+$rot+' <span class="glyphicon glyphicon-chevron-right"></span></label>');
-         $('#slider2 a').html('<label><span class="glyphicon glyphicon-chevron-left"></span> '+$gruen+' <span class="glyphicon glyphicon-chevron-right"></span></label>');
-         $('#slider3 a').html('<label><span class="glyphicon glyphicon-chevron-left"></span> '+$blau+' <span class="glyphicon glyphicon-chevron-right"></span></label>');
-      }
+        $('#slider a').html('<label><span class="glyphicon glyphicon-chevron-left"></span> '+$rot+' <span class="glyphicon glyphicon-chevron-right"></span></label>');
+        $('#slider2 a').html('<label><span class="glyphicon glyphicon-chevron-left"></span> '+$gruen+' <span class="glyphicon glyphicon-chevron-right"></span></label>');
+        $('#slider3 a').html('<label><span class="glyphicon glyphicon-chevron-left"></span> '+$blau+' <span class="glyphicon glyphicon-chevron-right"></span></label>');
+
+        }
+
       function rgb(r, g, b){
         return "rgb("+r+","+g+","+b+")";
       }
       
-      function init(){
-          $("#slider").slider({
-              animate: true,
-              value:0,
-              min: 0,
-              max: 255,
-              step: 1,
-              slide: function(event, ui) {
-                  update(1,ui.value); //changed
-              }
-          });
-
-          $("#slider2").slider({
-              animate: true,
-              value:0,
-              min: 0,
-              max: 255,
-              step: 1,
-              slide: function(event, ui) {
-                  update(2,ui.value); //changed
-              }
-          });
-
-          $("#slider3").slider({
-              animate: true,
-              value:0,
-              min: 0,
-              max: 255,
-              step: 1,
-              slide: function(event, ui) {
-                  update(3,ui.value); //changed
-              }
-          });
-        
-      }
+  }
 </script>
 
     <script>
@@ -379,5 +344,5 @@ $(document).ready(function() {
     </script>
     
 <script>
-  document.addEventListener("turbolinks:load", function() {init()})
+  document.addEventListener("turbolinks:load", function() {alert('hi')})
 </script>
