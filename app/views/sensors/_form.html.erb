@@ -156,6 +156,42 @@ $(document).ready(function() {
       function rgb(r, g, b){
         return "rgb("+r+","+g+","+b+")";
       }
+      
+      function init(){
+          $("#slider").slider({
+              animate: true,
+              value:0,
+              min: 0,
+              max: 255,
+              step: 1,
+              slide: function(event, ui) {
+                  update(1,ui.value); //changed
+              }
+          });
+
+          $("#slider2").slider({
+              animate: true,
+              value:0,
+              min: 0,
+              max: 255,
+              step: 1,
+              slide: function(event, ui) {
+                  update(2,ui.value); //changed
+              }
+          });
+
+          $("#slider3").slider({
+              animate: true,
+              value:0,
+              min: 0,
+              max: 255,
+              step: 1,
+              slide: function(event, ui) {
+                  update(3,ui.value); //changed
+              }
+          });
+        
+      }
 </script>
 
     <script>
@@ -343,5 +379,5 @@ $(document).ready(function() {
     </script>
     
 <script>
-  document.addEventListener("turbolinks:load", function() {ready()})
+  document.addEventListener("turbolinks:load", function() {init()})
 </script>
