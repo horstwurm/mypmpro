@@ -14,8 +14,8 @@
 //= require jquery.min
 //= require jquery_ujs
 //= require jquery.turbolinks
-//= require turbolink-compatibility
 //= require turbolinks
+//= require turbolink-compatibility
 //= require popper
 //= require bootstrap.min
 //= require bootstrap-sprockets
