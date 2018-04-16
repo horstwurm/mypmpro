@@ -33,7 +33,7 @@ gem 'owlcarousel-rails'
 #gem 'fullcalendar-rails'
 #gem 'momentjs-rails'
 
-#gem 'jquery-turbolinks'
+gem 'jquery-turbolinks', '~> 2.1'
 gem "font-awesome-rails"
 
 gem 'paperclip'

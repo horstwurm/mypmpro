@@ -162,8 +162,11 @@ $(document).ready(function() {
 <% end %>
 
 <script>
-  function init() {
+$(document).ready(function(){
+      init();
+    });
   
+      function init() {
           $("#slider").slider({
               animate: true,
               value:0,
