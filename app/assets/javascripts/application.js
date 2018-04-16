@@ -11,15 +11,14 @@
 // about supported directives.
 //
 //= require jquery3
-//= require jquery.turbolinks
 //= require jquery.min
 //= require jquery_ujs
 //= require popper
 //= require bootstrap.min
-//= require turbolinks
 //= require bootstrap-sprockets
 //= require bootstrap-datepicker
 //= require bootstrap-switch
 //= require bootstrap-slider
 //= require owl.carousel
 //= require bxslider
+//= require turbolinks
