@@ -71,6 +71,7 @@
   <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script><
 <% end %>
 
+<% if false %>
 <script>
 $(document).ready(function() {
   
@@ -155,5 +156,94 @@ $(document).ready(function() {
 </script>
 
 <script>
-  document.addEventListener("turbolinks:load", function() {helpme()})
+  document.addEventListener("turbolinks:load", function() {update()})
+</script>
+
+<% end %>
+
+<script>
+  function init() {
+  
+          $("#slider").slider({
+              animate: true,
+              value:0,
+              min: 0,
+              max: 255,
+              step: 1,
+              slide: function(event, ui) {
+                  update(1,ui.value); //changed
+              }
+          });
+
+          $("#slider2").slider({
+              animate: true,
+              value:0,
+              min: 0,
+              max: 255,
+              step: 1,
+              slide: function(event, ui) {
+                  update(2,ui.value); //changed
+              }
+          });
+
+          $("#slider3").slider({
+              animate: true,
+              value:0,
+              min: 0,
+              max: 255,
+              step: 1,
+              slide: function(event, ui) {
+                  update(3,ui.value); //changed
+              }
+          });
+
+          //Added, set initial value.
+          $("#rot").val(0);
+          $("#gruen").val(0);
+          $("#blau").val(0);
+          
+          update();
+          
+      };
+
+      //changed. now with parameter
+      function update(slider,val) {
+        var $rot = $( "#slider" ).slider( "value" );
+        var $gruen = $( "#slider2" ).slider( "value" );
+        var $blau = $( "#slider3" ).slider( "value" );
+        var c = rgb($rot,$gruen,$blau);
+        
+        var $hrot = $rot.toString(16);
+        var $hgruen = $gruen.toString(16);
+        var $hblau = $blau.toString(16);
+        
+        if ($hrot.length == 1) {
+          $hrot = "0"+$hrot;
+        }
+        if ($hgruen.length == 1) {
+          $hgruen = "0"+$hgruen;
+        }
+        if ($hblau.length == 1) {
+          $hblau = "0"+$hblau;
+        }
+      	$("#svalue").val("#"+$hrot+$hgruen+$hblau);
+      	$("#sensor_svalue").val("#"+$hrot+$hgruen+$hblau);
+        $("#cbox").text(c);
+        $("#cbox").css("background-color",c);
+
+        $('#slider a').html('<label><span class="glyphicon glyphicon-chevron-left"></span> '+$rot+' <span class="glyphicon glyphicon-chevron-right"></span></label>');
+        $('#slider2 a').html('<label><span class="glyphicon glyphicon-chevron-left"></span> '+$gruen+' <span class="glyphicon glyphicon-chevron-right"></span></label>');
+        $('#slider3 a').html('<label><span class="glyphicon glyphicon-chevron-left"></span> '+$blau+' <span class="glyphicon glyphicon-chevron-right"></span></label>');
+    }
+
+    function rgb(r, g, b){
+      return "rgb("+r+","+g+","+b+")";
+    }
+    
+    function helpme() {
+    }
+</script>
+
+<script>
+  document.addEventListener("turbolinks:load", function() {init();update()})
 </script>
