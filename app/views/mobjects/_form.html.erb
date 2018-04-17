@@ -1,3 +1,10 @@
+    <% if @mobject.allow == nil %>
+      <% @mobject.allow = true %>
+    <% end %>
+    <%= f.label("Buchungskontrolle") %>
+    <% if !@mobject.allowdays %>
+      <% @mobject.allowdays = 5 %>
+    <% end %>
 
     <%= form_for @mobject, html: {multipart: true}  do |f| %>
 
