@@ -162,10 +162,6 @@ $(document).ready(function() {
 <% end %>
 
 <script>
-$(document).ready(function(){
-      init();
-    });
-  
       function init() {
           $("#slider").slider({
               animate: true,
@@ -248,5 +244,5 @@ $(document).ready(function(){
 </script>
 
 <script>
-  document.addEventListener("page:update", function() {init()})
+  document.addEventListener("turbolinks:load", function() {init()})
 </script>
