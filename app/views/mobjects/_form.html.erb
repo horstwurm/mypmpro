@@ -1,7 +1,6 @@
     <% if @mobject.allow == nil %>
       <% @mobject.allow = true %>
     <% end %>
-    <%= f.label("Buchungskontrolle") %>
     <% if !@mobject.allowdays %>
       <% @mobject.allowdays = 5 %>
     <% end %>
@@ -180,7 +179,7 @@
                           <% if @mobject.allow == nil %>
                             <% @mobject.allow = true %>
                           <% end %>
-                          <%= f.label("Buchungskontrolle") %>
+                          <%= f.label "Buchungskontrolle" %>
                           <% if !@mobject.allowdays %>
                             <% @mobject.allowdays = 5 %>
                           <% end %>
