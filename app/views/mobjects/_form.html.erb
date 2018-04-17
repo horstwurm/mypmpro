@@ -168,6 +168,20 @@
                           <%= f.label I18n.t :auftragsnummer %>
                           <%= f.text_field :reward, class:"form-control"%>
                         </div>
+                        <div class="form-group">
+                          <input type="checkbox" name="my-checkbox7" checked>
+                          <% if @mobject.allow == nil %>
+                            <% @mobject.allow = true %>
+                          <% end %>
+                          <%= f.label("Buchungskontrolle") %>
+                          <% if !@mobject.allowdays %>
+                            <% @mobject.allowdays = 5 %>
+                          <% end %>
+                          <div class="input-group">                          
+                            <%= f.number_field :allowdays, :style => "text-align: Right", class:"form-control" %>
+                            <div class="input-group-addon"><%= ("erlaubt bis zum n.Tag im Folgemonat") %></div>
+                          </div>
+                        </div>
                     <% end %>
 
                     <% if @mobject.mtype == "kleinanzeigen" and @mobject.msubtype == "anbieten" %>
@@ -294,6 +308,7 @@
                     <% end %>
                   <% end %>
                 </div>
+                <%= f.check_box :allow, :id => "allow", class:"form-control hidden" %>
                 <%= f.check_box :alertlow, :id => "alertlow", class:"form-control hidden" %>
                 <%= f.check_box :active, :id => "active", class:"form-control hidden" %>
                 <%= f.check_box :social, :id => "social", class:"form-control hidden" %>
@@ -371,6 +386,10 @@
      $("[name='my-checkbox6']").bootstrapSwitch('state',<%= @mobject.signage %>);
      $("[name='my-checkbox6']").on('switchChange.bootstrapSwitch', function () {
      $("#signage").prop('checked',$("[name='my-checkbox6']").bootstrapSwitch('state'));
+     });
+     $("[name='my-checkbox7']").bootstrapSwitch('state',<%= @mobject.allow %>);
+     $("[name='my-checkbox7']").on('switchChange.bootstrapSwitch', function () {
+     $("#allow").prop('checked',$("[name='my-checkbox7']").bootstrapSwitch('state'));
      });
 </script>
 

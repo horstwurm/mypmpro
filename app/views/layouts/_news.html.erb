@@ -114,6 +114,54 @@
 
                   </div>
                 </div>
+                
+              <% if false %>
+              <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+              <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+              <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+              <!------ Include the above in your HEAD tag ---------->
+              <% end %>
+              
+              <div class="container">
+                  		<div class="row">
+              				<div class="col-md-12">
+              					<div class="page-header">
+              					  <h2>Event Kalender</h2>
+              					</div>
+              					<div style="display:inline-block;width:100%;overflow-y:auto;">
+              					<ul class="timeline timeline-horizontal">
+              
+                          <% @m = Mobject.where('mtype=? or (mtype=? and msubtype=?) and date_from<=? and date_to>=?',"veranstaltungen", "angebote", "aktion", Date.today, Date.today) %>
+                          <% @m.each do |m| %>
+                          
+                						<li class="timeline-item">
+                						  <% if false %>
+                							<div class="timeline-badge primary"><i class="glyphicon glyphicon-check"></i>tatatata</div>
+                						  <% end %>
+                							<div class="timeline-badge primary"><i class="fa fa-<%= getinfo2(m.mtype.to_sym)["info"] %>"></i></div>
+                							<div class="timeline-panel" style="background-color:transparent">
+                								<div class="timeline-heading" style="text-align:left">
+                									<h4 class="timeline-title"><%= m.name %></h4>
+                									<%= showFirstImage2(:small, m, m.mdetails) %>
+                									<p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> <%= m.created_at %></small></p>
+                								</div>
+                								<div class="timeline-body">
+                								  <% if m.description.length > 100 %>
+                  									<p><%= m.description[0..100] %></p>
+                								  <% else %>
+                  									<p><%= m.description %></p>
+                									<% end %>
+                								</div>
+                							</div>
+                						</li>
+                					
+                					<% end %>
+              
+              					</ul>
+              				</div>
+              				</div>
+              			</div>
+                
               </div>
                 
               </div>
@@ -123,107 +171,3 @@
       </div>
     </div>
 </section>
-
-                   <div id="chart_div"></div>
-
-
-   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-   <script type="text/javascript">
-      google.charts.load('current', {'packages':['gauge']});
-      google.charts.setOnLoadCallback(drawChart);
-
-      function drawChart() {
-
-        var data = google.visualization.arrayToDataTable([
-          ['Label', 'Value'],
-          ['Memory', 80],
-          ['CPU', 55],
-          ['Network', 68]
-        ]);
-
-        var options = {
-          width: 400, height: 120,
-          redFrom: 90, redTo: 100,
-          yellowFrom:75, yellowTo: 90,
-          minorTicks: 5
-        };
-
-        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
-
-        chart.draw(data, options);
-
-        setInterval(function() {
-          data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
-          chart.draw(data, options);
-        }, 13000);
-        setInterval(function() {
-          data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
-          chart.draw(data, options);
-        }, 5000);
-        setInterval(function() {
-          data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
-          chart.draw(data, options);
-        }, 26000);
-      }
-    
-      google.charts.load('current', {'packages':['gauge']});
-      google.charts.setOnLoadCallback(drawChart1);
-
-      function drawChart1() {
-
-        var data = google.visualization.arrayToDataTable([
-          ['Label', 'Value'],
-          ['Memory', 80],
-          ['CPU', 55],
-          ['Network', 68]
-        ]);
-
-        var options = {
-          width: 400, height: 120,
-          redFrom: 90, redTo: 100,
-          yellowFrom:75, yellowTo: 90,
-          minorTicks: 5
-        };
-
-        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
-
-        chart.draw(data, options);
-
-        setInterval(function() {
-          data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
-          chart.draw(data, options);
-        }, 13000);
-        setInterval(function() {
-          data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
-          chart.draw(data, options);
-        }, 5000);
-        setInterval(function() {
-          data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
-          chart.draw(data, options);
-        }, 26000);
-      }
-
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart2);
-
-      function drawChart2() {
-        var data = google.visualization.arrayToDataTable([
-          ['Year', 'Sales', 'Expenses'],
-          ['2004',  1000,      400],
-          ['2005',  1170,      460],
-          ['2006',  660,       1120],
-          ['2007',  1030,      540]
-        ]);
-
-        var options = {
-          title: 'Company Performance',
-          curveType: 'function',
-          backgroundColor:'transparent',
-          legend: { position: 'bottom' }
-        };
-
-        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-
-        chart.draw(data, options);
-      }
-     </script>

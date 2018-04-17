@@ -13348,15 +13348,23 @@ Responsive media queries
   }
 }
 /* line 1, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+.color-box {
+  margin: 0 auto;
+  background: red;
+  border-radius: 10px;
+  padding: 20px 15px;
+}
+
+/* line 8, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
 .price-box {
   margin: 0 auto;
   background: #E9E9E9;
   border-radius: 10px;
   padding: 40px 15px;
-  width: 500px;
+  width: 400px;
 }
 
-/* line 9, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+/* line 16, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
 .ui-widget-content {
   border: 1px solid #bdc3c7;
   background: #e1e1e1;
@@ -13364,20 +13372,20 @@ Responsive media queries
   margin-top: 4px;
 }
 
-/* line 16, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+/* line 23, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
 .ui-state-default, .ui-widget-content .ui-state-default {
   background: transparent !important;
   border: none !important;
 }
 
-/* line 20, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+/* line 27, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
 .ui-slider .ui-slider-handle label {
   background: #428bca;
   border-radius: 20px;
   width: 5.2em;
 }
 
-/* line 26, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+/* line 33, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
 .ui-slider .ui-slider-handle {
   position: absolute;
   z-index: 2;
@@ -13391,7 +13399,7 @@ Responsive media queries
   font-size: 15px;
 }
 
-/* line 40, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+/* line 47, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
 .ui-slider .ui-slider-handle .glyphicon {
   color: #FFFFFF;
   margin: 0 3px;
@@ -13399,41 +13407,41 @@ Responsive media queries
   opacity: 0.5;
 }
 
-/* line 47, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+/* line 54, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
 .ui-corner-all {
   border-radius: 20px;
 }
 
-/* line 51, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+/* line 58, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
 .ui-slider-horizontal .ui-slider-handle {
   top: -.9em;
 }
 
-/* line 55, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+/* line 62, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
 .ui-state-default,
 .ui-widget-content .ui-state-default {
   border: 1px solid #f9f9f9;
   background: #3498db;
 }
 
-/* line 61, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+/* line 68, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
 .ui-slider-horizontal .ui-slider-handle {
   margin-left: -0.5em;
 }
 
-/* line 65, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+/* line 72, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
 .ui-slider .ui-slider-handle {
   cursor: pointer;
 }
 
-/* line 69, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+/* line 76, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
 .ui-slider a,
 .ui-slider a:focus {
   cursor: pointer;
   outline: none;
 }
 
-/* line 75, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+/* line 82, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
 .price, .lead p {
   font-weight: 600;
   font-size: 32px;
@@ -13441,11 +13449,9 @@ Responsive media queries
   line-height: 60px;
 }
 
-/* line 82, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+/* line 89, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
 h4.great {
-  background: #00ac98;
-  margin: 0 0 25px -60px;
-  padding: 7px 15px;
+  margin: 0 0 -100px 300px;
   color: #ffffff;
   font-size: 18px;
   font-weight: 600;
@@ -13454,7 +13460,22 @@ h4.great {
   box-shadow: 2px 4px 5px 0 #ccc;
 }
 
-/* line 96, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+/* line 102, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+.rot {
+  background: red;
+}
+
+/* line 105, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+.gruen {
+  background: green;
+}
+
+/* line 108, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+.blau {
+  background: blue;
+}
+
+/* line 112, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
 .total {
   border-bottom: 1px solid #7f8c8d;
   /*display: inline;
@@ -13463,7 +13484,7 @@ h4.great {
   padding-bottom: 20px;
 }
 
-/* line 104, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+/* line 120, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
 .total:before {
   content: "";
   display: inline;
@@ -13476,12 +13497,12 @@ h4.great {
   opacity: 0.5;
 }
 
-/* line 116, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+/* line 132, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
 .price-slider {
   margin-bottom: 70px;
 }
 
-/* line 120, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+/* line 136, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
 .price-slider span {
   font-weight: 200;
   display: inline-block;
@@ -13489,14 +13510,14 @@ h4.great {
   font-size: 13px;
 }
 
-/* line 127, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+/* line 143, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
 .form-pricing {
   background: #ffffff;
   padding: 20px;
   border-radius: 4px;
 }
 
-/* line 133, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+/* line 149, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
 .price-form {
   background: #ffffff;
   margin-bottom: 10px;
@@ -13508,12 +13529,12 @@ h4.great {
     	box-shadow:         0 5px 5px 0 #ccc;*/
 }
 
-/* line 144, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+/* line 160, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
 .form-group {
   margin-bottom: 0;
 }
 
-/* line 148, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+/* line 164, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
 .form-group span.price {
   font-weight: 200;
   display: inline-block;
@@ -13521,7 +13542,7 @@ h4.great {
   font-size: 14px;
 }
 
-/* line 155, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+/* line 171, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
 .help-text {
   display: block;
   margin-top: 32px;
@@ -13534,31 +13555,298 @@ h4.great {
   width: 188px;
 }
 
-/* line 167, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+/* line 183, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
 .price-form label {
   font-weight: 200;
   font-size: 21px;
 }
 
-/* line 172, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+/* line 188, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
 img.payment {
   display: block;
   margin-left: auto;
   margin-right: auto;
 }
 
-/* line 178, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+/* line 194, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
 .ui-slider-range-min {
   background: #2980b9;
 }
 
 /* HR */
-/* line 184, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+/* line 200, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
 hr.style {
   margin-top: 0;
   border: 0;
   border-bottom: 1px dashed #ccc;
   background: #999;
+}
+
+/* line 207, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+#RGB {
+  height: 20px;
+  background: gray;
+}
+
+/* line 212, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+#RC .slider-selection {
+  background: #FF8282;
+}
+
+/* line 215, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+#RC .slider-handle {
+  background: red;
+}
+
+/* line 218, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+#GC .slider-selection {
+  background: #428041;
+}
+
+/* line 221, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+#GC .slider-handle {
+  background: green;
+}
+
+/* line 224, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+#BC .slider-selection {
+  background: #8283FF;
+}
+
+/* line 227, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+#BC .slider-handle {
+  border-bottom-color: blue;
+}
+
+/* line 230, /home/ubuntu/workspace/app/assets/stylesheets/bootslider.css */
+#R, #G, #B {
+  width: 300px;
+}
+
+/* Timeline */
+/* line 4, /home/ubuntu/workspace/app/assets/stylesheets/timeline.css */
+.timeline,
+.timeline-horizontal {
+  text-align: left;
+  list-style: none;
+  padding: 20px;
+  position: relative;
+}
+
+/* line 11, /home/ubuntu/workspace/app/assets/stylesheets/timeline.css */
+.timeline:before {
+  top: 40px;
+  bottom: 0;
+  position: absolute;
+  content: " ";
+  width: 3px;
+  background-color: #eeeeee;
+  left: 50%;
+  margin-left: -1.5px;
+}
+
+/* line 21, /home/ubuntu/workspace/app/assets/stylesheets/timeline.css */
+.timeline .timeline-item {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+/* line 25, /home/ubuntu/workspace/app/assets/stylesheets/timeline.css */
+.timeline .timeline-item:before,
+.timeline .timeline-item:after {
+  content: "";
+  display: table;
+}
+
+/* line 30, /home/ubuntu/workspace/app/assets/stylesheets/timeline.css */
+.timeline .timeline-item:after {
+  clear: both;
+}
+
+/* line 33, /home/ubuntu/workspace/app/assets/stylesheets/timeline.css */
+.timeline .timeline-item .timeline-badge {
+  color: #fff;
+  width: 54px;
+  height: 54px;
+  line-height: 52px;
+  font-size: 22px;
+  text-align: center;
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  margin-left: -25px;
+  background-color: #7c7c7c;
+  border: 3px solid #ffffff;
+  z-index: 100;
+  border-top-right-radius: 50%;
+  border-top-left-radius: 50%;
+  border-bottom-right-radius: 50%;
+  border-bottom-left-radius: 50%;
+}
+
+/* line 52, /home/ubuntu/workspace/app/assets/stylesheets/timeline.css */
+.timeline .timeline-item .timeline-badge i,
+.timeline .timeline-item .timeline-badge .fa,
+.timeline .timeline-item .timeline-badge .glyphicon {
+  top: 2px;
+  left: 0px;
+}
+
+/* line 58, /home/ubuntu/workspace/app/assets/stylesheets/timeline.css */
+.timeline .timeline-item .timeline-badge.primary {
+  background-color: #1f9eba;
+}
+
+/* line 61, /home/ubuntu/workspace/app/assets/stylesheets/timeline.css */
+.timeline .timeline-item .timeline-badge.info {
+  background-color: #5bc0de;
+}
+
+/* line 64, /home/ubuntu/workspace/app/assets/stylesheets/timeline.css */
+.timeline .timeline-item .timeline-badge.success {
+  background-color: #59ba1f;
+}
+
+/* line 67, /home/ubuntu/workspace/app/assets/stylesheets/timeline.css */
+.timeline .timeline-item .timeline-badge.warning {
+  background-color: #d1bd10;
+}
+
+/* line 70, /home/ubuntu/workspace/app/assets/stylesheets/timeline.css */
+.timeline .timeline-item .timeline-badge.danger {
+  background-color: #ba1f1f;
+}
+
+/* line 73, /home/ubuntu/workspace/app/assets/stylesheets/timeline.css */
+.timeline .timeline-item .timeline-panel {
+  position: relative;
+  width: 46%;
+  float: left;
+  right: 16px;
+  border: 2px solid #c0c0c0;
+  border-color: #BE9E21;
+  background: #ffffff;
+  border-radius: 2px;
+  padding: 20px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
+}
+
+/* line 86, /home/ubuntu/workspace/app/assets/stylesheets/timeline.css */
+.timeline .timeline-item .timeline-panel:before {
+  position: absolute;
+  top: 26px;
+  right: -16px;
+  display: inline-block;
+  border-top: 16px solid transparent;
+  border-left: 16px solid #c0c0c0;
+  border-right: 0 solid #c0c0c0;
+  border-bottom: 16px solid transparent;
+  content: " ";
+}
+
+/* line 97, /home/ubuntu/workspace/app/assets/stylesheets/timeline.css */
+.timeline .timeline-item .timeline-panel .timeline-title {
+  margin-top: 0;
+  color: inherit;
+}
+
+/* line 101, /home/ubuntu/workspace/app/assets/stylesheets/timeline.css */
+.timeline .timeline-item .timeline-panel .timeline-body > p,
+.timeline .timeline-item .timeline-panel .timeline-body > ul {
+  margin-bottom: 0;
+}
+
+/* line 105, /home/ubuntu/workspace/app/assets/stylesheets/timeline.css */
+.timeline .timeline-item .timeline-panel .timeline-body > p + p {
+  margin-top: 5px;
+}
+
+/* line 108, /home/ubuntu/workspace/app/assets/stylesheets/timeline.css */
+.timeline .timeline-item:last-child:nth-child(even) {
+  float: right;
+}
+
+/* line 111, /home/ubuntu/workspace/app/assets/stylesheets/timeline.css */
+.timeline .timeline-item:nth-child(even) .timeline-panel {
+  float: right;
+  left: 16px;
+}
+
+/* line 115, /home/ubuntu/workspace/app/assets/stylesheets/timeline.css */
+.timeline .timeline-item:nth-child(even) .timeline-panel:before {
+  border-left-width: 0;
+  border-right-width: 14px;
+  left: -14px;
+  right: auto;
+}
+
+/* line 121, /home/ubuntu/workspace/app/assets/stylesheets/timeline.css */
+.timeline-horizontal {
+  list-style: none;
+  position: relative;
+  padding: 20px 0px 20px 0px;
+  display: inline-block;
+}
+
+/* line 127, /home/ubuntu/workspace/app/assets/stylesheets/timeline.css */
+.timeline-horizontal:before {
+  height: 3px;
+  top: auto;
+  bottom: 26px;
+  left: 56px;
+  right: 0;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* line 136, /home/ubuntu/workspace/app/assets/stylesheets/timeline.css */
+.timeline-horizontal .timeline-item {
+  display: table-cell;
+  height: 280px;
+  width: 20%;
+  min-width: 320px;
+  float: none !important;
+  padding-left: 0px;
+  padding-right: 20px;
+  margin: 0 auto;
+  vertical-align: bottom;
+}
+
+/* line 147, /home/ubuntu/workspace/app/assets/stylesheets/timeline.css */
+.timeline-horizontal .timeline-item .timeline-panel {
+  top: auto;
+  bottom: 64px;
+  display: inline-block;
+  float: none !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* line 157, /home/ubuntu/workspace/app/assets/stylesheets/timeline.css */
+.timeline-horizontal .timeline-item .timeline-panel:before {
+  top: auto;
+  bottom: -16px;
+  left: 28px !important;
+  right: auto;
+  border-right: 16px solid transparent !important;
+  border-top: 16px solid #c0c0c0 !important;
+  border-bottom: 0 solid #c0c0c0 !important;
+  border-left: 16px solid transparent !important;
+}
+
+/* line 167, /home/ubuntu/workspace/app/assets/stylesheets/timeline.css */
+.timeline-horizontal .timeline-item:before,
+.timeline-horizontal .timeline-item:after {
+  display: none;
+}
+
+/* line 171, /home/ubuntu/workspace/app/assets/stylesheets/timeline.css */
+.timeline-horizontal .timeline-item .timeline-badge {
+  top: auto;
+  bottom: 0px;
+  left: 43px;
 }
 
 /* light green TKB */
@@ -14208,6 +14496,7 @@ zitat {
 }
 /* line 513, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .news {
+  text-align: left;
   border-color: #BE9E21;
   border-style: solid;
   width: 300px;
@@ -14219,7 +14508,7 @@ zitat {
   -webkit-user-select: none;
 }
 
-/* line 526, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 527, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .news span {
   float: left;
   color: #fff;
@@ -14233,7 +14522,7 @@ zitat {
   cursor: pointer;
 }
 
-/* line 540, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 541, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .news ul {
   float: left;
   padding-left: 20px;
@@ -14242,26 +14531,26 @@ zitat {
   -webkit-user-select: none;
 }
 
-/* line 547, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 548, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .news ul li {
   line-height: 30px;
   list-style: none;
 }
 
-/* line 549, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 550, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .news ul li a {
   color: #fff;
   -webkit-font-smoothing: antialiased;
   -webkit-user-select: none;
 }
 
-/* line 557, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 558, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .news ul:hover {
   -webkit-animation-play-state: paused;
           animation-play-state: paused;
 }
 
-/* line 558, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 559, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .news span:hover + ul {
   -webkit-animation-play-state: paused;
           animation-play-state: paused;
@@ -14338,8 +14627,9 @@ zitat {
     margin-top: -540px;
   }
 }
-/* line 577, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 578, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .news2 {
+  text-align: left;
   border-color: #BE9E21;
   border-style: solid;
   width: 300px;
@@ -14351,7 +14641,7 @@ zitat {
   -webkit-user-select: none;
 }
 
-/* line 590, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 592, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .news2 span {
   float: left;
   color: #fff;
@@ -14365,7 +14655,7 @@ zitat {
   cursor: pointer;
 }
 
-/* line 604, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 606, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .news2 ul {
   float: left;
   padding-left: 20px;
@@ -14374,70 +14664,88 @@ zitat {
   -webkit-user-select: none;
 }
 
-/* line 611, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 613, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .news2 ul li {
   line-height: 30px;
   list-style: none;
 }
 
-/* line 613, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 615, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .news2 ul li a {
   color: #fff;
   -webkit-font-smoothing: antialiased;
   -webkit-user-select: none;
 }
 
-/* line 621, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 623, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .news2 ul:hover {
   -webkit-animation-play-state: paused;
           animation-play-state: paused;
 }
 
-/* line 622, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 624, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .news2 span:hover + ul {
   -webkit-animation-play-state: paused;
           animation-play-state: paused;
 }
 
 /* OTHER COLORS */
-/* line 626, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 628, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .blue {
   background: transparent;
 }
 
-/* line 627, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 629, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .blue span {
   background: #2c66be;
 }
 
-/* line 628, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 630, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .red {
   background: #d23435;
 }
 
-/* line 629, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 631, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .red span {
   background: #c22b2c;
 }
 
-/* line 630, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 632, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .green {
   background: #699B67;
 }
 
-/* line 631, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 633, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .green span {
   background: #547d52;
 }
 
-/* line 632, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 634, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .magenta {
   background: #b63ace;
 }
 
-/* line 633, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+/* line 635, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
 .magenta span {
   background: #842696;
+}
+
+/* line 637, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+.circle {
+  display: inline-block;
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  /* width and height can be anything, as long as they're equal */
+}
+
+/* line 645, /home/ubuntu/workspace/app/assets/stylesheets/bootstraply.scss */
+.circle-min {
+  border-radius: 50%;
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  /* width and height can be anything, as long as they're equal */
 }
 
 /*! =======================================================

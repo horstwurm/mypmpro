@@ -1,6 +1,9 @@
+ $colorgold:  #BE9E21;
+
 /* Timeline */
 .timeline,
 .timeline-horizontal {
+  text-align:left;
   list-style: none;
   padding: 20px;
   position: relative;
@@ -72,7 +75,8 @@
   width: 46%;
   float: left;
   right: 16px;
-  border: 1px solid #c0c0c0;
+  border: 2px solid #c0c0c0;
+  border-color:$colorgold;
   background: #ffffff;
   border-radius: 2px;
   padding: 20px;

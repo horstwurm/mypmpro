@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180412095014) do
+ActiveRecord::Schema.define(version: 20180417175817) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "customer_id"
@@ -427,6 +427,8 @@ ActiveRecord::Schema.define(version: 20180412095014) do
     t.datetime "updated_at",        null: false
     t.integer  "parent"
     t.boolean  "signage"
+    t.boolean  "allow"
+    t.integer  "allowdays"
     t.index ["mcategory_id"], name: "index_mobjects_on_mcategory_id"
     t.index ["msubtype"], name: "index_mobjects_on_msubtype"
     t.index ["mtype"], name: "index_mobjects_on_mtype"
