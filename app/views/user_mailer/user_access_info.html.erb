@@ -13,7 +13,7 @@
     <% if @mobject.mdetails.count > 0 %>
         <% pic = @mobject.mdetails.first %>
         <%= pic.avatar.url %>
-        <% if pic.avatar.url and false %>
+        <% if pic.avatar.url %>
           <%= email_s3image_tag(pic.avatar.url, :size => "200x200") %>
         <% end %>
     <% end %>
