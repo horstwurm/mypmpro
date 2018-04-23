@@ -27,6 +27,7 @@ class UserMailer < ApplicationMailer
     @user = user
     @text = text
     @mobject = mobject
+    @header = header
     mail(to: user.email, subject: header)
     #mail(to: "wurmhorst63@gmail.com", subject: 'Welcome to My Awesome Site')
   end

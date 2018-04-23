@@ -5,33 +5,13 @@
   </head>
   <body>
     <%= email_image_tag("thurcloud.png", :size => "200x200") %>
-    <h1><%= (I18n.t :header) %></h1>
-    <p>
-      <%= @text %><br>
-    </p>
+    <h1><%= @text %></h1>
 
-    <% if @mobject.mdetails.count > 0 %>
-        <% pic = @mobject.mdetails.first %>
-
-        <%= pic.avatar.url %>
-        <% if pic.avatar.url %>
-
-          <% qr_img = open(pic.avatar.url) %>
-          <% qr_img.resize(200, 200).save("emailpic.png") %>
-
-
-          <%= image_tag(pic.avatar.url) if false %>
-          <%= email_image_tag("emailpic.png", size => "200x200")  %>
-        <% end %>
-    <% end %>
-    
-    <% if false %>
-    <%= email_s3image_tag(showFirstImage2(:medium, @mobject, @mobject.mdetails)) %>
-    <% end %>
-    
+    <b><%= (I18n.t @mobject.mtype) %></b>
     <%= link_to @mobject do %>
-      <% @mobject.name %>
+       <%= @mobject.name %>
     <% end %>
+    </p>
 
     <p><%= (I18n.t :visitus) %><b><%= " " + @url %></b></p>
   </body>
