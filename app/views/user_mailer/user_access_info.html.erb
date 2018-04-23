@@ -12,10 +12,16 @@
 
     <% if @mobject.mdetails.count > 0 %>
         <% pic = @mobject.mdetails.first %>
+
         <%= pic.avatar.url %>
         <% if pic.avatar.url %>
-          <%= image_tag(pic.avatar.url) %>
-          <%= email_s3image_tag(pic.avatar.url, :size => "200x200") if false %>
+
+          <% qr_img = open(pic.avatar.url) %>
+          <% qr_img.resize(200, 200).save("emailpic.png") %>
+
+
+          <%= image_tag(pic.avatar.url) if false %>
+          <%= email_image_tag("emailpic.png", size => "200x200")  %>
         <% end %>
     <% end %>
     
