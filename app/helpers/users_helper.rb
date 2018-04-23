@@ -243,6 +243,7 @@ def build_medialistNew(items, cname, par)
                 end
               when "mobjects"
                 html_string = html_string + showFirstImage2(:medium, item, item.mdetails)
+
               when "mstats"
                 if par == "cf"
                   html_string = html_string + showFirstImage2(:medium, item.mobject, item.mobject.mdetails)
@@ -691,9 +692,21 @@ def build_medialistNew(items, cname, par)
                   end
                   html_string = html_string + ' (' + sprintf("%.1f",item.sum_rating) + ')<br>'
                 end
-                
+
+                if item.mtype == "sponsorantraege"
+                  if item.requester_type == "Company"
+                    @r = Company.find(item.requester_id)
+                    html_string = html_string + showImage2(:small, @r, true)
+                    html_string = html_string + @r.name+ "<br>"
+                  else
+                    @r = User.find(item.requester_id)
+                    html_string = html_string + showImage2(:small, @r, true)
+                    html_string = html_string + @r.fullname+ "<br>"
+                  end
+                end
+
                 html_string = html_string + '<i class="fa fa-folder-open"></i> '
-                html_string = html_string + " " + item.mcategory.name + "<br><br>"
+                html_string = html_string + " " + item.mcategory.name + "<br>"
 
                 case item.mtype
                   when "sensoren"
@@ -701,7 +714,7 @@ def build_medialistNew(items, cname, par)
                       if item.sensors.last
                         html_string = html_string + '<br>'
                         html_string = html_string + "<sensorwert>" + item.sensors.last.value.to_s + "</sensorwert>"
-                        html_string = html_string + '<br><br>'
+                        html_string = html_string + '<br>'
                       end
                     end
                     if item.mcategory.name == "Schalter"
@@ -718,6 +731,19 @@ def build_medialistNew(items, cname, par)
                   when "kampagnen" 
 
                   when "standorte" 
+
+                  when "sponsorantraege" 
+                    html_string = html_string + '<i class="fa fa-safari"></i> '
+                    html_string = html_string + " " + item.sponsorenperiode.to_s + "<br>"
+                    html_string = html_string + '<i class="fa fa-cog"></i> '
+                    html_string = html_string + " " + item.sponsorenstatus.to_s + "<br>"
+                    if item.sponsorenbetraggenehmigt != nil
+                      html_string = html_string + "<sensorwert>"+ item.sponsorenbetraggenehmigt.to_s+ "</sensorwert>"
+                    else
+                      if item.sponsorenbetragantrag != nil
+                        html_string = html_string + "<sensorwert>"+ item.sponsorenbetragantrag.to_s + "</sensorwert>"
+                      end
+                    end
 
                   when "veranstaltungen" 
                     if item.eventpart
@@ -959,7 +985,7 @@ def build_medialistNew(items, cname, par)
 
                 when "madvisors"
                     html_string = html_string + '<i class="fa fa-folder-open"></i> '
-                    html_string = html_string + item.grade + "<br>"
+                    html_string = html_string + item.grade.to_s + "<br>"
                     if item.mobject.mtype == "projekte"
                       html_string = html_string + '<i class="fa fa-euro"></i> '
                       if !item.rate
@@ -1167,9 +1193,17 @@ def build_medialistNew(items, cname, par)
                     #     content_tag(:i, nil, class:"btn btn-primary fa fa-pencil")
                     #   end
                     # end
-                    if isowner(item) or isdeputy(item.owner)
+                  if item.mtype == "sponsorantraege" 
+                    if item.requester_type == "User" and item.requester_id == current_user.id
                       access = true
                     end
+                    if item.requester_type == "Company" and Company.find(item.requester_id).user_id == current_user.id
+                      access = true
+                    end
+                  end
+                  if isowner(item) or isdeputy(item.owner)
+                    access = true
+                  end
                   if item.mtype == "veranstaltungen" 
                     if item.eventpart
                       if @angemeldet
@@ -1351,6 +1385,20 @@ def build_medialistNew(items, cname, par)
                 if item.mobject.mtype == "projekte"
     	            html_string = html_string + link_to(edit_madvisor_path(:id => item)) do 
                     content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-wrench")
+                  end
+                end
+                if item.mobject.mtype == "sponsorantraege"
+                  @sponsor_rating = SponsorRating.where('mobject_id=? and user_id=?',item.mobject_id, item.user_id).first
+                  if !@sponsor_rating
+                    @sponsor_rating = SponsorRating.new
+                    @sponsor_rating.user_id = item.user_id
+                    @sponsor_rating.mobject_id = item.mobject_id
+                    @sponsor_rating.descriptions = ""
+                    @sponsor_rating.decision = false
+                    @sponsor_rating.save
+                  end
+    	            html_string = html_string + link_to(edit_sponsor_rating_path(@sponsor_rating, :mobject_id => item.mobject_id)) do 
+                    content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-star")
                   end
                 end
   	            html_string = html_string + link_to(item, method: :delete, data: { confirm: 'Are you sure?' }) do 
@@ -1680,6 +1728,7 @@ def navigate2(object, item, topic)
       html_string = html_string + build_nav2("personen",item,"personen_zugriffsberechtigungen", item.credentials.count)
       html_string = html_string + build_nav2("personen",item,"personen_stellvertretungen", item.deputies.count)
       if user_signed_in?
+        #html_string = html_string + build_nav2("personen",item,"personen_sponsorantraege", item.mobjects.where('mtype=?',"sponsorantraege").count)
         html_string = html_string + build_nav2("personen",item,"personen_charges", item.charges.count)
       end
 
@@ -1721,7 +1770,11 @@ def navigate2(object, item, topic)
         html_string = html_string + build_nav2("institutionen",item,"institutionen_crowdfundingbeitraege", item.mstats.count)
         html_string = html_string + build_nav2("institutionen",item,"institutionen_stellvertretungen", item.deputies.count)
         if user_signed_in?
+          html_string = html_string + build_nav2("institutionen",item,"institutionen_sponsorantraege", item.mobjects.where('mtype=?',"sponsorantraege").count)
           html_string = html_string + build_nav2("institutionen",item,"institutionen_charges", item.charges.count)
+          if current_user.id == item.user_id or isdeputy(item.user)
+            html_string = html_string + build_nav2("institutionen",item,"institutionen_params", item.company_params.count)
+          end
         end
 
         ########################################################################################################################
@@ -2136,6 +2189,20 @@ def action_buttons4(object_type, item, topic)
             end
           end
           
+        when "institutionen_sponsorantraege"
+          if user_signed_in?
+            if (item.user_id == current_user.id) or isdeputy(item) or current_user.superuser
+              #html_string = html_string + link_to(new_mobject_path :company_id => item.id, :mtype => subtopic(topic), :msubtype => nil) do
+                #content_tag(:i, " " + (I18n.t subtopic(topic)), class: "btn btn-primary fa fa-plus orange")
+              #end
+            end
+            #if (item.user_id == current_user.id) or isdeputy(item) or current_user.superuser
+              html_string = html_string + link_to(home_index20_path(:company_id => item.id, :mtype => subtopic(topic), :msubtype => nil)) do
+                content_tag(:i, " " + (I18n.t subtopic(topic)), class: "btn btn-primary fa fa-plus orange")
+              end
+            #end
+          end
+
         when "institutionen_partnerlinks"
           if user_signed_in?
             if (item.user_id == current_user.id) or isdeputy(item) or current_user.superuser
@@ -2275,7 +2342,7 @@ def action_buttons4(object_type, item, topic)
                 end
               end
 
-          when "objekte_projektberechtigungen", "objekte_gruppenmitglieder", "objekte_jury", "objekte_ansprechpartner"
+          when "objekte_projektberechtigungen", "objekte_gruppenmitglieder", "objekte_jury", "objekte_ansprechpartner", "objekte_sponsorantraege"
              if user_signed_in?
                 if isowner(item) or isdeputy(item.owner)
                   html_string = html_string + link_to(madvisors_path :user_id => item.owner_id, :mobject_id => item.id, :role => item.mtype) do
@@ -2443,6 +2510,10 @@ def getinfo2(topic)
   end
 
   case topic
+    when :params
+      info = "cog"
+    when :sponsorantraege
+      info = "heart"
     when :menu
       info = "medium"
     when :notizen
@@ -3064,6 +3135,9 @@ def init_apps
     hash = Hash.new
     hash = {"domain" => "personen", "right" => "charges", "access" => true, "info" => "news"}
     @array << hash
+    hash = Hash.new
+    hash = {"domain" => "personen", "right" => "sponsorenantraege", "access" => true, "info" => "news"}
+    @array << hash
 
     hash = Hash.new
     hash = {"domain" => "institutionen", "right" => "info", "access" => true, "info" => "news"}
@@ -3142,6 +3216,12 @@ def init_apps
     @array << hash
     hash = Hash.new
     hash = {"domain" => "institutionen", "right" => "charges", "access" => true, "info" => "news"}
+    @array << hash
+    hash = Hash.new
+    hash = {"domain" => "institutionen", "right" => "sponsorantraege", "access" => true, "info" => "news"}
+    @array << hash
+    hash = Hash.new
+    hash = {"domain" => "institutionen", "right" => "params", "access" => true, "info" => "news"}
     @array << hash
 
     hash = Hash.new

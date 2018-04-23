@@ -422,6 +422,18 @@ def index18
   end
 end
 
+def index20
+  if params[:company_id] and params[:mtype]
+    if !user_signed_in?
+      redirect_to company_path(:id => params[:company_id], :topic => "objekte_sponsorantraege"), notice: (I18n.t :firstsignin)
+    else
+      @company_id = params[:company_id]
+      @mtype = params[:mtype]
+      @companies = current_user.companies
+    end
+  end
+end
+
 def import
     path=File.join(Rails.root, "/app/assets/images/mig2017.xlsx")
     workbook = Creek::Book.new path

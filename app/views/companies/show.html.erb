@@ -62,6 +62,15 @@
             </div>
           </div>
 
+        <% when "institutionen_params" %>
+          <% @cp = @company.company_params.first %>
+          <% if !@cp %>
+            <% @cp = CompanyParam.new %>
+            <% @cp.company_id = @company.id %>
+            <% @cp.save %>
+          <% end %>
+          <%= controller.redirect_to edit_company_param_path(@cp) %>
+
         <% when "institutionen_projekte" %>
           <% moblist = zugriffsliste(@company.mobjects, current_user) %>
           <% moblist %>
@@ -72,6 +81,9 @@
 
         <% when "institutionen_standorte" %>
           <%= build_medialistNew(@company.mobjects.where('mtype=?',"standorte"), "mobjects", nil) %>
+
+        <% when "institutionen_sponsorantraege" %>
+          <%= build_medialistNew(@company.mobjects.where('mtype=?',"sponsorantraege"), "mobjects", nil) %>
 
         <% when "institutionen_sensoren" %>
           <%= build_medialistNew(@company.mobjects.where('mtype=?',"sensoren"), "mobjects", nil) %>

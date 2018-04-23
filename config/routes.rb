@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :sponsor_ratings
+  resources :company_params
   resources :publication_articles
   resources :iots
   resources :mvdetails
@@ -62,6 +64,7 @@ Rails.application.routes.draw do
   get 'home/index16'
   get 'home/index17'
   get 'home/index18'
+  get 'home/index20'
   get 'home/test'
   get 'home/import'
   get 'home/arduino'

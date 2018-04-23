@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Sponsor Ratings</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Mobject</th>
+      <th>Descriptions</th>
+      <th>Amount</th>
+      <th>Decision</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @sponsor_ratings.each do |sponsor_rating| %>
+      <tr>
+        <td><%= sponsor_rating.user_id %></td>
+        <td><%= sponsor_rating.mobject_id %></td>
+        <td><%= sponsor_rating.descriptions %></td>
+        <td><%= sponsor_rating.amount %></td>
+        <td><%= sponsor_rating.decision %></td>
+        <td><%= link_to 'Show', sponsor_rating %></td>
+        <td><%= link_to 'Edit', edit_sponsor_rating_path(sponsor_rating) %></td>
+        <td><%= link_to 'Destroy', sponsor_rating, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Sponsor Rating', new_sponsor_rating_path %>

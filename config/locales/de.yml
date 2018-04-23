@@ -20,6 +20,14 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 de:
+  reqsel: "Für wen möchten Sie den Antrag stellen?"
+  firstsignin: "Bitte melden Sie sich zuerst an"
+  empfohlen: "empfohlen"
+  nichtempfohlen: "nicht empfohlen"
+  notrated: "noch nicht bewertet"
+  params: "Parameter"
+  sponsorantraege: "Sponsoring Anträge"
+  sponsorantrag: "Sponsoring Antrag an "
   iot: "Internet der Dinge"
   mappositionen: "Geo-Daten"
   uhrzeit: "Uhrzeit"

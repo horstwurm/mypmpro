@@ -1,0 +1,62 @@
+
+      <%= form_for(company_param) do |f| %>
+        <% if company_param.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(company_param.errors.count, "error") %> prohibited this company_param from being saved:</h2>
+      
+            <ul>
+            <% company_param.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+         <div class="row">
+           <div class="col-md-6">
+                <div class="panel-body ueberschrift">
+                    <h1><%= @company_param.company.name %></h1> 
+                </div>
+            </div>
+             <div class="col-md-6">
+                 <div class="panel-body ueberschrift">
+                     <div class="form-group">
+                       <%= f.label "Bewertungskriterien für Sponsoring" %><br/>
+                       <%= f.text_field :sponsoring_wert1, autofocus: true, class:"form-control"%>
+                       <%= f.text_field :sponsoring_wert2, class:"form-control"%>
+                       <%= f.text_field :sponsoring_wert3, class:"form-control"%>
+                       <%= f.text_field :sponsoring_wert4, class:"form-control"%>
+                       <%= f.text_field :sponsoring_wert5, class:"form-control"%>
+                     </div>
+                     <div class="form-group">
+                       <%= f.label "Willkommen" %><br/>
+                       <%= f.text_area:sponsoring_init, rows: 5, class:"form-control"%>
+                       <%= f.label "Bestätigung" %><br/>
+                       <%= f.text_area :sponsoring_ok, rows: 5, class:"form-control"%>
+                       <%= f.label "Bestätigung mit Änderungen" %><br/>
+                       <%= f.text_area :sponsoring_ok_change, rows: 5, class:"form-control"%>
+                       <%= f.label "Ablehnung" %><br/>
+                       <%= f.text_area :sponsoring_nok, rows: 5, class:"form-control"%>
+                     </div>
+                     <div class="form-group">
+                       <%= f.label "Ansprechpartner Institution" %><br/>
+                       <%= f.text_field :role_company, class:"form-control"%>
+                       <%= f.label "Ansprechpartner Sponsoring" %><br/>
+                       <%= f.text_field :role_sponsoring, class:"form-control"%>
+                     </div>
+                     <div class="form-group">
+                       <%= f.label "Farben Corporate Design" %><br/>
+                       <%= f.text_field :color1, class:"form-control"%>
+                       <%= f.text_field :color2, class:"form-control"%>
+                     </div>
+                    <%= f.hidden_field :company_id, class:"form-control" %>
+                     <div class="actions">
+                        <%= f.submit "Speichern",  class:"btn btn-primary btn-lg btn-submit"%>
+                        <%= link_to company_path(:id =>  @company_param.company_id) do %>
+                         <i class="btn btn-default btn-lg btn-submit">Abbrechen</i>
+                        <% end %>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     <% end %>                

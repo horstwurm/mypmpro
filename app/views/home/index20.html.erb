@@ -1,0 +1,41 @@
+<div class="container">
+    <div class="jumbotron">
+        <% @c = Company.find(@company_id) %>
+        <h2><%= (I18n.t :sponsorantrag) + " " + @c.name %></h2>
+        <%= showImage2(:medium, @c, true) %>
+        <br>
+        <h2><%= I18n.t :reqsel %></h2>
+  		<table class="table">
+            <thead>
+            <tr><th></th><th></th><th></th></tr>
+            <tr>
+                <td><%= showImage2(:small, current_user, true) %></td>
+                <td><%= current_user.fullname %></td>
+                <td>
+                    <%= link_to(new_mobject_path(:company_id => @c.id, :mtype => @mtype, :owner_type => "User", :owner_id => current_user.id )) do %>
+                        <i class="btn btn-primary btn-lg fa fa-plus orange"> <%= I18n.t :sponsorantrag %></i>
+                   <% end %>
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            <% @companies.each do |c| %>
+                <% if c.id != @c.id %> 
+                    <tr>
+                    <td><%= showImage2(:small, Company.find(c.id), true) %></td>
+                    <td><%= c.name %></td>
+                    <td>
+                        <%= link_to(new_mobject_path(:company_id => @c.id, :mtype => @mtype, :owner_type => "Company", :owner_id => c.id)) do %>
+                            <i class="btn btn-primary btn-lg fa fa-plus orange"> <%= I18n.t :sponsorantrag %></i>
+                       <% end %>
+                    </td>
+                    </tr>
+                <% end %>
+            <% end %>
+            </tbody>
+        </table>
+       <%= link_to new_company_path(:user_id => current_user.id) do %>
+         <i class="btn btn-primary btn-lg fa fa-plus orange"> <%= I18n.t :institutionen %></i>
+       <% end %>
+    </div>
+</div>

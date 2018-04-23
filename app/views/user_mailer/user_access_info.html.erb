@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <%= email_image_tag("thurcloud.png", :size => "200x200") %>
+    <h1><%= (I18n.t :header) %></h1>
+    <p>
+      <%= @text %><br>
+    </p>
+
+    <% if @mobject.mdetails.count > 0 %>
+        <% pic = @mobject.mdetails.first %>
+        <%= pic.avatar.url %>
+        <% if pic.avatar.url and false %>
+          <%= email_s3image_tag(pic.avatar.url, :size => "200x200") %>
+        <% end %>
+    <% end %>
+
+    <% if false %>
+    <%= email_s3image_tag(showFirstImage2(:medium, @mobject, @mobject.mdetails)) %>
+    <% end %>
+    
+    <%= link_to @mobject do %>
+      <% @mobject.name %>
+    <% end %>
+
+    <p><%= (I18n.t :visitus) %><b><%= " " + @url %></b></p>
+  </body>
+</html>

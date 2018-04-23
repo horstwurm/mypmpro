@@ -24,6 +24,9 @@ class MadvisorsController < ApplicationController
         @madvisor.grade = "berechtigt"
       end
       @madvisor.save
+
+      UserMailer.user_access_info(User.find(@madvisor.user_id), "TGCloud Berechtigung für " + @mobject.name, "Berechtigungs-Text", @madvisor.mobject).deliver_now
+
     end
     if params[:madvisor_id]
       @madvisor = Madvisor.where('mobject_id=? and user_id=?', session[:mobject_id], params[:madvisor_id]).first
@@ -38,6 +41,8 @@ class MadvisorsController < ApplicationController
             @madvisor.rate = User.find(@madvisor.user_id).rate
           when "angebote"
             @madvisor.grade = "Berater"
+          when "sponsorantraege"
+            @madvisor.grade = "Bewerter"
           when "gruppen"
             @madvisor.grade = "Mitglied"
           when "innovationswettbewerbe"
@@ -59,6 +64,8 @@ class MadvisorsController < ApplicationController
             @madvisor.rate = User.find(@madvisor.user_id).rate
           when "angebote"
             @madvisor.grade = "Senior Berater"
+          when "sponsorantraege"
+            @madvisor.grade = "Entscheider"
           when "gruppen"
             @madvisor.grade = "Gruppenlead"
           when "innovationswettbewerbe"

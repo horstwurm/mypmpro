@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @sponsor_rating.user_id %>
+</p>
+
+<p>
+  <strong>Mobject:</strong>
+  <%= @sponsor_rating.mobject_id %>
+</p>
+
+<p>
+  <strong>Descriptions:</strong>
+  <%= @sponsor_rating.descriptions %>
+</p>
+
+<p>
+  <strong>Amount:</strong>
+  <%= @sponsor_rating.amount %>
+</p>
+
+<p>
+  <strong>Decision:</strong>
+  <%= @sponsor_rating.decision %>
+</p>
+
+<%= link_to 'Edit', edit_sponsor_rating_path(@sponsor_rating) %> |
+<%= link_to 'Back', sponsor_ratings_path %>

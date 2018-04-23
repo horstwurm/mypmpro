@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180417175817) do
+ActiveRecord::Schema.define(version: 20180421065523) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "customer_id"
@@ -126,6 +126,25 @@ ActiveRecord::Schema.define(version: 20180417175817) do
     t.datetime "updated_at",          null: false
     t.index ["mcategory_id"], name: "index_companies_on_mcategory_id"
     t.index ["user_id"], name: "index_companies_on_user_id"
+  end
+
+  create_table "company_params", force: :cascade do |t|
+    t.integer  "company_id"
+    t.string   "sponsoring_wert1"
+    t.string   "sponsoring_wert2"
+    t.string   "sponsoring_wert3"
+    t.string   "sponsoring_wert4"
+    t.string   "sponsoring_wert5"
+    t.text     "sponsoring_init"
+    t.text     "sponsoring_ok"
+    t.text     "sponsoring_ok_change"
+    t.text     "sponsoring_nok"
+    t.string   "role_company"
+    t.string   "role_sponsoring"
+    t.string   "color1"
+    t.string   "color2"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
   end
 
   create_table "credentials", force: :cascade do |t|
@@ -423,12 +442,21 @@ ActiveRecord::Schema.define(version: 20180417175817) do
     t.float    "sum_pkosten_ist"
     t.float    "sum_paufwand_plan"
     t.float    "sum_pkosten_plan"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.integer  "parent"
     t.boolean  "signage"
     t.boolean  "allow"
     t.integer  "allowdays"
+    t.integer  "sponsorenart"
+    t.string   "sponsorenperiode"
+    t.float    "sponsorenbetragantrag"
+    t.float    "sponsorenbetraggenehmigt"
+    t.text     "sponsorenantwort"
+    t.boolean  "sponsorenok"
+    t.string   "sponsorenstatus"
+    t.integer  "requester_id"
+    t.string   "requester_type"
     t.index ["mcategory_id"], name: "index_mobjects_on_mcategory_id"
     t.index ["msubtype"], name: "index_mobjects_on_msubtype"
     t.index ["mtype"], name: "index_mobjects_on_mtype"
@@ -707,6 +735,24 @@ ActiveRecord::Schema.define(version: 20180417175817) do
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
     t.index ["signage_camp_id"], name: "index_signages_on_signage_camp_id"
+  end
+
+  create_table "sponsor_ratings", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "mobject_id"
+    t.text     "descriptions"
+    t.float    "amount"
+    t.boolean  "decision"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  create_table "sponsor_requests", force: :cascade do |t|
+    t.integer  "mobject_id"
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "tickets", force: :cascade do |t|

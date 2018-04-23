@@ -5,6 +5,7 @@ class Company < ActiveRecord::Base
     geocoded_by :geo_address
     after_validation :geocode
 
+    has_many :company_params, dependent: :destroy 
     has_many :iots, as: :owner, dependent: :destroy 
     has_many :deputies, as: :owner, dependent: :destroy 
     has_many :charges, as: :owner, dependent: :destroy 

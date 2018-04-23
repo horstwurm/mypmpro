@@ -50,6 +50,37 @@
                 <% end %><br>
                 </div>
                 
+                <% if @mobject.mtype == "sponsorantraege" %>
+                  <div class="form-group">
+                    <%= f.label I18n.t :sponsorenart %>
+                    <%= f.collection_select :mcategory_id, Mcategory.where('ctype=?',"sponsorenart").order(:name), :id, :name, {}, class:"form-control" %>
+                    <div class="form-group">
+                      <%= f.label I18n.t :sponsorenstatus %>
+                      <%= f.select :sponsorenperiode, options_for_select([["einmalig", "einmalig"],["periodisch", "periodisch"]], @mobject.sponsorenperiode), {}, class:"form-control", :onchange => "showdata();" %>
+                    </div>
+                    <%= f.label I18n.t :sponsorenbetragantrag %><br/>
+                    <div class="input-group">                          
+                      <%= f.number_field :sponsorenbetragantrag, :style => "text-align: Right", class:"form-control" %>
+                      <div class="input-group-addon">CHF</div>
+                    </div>
+                    <% if isowner(@mobject) or isdeputy(@mobject.owner) %>
+                      <div class="form-group">
+                        <%= f.label I18n.t :sponsorenstatus %>
+                        <%= f.select :sponsorenstatus, options_for_select([["beantragt", "antrag"],["In Prüfung", "pending"],["abgelehnt", "abgelehnt"],["genehmigt", "genehmigt"]], @mobject.sponsorenstatus), {}, class:"form-control", :onchange => "showdata();" %>
+                      </div>
+                      <%= f.label I18n.t :sponsorenbetraggenehmigt %><br/>
+                      <div class="input-group">                          
+                        <%= f.number_field :sponsorenbetraggenehmigt, :style => "text-align: Right", class:"form-control" %>
+                        <div class="input-group-addon">CHF</div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <%= f.label I18n.t :sponsorenantwort %>
+                      <%= f.text_area :sponsorenantwort, rows: 5, class:"form-control"%>
+                    </div>
+                  <% end %>
+                <% end %>
+
                 <% if @mobject.mtype == "projekte" %>
                   <div class="form-group">
                     <%= f.label I18n.t :risiko %>
@@ -73,22 +104,24 @@
                     <%= f.text_area :offers, rows: 5, class:"form-control"%>
                   </div>
                 <% end %>
-                
-                <div class="form-group">
-                  <%= f.label I18n.t :kategorie %>
-                  <% case @mobject.mtype %>
-                    <% when "ausschreibungen", "stellenanzeigen" %>
-                      <%= f.collection_select :mcategory_id, Mcategory.where('ctype=?',"branche").order(:name), :id, :name, {}, :readonly => true, class:"form-control" %>
-                  <% else %>
-                    <%= f.collection_select :mcategory_id, Mcategory.where('ctype=?',@mobject.mtype).order(:name), :id, :name, {}, :readonly => true, id:"cat", class:"form-control", :onchange => "showdata2();" %>
-                  <% end %>
-                </div>
-                <div class="form-group">
-                  <%= f.label I18n.t :homepage %>
-                  <%= f.text_field :homepage, class:"form-control"%>
-                </div>
+
+                <% if @mobject.mtype != "sponsorantraege" %>
+                  <div class="form-group">
+                    <%= f.label I18n.t :kategorie %>
+                    <% case @mobject.mtype %>
+                      <% when "ausschreibungen", "stellenanzeigen" %>
+                        <%= f.collection_select :mcategory_id, Mcategory.where('ctype=?',"branche").order(:name), :id, :name, {}, :readonly => true, class:"form-control" %>
+                    <% else %>
+                      <%= f.collection_select :mcategory_id, Mcategory.where('ctype=?',@mobject.mtype).order(:name), :id, :name, {}, :readonly => true, id:"cat", class:"form-control", :onchange => "showdata2();" %>
+                    <% end %>
+                  </div>
+                  <div class="form-group">
+                    <%= f.label I18n.t :homepage %>
+                    <%= f.text_field :homepage, class:"form-control"%>
+                  </div>
+                <% end %>
                 <% case @mobject.mtype %>
-                  <% when "veranstaltungen", "ausschreibungen", "kleinanzeigen", "stellenanzeigen", "crowdfunding", "umfragen", "projekte", "innovationswettbewerbe", "kampagnen", "standorte" %>
+                  <% when "veranstaltungen", "ausschreibungen", "kleinanzeigen", "stellenanzeigen", "crowdfunding", "umfragen", "projekte", "innovationswettbewerbe", "kampagnen", "standorte", "sponsorenantraege" %>
                     <% if @mobject.msubtype != "standard" %>
                       <div class="form-group">
                         <%= f.label "Datum von-bis:" %>
@@ -279,14 +312,18 @@
                   <%= f.label I18n.t :stichworte %>
                   <%= f.text_field :keywords, class:"form-control"%>
                 </div>
-                <div class="form-group">
-                  <input type="checkbox" name="my-checkbox6" checked>
-                  <%= f.label I18n.t :signage %>
-                </div>
-                <div class="form-group">
-                  <input type="checkbox" name="my-checkbox4" checked>
-                  <%= f.label I18n.t :onlinepublikation %>
-                </div>
+
+
+                <% if @mobject.mtype != "sponsorantraege" %>
+                  <div class="form-group">
+                    <input type="checkbox" name="my-checkbox6" checked>
+                    <%= f.label I18n.t :signage %>
+                  </div>
+                  <div class="form-group">
+                    <input type="checkbox" name="my-checkbox4" checked>
+                    <%= f.label I18n.t :onlinepublikation %>
+                  </div>
+                <% end %>
                 <div class="form-group">
                   <input type="checkbox" name="my-checkbox1" checked>
                   <%= f.label I18n.t :active %>
@@ -294,6 +331,8 @@
                  <%= f.hidden_field :mtype, class:"form-control" %>
                  <%= f.hidden_field :parent %>
                  <%= f.hidden_field :status, class:"form-control" %>
+                 <%= f.hidden_field :requester_id %>
+                 <%= f.hidden_field :requester_type %>
                  <%= f.hidden_field :owner_id %>
                  <%= f.hidden_field :owner_type %>
                  <%= f.hidden_field :geo_address, class:"form-control" %>

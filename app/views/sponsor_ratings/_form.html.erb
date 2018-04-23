@@ -1,0 +1,58 @@
+<%= form_for(sponsor_rating) do |f| %>
+  <% if sponsor_rating.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(sponsor_rating.errors.count, "error") %> prohibited this sponsor_rating from being saved:</h2>
+
+      <ul>
+      <% sponsor_rating.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row">
+      <div class="col-md-6">
+          <div class="panel-body ueberschrift">
+              <h1><%= @sponsor_rating.user.fullname %></h1> 
+          </div>
+      </div>
+      <div class="col-md-6">
+        <div class="panel-body ueberschrift">
+          <div class="form-group">
+            <%= f.label :descriptions %>
+            <%= f.text_area :descriptions, class:"form-control" %>
+          </div>
+          <div class="form-group">
+            <input type="checkbox" name="my-checkbox1" checked>
+            <%= f.label I18n.t :decision, class:"form-control" %>
+          </div>
+          <div class="form-group">
+            <%= f.label :amount %>
+            <%= f.text_field :amount, class:"form-control" %>
+          </div>
+          <div class="form-group">
+            <%= f.submit "Speichern", class:"btn btn-primary btn-lg btn-submit"%>
+            <%= link_to mobject_path(:id => @sponsor_rating.mobject_id, :topic => "objekte_projektberechtigungen") do %>
+              <i class="btn btn-default btn-lg btn-submit">Abbrechen</i>
+            <% end %>
+          </div>
+       </div>
+       <%= f.hidden_field :mobject_id, class:"form-control" %>
+       <%= f.hidden_field :user_id, class:"form-control" %>
+       <%= f.check_box :decision, :id => "decision", class:"form-control hidden" %>
+
+      </div>
+  </div>
+
+<% end %>
+
+<script>
+  $(document).ready(function(){
+    $.fn.bootstrapSwitch.defaults.onColor = 'mycolor';
+    $("[name='my-checkbox1']").bootstrapSwitch('state',<%= @sponsor_rating.decision %>);
+    $("[name='my-checkbox1']").on('switchChange.bootstrapSwitch', function () {
+    $("#decision").prop('checked',$("[name='my-checkbox1']").bootstrapSwitch('state'));
+  });
+});
+</script>

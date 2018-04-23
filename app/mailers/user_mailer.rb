@@ -21,4 +21,14 @@ class UserMailer < ApplicationMailer
     #mail(to: "wurmhorst63@gmail.com", subject: 'Welcome to My Awesome Site')
   end
   
+  def user_access_info(user, header, text, mobject)
+    @url  = 'https://myTGCloud.herokuapp.com'
+    @url = $appurl
+    @user = user
+    @text = text
+    @mobject = mobject
+    mail(to: user.email, subject: header)
+    #mail(to: "wurmhorst63@gmail.com", subject: 'Welcome to My Awesome Site')
+  end
+  
 end

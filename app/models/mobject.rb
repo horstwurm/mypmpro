@@ -3,6 +3,7 @@ class Mobject < ActiveRecord::Base
 belongs_to :owner, polymorphic: true
 belongs_to :mcategory
 
+has_many :sponsor_ratings, dependent: :destroy
 has_many :mdetails, dependent: :destroy
 has_many :mvdetails, dependent: :destroy
 has_many :mratings, dependent: :destroy

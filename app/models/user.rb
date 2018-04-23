@@ -8,6 +8,7 @@ devise :database_authenticatable, :registerable,
         # UserMailer.welcome_email(User.last).deliver_now
   end
 
+    has_many :sponsor_ratings, dependent: :destroy
     has_many :iots, as: :owner, dependent: :destroy 
     has_many :deputies, as: :owner, dependent: :destroy 
     has_many :charges, as: :owner, dependent: :destroy 

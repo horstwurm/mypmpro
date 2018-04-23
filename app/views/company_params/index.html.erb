@@ -1,0 +1,41 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Company Params</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Company</th>
+      <th>Sponsoring werte1</th>
+      <th>Sponsoring werte2</th>
+      <th>Sponsoring werte3</th>
+      <th>Sponsoring werte4</th>
+      <th>Sponsoring init</th>
+      <th>Role sponsoring res</th>
+      <th>Color1</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @company_params.each do |company_param| %>
+      <tr>
+        <td><%= company_param.company_id %></td>
+        <td><%= company_param.sponsoring_werte1 %></td>
+        <td><%= company_param.sponsoring_werte2 %></td>
+        <td><%= company_param.sponsoring_werte3 %></td>
+        <td><%= company_param.sponsoring_werte4 %></td>
+        <td><%= company_param.sponsoring_init %></td>
+        <td><%= company_param.role_sponsoring_res %></td>
+        <td><%= company_param.color1 %></td>
+        <td><%= link_to 'Show', company_param %></td>
+        <td><%= link_to 'Edit', edit_company_param_path(company_param) %></td>
+        <td><%= link_to 'Destroy', company_param, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Company Param', new_company_param_path %>

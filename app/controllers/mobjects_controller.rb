@@ -590,6 +590,12 @@ class MobjectsController < ApplicationController
     @mobject.alertlow = false
     @mobject.allow = false
     @mobject.allowdays = 5
+    @mobject.sponsorenart = 0
+    @mobject.sponsorenperiode = "einmalig"
+    @mobject.sponsorenbetragantrag = 0.00
+    @mobject.sponsorenbetraggenehmigt = 0.00
+    @mobject.sponsorenantwort = ""
+    @mobject.sponsorenstatus = "beantragt"
 
     if params[:parent]
       @mobject.parent = params[:parent].to_i
@@ -607,10 +613,25 @@ class MobjectsController < ApplicationController
     @mobject.address1 = @mobject.owner.address1
     @mobject.address2 = @mobject.owner.address2
     @mobject.address3 = @mobject.owner.address3
+
+    #bei Sponsorenanträgen speziell behandeln
+    if params[:mtype] == "sponsorantraege" and params[:owner_id] and params[:owner_type]
+      @mobject.requester_id = params[:owner_id]
+      @mobject.requester_type = params[:owner_type]
+      if params[:owner_type] == "Company"
+        @requester = Company.find(params[:owner_id])
+      else
+        @requester = User.find(params[:owner_id])
+      end
+      @mobject.address1 = @requester.address1
+      @mobject.address2 = @requester.address2
+      @mobject.address3 = @requester.address3
+    end
+
     @mobject.geo_address = @mobject.owner.geo_address
     @mobject.longitude = @mobject.owner.longitude
     @mobject.latitude = @mobject.owner.latitude
-
+    
   end
 
   # GET /mobjects/1/edit
@@ -659,7 +680,7 @@ class MobjectsController < ApplicationController
     
     # Never trust parameters from the scary internet, only allow the white list through.
     def mobject_params
-      params.require(:mobject).permit(:mini, :maxi, :alert, :alertlow, :sum_paufwand_ist, :sum_pkosten_ist, :sum_paufwand_plan, :sum_pkosten_plan, :risk, :quality, :costinfo, :parent, :online_pub, :eventpart, :owner_id, :owner_type, :mtype, :msubtype, :mcategory_id, :company_id, :user_id, :status, :name, :description, :reward, :interest_rate, :due_date, :date_from, :date_to, :time_from, :time_to, :days, :amount, :price, :tasks, :skills, :offers, :social, :price_reg, :price_new, :active, :signage, :keywords, :homepage, :address1, :address2, :address3, :latitude, :longitude, :geo_address, :allow, :allowdays)
+      params.require(:mobject).permit(:mini, :maxi, :alert, :alertlow, :sum_paufwand_ist, :sum_pkosten_ist, :sum_paufwand_plan, :sum_pkosten_plan, :risk, :quality, :costinfo, :parent, :online_pub, :eventpart, :owner_id, :owner_type, :mtype, :msubtype, :mcategory_id, :company_id, :user_id, :status, :name, :description, :reward, :interest_rate, :due_date, :date_from, :date_to, :time_from, :time_to, :days, :amount, :price, :tasks, :skills, :offers, :social, :price_reg, :price_new, :active, :signage, :keywords, :homepage, :address1, :address2, :address3, :latitude, :longitude, :geo_address, :allow, :allowdays, :sponsorenart, :sponsorenperiode, :sponsorenbetragantrag, :sponsorenbetraggenehmigt,:sponsorenantwort, :sponsorenstatus, :sponsorenok, :requester_id, :requester_type)
     end
 
 end
