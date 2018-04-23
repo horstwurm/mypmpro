@@ -14,10 +14,11 @@
         <% pic = @mobject.mdetails.first %>
         <%= pic.avatar.url %>
         <% if pic.avatar.url %>
-          <%= email_s3image_tag(pic.avatar.url, :size => "200x200") %>
+          <%= image_tag(pic.avatar.url) %>
+          <%= email_s3image_tag(pic.avatar.url, :size => "200x200") if false %>
         <% end %>
     <% end %>
-
+    
     <% if false %>
     <%= email_s3image_tag(showFirstImage2(:medium, @mobject, @mobject.mdetails)) %>
     <% end %>
