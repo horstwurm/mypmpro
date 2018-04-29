@@ -832,7 +832,11 @@
           <%= build_medialistNew(@user.mobjects.where('mtype=?',"sensoren"), "mobjects", nil) %>
         <% when "personen_stellvertretungen" %>
           <%= build_medialistNew(@user.deputies, "deputies", nil) %>
-   
+
+        <% when "personen_sponsorantraege" %>
+         <% @actives = Mobject.where('mtype=? and requester_type=? and requester_id=?', "sponsorantraege", "User", @user.id) %>
+         <%= build_medialistNew(@actives, "mobjects", nil) if @actives and @actives.count > 0 %>
+
         <% when "personen_kalendereintraege" %>
           <div id='calendar'></div>
           <div class="panel-body">

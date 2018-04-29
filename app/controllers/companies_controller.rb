@@ -29,6 +29,12 @@ class CompaniesController < ApplicationController
   # GET /companies/1
   def show
 
+   if params[:scope]
+     @c_scope = params[:scope]
+   else
+     @c_scope = "beantragt"
+   end 
+
    if !@menu
      @menu="f"
    end
@@ -61,6 +67,42 @@ class CompaniesController < ApplicationController
       if @anz and @anz > 0
         @stats << [@text, @anz]
       end
+    end
+
+    if @topic == "institutionen_sponsorantraege"
+
+      @sponsorstats1 = [["Status","Anzahl"]]
+      @antraege = @company.mobjects.select("sponsorenstatus as status, count(*) as anzahl").where('mtype=?',"sponsorantraege").group(:sponsorenstatus)
+      @antraege.each do |t|
+        if t.anzahl and t.status and t.anzahl > 0
+          @sponsorstats1 << [t.status, t.anzahl]
+        end
+      end
+
+      @sponsorstats2 = [["Status","CHF"]]
+      @antraege = @company.mobjects.select("sponsorenstatus as status, sum(sponsorenbetragantrag) as anzahl").where('mtype=?',"sponsorantraege").group(:sponsorenstatus)
+      @antraege.each do |t|
+        if t.anzahl and t.status and t.anzahl > 0
+          @sponsorstats2 << [t.status, t.anzahl]
+        end
+      end
+      
+      @sponsorstats3 = [["Monat","Anzahl"]]
+      @antraege = @company.mobjects.select("strftime('%m', created_at) as monat, count(*) as anzahl").where('mtype=?',"sponsorantraege").group('monat')
+      @antraege.each do |t|
+        if t.anzahl and t.monat and t.anzahl > 0
+          @sponsorstats3 << [t.monat, t.anzahl]
+        end
+      end
+
+      @sponsorstats4 = [["Monat","Betrag beantragt","Betrag genehmigt"]]
+      @antraege = @company.mobjects.select("strftime('%m', created_at) as monat, sum(sponsorenbetragantrag) as sumantrag, sum(sponsorenbetraggenehmigt) as sumok").where('mtype=?',"sponsorantraege").group('monat')
+      @antraege.each do |t|
+        #if t.sumantrag and t.monat and t.sumantrag > 0 and t.sumok and t.sumok>0
+          @sponsorstats4 << [t.monat, t.sumantrag, t.sumok]
+        #end
+      end
+      
     end
 
     if @topic ==   "institutionen_export"

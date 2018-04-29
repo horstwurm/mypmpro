@@ -197,33 +197,71 @@
                     <br>
 
                    <% when "sponsorantraege" %>
-                    <%= header(I18n.t :bewertungen) %>
-                    <br>
-                    <table class="table table-striped">
-                      <tr>
-                        <td>Bewerter</td>
-                        <td>Bewertung</td>
-                        <td>Empfehlung</td>
-                        <td>Betrag</td>
-                      </tr>
-                      <% @mobject.madvisors.each do |a| %>
-                        <tr>
-                          <td><%= a.user.fullname %></td>
-                          <% @ur = a.user.sponsor_ratings.where('mobject_id=?', a.mobject_id).first %>
-                          <% if @ur and @ur.descriptions != "" %>
-                            <td><%= @ur.descriptions %></td>
-                            <% if @ur.decision %>
-                              <td><%= I18n.t :empfohlen %></td>
-                            <% else %>
-                              <td><%= I18n.t :nichtempfohlen %></td>
-                            <% end %>
-                            <td><%= @ur.amount.to_s %></td>
-                          <% else %>
-                            <td><%= I18n.t :notrated %></td><td></td><td></td>
-                          <% end %>
-                        </tr>
+
+                    <b><%= I18n.t :periodizitaet %></b><br>
+                    <%= @mobject.sponsorenperiode %><br>
+                    <b><%= I18n.t :status %></b><br>
+                    <%= @mobject.sponsorenstatus %><br>
+                    <b><%= I18n.t :beantragterbetrag %></b><br>
+                    <%= sprintf("%05.2f CHF",@mobject.sponsorenbetragantrag) %><br><br>
+                    
+                    <% found = false %>
+                    <% @mobject.madvisors.each do |u| %>
+                      <% if u.user_id == current_user.id %>
+                        <% found = true %>
                       <% end %>
-                    </table>
+                    <% end %>
+
+                    <% if found or current_user.superuser %>
+                      <%= header(I18n.t :bewertungen) %>
+                      <br>
+                      <table class="table table-striped">
+                        <tr>
+                          <td></td>
+                          <td>Bewerter</td>
+                          <td>Bewertung</td>
+                          <td>Empfehlung</td>
+                          <td>Betrag</td>
+                        </tr>
+                        <% @mobject.madvisors.each do |a| %>
+                          <tr>
+                            <td>
+                              <% if a.user_id == current_user.id %>
+                                <% @sponsor_rating = SponsorRating.where('mobject_id=? and user_id=?',@mobject.id, a.user_id).first %>
+                                <% if !@sponsor_rating %>
+                                  <% @sponsor_rating = SponsorRating.new %>
+                                  <% @sponsor_rating.user_id = a.user_id %>
+                                  <% @sponsor_rating.mobject_id = @mobject.id %>
+                                  <% @sponsor_rating.descriptions = "" %>
+                                  <% @sponsor_rating.decision = false %>
+                                  <% @sponsor_rating.save %>
+                                <% end %>
+    	                          <%= link_to(edit_sponsor_rating_path(@sponsor_rating, :mobject_id => @mobject.id)) do %>
+                                  <i class="btn btn-primary btn-lg fa fa-star"></i>
+                                <% end %>
+                              <% end %>
+                            </td>
+                            <td><%= a.user.email %></td>
+                            <% @ur = a.user.sponsor_ratings.where('mobject_id=?', a.mobject_id).first %>
+                            <% if @ur and @ur.descriptions != "" %>
+                              <td><%= @ur.descriptions %></td>
+                              <% if @ur.decision %>
+                                <td><%= I18n.t :empfohlen %></td>
+                              <% else %>
+                                <td><%= I18n.t :nichtempfohlen %></td>
+                              <% end %>
+                              <td><%= @ur.amount.to_s %></td>
+                            <% else %>
+                              <td><%= I18n.t :notrated %></td><td></td><td></td>
+                            <% end %>
+                          </tr>
+                        <% end %>
+                      </table>
+                      <b><%= I18n.t :genehmigterbetrag %></b><br>
+                      <%= sprintf("%05.2f CHF",@mobject.sponsorenbetraggenehmigt) if @mobject.sponsorenbetraggenehmigt != nil %><br>
+                      <b><%= I18n.t :antwort %></b><br>
+                      <%= @mobject.sponsorenantwort %>
+                    <% end %>
 
                  <% when "stellenanzeigen" %>
                       <div class="row">
@@ -353,12 +391,6 @@
                 <% if @mobject.mcategory_id %>
                   <b><%= I18n.t :kategorie %></b><br>
             			<%= @mobject.mcategory.name %>
-                  <br><br>
-                <% end %>
-                <% if @mobject.homepage != nil %>
-                  <%= link_to url_with_protocol(@mobject.homepage), :target => '_blank' do %>
-                    <i class="fa fa-home"></i> <%= url_with_protocol(@mobject.homepage) %>
-                  <% end %>
                   <br><br>
                 <% end %>
 

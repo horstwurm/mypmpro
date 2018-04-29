@@ -643,6 +643,22 @@ class MobjectsController < ApplicationController
     @mobject = Mobject.new(mobject_params)
 
     if @mobject.save
+
+    # STD Berechtigung erstellen
+      if @mobject.mtype == "sponsorantraege"
+        if @mobject.owner.company_params.first.role_sponsoring
+          u = User.where('email=?',@mobject.owner.company_params.first.role_sponsoring).first
+          if u
+            m = Madvisor.new
+            m.mobject_id = @mobject.id
+            m.user_id = u.id
+            m.role = @mobject.mtype 
+            m.grade = "default"
+            m.save
+          end
+        end
+      end
+
       redirect_to @mobject, notice: (I18n.t :act_create)
     else
       render :new

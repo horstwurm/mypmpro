@@ -4,7 +4,7 @@
     <% if !@mobject.allowdays %>
       <% @mobject.allowdays = 5 %>
     <% end %>
-
+    
     <%= form_for @mobject, html: {multipart: true}  do |f| %>
 
         <% if @mobject.errors.any? %>
@@ -53,7 +53,7 @@
                 <% if @mobject.mtype == "sponsorantraege" %>
                   <div class="form-group">
                     <div class="form-group">
-                      <%= f.label I18n.t :sponsorenstatus %>
+                      <%= f.label I18n.t :sponsorenperiode %>
                       <%= f.select :sponsorenperiode, options_for_select([["einmalig", "einmalig"],["periodisch", "periodisch"]], @mobject.sponsorenperiode), {}, class:"form-control", :onchange => "showdata();" %>
                     </div>
                     <%= f.label I18n.t :sponsorenbetragantrag %><br/>
@@ -64,7 +64,7 @@
                     <% if isowner(@mobject) or isdeputy(@mobject.owner) %>
                       <div class="form-group">
                         <%= f.label I18n.t :sponsorenstatus %>
-                        <%= f.select :sponsorenstatus, options_for_select([["beantragt", "antrag"],["In Prüfung", "pending"],["abgelehnt", "abgelehnt"],["genehmigt", "genehmigt"]], @mobject.sponsorenstatus), {}, class:"form-control", :onchange => "showdata();" %>
+                        <%= f.select :sponsorenstatus, options_for_select([["beantragt", "beantragt"],["in Prüfung", "in Prüfung"],["abgelehnt", "abgelehnt"],["genehmigt", "genehmigt"],["genehmingt mit Anpassungen", "genehmigt mit Anpassungen"]], @mobject.sponsorenstatus), {}, class:"form-control", :onchange => "showdata();" %>
                       </div>
                       <%= f.label I18n.t :sponsorenbetraggenehmigt %><br/>
                       <div class="input-group">                          
@@ -76,6 +76,10 @@
                       <%= f.label I18n.t :sponsorenantwort %>
                       <%= f.text_area :sponsorenantwort, rows: 5, class:"form-control"%>
                     </div>
+                  <% else %>
+                     <%= f.hidden_field :sponsorenstatus %>
+                     <%= f.hidden_field :sponsorenbetraggenehmigt %>
+                     <%= f.hidden_field :sponsorenantwort %>
                   <% end %>
                 <% end %>
 

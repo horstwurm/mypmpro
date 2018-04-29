@@ -42,7 +42,7 @@ class SponsorRatingsController < ApplicationController
   def update
     respond_to do |format|
       if @sponsor_rating.update(sponsor_rating_params)
-        format.html { redirect_to mobject_path(:id => @sponsor_rating.mobject_id, :topic => "objekte_projektberechtigungen"), notice: 'Sponsor rating was successfully updated.' }
+        format.html { redirect_to mobject_path(:id => @sponsor_rating.mobject_id, :topic => "objekte_info"), notice: 'Sponsor rating was successfully updated.' }
         format.json { render :show, status: :ok, location: @sponsor_rating }
       else
         format.html { render :edit }

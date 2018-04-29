@@ -20,6 +20,14 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 de:
+  monatBetrag: "Antragsvolumen pro Monat"
+  monatAnzahl: "Anzahl Antraege pro Monat beantragt & genehmigt"
+  statusBetrag: "Status nach Betrag"
+  statusProzent: "Status in Prozent"
+  beantragterbetrag: "beantragter Betrag"
+  genehmigterbetrag: "genehmigter Betrag"
+  periodizitaet: "Periodizität"
+  rollen: "Benutzerrollen"
   reqsel: "Für wen möchten Sie den Antrag stellen?"
   firstsignin: "Bitte melden Sie sich zuerst an"
   empfohlen: "empfohlen"

@@ -701,7 +701,7 @@ def build_medialistNew(items, cname, par)
                   else
                     @r = User.find(item.requester_id)
                     html_string = html_string + showImage2(:small, @r, true)
-                    html_string = html_string + @r.fullname+ "<br>"
+                    html_string = html_string + @r.name + " " + @r.lastname + "<br>"
                   end
                 end
 
@@ -737,11 +737,11 @@ def build_medialistNew(items, cname, par)
                     html_string = html_string + " " + item.sponsorenperiode.to_s + "<br>"
                     html_string = html_string + '<i class="fa fa-cog"></i> '
                     html_string = html_string + " " + item.sponsorenstatus.to_s + "<br>"
-                    if item.sponsorenbetraggenehmigt != nil
-                      html_string = html_string + "<sensorwert>"+ item.sponsorenbetraggenehmigt.to_s+ "</sensorwert>"
+                    if item.sponsorenbetraggenehmigt != nil and item.sponsorenbetraggenehmigt > 0 
+                      html_string = html_string + "<sensorwert>"+ sprintf("%05.0f CHF",item.sponsorenbetraggenehmigt) + "</sensorwert>"
                     else
                       if item.sponsorenbetragantrag != nil
-                        html_string = html_string + "<sensorwert>"+ item.sponsorenbetragantrag.to_s + "</sensorwert>"
+                        html_string = html_string + "<sensorwert>"+ sprintf("%05.0f CHF",item.sponsorenbetragantrag) + "</sensorwert>"
                       end
                     end
 
@@ -1729,6 +1729,7 @@ def navigate2(object, item, topic)
       html_string = html_string + build_nav2("personen",item,"personen_stellvertretungen", item.deputies.count)
       if user_signed_in?
         #html_string = html_string + build_nav2("personen",item,"personen_sponsorantraege", item.mobjects.where('mtype=?',"sponsorantraege").count)
+        html_string = html_string + build_nav2("personen",item,"personen_sponsorantraege", Mobject.where('mtype=? and requester_type=? and requester_id=?', "sponsorantraege", "User", item.id).count)
         html_string = html_string + build_nav2("personen",item,"personen_charges", item.charges.count)
       end
 
@@ -1769,8 +1770,11 @@ def navigate2(object, item, topic)
         html_string = html_string + build_nav2("institutionen",item,"institutionen_crowdfunding", item.mobjects.where('mtype=?',"crowdfunding").count)
         html_string = html_string + build_nav2("institutionen",item,"institutionen_crowdfundingbeitraege", item.mstats.count)
         html_string = html_string + build_nav2("institutionen",item,"institutionen_stellvertretungen", item.deputies.count)
+        html_string = html_string + build_nav2("institutionen",item,"institutionen_rollen", item.mobjects.where('mtype=?',"rollen").count)
         if user_signed_in?
           html_string = html_string + build_nav2("institutionen",item,"institutionen_sponsorantraege", item.mobjects.where('mtype=?',"sponsorantraege").count)
+          html_string = html_string + build_nav2("institutionen",item,"institutionen_sponsorantraege", Mobject.where('mtype=? and requester_type=? and requester_id=?', "sponsorantraege", "Company", item.id).count)
+
           html_string = html_string + build_nav2("institutionen",item,"institutionen_charges", item.charges.count)
           if current_user.id == item.user_id or isdeputy(item.user)
             html_string = html_string + build_nav2("institutionen",item,"institutionen_params", item.company_params.count)
@@ -1797,11 +1801,11 @@ def navigate2(object, item, topic)
           html_string = html_string + build_nav2("institutionen",item.owner,"institutionen_"+item.mtype,1)
         end
         html_string = html_string + build_nav2("objekte",item,"objekte_info",1)
-        if user_signed_in?
-          if isowner(item) or isdeputy(item.owner)
+        #if user_signed_in?
+          #if isowner(item) or isdeputy(item.owner)
             html_string = html_string + build_nav2("objekte",item,"objekte_details",item.mdetails.where('mtype=?',"details").count)
-          end
-        end 
+          #end
+        #end 
         if item.mtype == "projekte"
           if user_signed_in?
             if isowner(item) or isdeputy(item.owner)
@@ -1815,6 +1819,10 @@ def navigate2(object, item, topic)
         if item.mtype == "gruppen"
           html_string = html_string + build_nav2("objekte",item,"objekte_gruppenmitglieder", item.madvisors.where('role=?',item.mtype).count)
           html_string = html_string + build_nav2("objekte",item,"objekte_ressourcenplanung", item.madvisors.where('role=?',item.mtype).count)
+        end
+        if item.mtype == "rollen"
+          html_string = html_string + build_nav2("objekte",item,"objekte_rollenmitglieder", item.madvisors.where('role=?',item.mtype).count)
+          html_string = html_string + build_nav2("objekte",item,"objekte_rollendefinition", item.madvisors.where('role=?',item.mtype).count)
         end
         if item.mtype == "kampagnen"
           html_string = html_string + build_nav2("objekte",item,"objekte_signcal", SignageCal.where('mkampagne=?', item.id).count)
@@ -1939,7 +1947,7 @@ def build_nav2(domain, item, domain2, anz)
     html_string = html_string + "</li>"
   end
   
-  if (!user_signed_in? and $activeapps.include?(domain2)) or (user_signed_in? and getUserCreds.include?(domain2)) or (user_signed_in? and current_user.superuser) and infosymbol != :menu or infosymbol == :info
+  if (!user_signed_in? and $activeapps.include?(domain2)) or (user_signed_in? and getUserCreds.include?(domain2)) or (user_signed_in? and current_user.superuser) and infosymbol != :menu or infosymbol == :info # or infosymbol == :details
 
     if anz > 0 and infosymbol != :info
         badge = content_tag(:span, anz.to_s, class:"badge menu-badge")
@@ -2510,6 +2518,8 @@ def getinfo2(topic)
   end
 
   case topic
+    when :rollen
+      info = "user"
     when :params
       info = "cog"
     when :sponsorantraege
@@ -3030,6 +3040,7 @@ def init_apps
 
     hash = Hash.new
     hash = {"domain" => "personen", "right" => "info", "access" => true, "info" => "news"}
+    @array << hash
     hash = Hash.new
     hash = {"domain" => "personen", "right" => "notizen", "access" => false, "info" => "news"}
     @array << hash
@@ -3136,7 +3147,7 @@ def init_apps
     hash = {"domain" => "personen", "right" => "charges", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "personen", "right" => "sponsorenantraege", "access" => true, "info" => "news"}
+    hash = {"domain" => "personen", "right" => "sponsorantraege", "access" => true, "info" => "news"}
     @array << hash
 
     hash = Hash.new
@@ -3222,6 +3233,9 @@ def init_apps
     @array << hash
     hash = Hash.new
     hash = {"domain" => "institutionen", "right" => "params", "access" => true, "info" => "news"}
+    @array << hash
+    hash = Hash.new
+    hash = {"domain" => "institutionen", "right" => "rollen", "access" => true, "info" => "news"}
     @array << hash
 
     hash = Hash.new
@@ -4005,25 +4019,48 @@ def isdeputy(item)
   return zugriff
 end
 
-def zugriffsliste(mobjects, user)
+def zugriffsliste(mobjects, mtype, user)
   array = []
   if user_signed_in?
-      mobjects.each do |m|
-          #wenn Owner ok or deputy of Owner
-          if isowner(m) or isdeputy(m.owner)
-            array << m.id
-          end
-          #wenn Berechtigung ok
-          m.madvisors.where('role=?',"projekte").each do |a|
-            if current_user.id == a.user_id
-              if !array.include?(m.id)
-                array << m.id
+      if mobjects != nil or mobject.count > 0
+        mobjects.each do |m|
+            #wenn Owner ok or deputy of Owner oder Antragsteller bei Sponsoranträge
+            if isowner(m) or isdeputy(m.owner) or isrequester(m) or iscompany_sponsor_res(m)
+              array << m.id
+            end
+            #wenn Berechtigung ok
+            m.madvisors.where('role=?',mtype).each do |a|
+              if current_user.id == a.user_id
+                if !array.include?(m.id)
+                  array << m.id
+                end
               end
             end
-          end
+        end
       end
   end
   return array
+end
+
+def isrequester(m)
+  if (m.requester_type == "Company" and Company.find(m.requester_id).user_id == current_user.id) or
+     (m.requester_type == "User" and m.requester_id == current_user.id)
+      return true
+  else
+      return false
+  end
+end
+
+def iscompany_sponsor_res(m)
+  if m.owner_type=="Company" and m.mtype == "sponsorenantraege"
+    p = m.owner.company_params.first
+    if p
+      if current_user.email == User.where('email=?',p.role_sponsoring)
+        return true
+      end
+    end
+  end
+  return false
 end
 
 def contactChip(owner)

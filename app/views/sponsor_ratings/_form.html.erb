@@ -14,21 +14,22 @@
   <div class="row">
       <div class="col-md-6">
           <div class="panel-body ueberschrift">
-              <h1><%= @sponsor_rating.user.fullname %></h1> 
+              <h1><%= (I18n.t :bewertung) + " " + @sponsor_rating.user.name + " " + @sponsor_rating.user.lastname %></h1> 
           </div>
       </div>
       <div class="col-md-6">
         <div class="panel-body ueberschrift">
+
           <div class="form-group">
-            <%= f.label :descriptions %>
+            <%= f.label I18n.t :beschreibung %>
             <%= f.text_area :descriptions, class:"form-control" %>
           </div>
           <div class="form-group">
             <input type="checkbox" name="my-checkbox1" checked>
-            <%= f.label I18n.t :decision, class:"form-control" %>
+            <%= f.label I18n.t :empfehlung, class:"form-control" %>
           </div>
           <div class="form-group">
-            <%= f.label :amount %>
+            <%= f.label :betrag %>
             <%= f.text_field :amount, class:"form-control" %>
           </div>
           <div class="form-group">

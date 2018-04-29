@@ -72,8 +72,7 @@
           <%= controller.redirect_to edit_company_param_path(@cp) %>
 
         <% when "institutionen_projekte" %>
-          <% moblist = zugriffsliste(@company.mobjects, current_user) %>
-          <% moblist %>
+          <% moblist = zugriffsliste(@company.mobjects, "projekte", current_user) %>
           <%= build_medialistNew(@company.mobjects.mobshow("projekte",moblist), "mobjects", nil) %>
 
         <% when "institutionen_kampagnen" %>
@@ -83,7 +82,75 @@
           <%= build_medialistNew(@company.mobjects.where('mtype=?',"standorte"), "mobjects", nil) %>
 
         <% when "institutionen_sponsorantraege" %>
-          <%= build_medialistNew(@company.mobjects.where('mtype=?',"sponsorantraege"), "mobjects", nil) %>
+          <% case @c_scope %>
+            <% when "beantragt" %>
+              <% btn_antrag = "active" %>
+              <% btn_ok = "inactive" %>
+              <% btn_nok = "inactive" %>
+              <% qString = "sponsorenstatus='beantragt' or sponsorenstatus='in Prüfung'" %>
+            <% when "genehmigt" %>
+              <% btn_antrag = "inactive" %>
+              <% btn_ok = "active" %>
+              <% btn_nok = "inactive" %>
+              <% qString = "sponsorenstatus='genehmigt' or sponsorenstatus='genehmigt mit Anpassungen'" %>
+            <% when "abgelehnt" %>
+              <% btn_antrag = "inactive" %>
+              <% btn_ok = "inactive" %>
+              <% btn_nok = "active" %>
+              <% qString = "sponsorenstatus='abgelehnt'" %>
+          <% end %>
+
+          <% access = false %>
+          <% if user_signed_in? %>
+            <% if current_user.superuser %>
+                <% access = true %>
+            <% end %>
+            <% if @company.company_params.first %>
+              <% if current_user.id == User.where('email=?', @company.company_params.first.role_sponsoring) %>
+                <% access = true %>
+              <% end %>
+            <% end %>
+          <% end %>
+          <% if access %>
+          
+          <%= link_to company_path(:id => @company.id, :topic => "institutionen_sponsorantraege", :scope => "beantragt")  do %>
+            <span><i class="btn btn-<%= btn_antrag %> fa fa-question"> beantragt</i></span>
+          <% end %>
+          <%= link_to company_path(:id => @company.id, :topic => "institutionen_sponsorantraege", :scope => "genehmigt")  do %>
+            <span><i class="btn btn-<%= btn_ok %> fa fa-check"> genehmigt</i></span>
+          <% end %>
+          <%= link_to company_path(:id => @company.id, :topic => "institutionen_sponsorantraege", :scope => "abgelehnt")  do %>
+            <span><i class="btn btn-<%= btn_nok %> fa fa-ban"> abgelehnt</i></span>
+          <% end %>
+
+          <%= header("Statistik") %>
+          <div class="row">
+            <div class="col">
+              <div id="sponsor_piechart1"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div id="sponsor_piechart2"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div id="sponsor_linechart1"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div id="sponsor_linechart2"></div>
+            </div>
+          </div>
+          <% end %>
+
+         <% moblist = zugriffsliste(@company.mobjects.where(qString), "sponsorantraege", current_user) %>
+         <% @passives = @company.mobjects.mobshow("sponsorantraege",moblist) %>
+         <%= build_medialistNew(@passives, "mobjects", nil) if @passives and @passives.count > 0 %>
+         <% @actives = Mobject.where('mtype=? and requester_type=? and requester_id=?', "sponsorantraege", "Company", @company.id) %>
+         <%= build_medialistNew(@actives, "mobjects", nil) if @actives and @actives.count > 0 %>
 
         <% when "institutionen_sensoren" %>
           <%= build_medialistNew(@company.mobjects.where('mtype=?',"sensoren"), "mobjects", nil) %>
@@ -380,6 +447,65 @@
       chart.draw(data, options);
     };
   
+  </script>
+<% end %>
+
+<% if @topic == "institutionen_sponsorantraege" %>
+  <script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart1);
+    function drawChart1() {
+      var data = google.visualization.arrayToDataTable(<%= raw @sponsorstats1 %>);
+      var options = {
+        title: "<%= (I18n.t :statusProzent) %>",
+        pieHole: 0.4,
+        height: 600,
+      };
+      var chart = new google.visualization.PieChart(document.getElementById('sponsor_piechart1'));
+      chart.draw(data, options);
+    };
+
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart2);
+    function drawChart2() {
+      var data = google.visualization.arrayToDataTable(<%= raw @sponsorstats2 %>);
+      var options = {
+        title: "<%= (I18n.t :statusBetrag) %>",
+        pieHole: 0.4,
+        height: 600,
+        pieSliceText: 'value',
+      };
+      var chart = new google.visualization.PieChart(document.getElementById('sponsor_piechart2'));
+      chart.draw(data, options);
+    };
+
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart3);
+    function drawChart3() {
+      var data = google.visualization.arrayToDataTable(<%= raw @sponsorstats3 %>);
+      var options = {
+        title: "<%= (I18n.t :monatAnzahl) %>",
+        colors: ['#ACC550'],
+        curveType: 'function',
+        legend: { position: 'bottom' }
+      };
+      var chart = new google.visualization.LineChart(document.getElementById('sponsor_linechart1'));
+      chart.draw(data, options);
+    };
+
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart4);
+    function drawChart4() {
+      var data = google.visualization.arrayToDataTable(<%= raw @sponsorstats4 %>);
+      var options = {
+        title: "<%= (I18n.t :monatBetrag) %>",
+        colors: ['#ACC550','#FFC550'],
+        curveType: 'function',
+        legend: { position: 'bottom' }
+      };
+      var chart = new google.visualization.LineChart(document.getElementById('sponsor_linechart2'));
+      chart.draw(data, options);
+    };
   </script>
 <% end %>
 
