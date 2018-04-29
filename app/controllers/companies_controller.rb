@@ -89,7 +89,7 @@ class CompaniesController < ApplicationController
       
       @sponsorstats3 = [["Monat","Anzahl"]]
       #@antraege = @company.mobjects.select("strftime('%m', created_at) as monat, count(*) as anzahl").where('mtype=?',"sponsorantraege").group('monat')
-      @antraege = @company.mobjects.select("month(created_at) as monat, count(*) as anzahl").where('mtype=?',"sponsorantraege").group('monat')
+      @antraege = @company.mobjects.select("Month(created_at) as monat, count(*) as anzahl").where('mtype=?',"sponsorantraege").group('monat')
       @antraege.each do |t|
         if t.anzahl and t.monat and t.anzahl > 0
           @sponsorstats3 << [t.monat, t.anzahl]
@@ -98,7 +98,7 @@ class CompaniesController < ApplicationController
 
       @sponsorstats4 = [["Monat","Betrag beantragt","Betrag genehmigt"]]
       #@antraege = @company.mobjects.select("strftime('%m', created_at) as monat, sum(sponsorenbetragantrag) as sumantrag, sum(sponsorenbetraggenehmigt) as sumok").where('mtype=?',"sponsorantraege").group('monat')
-      @antraege = @company.mobjects.select("month(created_at) as monat, sum(sponsorenbetragantrag) as sumantrag, sum(sponsorenbetraggenehmigt) as sumok").where('mtype=?',"sponsorantraege").group('monat')
+      @antraege = @company.mobjects.select("Month(created_at) as monat, sum(sponsorenbetragantrag) as sumantrag, sum(sponsorenbetraggenehmigt) as sumok").where('mtype=?',"sponsorantraege").group('monat')
       @antraege.each do |t|
         #if t.sumantrag and t.monat and t.sumantrag > 0 and t.sumok and t.sumok>0
           @sponsorstats4 << [t.monat, t.sumantrag, t.sumok]
