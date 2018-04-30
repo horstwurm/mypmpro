@@ -7,23 +7,33 @@
     <%= email_image_tag("thurcloud.png", :size => "200x200") %>
     <h1><%= @text %></h1>
 
-    <b><%= (I18n.t @mobject.mtype) %></b>
+    <b><%= (I18n.t @mobject.mtype) %></b><br>
     <%= link_to @mobject do %>
        <%= @mobject.name %>
     <% end %>
     </p>
 
     <% if @mobject.mdetails.first %>
-      <%= image_url = "https://"+url_for(@mobject.mdetails.first.avatar(:medium)) %>
+      <% image_url = "https://"+url_for(@mobject.mdetails.first.avatar(:medium)) %>
       <%= image_tag(image_url) %>
     <% end %>
-    <%= image_tag("https://s3.amazonaws.com/tgcloudtestbucket/companies/avatars/000/000/002/original/connect.jpg") %>
-
-    <% if false %>
-    <%= email_s3image_tag(url_for(Company.find(1).avatar(:medium))) %>
-    <% img = url_for(Company.find(1).avatar(:small)) %>
-    <%= image_tag attachments[img] if false %>
+    <% if @mobject.requester_id %>
+      <% if @mobject.requester_type == "User" %>
+        <% @u = User.find(@mobject.requester_id) %>
+        <% image_url = "https://"+url_for(@u.avatar(:small)) %>
+        <%= image_tag(image_url) %><br>
+        <%= @u.name + " " + @u.lastname %><br>
+        <%= @u.email %><br>
+      <% end %>
+      <% if @mobject.requester_type == "Company" %>
+        <% @c = Company.find(@mobject.requester_id) %>
+        <% image_url = "https://"+url_for(@c.avatar(:small)) %>
+        <%= image_tag(image_url) %><br>
+        <%= @c.name %><br>
+        <%= @c.user.email %><br>
+      <% end %>
     <% end %>
+
     <p><%= (I18n.t :visitus) %><b><%= " " + @url %></b></p>
   </body>
 </html>
