@@ -4,7 +4,6 @@ class UserMailer < ApplicationMailer
   add_template_helper(EmailHelper)
  
   def welcome_email(user)
-    @url  = 'https://myTGCloud.herokuapp.com'
     @url = $appurl
     @user = user
     mail(to: user.email, subject: (I18n.t :welcometo))
@@ -12,7 +11,6 @@ class UserMailer < ApplicationMailer
   end
   
   def send_email(user_to, user_from, header, text)
-    @url  = 'https://myTGCloud.herokuapp.com'
     @url = $appurl
     @user_to = user_to
     @user_from = user_from
@@ -22,7 +20,6 @@ class UserMailer < ApplicationMailer
   end
   
   def user_access_info(user, header, text, mobject)
-    @url  = 'https://myTGCloud.herokuapp.com'
     @url = $appurl
     @user = user
     @text = text

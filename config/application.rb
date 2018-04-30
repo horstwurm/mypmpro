@@ -19,6 +19,5 @@ module Tkbnet
     config.time_zone = "Europe/Zurich"
     config.i18n.default_locale = :de
 
-    config.action_mailer.asset_host = "https://s3amazonaws.tgcloudtestbucket.com"    
   end
 end
