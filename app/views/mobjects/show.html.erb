@@ -212,6 +212,28 @@
                       <% end %>
                     <% end %>
 
+                    <%= header(I18n.t :sponsorkriterien) %>
+                    <% @comp = Company.find(@mobject.owner_id).company_params.first %> 
+                    <% if @comp %>
+                      <ul>
+                        <% if @comp.sponsoring_wert1 %>
+                          <li><%= @comp.sponsoring_wert1 %></li>
+                        <% end %>
+                        <% if @comp.sponsoring_wert2 %>
+                          <li><%= @comp.sponsoring_wert2 %></li>
+                        <% end %>
+                        <% if @comp.sponsoring_wert3 %>
+                          <li><%= @comp.sponsoring_wert3 %></li>
+                        <% end %>
+                        <% if @comp.sponsoring_wert4 %>
+                          <li><%= @comp.sponsoring_wert4 %></li>
+                        <% end %>
+                        <% if @comp.sponsoring_wert5 %>
+                          <li><%= @comp.sponsoring_wert5 %></li>
+                        <% end %>
+                      </ul>
+                    <% end %>
+                    
                     <% if found or current_user.superuser %>
                       <%= header(I18n.t :bewertungen) %>
                       <br>

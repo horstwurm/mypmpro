@@ -20,6 +20,7 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 de:
+  sponsorkriterien: "Sponsoring Bewertungskriterien"
   monatBetrag: "Antragsvolumen pro Monat"
   monatAnzahl: "Anzahl Antraege pro Monat beantragt & genehmigt"
   statusBetrag: "Status nach Betrag"

@@ -87,6 +87,7 @@ class CompaniesController < ApplicationController
         end
       end
       
+      if !$sqllite
       @sponsorstats3 = [["Monat","Anzahl"]]
       #@antraege = @company.mobjects.select("strftime('%m', created_at) as monat, count(*) as anzahl").where('mtype=?',"sponsorantraege").group('monat')
       @antraege = @company.mobjects.select("extract(month from created_at) as monat, count(*) as anzahl").where('mtype=?',"sponsorantraege").group('monat')
@@ -103,6 +104,7 @@ class CompaniesController < ApplicationController
         #if t.sumantrag and t.monat and t.sumantrag > 0 and t.sumok and t.sumok>0
           @sponsorstats4 << [t.monat, t.sumantrag, t.sumok]
         #end
+      end
       end
       
     end
