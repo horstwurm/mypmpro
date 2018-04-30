@@ -14,7 +14,7 @@
     </p>
 
     <% if @mobject.mdetails.first %>
-      <%= image_url = url_for(@mobject.mdetails.first.avatar(:medium)) %>
+      <%= image_url = "https://"+url_for(@mobject.mdetails.first.avatar(:medium)) %>
       <%= image_tag(image_url) %>
     <% end %>
     <%= image_tag("https://s3.amazonaws.com/tgcloudtestbucket/companies/avatars/000/000/002/original/connect.jpg") %>
