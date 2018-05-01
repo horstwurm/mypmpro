@@ -50,7 +50,7 @@ class UserMailer < ApplicationMailer
           @text = @param.sponsoring_ok_change
       end
     end
-    mail(to: user.email, subject: @mobject.name + " " + @status)
+    mail(to: user.email, subject: "Sponsoring Antrag" + " " + @mobject.name)
     #mail(to: "wurmhorst63@gmail.com", subject: 'Welcome to My Awesome Site')
   end
 end

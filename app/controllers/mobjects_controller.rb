@@ -663,6 +663,11 @@ class MobjectsController < ApplicationController
           @status = @mobject.sponsorenstatus
           UserMailer.user_sponsoring_info(@user, @mobject, @status).deliver_now
         end
+        if @mobject.requester_type == "Company"
+          @company = Company.find(@mobject.requester_id)
+          @status = @mobject.sponsorenstatus
+          UserMailer.user_sponsoring_info(@company.user, @mobject, @status).deliver_now
+        end
       end
 
       redirect_to @mobject, notice: (I18n.t :act_create)

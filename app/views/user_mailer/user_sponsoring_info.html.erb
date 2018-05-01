@@ -4,10 +4,33 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <%= email_image_tag("thurcloud.png", :size => "200x200") %>
-    <h1><%= @text %></h1>
 
-    <b><%= (I18n.t @mobject.mtype) %></b><br>
+    <% if @mobject.requester_id %>
+      <% if @mobject.requester_type == "User" %>
+        <% @u = User.find(@mobject.requester_id) %>
+        <% image_url = "https://"+url_for(@u.avatar(:small)) %>
+        <%= image_tag(image_url) if false %><br>
+        <b><%= @u.name + " " + @u.lastname %><br></b>
+        <%= @u.address1 %><br>
+        <%= @u.address2 %><br>
+        <%= @u.address3 %><br>
+        <%= @u.email if false %><br>
+      <% end %>
+      <% if @mobject.requester_type == "Company" %>
+        <% @c = Company.find(@mobject.requester_id) %>
+        <% image_url = "https://"+url_for(@c.avatar(:small)) %>
+        <%= image_tag(image_url) if false %><br>
+        <b><%= @c.name %><br></b>
+        <%= @c.address1 %><br>
+        <%= @c.address2 %><br>
+        <%= @c.address3 %><br><br>
+        <%= @c.user.name + " " + @c.user.lastname %><br>
+        <%= @c.user.email if false %><br>
+      <% end %>
+    <% end %>
+    </p>
+
+    <b><%= (I18n.t :antrag) + " " %></b>
     <%= link_to @mobject do %>
        <%= @mobject.name %>
     <% end %>
@@ -20,28 +43,26 @@
     <% end %>
     </p>
     <p>
-    <% if @mobject.requester_id %>
-      <% if @mobject.requester_type == "User" %>
-        <% @u = User.find(@mobject.requester_id) %>
-        <% image_url = "https://"+url_for(@u.avatar(:small)) %>
-        <%= image_tag(image_url) %><br>
-        <%= @u.name + " " + @u.lastname %><br>
-        <%= @u.email %><br>
+
+    <p><%= @text %><p>
+    <p>
+      bei Fragen wenden Sie sich bitte an:<br>
+      <% if @mobject.owner.company_params.first %>
+        <% @u = User.where('email=?',@mobject.owner.company_params.first.role_sponsoring).first %>
+        <% if @u %>
+          <% image_url = "https://"+url_for(@u.avatar(:small)) %>
+          <%= image_tag(image_url) %><br>
+          <%= @u.name + " " + @u.lastname %><br>
+          <%= @u.email %><br>
+        <% end %>
       <% end %>
-      <% if @mobject.requester_type == "Company" %>
-        <% @c = Company.find(@mobject.requester_id) %>
-        <% image_url = "https://"+url_for(@c.avatar(:small)) %>
-        <%= image_tag(image_url) %><br>
-        <%= @c.name %><br>
-        <%= @c.user.email %><br>
-      <% end %>
-    <% end %>
     </p>
 
     <% image_url = "https://"+url_for(@mobject.owner.avatar(:medium)) %>
     <%= image_tag(image_url) %>
     <h1><%= @mobject.owner.name %></h1>
-
+    
+    <%= email_image_tag("thurcloud.png", :size => "50x50") %>
     <p><%= (I18n.t :visitus) %><b><%= " " + @url %></b></p>
   </body>
 </html>

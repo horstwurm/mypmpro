@@ -13,7 +13,7 @@
                 <td><%= current_user.fullname %></td>
                 <td>
                     <%= link_to(new_mobject_path(:company_id => @c.id, :mtype => @mtype, :owner_type => "User", :owner_id => current_user.id )) do %>
-                        <i class="btn btn-primary btn-lg fa fa-plus orange"> <%= I18n.t :sponsorantrag %></i>
+                        <i class="btn btn-primary btn-lg fa fa-plus orange"></i>
                    <% end %>
                 </td>
             </tr>
@@ -26,7 +26,7 @@
                     <td><%= c.name %></td>
                     <td>
                         <%= link_to(new_mobject_path(:company_id => @c.id, :mtype => @mtype, :owner_type => "Company", :owner_id => c.id)) do %>
-                            <i class="btn btn-primary btn-lg fa fa-plus orange"> <%= I18n.t :sponsorantrag %></i>
+                            <i class="btn btn-primary btn-lg fa fa-plus orange"></i>
                        <% end %>
                     </td>
                     </tr>
