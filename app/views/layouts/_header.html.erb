@@ -40,7 +40,7 @@
                   <li class=""><a href="../#contact">Kontakt</a></li>
                   <li class=""><a href="../#news">News</a></li>
                   <% end %>
-                  <li class=""><a href="../#news">News</a></li>
+                  <li class=""><a href="../#news">Veranstaltungen</a></li>
                   <li class=""><a href="../#subscription">Abonnement</a></li>
                   <li class=""><a href="../#partner">Partner</a></li>
                   <li class=""><a href="../#dashboard">Cockpit</a></li>
@@ -61,14 +61,121 @@
                   <%= contactChip(current_user) %>
                 <% end %>
                 <br>
-               <h2 class="bnr-sub-title">Starten Sie jetzt !!</h2>
-                <p class="bnr-para">Registrieren Sie sich noch heute und profitieren Sie sofort.<br> </p>
                 <div class="brn-btn">
                   <% if user_signed_in? %>
+
+              <div class="container">
+                <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    
+                    <h2>TGCloud</h2>
+
+                    <div class="news blue">
+                      <!--<span>News</span>-->
+                      <ul>
+                        <% Mobject.order(created_at: :desc).first(10).each do |m| %>
+                            <li>
+                              <div class="row">
+                                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                  <%= showFirstImage2(:small, m, m.mdetails) %>
+                                </div>
+                                <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                  <b><%= m.created_at.strftime("%d.%m.%Y") %></b><br>
+                                  <%= m.mtype %>
+                                  <%= link_to m do %>
+                                    <%= m.name %> von 
+                                  <% end %>
+                                  <% if m.owner_type == "User" %>
+                                    <%= m.owner.name + " " + m.owner.lastname %>
+                                  <% end %>
+                                  <% if m.owner_type == "Company" %>
+                                    <%= m.owner.name %>
+                                  <% end %>
+                                </div>
+                              </div>
+                            </li>
+                        <% end %>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    
+                    <% if user_signed_in? %>
+
+                      <h2>myNews</h2>
+  
+                      <div class="news2 blue">
+                        <!--<span>News2</span>-->
+                        <ul>
+
+                          <!--Berechtigungen-->
+                          <% f = current_user.madvisors.last(5) %>
+                          <% f.each do |m| %>
+                              <li>
+                                <div class="row">
+                                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    <%= showFirstImage2(:small, m.mobject, m.mobject.mdetails) %>
+                                  </div>
+                                  <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                    <b><%= m.created_at.strftime("%d.%m.%Y") %></b><br>
+                                    Berechtigung für <%= m.mobject.name %>
+                                  </div>
+                                </div>
+                              </li>
+                          <% end %>
+  
+                          <!--Favourits-->
+                          <% f = Favourit.where('object_name=? and object_id=?', "User", current_user.id).last(5) %>
+                          <% f.each do |m| %>
+                              <% u=User.find(m.user_id) %>
+                              <li>
+                                <div class="row">
+                                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    <%= showImage2(:small, u, true) %>
+                                  </div>
+                                  <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                    <b><%= m.created_at.strftime("%d.%m.%Y") %></b><br>
+                                    <%= u.name + " " + u.lastname + " hat SIe als Favourit zugefügt" %>
+                                  </div>
+                                </div>
+                              </li>
+                          <% end %>
+  
+                          <!--eMails-->
+                          <% f = Email.where('m_to=?', current_user.id).last(5) %>
+                          <% f.each do |m| %>
+                              <% u=User.find(m.m_from) %>
+                              <li>
+                                <div class="row">
+                                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    <%= showImage2(:small, u, true) %>
+                                  </div>
+                                  <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                    <b><%= m.created_at.strftime("%d.%m.%Y") %></b><br>
+                                    <%= m.header + " " + m.body %>
+                                  </div>
+                                </div>
+                              </li>
+                          <% end %>
+
+                        </ul>
+                      </div>
+
+                    <% end %>
+
+                  </div>
+
+                  </div>
+                </div>
+
+
         					  <%= link_to(destroy_user_session_path, method: :delete) do %>
         				    	<i class="btn btn-more">Abmelden</i>
         					  <% end %>
         					<% else %>
+                   <h2 class="bnr-sub-title">Starten Sie jetzt !!</h2>
+                    <p class="bnr-para">Registrieren Sie sich noch heute<br> </p>
         					  <%= link_to new_user_registration_path do %>
         				    	<i class="btn btn-download">Registrieren</i>
         					  <% end %>

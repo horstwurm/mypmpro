@@ -5,9 +5,10 @@
           <div class="container">
             <div class="row">
               <div class="banner-info text-center wow fadeIn delay-05s">
-               <h2 class="bnr-sub-title">News</h2>
+               <h2 class="bnr-sub-title">Event Kalender</h2>
                 <div class="brn-btn">
                   
+              <% if false %>
               <div class="container">
                 <div class="row">
                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -114,6 +115,7 @@
 
                   </div>
                 </div>
+              <% end %>
                 
               <% if false %>
               <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -125,9 +127,11 @@
               <div class="container">
                   		<div class="row">
               				<div class="col-md-12">
+              				  <% if false %>
               					<div class="page-header">
               					  <h2>Event Kalender</h2>
               					</div>
+              					<% end %>
               					<div style="display:inline-block;width:100%;overflow-y:auto;">
               					<ul class="timeline timeline-horizontal">
               
@@ -143,7 +147,7 @@
                 								<div class="timeline-heading" style="text-align:left">
                 									<h4 class="timeline-title"><%= m.name %></h4>
                 									<%= showFirstImage2(:small, m, m.mdetails) %>
-                									<p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> <%= m.created_at %></small></p>
+                									<p><small class="text-muted"><i class="fa fa-safari"></i> <%= m.created_at.strftime("%d.%m.%Y") %></small></p>
                 								</div>
                 								<div class="timeline-body">
                 								  <% if m.description.length > 100 %>

@@ -29,4 +29,28 @@ class UserMailer < ApplicationMailer
     #mail(to: "wurmhorst63@gmail.com", subject: 'Welcome to My Awesome Site')
   end
   
+  def user_sponsoring_info(user, mobject, status)
+    @url = $appurl
+    @user = user
+    @status = status
+    @mobject = mobject
+    @param = mobject.owner.company_params.first
+    @text = ""
+    if @param
+      case @status
+        when "beantragt"
+          @text = @param.sponsoring_init
+        when "in Prüfung"
+          @text = @param.sponsoring_init
+        when "abgelehnt"
+          @text = @param.sponsoring_nok
+        when "genehmigt"
+          @text = @param.sponsoring_ok
+        when "genehmigt mit Anpassungen"
+          @text = @param.sponsoring_ok_change
+      end
+    end
+    mail(to: user.email, subject: @mobject.name + " " + @status)
+    #mail(to: "wurmhorst63@gmail.com", subject: 'Welcome to My Awesome Site')
+  end
 end

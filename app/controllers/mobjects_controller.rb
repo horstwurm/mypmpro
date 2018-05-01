@@ -644,7 +644,7 @@ class MobjectsController < ApplicationController
 
     if @mobject.save
 
-    # STD Berechtigung erstellen
+      # STD Berechtigung erstellen
       if @mobject.mtype == "sponsorantraege"
         if @mobject.owner.company_params.first.role_sponsoring
           u = User.where('email=?',@mobject.owner.company_params.first.role_sponsoring).first
@@ -656,6 +656,12 @@ class MobjectsController < ApplicationController
             m.grade = "default"
             m.save
           end
+        end
+        # Bestätigungsemail an Antragsteller erstellen
+        if @mobject.requester_type == "User"
+          @user = User.find(@mobject.requester_id)
+          @status = @mobject.sponsorenstatus
+          UserMailer.user_sponsoring_info(@user, @mobject, @status).deliver_now
         end
       end
 
