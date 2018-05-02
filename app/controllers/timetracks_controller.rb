@@ -134,6 +134,14 @@ class TimetracksController < ApplicationController
   # POST /timetracks
   # POST /timetracks.json
   def create
+    
+    if !@timetrack.mobject.allow
+      @mobject = @timetrack.mobject
+      @mobject.allow = false
+      @mobject.allowdays = 3
+      @mobject.save
+    end
+    
     @timetrack = Timetrack.new(timetrack_params)
     respond_to do |format|
       if (@timetrack.datum <= Date.today-@timetrack.mobject.allowdays and @timetrack.datum.strftime("%m") != Date.today.strftime("%m")) or @timetrack.mobject.allow == false
