@@ -136,7 +136,7 @@ class TimetracksController < ApplicationController
   def create
     @timetrack = Timetrack.new(timetrack_params)
     respond_to do |format|
-      if (@timetrack.datum <= Date.today-@timetrack.mobject.allow_days and @timetrack.datum.strftime("%m") != Date.today.strftime("%m")) or @timetrack.mobject.allow == false
+      if (@timetrack.datum <= Date.today-@timetrack.mobject.allowdays and @timetrack.datum.strftime("%m") != Date.today.strftime("%m")) or @timetrack.mobject.allow == false
         format.html { redirect_to new_timetrack_path(:user_id => @timetrack.user_id, :mobject_id => @timetrack.mobject_id, :scope => @timetrack.costortime, :tdatum => @timetrack.datum), notice: "Keine Zeiterfassung mehr möglich!" }
       end
       if @timetrack.save
