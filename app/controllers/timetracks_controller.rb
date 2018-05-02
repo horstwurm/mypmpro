@@ -135,14 +135,14 @@ class TimetracksController < ApplicationController
   # POST /timetracks.json
   def create
     
+    @timetrack = Timetrack.new(timetrack_params)
     if !@timetrack.mobject.allow
       @mobject = @timetrack.mobject
       @mobject.allow = false
       @mobject.allowdays = 3
       @mobject.save
     end
-    
-    @timetrack = Timetrack.new(timetrack_params)
+
     respond_to do |format|
       if (@timetrack.datum <= Date.today-@timetrack.mobject.allowdays and @timetrack.datum.strftime("%m") != Date.today.strftime("%m")) or @timetrack.mobject.allow == false
         format.html { redirect_to new_timetrack_path(:user_id => @timetrack.user_id, :mobject_id => @timetrack.mobject_id, :scope => @timetrack.costortime, :tdatum => @timetrack.datum), notice: "Keine Zeiterfassung mehr möglich!" }
