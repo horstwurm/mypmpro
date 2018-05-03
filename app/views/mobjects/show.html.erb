@@ -453,8 +453,15 @@
                   <%= build_medialistNew(@mobject.madvisors.where("role=? and (grade=? or grade=?)", "innovationswettbewerbe", "Jury-Vorsitz", "Jury-Mitglied"), "madvisors", "user") %>
                 </div>
                 <br>
+
+                    <%found = false %>
+                    <% @mobject.madvisors.where('grade=? or grade=?',"Jury-Vorsitz", "Jury-Mitglied").each do |u| %>
+                      <% if u.user_id == current_user.id %>
+                        <% u.user.fullname %>
+                        <% found = true %>
+                      <% end %>
+                    <% end %>
                 
-                    <% found = true %>
                     <% if found or current_user.superuser %>
                       <%= header(I18n.t :rangliste) %>
                       <br>
