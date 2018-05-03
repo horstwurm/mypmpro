@@ -78,7 +78,7 @@ class IdeaRatingsController < ApplicationController
       sum = 0
       anz = @idea_rating.idea.idea_ratings.count
       @idea_rating.idea.idea_ratings.each do |ir|
-        if ir.crit.rating and ir.rating
+        if ir.crit and ir.crit.rating and ir.rating
           sum = sum + (ir.crit.rating*ir.rating/100)
         end
       end
