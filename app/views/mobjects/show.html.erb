@@ -453,6 +453,49 @@
                   <%= build_medialistNew(@mobject.madvisors.where("role=? and (grade=? or grade=?)", "innovationswettbewerbe", "Jury-Vorsitz", "Jury-Mitglied"), "madvisors", "user") %>
                 </div>
                 <br>
+                
+                    <% found = true %>
+                    <% if found or current_user.superuser %>
+                      <%= header(I18n.t :rangliste) %>
+                      <br>
+                      <table class="table table-striped">
+                        <thead>
+                        <tr>
+                          <th>Idee</th>
+                          <th>Ideengeber</th>
+                          <% @mobject.crits.each do |c| %>
+                            <th>
+                              <%= c.name + " (" + c.rating.to_s + ")" %>
+                            </th>
+                          <% end %>
+                          <th>Total</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <% @mobject.ideas.order(rating: :desc).each do |i| %>
+                          <tr>
+                            <td>
+                              <%= i.header %>
+                            </td>
+                            <td>
+                              <%= i.user.fullname %>
+                              <% i.user.name + " " + i.user.lastname %>
+                            </td>
+                            <% @mobject.crits.each do |c| %>
+                              <td>
+                                <% c.idea_ratings.where('idea_id=?',i.id).each do |cr| %>
+                                  <%= cr.user.name + " " + cr.user.lastname + " (" + cr.rating.to_s + ") " %>
+                                  <i><%= cr.rating_text %></i><br><br>
+                                <% end %>
+                              </td>
+                            <% end %>
+                            <td><%= i.rating.to_s %></td>
+                          </tr>
+                        <% end %>
+                        </tbody>
+                      </table>
+                    <% end %>
+                
                <% end %>
 
               <b><%= I18n.t :verantwortlich %></b><br>
