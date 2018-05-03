@@ -123,6 +123,12 @@
             <span><i class="btn btn-<%= btn_nok %> fa fa-ban"> abgelehnt</i></span>
           <% end %>
 
+         <% moblist = zugriffsliste(@company.mobjects.where(qString), "sponsorantraege", current_user) %>
+         <% @passives = @company.mobjects.mobshow("sponsorantraege",moblist) %>
+         <%= build_medialistNew(@passives, "mobjects", nil) if @passives and @passives.count > 0 %>
+         <% @actives = Mobject.where('mtype=? and requester_type=? and requester_id=?', "sponsorantraege", "Company", @company.id) %>
+         <%= build_medialistNew(@actives, "mobjects", nil) if @actives and @actives.count > 0 %>
+
           <%= header("Statistik") %>
           <div class="row">
             <div class="col">
@@ -145,12 +151,6 @@
             </div>
           </div>
           <% end %>
-
-         <% moblist = zugriffsliste(@company.mobjects.where(qString), "sponsorantraege", current_user) %>
-         <% @passives = @company.mobjects.mobshow("sponsorantraege",moblist) %>
-         <%= build_medialistNew(@passives, "mobjects", nil) if @passives and @passives.count > 0 %>
-         <% @actives = Mobject.where('mtype=? and requester_type=? and requester_id=?', "sponsorantraege", "Company", @company.id) %>
-         <%= build_medialistNew(@actives, "mobjects", nil) if @actives and @actives.count > 0 %>
 
         <% when "institutionen_sensoren" %>
           <%= build_medialistNew(@company.mobjects.where('mtype=?',"sensoren"), "mobjects", nil) %>
