@@ -106,7 +106,7 @@
                 <% access = true %>
             <% end %>
             <% if @company.company_params.first %>
-              <% if current_user.id == User.where('email=?', @company.company_params.first.role_sponsoring).id %>
+              <% if current_user.id == User.where('email=?', @company.company_params.first.role_sponsoring).first.id %>
                 <% access = true %>
               <% end %>
             <% end %>
