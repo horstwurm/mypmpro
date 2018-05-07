@@ -178,7 +178,19 @@ def build_medialistNew(items, cname, par)
     if item and show
       
         html_string = html_string + '<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-12">'
-          html_string = html_string + '<div class="blog-sec">'
+        
+          #bei mobject corporate design
+          color = $graph_color2
+          if items.table_name == "mobjects"
+            if item.owner_type == "Company"
+              if item.owner.company_params.first
+                if item.owner.company_params.first.color1 and item.owner.company_params.first.color1 != ""
+                  color = item.owner.company_params.first.color1
+                end
+              end
+            end
+          end
+          html_string = html_string + '<div class="blog-sec" style="border-left: 10px solid '+color+'">'
           
             #**************************************************************************************************************
             #IMAGE BLOCK
@@ -1626,12 +1638,21 @@ end
 
 def header(header)
     html_string = ""
-    #html_string = html_string + '<div class="container">'
-      html_string = html_string + '<div class="panel-body ueberschrift">'
+        html_string = html_string + '<div class="panel-body ueberschrift">'
         html_string = html_string + "<h3>"+header+"</h3>"
       html_string = html_string + "</div>"
-    #html_string = html_string + "</div>"
+    return html_string.html_safe
+end
 
+def header_comp(header, color)
+    html_string = ""
+      if color 
+        html_string = html_string + '<div class="panel-body" id="header">'
+      else
+        html_string = html_string + '<div class="panel-body ueberschrift">'
+      end
+        html_string = html_string + "<h3>"+header+"</h3>"
+      html_string = html_string + "</div>"
     return html_string.html_safe
 end
 

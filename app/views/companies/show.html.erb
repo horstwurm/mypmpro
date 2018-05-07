@@ -1,6 +1,40 @@
-<%= header(@company.name) %>
+<!-- Corporate Design if defined -->
+<% if @company.company_params.first %> 
+  <% if @company.company_params.first.color1 and @company.company_params.first.color1 != "" %>
+    <% color1 = @company.company_params.first.color1 %>
+  <% else %>
+    <% color1 = $graph_color2 %>
+  <% end %>
+  <% if @company.company_params.first.color2 and @company.company_params.first.color2 != "" %>
+    <% color2 = @company.company_params.first.color2 %>
+  <% else %>
+    <% color2 = $grey %>
+  <% end %>
+<% else %>
+    <% color1 = $graph_color2 %>
+    <% color2 = $grey %>
+<% end %>
+
+<%= header_comp(@company.name, true) %>
+<script>
+  $("#header").css("background-color", "<%= color1 %>");
+  $("#header").css("color", "<%= color2 %>");
+</script>
 
 <%= navigate2("institutionen", @company, @topic) %>
+<script>
+  $("#myMenuNavbar").css("background-color", "<%= color1 %>");
+  $("#myMenuNavbar .nav-item .menu-selected").css("background-color", "<%= color2 %>");
+
+  $("#myMenuNavbar .nav-item").hover(
+    function() {
+      $( this ).css("background-color","<%= color2 %>");
+      $( this ).css("color","<%= "red" %>");
+    }, function() {
+      $( this ).css("background-color",""); //to remove property set it to ''
+    }
+  );
+</script>
 
 <div id="main">
   <div class="row">
@@ -106,7 +140,8 @@
                 <% access = true %>
             <% end %>
             <% if @company.company_params.first %>
-              <% if current_user.id == User.where('email=?', @company.company_params.first.role_sponsoring).first.id %>
+              <% @u = User.where('email=?', @company.company_params.first.role_sponsoring).first %>
+              <% if @u and current_user.id == @u.id %>
                 <% access = true %>
               <% end %>
             <% end %>
@@ -129,7 +164,7 @@
          <% @actives = Mobject.where('mtype=? and requester_type=? and requester_id=?', "sponsorantraege", "Company", @company.id) %>
          <%= build_medialistNew(@actives, "mobjects", nil) if @actives and @actives.count > 0 %>
 
-          <%= header("Statistik") %>
+          <%= header_comp("Statistik",color1) %>
           <div class="row">
             <div class="col">
               <div id="sponsor_piechart1"></div>

@@ -890,7 +890,7 @@ Responsive media queries
 }
 
 .ueberschrift {
-  background-color: rgb(73, 84, 105)!important;
+  /*background-color: rgb(73, 84, 105)!important;*/
   color:white;
 }
 

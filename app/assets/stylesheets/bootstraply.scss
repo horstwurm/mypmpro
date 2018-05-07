@@ -38,29 +38,34 @@
     }
 }
 
+.mytest {
+    height:10px;
+    background-color:$color1;
+}
+
 #myMenuNavbar {
-    color:white!important;
-    background-color:$colorblue!important;
+    color:white;
+    background-color:$colorblue;
     
     .menu-inactive {
-        color:grey;
+        // color:grey;
     }
 
     .menu-selected {
         color:white;
-        background-color:$colorgold!important;
+        background-color:$colorgold;
         .badge {
-            background-color:white;
-            color:$colorgold;
+            // background-color:white;
+            // color:$colorgold;
         }
     }
 
     .nav-item a:hover{
-        color:$colorgold;
-        background-color:$colorblue!important;
+        // color:$colorgold;
+        // background-color:$colorblue!important;
         .badge {
-            background-color:$colorgold;
-            color:$colorblue;
+            // background-color:$colorgold;
+            // color:$colorblue;
         }
     }
 }

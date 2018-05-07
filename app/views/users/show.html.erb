@@ -187,7 +187,7 @@
             <%= build_medialistNew(@user.companies, "companies", nil) %>
 
         <% when "personen_projekte" %>
-          <% moblist = zugriffsliste(@user.mobjects, current_user) %>
+          <% moblist = zugriffsliste(@user.mobjects, "projekte", current_user) %>
           <% moblist %>
           <%= build_medialistNew(@user.mobjects.mobshow("projekte",moblist), "mobjects", nil) %>
           <% if false %>
