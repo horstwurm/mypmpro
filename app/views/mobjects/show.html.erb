@@ -1,3 +1,4 @@
+<%= header_cicd(@mobject.name, nil, @mobject) %>
 <% if @mobject.owner_type == "Company" %>
 
   <!-- Corporate Design if defined -->
@@ -17,12 +18,6 @@
       <% color2 = $grey %>
   <% end %>
   
-  <%= header_comp(@mobject.name, true) %>
-  <script>
-    $("#header").css("background-color", "<%= color1 %>");
-    $("#header").css("color", "<%= color2 %>");
-  </script>
-  
   <%= navigate2("objekte", @mobject, @topic) %>
   <script>
     $("#myMenuNavbar").css("background-color", "<%= color1 %>");
@@ -40,7 +35,6 @@
 
 <% else %>
 
-  <%= header(@mobject.mtype + " " + @mobject.name) %>
   <%= navigate2("objekte", @mobject, @topic) %>
 
 <% end %>
@@ -153,14 +147,14 @@
                         <% end %>
                       <% end %>
                       
-                      <%= header("Anzahl Teilnehmer "+ "<span class='badge'>" + useranswers.count.to_s + "</span>") %>
+                      <%= header_cicd("Anzahl Teilnehmer "+ "<span class='badge'>" + useranswers.count.to_s + "</span>", nil, @mobject) %>
 
                       <div class="row">
                         
                         <% if false %>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                           <div>
-                            <%= header("Antworten pro Frage") %>
+                            <%= header_cicd("Antworten pro Frage", nil, @mobject) %>
                           </div>
                           <div id="chartq"></div>
                         </div>
@@ -170,7 +164,7 @@
                          <% @mobject.questions.each do |q| %>
                           <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                             <div>
-                              <%= header(q.name) %>
+                              <%= header_cicd(q.name, nil, @mobject) %>
                             </div>
                             <div id="<%="chart"+q.id.to_s %>"></div>
                           </div>
@@ -234,7 +228,7 @@
                     <br>
                     
                    <% when "projekte" %>
-                    <%= header(:projekte) %>
+                    <%= header_cicd((I18n.t :projekte), nil, @mobject) %>
                     <div class="panel-body">
                       <%= build_medialistNew(Mobject.where('parent=?',@mobject.id).order(created_at: :desc), "mobjects", "user") %>
                     </div>
@@ -256,7 +250,7 @@
                       <% end %>
                     <% end %>
 
-                    <%= header(I18n.t :sponsorkriterien) %>
+                    <%= header_cicd((I18n.t :sponsorkriterien), nil, @mobject) %>
                     <% @comp = Company.find(@mobject.owner_id).company_params.first %> 
                     <% if @comp %>
                       <ul>
@@ -279,7 +273,7 @@
                     <% end %>
                     
                     <% if found or current_user.superuser %>
-                      <%= header(I18n.t :bewertungen) %>
+                      <%= header_cicd((I18n.t :bewertungen), nil, @mobject) %>
                       <br>
                       <table class="table table-striped">
                         <tr>
@@ -461,7 +455,7 @@
                 <% end %>
 
               <% if @mobject.mtype == "projekte" %>
-                <%= header((I18n.t :projekte)) %>
+                <%= header_cicd((I18n.t :projekte), nil, @mobject) %>
                 <div class="panel-body">
                   <%= build_medialistNew(Mobject.where('parent=?',@mobject.id).order(created_at: :desc), "mobjects", "user") %>
                 </div>
@@ -469,7 +463,7 @@
               <% end %>
             
               <% if @mobject.mtype == "gruppen" %>
-                <%= header((I18n.t :gruppenmitglieder)) %>
+                <%= header_cicd((I18n.t :gruppenmitglieder), nil, @mobject) %>
                 <div class="panel-body">
                   <%= build_medialistNew(@mobject.madvisors.where('role=?', @mobject.mtype), "madvisors", "user") %>
                 </div>
@@ -477,22 +471,22 @@
               <% end %>
 
                <% if @mobject.mtype == "innovationswettbewerbe" %>
-                <%= header((I18n.t :ideen)) %>
+                <%= header_cicd((I18n.t :ideen), nil, @mobject) %>
                 <div class="panel-body">
                   <%= build_medialistNew(@mobject.ideas.order(rating: :desc), "ideas", "user") %>
                 </div>
                 <br>
-                <%= header((I18n.t :preise)) %>
+                <%= header_cicd((I18n.t :preise), nil, @mobject) %>
                 <div class="panel-body">
                   <%= build_medialistNew(@mobject.prices.order(:sequence), "prices", nil) %>
                 </div>
                 <br>
-                <%= header((I18n.t :bewertungskriterien)) %>
+                <%= header_cicd((I18n.t :bewertungskriterien), nil, @mobject) %>
                 <div class="panel-body">
                   <%= build_medialistNew(@mobject.crits.order(:name), "crits", nil) %>
                 </div>
                 <br>
-                <%= header((I18n.t :jury)) %>
+                <%= header_cicd((I18n.t :jury), nil, @mobject) %>
                 <div class="panel-body">
                   <%= build_medialistNew(@mobject.madvisors.where("role=? and (grade=? or grade=?)", "innovationswettbewerbe", "Jury-Vorsitz", "Jury-Mitglied"), "madvisors", "user") %>
                 </div>
@@ -507,7 +501,7 @@
                     <% end %>
                 
                     <% if found or current_user.superuser %>
-                      <%= header(I18n.t :rangliste) %>
+                      <%= header_cicd((I18n.t :rangliste), nil, @mobject) %>
                       <br>
                       <table class="table table-striped">
                         <thead>
@@ -555,7 +549,7 @@
               <%= @mobject.created_at.strftime("%d.%m.%Y") %>
               </div>
     
-              <%= header((I18n.t :standort)) %>
+              <%= header_cicd((I18n.t :standort), nil, @mobject) %>
               <div class="panel-body">
                 <% if @mobject.longitude and @mobject.latitude %>
                   <i class="fa fa-map-marker pull-left" onclick="return init_map(0);"></i>
@@ -655,14 +649,14 @@
             <% @objs = SignageHit.select("mkampagne as obj, count(mkampagne) as summe").where('mstandort=?', @mobject.id).group("mkampagne") %>
           <% end %>
 
-          <%= header((I18n.t :anzahl)) %> 
+          <%= header_cicd((I18n.t :anzahl), nil, @mobject) %> 
           <div id="signchartzeit"></div>
           <br><br>
           <% if @mtype == "kampagnen" %>
-            <%= header((I18n.t :standorte)) %> 
+            <%= header_cicd((I18n.t :standorte), nil, @mobject) %> 
           <% end %>
           <% if @mtype == "standorte" %>
-            <%= header((I18n.t :kampagnen)) %> 
+            <%= header_cicd((I18n.t :kampagnen), nil, @mobject) %> 
           <% end %>
           <div id="signchartobjekt"></div>
           <br><br>
@@ -670,7 +664,7 @@
           <% num =0 %>
           <% @objs.each do |o| %>
             <% num = num + 1 %>
-            <%= header(Mobject.find(o.obj).name) %> 
+            <%= header_cicd(Mobject.find(o.obj).name, nil, @mobject) %> 
             <div id="signchartobj<%= num %>"></div>
             <br><br>
           <% end %>
@@ -1342,7 +1336,7 @@
                   <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                     <div>
                       <% @user = User.find(u.user_id) %>
-                      <%= header(@user.name + " " + @user.lastname) %>
+                      <%= header_cicd(@user.name + " " + @user.lastname, nil, @mobject) %>
                       
                       <!--Sicht Monat/MA -->
                       <% if @c_mode == "alles" %>

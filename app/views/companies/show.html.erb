@@ -14,12 +14,7 @@
     <% color1 = $graph_color2 %>
     <% color2 = $grey %>
 <% end %>
-
-<%= header_comp(@company.name, true) %>
-<script>
-  $("#header").css("background-color", "<%= color1 %>");
-  $("#header").css("color", "<%= color2 %>");
-</script>
+<%= header_cicd(@company.name,@company,nil) %>
 
 <%= navigate2("institutionen", @company, @topic) %>
 <script>
@@ -164,7 +159,7 @@
          <% @actives = Mobject.where('mtype=? and requester_type=? and requester_id=?', "sponsorantraege", "Company", @company.id) %>
          <%= build_medialistNew(@actives, "mobjects", nil) if @actives and @actives.count > 0 %>
 
-          <%= header_comp("Statistik",color1) %>
+          <%= header_cicd("Statistik",@company,nil) %>
           <div class="row">
             <div class="col">
               <div id="sponsor_piechart1"></div>

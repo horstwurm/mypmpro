@@ -1665,6 +1665,38 @@ def header_comp(header, color)
     return html_string.html_safe
 end
 
+def header_cicd(header, company, mobject)
+  color1 = $graph_color2
+  color2 = $grey
+  if company  
+    if company.company_params.first 
+      if company.company_params.first.color1 and company.company_params.first.color1 != ""
+        color1 = company.company_params.first.color1
+      end
+      if company.company_params.first.color2 and company.company_params.first.color2 != ""
+        color2 = company.company_params.first.color2
+      end
+    end
+  end
+  if mobject
+    if mobject.owner_type == "Company"
+      if mobject.owner.company_params.first 
+        if mobject.owner.company_params.first.color1 and mobject.owner.company_params.first.color1 != ""
+          color1 = mobject.owner.company_params.first.color1
+        end
+        if mobject.owner.company_params.first.color2 and mobject.owner.company_params.first.color2 != ""
+          color2 = mobject.owner.company_params.first.color2
+        end
+      end
+    end
+  end
+  html_string = ""
+  html_string = html_string + '<div class="panel-body" style="background-color:' + color1 + '; color:' + color2 + '">'
+    html_string = html_string + "<h3>"+header+"</h3>"
+  html_string = html_string + "</div>"
+  return html_string.html_safe
+end
+
 def header3(objekt, item, topic, format)
 
     pos = topic.to_s.index("_")
