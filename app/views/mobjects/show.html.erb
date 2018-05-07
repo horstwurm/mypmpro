@@ -1,5 +1,49 @@
-<%= header(@mobject.mtype + " " + @mobject.name) %>
-<%= navigate2("objekte", @mobject, @topic) %>
+<% if @mobject.owner_type == "Company" %>
+
+  <!-- Corporate Design if defined -->
+  <% if @mobject.owner.company_params.first %> 
+    <% if @mobject.owner.company_params.first.color1 and @mobject.owner.company_params.first.color1 != "" %>
+      <% color1 = @mobject.owner.company_params.first.color1 %>
+    <% else %>
+      <% color1 = $graph_color2 %>
+    <% end %>
+    <% if @mobject.owner.company_params.first.color2 and @mobject.owner.company_params.first.color2 != "" %>
+      <% color2 = @mobject.owner.company_params.first.color2 %>
+    <% else %>
+      <% color2 = $grey %>
+    <% end %>
+  <% else %>
+      <% color1 = $graph_color2 %>
+      <% color2 = $grey %>
+  <% end %>
+  
+  <%= header_comp(@mobject.name, true) %>
+  <script>
+    $("#header").css("background-color", "<%= color1 %>");
+    $("#header").css("color", "<%= color2 %>");
+  </script>
+  
+  <%= navigate2("objekte", @mobject, @topic) %>
+  <script>
+    $("#myMenuNavbar").css("background-color", "<%= color1 %>");
+    $("#myMenuNavbar .nav-item .menu-selected").css("background-color", "<%= color2 %>");
+  
+    $("#myMenuNavbar .nav-item").hover(
+      function() {
+        $( this ).css("background-color","<%= color2 %>");
+        $( this ).css("color","<%= "red" %>");
+      }, function() {
+        $( this ).css("background-color",""); //to remove property set it to ''
+      }
+    );
+  </script>
+
+<% else %>
+
+  <%= header(@mobject.mtype + " " + @mobject.name) %>
+  <%= navigate2("objekte", @mobject, @topic) %>
+
+<% end %>
 
 <div id="main">
   

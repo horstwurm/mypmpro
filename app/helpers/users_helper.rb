@@ -190,6 +190,15 @@ def build_medialistNew(items, cname, par)
               end
             end
           end
+          if items.table_name == "ideas"
+            if item.mobject.owner_type == "Company"
+              if item.mobject.owner.company_params.first
+                if item.mobject.owner.company_params.first.color1 and item.mobject.owner.company_params.first.color1 != ""
+                  color = item.mobject.owner.company_params.first.color1
+                end
+              end
+            end
+          end
           html_string = html_string + '<div class="blog-sec" style="border-left: 10px solid '+color+'">'
           
             #**************************************************************************************************************
