@@ -135,7 +135,7 @@
                 <% when "innovationswettbewerbe" %>
                     <% @type = "machen Sie mit beim Wettbewerb " + o.name %>
                 <% else %>
-                    <% @type = "??? " + o.name %>
+                    <% @type = (I18n.t o.mtype.to_sym) + " " + o.name %>
             <% end %>
         
             <% if m.avatar_file_name %>
