@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180421065523) do
+ActiveRecord::Schema.define(version: 20180509150947) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "customer_id"
@@ -145,6 +145,10 @@ ActiveRecord::Schema.define(version: 20180421065523) do
     t.string   "color2"
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
+    t.string   "color3"
+    t.string   "color4"
+    t.string   "claim"
+    t.string   "logo"
   end
 
   create_table "credentials", force: :cascade do |t|
@@ -457,6 +461,10 @@ ActiveRecord::Schema.define(version: 20180421065523) do
     t.string   "sponsorenstatus"
     t.integer  "requester_id"
     t.string   "requester_type"
+    t.string   "color3"
+    t.string   "color4"
+    t.string   "claim"
+    t.string   "logo"
     t.index ["mcategory_id"], name: "index_mobjects_on_mcategory_id"
     t.index ["msubtype"], name: "index_mobjects_on_msubtype"
     t.index ["mtype"], name: "index_mobjects_on_mtype"

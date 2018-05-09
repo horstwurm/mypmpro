@@ -1,3 +1,19 @@
+<%  color2 = $graph_color2 %>
+<%  color1 = $grey %>
+<%  claim = "Willkommen" %>
+<%  if @mob.owner_type == "Company" %>
+<%    if @mob.owner.company_params.first  %>
+<%      if @mob.owner.company_params.first.color1 and @mob.owner.company_params.first.color1 != ""  %>
+<%        color1 = @mob.owner.company_params.first.color1  %>
+<%      end %>
+<%      if @mob.owner.company_params.first.color2 and @mob.owner.company_params.first.color2 != "" %>
+<%        color2 = @mob.owner.company_params.first.color2 %>
+<%      end %>
+<%      if @mob.owner.company_params.first.claim and @mob.owner.company_params.first.claim != "" %>
+<%        claim = @mob.owner.company_params.first.claim %>
+<%      end %>
+<%    end %>
+<%  end %>
 
 <%= @capanz %>
 <% i=0 %>
@@ -5,17 +21,16 @@
 
     <% image_tag("dig1.png", class:"signage_background") %>
 
-    <div class="signage_header">
+    <div class="signage_header" style="color:<%= color1 %>; background-color:<%= color2 %>">
         <div class="row">
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
                 <%= image_tag("tkb.png", size:"120x30") %>
             </div>
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                <b>FÜRS GANZE LEBEN</b>    
+                <b><%= claim %></b>    
             </div>
         </div>
     </div>
-
         
     <div class="signage_content">
         <div class="row">
@@ -27,7 +42,7 @@
                 </div>
             </div>
             
-            <div class="signage_right">
+            <div class="signage_right" style="background-color:<%= color1 %>">
                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
                     <!--<div id="side" class="signage_side">Hallo</div>-->
                     <div id="item_sideinfo" class="sideinfo">
@@ -49,14 +64,14 @@
     <!--<div id="qr" class="signage_infoqr"></div>-->
     <% if @standort %>
         <%= link_to @standort do %>
-            <div class="signage_footer">
+            <div class="signage_footer" style="background-color:<%= color1 %>">
                 <%= "Standort: " + @standort.name + " Kampagnen: " + @campanz.to_s + " " + @camp %>    
             </div>
         <% end %>
     <% end %>
     <% if @kampagne %>
         <%= link_to @kampagne do %>
-            <div class="signage_footer">
+            <div class="signage_footer" style="background-color:<%= color1 %>">
                 <%= "Kampagne: " + @kampagne.name %>    
             </div>
         <% end %>
