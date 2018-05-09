@@ -500,7 +500,7 @@ def readsensordata
       #msg << {:datum => "Datum", :wert => "Wert"}
       @iots.each do |i|
           if i.mobject.mcategory.name == "Farbe"
-              msg << {:datum => i.created_at.strftime("%H:%m"), :wert => i.value}
+              msg << {:datum => i.created_at.strftime("%H:%m"), :wert => i.svalue}
             else
               msg << {:datum => i.created_at.strftime("%H:%m"), :wert => i.value}
           end
