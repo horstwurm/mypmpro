@@ -473,10 +473,14 @@ def readLastValue
     @sensor = Mobject.find(params[:sensor])
     @iot = @sensor.sensors.last
     if @iot
-      if i.mobject.mcategory.name == "Farbe"
+      if @iot.value
+          msg << {:datum => @iot.created_at.strftime("%H:%m"), :wert => @iot.value}
+      end
+      if @iot.svalue
           msg << {:datum => @iot.created_at.strftime("%H:%m"), :wert => @iot.svalue}
-        else
-          msg << {:datum => @iot.created_at.strftime("%H:%m"), :wert => @iot.svalue}
+      end
+      if @iot.bvalue
+          msg << {:datum => @iot.created_at.strftime("%H:%m"), :wert => @iot.bvalue}
       end
     else
       msg << {:datum => Date.today.strftime("%H:%m"), :wert => 0}
@@ -503,11 +507,7 @@ def readsensordata
       msg = []
       #msg << {:datum => "Datum", :wert => "Wert"}
       @iots.each do |i|
-          if i.mobject.mcategory.name == "Farbe"
-              msg << {:datum => i.created_at.strftime("%H:%m"), :wert => i.svalue}
-            else
-              msg << {:datum => i.created_at.strftime("%H:%m"), :wert => i.value}
-          end
+        msg << {:datum => i.created_at.strftime("%H:%m"), :wert => i.value}
       end
       render :json => msg.to_json
   end
