@@ -473,7 +473,11 @@ def readLastValue
     @sensor = Mobject.find(params[:sensor])
     @iot = @sensor.sensors.last
     if @iot
-      msg << {:datum => @iot.created_at.strftime("%H:%m"), :wert => @iot.value}
+      if i.mobject.mcategory.name == "Farbe"
+          msg << {:datum => @iot.created_at.strftime("%H:%m"), :wert => @iot.svalue}
+        else
+          msg << {:datum => @iot.created_at.strftime("%H:%m"), :wert => @iot.svalue}
+      end
     else
       msg << {:datum => Date.today.strftime("%H:%m"), :wert => 0}
     end
