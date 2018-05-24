@@ -105,11 +105,53 @@
           <%= build_medialistNew(@company.mobjects.mobshow("projekte",moblist), "mobjects", nil) %>
 
         <% when "institutionen_rollen" %>
-          <% array = [] %>
+          <% carray = [] %>
+          <% marray = [] %>
           <% @company.mobjects.each do |m| %>
-            <% array << m.id %>
+            <% carray << m.id %>
+            <% m.madvisors.each do |a| %>
+              <% if !marray.include? a.user_id %>
+                <% marray << a.user_id %>
+              <% end %>
+            <% end %>
           <% end %>
-          <%= build_medialistNew(Madvisor.where("mobject_id IN (?)",array), "madvisors", nil) %>
+          
+          <%= header_cicd((I18n.t :berechtigungen), @company, nil) %>
+          <br>
+          <table class="table table-striped">
+            <tr>
+              <th>Name</th>
+              <th>Berechtigungen</th>
+            </tr>
+            <% User.where("id IN (?)", marray).order(:lastname).each do |u| %>
+              <tr>
+                <td>
+                  <%= showImage2(:medium, u, true) %>
+                  <%= u.name + " " + u.lastname %><br>
+                  <%= u.email %>
+                </td>
+                <td>
+                <table class="table table-striped">
+                  <% @mobs = u.madvisors.where('mobject_id in (?)', carray) %>
+                  <% @mobs.each do |m| %>
+                    <tr>
+                      <% @mob = Mobject.find(m.mobject_id) %>
+                      <td>
+        				        <%= link_to m, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                          <i class="btn btn-danger btn-xs fa fa-trash"></i>
+                        <% end %>
+                      </td>
+                      <td><%= showFirstImage2(:small, @mob, @mob.mdetails) %></td>
+                      <td><%= @mob.mtype %></td>
+                      <td><%= @mob.name %></td>
+                      <td><%= m.grade %></td>
+                    </tr>
+                  <% end %>
+                </table>
+                </td>
+              </tr>
+            <% end %>
+          </table>
 
         <% when "institutionen_kampagnen" %>
           <%= build_medialistNew(@company.mobjects.where('mtype=?',"kampagnen"),"mobjects", nil) %>
