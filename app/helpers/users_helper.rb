@@ -2418,6 +2418,16 @@ def action_buttons4(object_type, item, topic)
                   html_string = html_string + link_to(madvisors_path :user_id => item.owner_id, :mobject_id => item.id, :role => item.mtype) do
                       content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange") 
                   end
+
+                  if topic != "objekte_gruppenmitglieder"
+                    groups = item.owner.mobjects.where('mtype=?',"gruppen")
+                    groups.each do |g|
+                      html_string = html_string + link_to(mobject_path :mobject_id => item.id, :topic => topic, :group_id => g.id) do
+                          content_tag(:i, " " + g.name + " " + (I18n.t :hinzufuegen), class:"btn btn-default fa fa-plus orange") 
+                      end
+                    end
+                  end
+
                end
               end
 

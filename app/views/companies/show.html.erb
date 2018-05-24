@@ -104,6 +104,13 @@
           <% moblist = zugriffsliste(@company.mobjects, "projekte", current_user) %>
           <%= build_medialistNew(@company.mobjects.mobshow("projekte",moblist), "mobjects", nil) %>
 
+        <% when "institutionen_rollen" %>
+          <% array = [] %>
+          <% @company.mobjects.each do |m| %>
+            <% array << m.id %>
+          <% end %>
+          <%= build_medialistNew(Madvisor.where("mobject_id IN (?)",array), "madvisors", nil) %>
+
         <% when "institutionen_kampagnen" %>
           <%= build_medialistNew(@company.mobjects.where('mtype=?',"kampagnen"),"mobjects", nil) %>
 

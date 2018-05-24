@@ -84,6 +84,20 @@ class MobjectsController < ApplicationController
 
   # GET /mobjects/1
   def show
+    
+   if params[:group_id]
+     Mobject.find(params[:group_id]).madvisors.each do |m|
+       ma = Madvisor.where('mobject_id=? and user_id=? and role=?', @mobject.id, m.user_id, "projekte").first
+       if !ma
+         @ma = Madvisor.new
+         @ma.mobject_id = @mobject.id
+         @ma.user_id = m.user_id
+         @ma.role = "projekte"
+         @ma.grade = "Projektmitarbeiter"
+         @ma.save
+       end 
+     end
+   end
 
    if !@menu
      @menu="f"
