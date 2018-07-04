@@ -14,11 +14,29 @@ class SensorsController < ApplicationController
 
   # GET /sensors/new
   def new
-    @sensor = Sensor.new
-    @sensor.mobject_id = params[:mobject_id]
-    if @sensor.mobject.mcategory.name != "Farbe"
-      @sensor.value = 1
-      @sensor.save
+    #if @sensor.mobject.mcategory.name != "Farbe"
+    #  @sensor.value = 1
+    #  @sensor.save
+    #  redirect_to mobject_path(:id => @sensor.mobject_id, :topic => "objekte_sensordaten"), notice: 'Sensor was successfully created.'
+    #end
+    @mobject = Mobject.find(params[:mobject_id])
+    @sensor = @mobject.sensors.last
+    if @mobject.mcategory.name == "Schalter"
+      if params[:mobject_id]
+        if !@sensor
+          val = 1
+        else
+          if @sensor.value == 1
+            val = 0
+          else
+            val = 1
+          end
+        end
+        @sensor = Sensor.new
+        @sensor.mobject_id = params[:mobject_id]
+        @sensor.value = val
+        @sensor.save
+      end
       redirect_to mobject_path(:id => @sensor.mobject_id, :topic => "objekte_sensordaten"), notice: 'Sensor was successfully created.'
     end
 end

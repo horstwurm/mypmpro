@@ -710,4 +710,30 @@ end
 def temptest
 end
 
+def switch
+  if params[:mobject_id]
+    @mobject = Mobject.find(params[:mobject_id])
+    @sensor = @mobject.sensors.last.value
+    if !@sensor
+      val = 1
+    else
+      if @sensor == 1
+        val = 0
+      else
+        val = 1
+      end
+    end
+    @sensor = Sensor.new
+    @sensor.mobject_id = params[:mobject_id]
+    @sensor.value = val
+    @sensor.save
+  end
+  msg = []
+  msg << {:id => @mobject.id, :state => val}
+  respond_to do |format|
+    format.json 
+      render :json => msg.to_json
+  end
+end
+
 end
