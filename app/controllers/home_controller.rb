@@ -736,4 +736,22 @@ def switch
   end
 end
 
+def readswitch
+  if params[:mobject_id]
+    @mobject = Mobject.find(params[:mobject_id])
+    @sensor = @mobject.sensors.last
+    if !@sensor
+      val = 0
+    else
+      val = @sensor.value
+    end
+  end
+  msg = []
+  msg << {:id => @mobject.id, :state => val}
+  respond_to do |format|
+    format.json 
+      render :json => msg.to_json
+  end
+end
+
 end

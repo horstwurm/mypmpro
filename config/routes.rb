@@ -88,6 +88,7 @@ Rails.application.routes.draw do
   get 'home/writeimage'
   get 'home/temptest'
   get 'home/switch'
+  get 'home/readswitch'
 
   resources :searches
   resources :partner_links
