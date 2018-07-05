@@ -728,8 +728,7 @@ def switch
     @sensor.value = val
     @sensor.save
   end
-  msg = []
-  msg << {:id => @mobject.id, :state => val}
+  msg = {:id => @mobject.id, :state => val}
   respond_to do |format|
     format.json 
       render :json => msg.to_json
@@ -746,8 +745,7 @@ def readswitch
       val = @sensor.value
     end
   end
-  msg = []
-  msg << {:id => @mobject.id, :state => val}
+  msg = {:id => @mobject.id, :state => val}
   respond_to do |format|
     format.json 
       render :json => msg.to_json
