@@ -2019,7 +2019,7 @@ $(document).ready(function(){
         <% end %>
       <% end %>
 
-      <% if @mobject.mcategory.name == "Schalter" or @mobject.mcategory.name == "Wert" %>
+      <% if @mobject.mcategory.name == "Wert" %>
         <% dataset = [["Datum", "Alarm", "Wert"]] %>
         <% @iots = @mobject.sensors %>
         <% @iots.each do |i| %>
@@ -2028,6 +2028,14 @@ $(document).ready(function(){
           <% else %>
             <% dataset << [i.created_at.to_s, 0, i.value] %>
           <% end %>
+        <% end %>
+      <% end %>
+
+      <% if @mobject.mcategory.name == "Schalter" %>
+        <% dataset = [["Datum", "Wert"]] %>
+        <% @iots = @mobject.sensors %>
+        <% @iots.each do |i| %>
+            <% dataset << [i.created_at.to_s, i.value] %>
         <% end %>
       <% end %>
   
@@ -2137,13 +2145,21 @@ $(document).ready(function(){
                   //alert(json[0].datum + " " + json[0].wert);
     
                   //alert("test");
-                  sensordataset = [["Datum", "Alarm", "Wert"]];
+                  <% if @mobject.mcategory.name = "Schalter" %>
+                    sensordataset = [["Datum", "Wert"]];
+                  <% else %>
+                    sensordataset = [["Datum", "Alarm", "Wert"]];
+                  <% end %>
                   // sensordataset.push(["today", 100]);
                   lastwert = 0;
                   lastdatum = "kein Datum"
                   for (var i=0;i<json.length;++i)
                   {
+                  <% if @mobject.mcategory.name = "Schalter" %>
+                    sensordataset.push([json[i].datum, json[i].wert]);
+                  <% else %>
                     sensordataset.push([json[i].datum, <%= @mobject.alert %>, json[i].wert]);
+                  <% end %>
                     lastwert = json[i].wert;
                     lastdatum = json[i].datum;
                     //alert(json[i].wert);

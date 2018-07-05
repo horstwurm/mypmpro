@@ -20,6 +20,7 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 de:
+  schalten: "schalten"
   rangliste: "Rangliste"
   antrag: "Sponsoring Antrag"
   sponsorkriterien: "Sponsoring Bewertungskriterien"

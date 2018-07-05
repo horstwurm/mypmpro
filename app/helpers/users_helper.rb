@@ -2444,10 +2444,18 @@ def action_buttons4(object_type, item, topic)
               if user_signed_in?
                 if isowner(item) or isdeputy(item.owner)
                   html_string = html_string + link_to(mobject_path(:mobject_id => item.id, :topic => "objekte_sensordaten", :delsensordata => true), data: { confirm: (I18n.t :sindsiesicher) }) do
-                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :loeschen), class:"btn btn-danger fa fa-trash red") 
+                      #content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :loeschen), class:"btn btn-danger fa fa-trash red") 
+                      content_tag(:i, (I18n.t :loeschen), class:"btn btn-danger fa fa-trash red")                   
                   end
-                  html_string = html_string + link_to(new_sensor_path(:mobject_id => item.id)) do
-                      content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange") 
+                  case item.mcategory.name
+                    when "Schalter"
+                      html_string = html_string + link_to(new_sensor_path(:mobject_id => item.id)) do
+                          content_tag(:i, (I18n.t :schalten), class:"btn btn-primary fa fa-plus orange") 
+                      end
+                    else
+                      html_string = html_string + link_to(new_sensor_path(:mobject_id => item.id)) do
+                          content_tag(:i, " " + (I18n.t getTopicName(topic).to_sym) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange") 
+                      end
                   end
                end
               end
