@@ -167,6 +167,16 @@
                               <%= header_cicd(q.name, nil, @mobject) %>
                             </div>
                             <div id="<%="chart"+q.id.to_s %>"></div>
+
+                            <% if q.mcategory.name.downcase == "text" %>
+                              <b>Folgende Antworten wurden gegeben:</b><br>
+                              <% q.answers.each do |qa| %>
+                                <% qa.user_answers.each do |ua| %>
+                                  <%= ua.description if ua.description %><br>
+                                <% end %>
+                              <% end %>
+                            <% end %>
+
                           </div>
                         <% end %>
                       </div>

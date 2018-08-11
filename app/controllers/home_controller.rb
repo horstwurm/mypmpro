@@ -521,6 +521,16 @@ def writesensordata
     @sensor.save
   end
   @sensors = Mobject.find(params[:sensor]).sensors
+
+  #delete Anzahl > ??
+  delanz = 100
+  if @sensors
+    if @sensors.count > delanz
+      @sensors.order('created_at ASC').limit(@sensors.count-delanz).destroy_all        
+      @sensors = Mobject.find(params[:sensor]).sensors
+    end
+  end
+
   msg = []
   if @sensors and @sensors.count > 0 
     msg << {:type => "Anzahl", :anzahl => @sensors.count}
