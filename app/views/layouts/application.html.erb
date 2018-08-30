@@ -1,9 +1,9 @@
-
+<!-- set some global variables -->
 <% $controller_list = %w[mobjects companies users madvisors showcal] %>
 <% $wochentage = %w[Mo Di Mi Do Fr Sa So] %>
-<% $appurl = "https://tgcloud-horstwurm.c9users.io" %>
+<% $appurl = "https://myproject-horstwurm.c9users.io" %>
 <% if false %>
-  <% $appurl = "mytgcloudtest.herokuapp.com" %>
+  <% $appurl = "myprojecttest.herokuapp.com" %>
 <% end %>
 <% $usemailgun = true %>
 <% init_apps %>
@@ -15,36 +15,20 @@
 <% $app_name = "myTGCloud" %>
 <% $sqllite = true %>
 <% I18n.locale = :de %>
+<!-- set some global varianbles -->
 
 <!DOCTYPE html>
 <html>
   <head>
-    <title>TGCloud Plattform</title>
+    <title>myPROJECT Plattform</title>
+    <% if true %>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <% end %>
     <%= csrf_meta_tags %>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAP0PoTXZAKRi5IO3fM5yRO39puZPiR0iw"></script>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:400,300|Raleway:300,400,900,700italic,700,300,600">
-    
-    <% if false %>
-    <link rel="stylesheet" type="text/css" href="../assets/jquery.bxslider.css">
-    <link rel="stylesheet" type="text/css" href="../assets/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="../assets/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="../assets/animate.css">
-    <link rel="stylesheet" type="text/css" href="../assets/style.css">
-    <% end %>
   </head>
-    <% if false %>
-    <script src="../assets/wow.js"></script>
-    <script src="../assets/jquery.easing.min.js"></script>
-    <script src="../assets/jquery.min.js"></script>
-    <script src="../assets/bootstrap.min.js"></script>
-    <script src="../assets/jquery.bxslider.min.js"></script>
-    <script src="../assets/custom.js"></script>
-   <% end %>
 
 <script>
   function scrollTo(hash) {
@@ -54,59 +38,26 @@
 
   <body>
   
-  <!--ganzer Bildschirm für digital signage-->
-  <% if (controller_name == "home" and action_name == "index18") %> 
-    <%= yield %>
-  <% else %>
-
-    <div class="loader"></div>
+  <div class="loader"></div>
     <div id="myDiv">
 
-      <%= render 'layouts/header' %>
+    <%= render 'layouts/header' %>
+    
+    <%= render 'layouts/yield' %>
 
-    <section id="yield" class="section-padding wow fadeIn delay-05s">
-      <div class="container">
-        <div class="row">
-          <%= yield %>
-        </div>
-      </div>
-    </section>
-
-    <% if false %>
-      <section id="yield">
-        <br><br><br><br>
-        <%= yield %>
-      </section>
+    <% if user_signed_in? and (current_user.superuser or current_user.webmaster) %>
+      <%= render 'layouts/superuser' %>
     <% end %>
 
+    <% if false %>
       <%= render 'layouts/news' %>
 
-      <% if false %>
-  
-      <%= render 'layouts/feature' %>
-  
-      <%= render 'layouts/myservices' %>
-  
-      <%= render 'layouts/service' %>
-  
-      <%= render 'layouts/portfolio' %>
-
-      <%= render 'layouts/testimonial' %>
-  
-      <%= render 'layouts/blog' %>
-
-      <%= render 'layouts/contact' %>
-
-      <% end %>  
-
-      <% if user_signed_in? and (current_user.superuser or current_user.webmaster) %>
-        <%= render 'layouts/superuser' %>
-      <% end %>
       <%= render 'layouts/dashboard' %>
 
       <%= render 'layouts/subscription' %>
 
       <%= render 'layouts/partner' %>
+    <% end %>
 
       <% flash.each do |name, msg| %>
         <% content_tag(:div, msg, class:"alert alert-warning") %>
@@ -114,20 +65,20 @@
       <% end %>
   
     </div>
-    </div>
+  </div>
+
+  <% if flash and flash.count>0 %>
+    <script>
+    function myFunction() {
+        var x = document.getElementById("snackbar")
+        x.className = "show";
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+    }
+    myFunction();
+    </script>
   <% end %>
 
   </body>
   
 </html>
 
-<% if flash and flash.count>0 %>
-  <script>
-  function myFunction() {
-      var x = document.getElementById("snackbar")
-      x.className = "show";
-      setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-  }
-  myFunction();
-  </script>
-<% end %>

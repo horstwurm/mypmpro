@@ -1,2 +1,0 @@
-class SignageHit < ApplicationRecord
-end

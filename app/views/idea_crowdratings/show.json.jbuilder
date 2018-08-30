@@ -1,1 +1,0 @@
-json.partial! "idea_crowdratings/idea_crowdrating", idea_crowdrating: @idea_crowdrating

@@ -20,9 +20,12 @@
   </div>
 
   <div class="row">
-    <%= header((I18n.t :stellvertretungen) + " " + @owner.name + "<span class='badge'>" + @deppanz.to_s + "</span>", true) %>
+    <%= header((I18n.t :stellvertretungen) + " " + @owner.name + "<span class='badge'>" + @deppanz.to_s + "</span>") %>
   </div>
-  
+
+  <%= build_medialistNew(User.all, "users", "deputy", @owner_id, @owner_type) %>
+
+<% if false %>
 	<div class="row">
     <div class="col-md-12">
   		<table class="table table-striped">
@@ -87,3 +90,4 @@
       </table>
     </div>
   </div>
+<% end %>

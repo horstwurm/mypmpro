@@ -2,9 +2,9 @@ require_relative 'boot'
 
 require 'rails/all'
 
-require 'rqrcode'
+#require 'rqrcode'
 require File.expand_path('../application', __FILE__)
-require 'rqrcode_png'
+#require 'rqrcode_png'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.

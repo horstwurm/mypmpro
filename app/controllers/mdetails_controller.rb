@@ -19,6 +19,7 @@ class MdetailsController < ApplicationController
     else
       @mdetail.mtype = "details"
     end
+    @mdetail.name = ""
     @mdetail.textoptions = "text"
     @mdetail.sequence = @mdetail.mobject.mdetails.count
     

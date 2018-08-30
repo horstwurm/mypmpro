@@ -15,6 +15,9 @@ class CompanyParamsController < ApplicationController
   # GET /company_params/new
   def new
     @company_param = CompanyParam.new
+    @company_param.company_id = params[:company_id]
+    @company_param.key = "KEY"
+    @company_param.value = "ABC"
   end
 
   # GET /company_params/1/edit
@@ -28,7 +31,7 @@ class CompanyParamsController < ApplicationController
 
     respond_to do |format|
       if @company_param.save
-        format.html { redirect_to @company_param, notice: 'Company param was successfully created.' }
+        format.html { redirect_to company_path(:id => @company_param.company.id, :topic => "institutionen_params"), notice: 'Company param was successfully created.' }
         format.json { render :show, status: :created, location: @company_param }
       else
         format.html { render :new }
@@ -42,7 +45,7 @@ class CompanyParamsController < ApplicationController
   def update
     respond_to do |format|
       if @company_param.update(company_param_params)
-        format.html { redirect_to company_path(:id => @company_param.company_id), notice: 'Company param was successfully updated.' }
+        format.html { redirect_to company_path(:id => @company_param.company.id, :topic => "institutionen_params"), notice: 'Company param was successfully updated.' }
         format.json { render :show, status: :ok, location: @company_param }
       else
         format.html { render :edit }
@@ -54,9 +57,10 @@ class CompanyParamsController < ApplicationController
   # DELETE /company_params/1
   # DELETE /company_params/1.json
   def destroy
+    @company_id = @company_param.company_id
     @company_param.destroy
     respond_to do |format|
-      format.html { redirect_to company_params_url, notice: 'Company param was successfully destroyed.' }
+      format.html { redirect_to company_path(:id => @company_id, :topic => "institutionen_params"), notice: 'Company param was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -69,7 +73,7 @@ class CompanyParamsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def company_param_params
-      params.require(:company_param).permit(:company_id, :sponsoring_wert1, :sponsoring_wert2, :sponsoring_wert3, :sponsoring_wert4, :sponsoring_wert5, :sponsoring_init, :sponsoring_ok, :sponsoring_ok_change, :sponsoring_nok, :role_company, :role_sponsoring, :color1, :color2)
+      params.require(:company_param).permit(:company_id, :key, :value)
     end
 end
 

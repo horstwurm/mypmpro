@@ -1,3 +1,8 @@
+<br>
+<div class="contact-form">
+    <div class="container"
+    <div class="jumbotron">
+
 
     <%= form_for @partner_link, html: {multipart: true}  do |f| %>
 
@@ -12,14 +17,11 @@
             </div>
         <% end %>
 
-        <div class="row">
-            <div class="col-md-6">
-                <div class="panel-body ueberschrift">
-                    <h1><%= @partner_link.company.name + " " + (I18n.t :partnerlinks) %></h1>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="panel-body ueberschrift">
+        <%= header("Werbelinks "+ @partner_link.company.name) %>
+
+         <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">'
+          
                      <div class="form-group">
                        <%= f.label (I18n.t :picture) %><br/>
                         <% if @partner_link.avatar_file_name %>
@@ -40,27 +42,27 @@
                       <%= f.text_area :description, rows: 5, class:"form-control"%>
                     </div>
                     <div class="form-group">
-                      <input type="checkbox" name="my-checkbox1" checked>
-                      <%= f.label (I18n.t :active) %>
+                        <label class="checkbox-inline">
+                           <%= f.check_box :active, class:"customcheck" %><%= I18n.t(:active) %>
+                        </label>
                     </div>
                     <div class="actions">
-                       <%= f.submit (I18n.t :speichern),  class:"btn btn-primary btn-lg btn-submit"%>
+                       <%= f.submit (I18n.t :speichern),  class:"btn btn-primary btn-lg btn-download"%>
                       <%= link_to company_path(:id => @partner_link.company_id, :topic => "institutionen_partnerlinks") do %>
-                        <i class="btn btn-submit btn-lg">Abbrechen</i>
+                        <i class="btn btn-primary btn-download btn-lg">Abbrechen</i>
                       <% end %>
                     </div>
                     <%= f.hidden_field :company_id %>
-                </div>
-                <%= f.check_box :active, :id => "active", class:"form-control hidden" %>
-            </div>
-                
-        </div>
-    <% end %>                
 
-<script>
-     $.fn.bootstrapSwitch.defaults.onColor = 'mycolor';
-     $("[name='my-checkbox1']").bootstrapSwitch('state',<%= @partner_link.active %>);
-     $("[name='my-checkbox1']").on('switchChange.bootstrapSwitch', function () {
-     $("#active").prop('checked',$("[name='my-checkbox1']").bootstrapSwitch('state'));
-     });
-</script>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">'
+            <%= image_tag("marketing.jpg", class: "img-responsive") %>
+          </div>
+        </div>
+
+    <% end %>                
+    
+    </div>
+    </div>
+</div>
+<br>

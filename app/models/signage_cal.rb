@@ -1,2 +1,0 @@
-class SignageCal < ApplicationRecord
-end

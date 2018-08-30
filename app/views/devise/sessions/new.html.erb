@@ -1,11 +1,10 @@
 <br>
 <div class="contact-form">
- 
 <div class="container">
     <div class="jumbotron">
     <h2><%= I18n.t :welcometo %></h2>
     <br>
-      <%= image_tag("thurcloud.png", :size => "200x200") %>
+      <%= image_tag("bg-banner02.jpg", :size => "200x200") %>
       <br><br>
       <%= form_for(resource, as: resource_name, url: session_path(resource_name), class:"contactForm") do |f| %>
       <%= devise_error_messages! %>
@@ -20,42 +19,19 @@
         <%= f.password_field :password, autocomplete: "off", class:"form-control"%>
       </div>
       <div class="form-group">
-        <input type="checkbox" name="my-checkbox" checked>
-        <%= f.label I18n.t :remember_me %>
+        <label class="checkbox-inline">
+           <%= f.check_box :remember_me, class:"customcheck" %><%= I18n.t(:remember_me) %>
+        </label>
       </div>
-        <%= f.hidden_field :remember_me, class:"form-control hidden"  %>
-        <% if false %>
-      <label class="switch">
-          <%= f.check_box :remember_me, class:"sliders round" %>
-          <span class="sliders round"></span>
-      </label>
-      <%= f.label I18n.t :remember_me %> 
-      <% end %>
-      <br><br>
       <div class="actions">
-            <%= f.submit (I18n.t :anmelden), class:"btn btn-primary btn-lg btn-submit" %>
+            <%= f.submit (I18n.t :anmelden), class:"btn btn-primary btn-lg btn-download" %>
             <%- if Devise.mappings[:user].recoverable? && controller_path != 'passwords' && controller_path != 'registrations' && $usemailgun %>
               <%= link_to(new_password_path(@devise_mapping.name)) do %>
-          		  <i class="btn btn-submit btn-lg"><%= I18n.t :forgotpw %></i>
+          		  <i class="btn btn-primary btn-download btn-lg"><%= I18n.t :forgotpw %></i>
           		<% end %>
             <% end -%>
       </div>
-      <% if false %>
-      <%- if Devise.mappings[:user].recoverable? && controller_path != 'passwords' && controller_path != 'registrations' && $usemailgun %>
-        <%= link_to (I18n.t :forgotpw), new_password_path(@devise_mapping.name) %>
-      <% end -%>
-      <% end %>
     <% end %>
-    <% render "devise/shared/links" %>
   </div>
 </div>
-
 </div>
-
-<script>
-    $.fn.bootstrapSwitch.defaults.onColor = 'mycolor';
-    $("[name='my-checkbox']").bootstrapSwitch('state',true);
-    $("[name='my-checkbox']").on('switchChange.bootstrapSwitch', function () {
-    $("#remember_me").prop('checked',$("[name='my-checkbox']").bootstrapSwitch('state'));
-    });
-</script>

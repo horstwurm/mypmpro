@@ -1,1 +1,0 @@
-json.partial! "crits/crit", crit: @crit

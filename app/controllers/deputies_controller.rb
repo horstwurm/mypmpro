@@ -55,6 +55,23 @@ class DeputiesController < ApplicationController
   # GET /deputies/new
   def new
     @deputy = Deputy.new
+    @deputy.userid = params[:user_id]
+    @deputy.owner_id = params[:owner_id]
+    @deputy.owner_type = params[:owner_type]
+    respond_to do |format|
+      if @deputy.save
+        if @deputy.owner_type == "User"
+          format.html { redirect_to user_path(:id => @deputy.owner_id, :topic => "personen_stellvertretungen"), notice: (I18n.t :act_create) }
+        end
+        if @deputy.owner_type == "Company"
+          format.html { redirect_to company_path(:id => @deputy.owner_id, :topic => "institutionen_stellvertretungen"), notice: (I18n.t :act_create) }
+        end
+        format.json { render :show, status: :created, location: @deputy }
+      else
+        format.html { render :new }
+        format.json { render json: @deputy.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # GET /deputies/1/edit

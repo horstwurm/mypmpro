@@ -1,201 +1,83 @@
-<%= header(@user.fullname) %>
-
-<%= navigate2("personen", @user, @topic) %>
+<%= header4(@user.fullname,"personen", @user, @topic) %>
 
       <% case @topic %>
         <% when "personen_info" %>
 
           <div class="row">
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
-                  <div class="panel-body">
-                    <% case @user.status %>
-                      <% when "CHECK" %>
-                        <i class="fa fa-question-sign"></i>
-                      <% when "OK" %>
-                        <i class="fa fa-ok-circle"></i>
-                      <% when "NOK" %>
-                        <i class="fa fa-ban-circle"></i>
-                    <% end %>
-                    <b> <%= (I18n.t :status) %></b>
-                    <br>
-                    <% if @user.anonymous %>
-                      <%= image_tag("user_a.png", :size => "200x200", class:"img-rounded" ) %>
-                    <% else %>
-                      <%= showImage2(:medium, @user, true) %>
-                      <br><br>
-                      <b><i class="fa fa-home"></i> <%= (I18n.t :adresse) %></b><br>
-                      <% if !@user.anonymous and @user.address1 != nil and @user.address1 != "" %>
-                        <%= @user.address1 %><br> 
-                      <% end %>
-                      <% if !@user.anonymous and @user.address2 != nil and @user.address2 != "" %>
-                        <%= @user.address2 %><br> 
-                      <% end %>
-                      <% if !@user.anonymous and @user.address3 != nil and @user.address3 != "" %>
-                        <%= @user.address3 %><br> 
-                      <% end %>
-                      <br>
-                      <b><i class="fa fa-phone"></i> <%= (I18n.t :telefon) %></b><br>
-                      <% if !@user.anonymous and @user.phone1 != nil and @user.phone1 != "" %>
-                        <%= @user.phone1 %><br> 
-                      <% end %>
-                      <% if !@user.anonymous and @user.phone2 != nil and @user.phone2 != "" %>
-                        <%= @user.phone2 %><br> 
-                      <% end %>
-                      <br>
-                      <b><%= (I18n.t :geburtsdatum) %></b><br>
-                      <%= @user.dateofbirth.strftime("%d.%m.%Y") if @user.dateofbirth %><br>
-                      <% if user_signed_in? %>
-              	        <%= link_to new_email_path :m_from_id => current_user.id, :m_to_id => @user.id, :back_url => request.original_url do %>
-                          <i class="btn btn-default fa fa-envelope"></i>
-                        <% end %>
-                      <% else %>
-                          <i class="fa fa-envelope"></i>
-                      <% end %>
-                      <%= @user.email %><br>
-                    <% end %>
-                  </div>
-                </div>
-                
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
-                  <% if @user.latitude and @user.longitude %>
-                    <i class="fa fa-map-marker pull-left" onclick="return init_map(0);"></i>
-                      <div id="map">
-                        <div id="map-canvas"></div>
-                      </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+              <div class="panel-body">
+                <% case @user.status %>
+                  <% when "CHECK" %>
+                    <i class="fa fa-question-sign"></i>
+                  <% when "OK" %>
+                    <i class="fa fa-ok-circle"></i>
+                  <% when "NOK" %>
+                    <i class="fa fa-ban-circle"></i>
+                <% end %>
+                <b> <%= (I18n.t :status) %></b>
+                <br>
+                <% if @user.anonymous %>
+                  <%= image_tag("user_a.png", :size => "200x200", class:"img-rounded" ) %>
+                <% else %>
+                  <%= showImage2(:medium, @user, true) %>
+                  <br><br>
+                  <b><i class="fa fa-home"></i> <%= (I18n.t :adresse) %></b><br>
+                  <% if !@user.anonymous and @user.address1 != nil and @user.address1 != "" %>
+                    <%= @user.address1 %><br> 
                   <% end %>
-                </div>
-
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
-                <% if $activeapps.include?("personen_aktivitaeten") or (user_signed_in? and current_user.superuser) %>
-                  <% @stats %>
-                  <div class="panel-body">
-                    <i class="fa fa-map-marker pull-left" onclick="return drawChart();"></i>
-                    <div id="piechart"></div>
-                  </div>
+                  <% if !@user.anonymous and @user.address2 != nil and @user.address2 != "" %>
+                    <%= @user.address2 %><br> 
+                  <% end %>
+                  <% if !@user.anonymous and @user.address3 != nil and @user.address3 != "" %>
+                    <%= @user.address3 %><br> 
+                  <% end %>
+                  <br>
+                  <b><i class="fa fa-phone"></i> <%= (I18n.t :telefon) %></b><br>
+                  <% if !@user.anonymous and @user.phone1 != nil and @user.phone1 != "" %>
+                    <%= @user.phone1 %><br> 
+                  <% end %>
+                  <% if !@user.anonymous and @user.phone2 != nil and @user.phone2 != "" %>
+                    <%= @user.phone2 %><br> 
+                  <% end %>
+                  <br>
+                  <% if !@user.anonymous and @user.dateofbirth %>
+                    <b><%= (I18n.t :geburtsdatum) %></b><br>
+                    <%= @user.dateofbirth.strftime("%d.%m.%Y") if @user.dateofbirth %><br>
+                  <% end %>
+                  <% if user_signed_in? %>
+          	        <%= link_to new_email_path :m_from_id => current_user.id, :m_to_id => @user.id, :back_url => request.original_url do %>
+                      <i class="btn btn-default fa fa-envelope"></i>
+                    <% end %>
+                  <% else %>
+                      <i class="fa fa-envelope"></i>
+                  <% end %>
+                  <%= @user.email %><br>
                 <% end %>
               </div>
             </div>
-
-        <!--########################################################################################################################-->
-        <!--# inactive code-->
-        <!--########################################################################################################################-->
-          <% if false %>
-          <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-              <% if $activeapps.include?("personen_mappositionen") or (user_signed_in? and current_user.superuser) %>
-                <%= header((I18n.t :positionen)) %>
-                <i class="fa fa-map-marker pull-left" onclick="return initialize();"></i>
+                
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+              <% if $activeapps.include?("personen_aktivitaeten") or (user_signed_in? and current_user.superuser) %>
                 <div class="panel-body">
-                  <div id="map2">
-                    <div id="map-canvas2"></div>
-                    </div>
+                  <div id="piechart"></div>
                 </div>
               <% end %>
             </div>
           </div>
-          <% end %>
-
-        <% when "personen_mappositionen" %>
-    <div class="row">
-      <i class="fa fa-map-marker pull-left" onclick="return initPosMap();"></i>
-      <div class="col-md-12">
-          <div id="map"></div>
-      </div>
-    </div>
-          <br><br>
-          <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-              <div>
-                <%= header((I18n.t :datum)) %>
-                
-            		<table class="table table-striped">
-                  <thead>
-                    <tr>
-                      <th></th>
-                      <th><%= (I18n.t :datum) + " " + (I18n.t :uhrzeit) %></th>
-                      <th colspan=2><%= (I18n.t :mappositionen) %></th>
-                      <th><%= (I18n.t :standort) %></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  <% @pos = @user.user_positions.order(:created_at) %>
-                  <% @pos.each do |n| %>
-                    <tr>
-                      <td>
-                        <% link_to edit_note_path(n) do %>
-                          <i class="btn btn-primary btn btn-xs fa fa-wrench"></i>
-                        <% end %>
-              	        <%= link_to n, method: :delete, data: { confirm: 'Are you sure?' } do %>
-                          <i class="btn btn-danger btn-xs fa fa-trash"></i>
-                        <% end %>
-                      </td>
-                      <td><%= n.created_at.strftime('%d-%m-%Y %H:%M') %></td>
-                      <td><%= n.latitude %></td>
-                      <td><%= n.longitude %></td>
-                      <% if n.geo_address != nil %>
-                        <td><%= n.geo_address %> </td>
-                      <% else %>
-                        <td></td>
-                      <% end %>
-                    </tr>
-                  <% end %>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
-        <% when "personen_notizen" %>
-          <div id="wordtree_basic" style="width: 1200px; height: 800px;"></div>
-          <br><br>
-          <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-              <div>
-                <%= header((I18n.t :notizen)) %>
-                
-            		<table class="table table-striped">
-                  <thead>
-                    <tr>
-                      <th></th>
-                      <th><%= (I18n.t :datum) + " " + (I18n.t :uhrzeit) %></th>
-                      <th><%= (I18n.t :notizen) %></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  <% @notes = @user.notes.order(:message) %>
-                  <% @notes.each do |n| %>
-                    <tr>
-                      <td>
-                        <%= link_to edit_note_path(n) do %>
-                          <i class="btn btn-primary btn btn-xs fa fa-wrench"></i>
-                        <% end %>
-              	        <%= link_to n, method: :delete, data: { confirm: 'Are you sure?' } do %>
-                          <i class="btn btn-danger btn-xs fa fa-trash"></i>
-                        <% end %>
-                      </td>
-                      <td><%= n.datum.strftime('%d-%m-%Y') + "-" + n.uhrzeit.to_s %></td>
-                      <td><%= n.message %></td>
-                    </tr>
-                  <% end %>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
 
         <% when "personen_institutionen" %>
-            <%= build_medialistNew(@user.companies, "companies", nil) %>
+            <%= build_medialistNew(@user.companies, "companies", nil, nil, nil) %>
 
         <% when "personen_projekte" %>
           <% moblist = zugriffsliste(@user.mobjects, "projekte", current_user) %>
           <% moblist %>
-          <%= build_medialistNew(@user.mobjects.mobshow("projekte",moblist), "mobjects", nil) %>
+          <%= build_medialistNew(@user.mobjects.mobshow("projekte",moblist), "mobjects", nil, nil, nil) %>
           <% if false %>
             <%= build_medialistNew(@user.mobjects.where('mtype=? and parent=?',"projekte",0), "mobjects", nil) %>
           <% end %>
 
         <% when "personen_gruppen" %>
-          <%= build_medialistNew(@user.mobjects.where('mtype=?',"gruppen"), "mobjects", nil) %>
+          <%= build_medialistNew(@user.mobjects.where('mtype=?',"gruppen"), "mobjects", nil, nil, nil) %>
   
         <% when "personen_export" %>
           <div class="row">
@@ -657,14 +539,18 @@
                               
                               <% if moto > 0%>
                                 <td class="color_kapa_booked" align="right">
-                  				        <%= link_to new_planning_path(:mobject_id => w.id, :user_id => @user.id, :month => @data[i], :year => @c_year, :scope => @c_scope) do %>
-                                    <i class="btn btn-primary btn-xs fa fa-plus"></i>
+                                  <% if user_signed_in? and current_user == @user %>
+                    				        <%= link_to new_planning_path(:mobject_id => w.id, :user_id => @user.id, :month => @data[i], :year => @c_year, :scope => @c_scope) do %>
+                                      <i class="btn btn-primary btn-xs fa fa-plus"></i>
+                                    <% end %>
                                   <% end %>
                                  <%= moto.to_s+" CHF" %><br>
                               <% else %>
                                   <td>
-                  				        <%= link_to new_planning_path(:mobject_id => w.id, :user_id => @user.id, :month => @data[i], :year => @c_year, :scope => @c_scope) do %>
-                                    <i class="btn btn-primary btn-xs fa fa-plus"></i>
+                                  <% if user_signed_in? and current_user == @user %>
+                    				        <%= link_to new_planning_path(:mobject_id => w.id, :user_id => @user.id, :month => @data[i], :year => @c_year, :scope => @c_scope) do %>
+                                      <i class="btn btn-primary btn-xs fa fa-plus"></i>
+                                    <% end %>
                                   <% end %>
                               <% end %>
                               </td>
@@ -676,11 +562,13 @@
                                 <% if plans[k][:monat].to_i == @data[i].to_i %>
                                   <td class="color_kapa_booked">
                                   <%= plans[k][:kapa].to_s+" %" %><br>
-                  				        <%= link_to edit_planning_path(:id => plans[k][:id]) do %>
-                                    <i class="btn btn-primary btn-xs fa fa-pencil"></i>
-                                  <% end %>
-                  				        <%= link_to Planning.find(plans[k][:id]), method: :delete, data: { confirm: (I18n.t :sindsiesicher) } do %>
-                                    <i class="btn btn-danger btn-xs fa fa-trash"></i>
+                                  <% if user_signed_in? and current_user == @user %>
+                    				        <%= link_to edit_planning_path(:id => plans[k][:id]) do %>
+                                      <i class="btn btn-primary btn-xs fa fa-pencil"></i>
+                                    <% end %>
+                    				        <%= link_to Planning.find(plans[k][:id]), method: :delete, data: { confirm: (I18n.t :sindsiesicher) } do %>
+                                      <i class="btn btn-danger btn-xs fa fa-trash"></i>
+                                    <% end %>
                                   <% end %>
                                   <% @total[i] = @total[i] + plans[k][:kapa] %>
                                   <% kapa = true %>
@@ -689,8 +577,10 @@
                               <% if !kapa %>
                                   <td>
                                   <% if w.active %>
-                    				        <%= link_to new_planning_path(:mobject_id => w.id, :user_id => @user.id, :month => @data[i], :year => @c_year, :scope => @c_scope) do %>
-                                      <i class="btn btn-primary btn-xs fa fa-plus"></i>
+                                    <% if user_signed_in? and current_user == @user %>
+                      				        <%= link_to new_planning_path(:mobject_id => w.id, :user_id => @user.id, :month => @data[i], :year => @c_year, :scope => @c_scope) do %>
+                                        <i class="btn btn-primary btn-xs fa fa-plus"></i>
+                                      <% end %>
                                     <% end %>
                                   <% end %>
                               <% end %>
@@ -761,6 +651,7 @@
                               <th></th>
                               <th><%= (I18n.t :datum) %></th>            
                               <th colspan=2><%= (I18n.t :projekte) %></th>
+                              <th><%= (I18n.t :position) %></th>
                               <th align='right'><%= (I18n.t :betrag) %></th>
                             </tr>
                           </thead>
@@ -779,6 +670,7 @@
                               <td><%= a.jahrmonat %></td>
                               <td><%= showFirstImage2(:small, Mobject.find(a.mobject_id),Mobject.find(a.mobject_id).mdetails) %></td>
                               <td><%= Mobject.find(a.mobject_id).name %></td>
+                              <td><%= a.description %></td>
                               <td align='right'><%= sprintf("%7.2f",a.amount) + " " + (I18n.t :waehrung) %></td>
                             </tr>
                           <% end %>
@@ -793,331 +685,16 @@
             </div>
           </div>
 
-        <!--########################################################################################################################-->
-        <!--# inactive code-->
-        <!--########################################################################################################################-->
-        <% when "personen_angebote" %>
-          <%= build_medialistNew(@user.mobjects.where('mtype=?',"angebote"), "mobjects", nil) %>
-        <% when "personen_ansprechpartner" %>
-          <%= build_medialistNew(@user.madvisors, "madvisors", "object") %>
-        <% when "personen_kleinanzeigen" %>
-          <%= build_medialistNew(@user.mobjects.where('mtype=?',"kleinanzeigen"), "mobjects", nil) %>
-        <% when "personen_stellenanzeigen" %>
-          <%= build_medialistNew(@user.mobjects.where('mtype=?',"stellenanzeigen"), "mobjects", nil) %>
-        <% when "personen_vermietungen" %>
-          <%= build_medialistNew(@user.mobjects.where('mtype=?',"vermietungen"), "mobjectss", nil) %>
-        <% when "personen_veranstaltungen" %>
-          <%= build_medialistNew(@user.mobjects.where('mtype=?',"veranstaltungen"), "mobjects", nil) %>
-        <% when "personen_ausflugsziele" %>
-          <%= build_medialistNew(@user.mobjects.where('mtype=?',"ausflugsziele"), "mobjects", nil) %>
-        <% when "personen_ausschreibungen" %>
-          <%= build_medialistNew(@user.mobjects.where('mtype=?',"ausschreibungen"), "mobjects", nil) %>
-        <% when "personen_crowdfunding" %>
-          <%= build_medialistNew(@user.mobjects.where('mtype=?',"crowdfunding"), "mobjects", nil) %>
-        <% when "personen_ideen" %>
-          <%= build_medialistNew(@user.ideas, "ideas", "idee") %>
-        <% when "personen_innovationswettbewerbe" %>
-          <%= build_medialistNew(@user.mobjects.where('mtype=?',"innovationswettbewerbe"), "mobjects", nil) %>
-        <% when "personen_umfragen" %>
-          <%= build_medialistNew(@user.mobjects.where('mtype=?',"umfragen"), "mobjects", nil) %>
-        <% when "personen_publikationen" %>
-          <%= build_medialistNew(@user.mobjects.where('mtype=?',"publikationen"), "mobjects", nil) %>
-        <% when "personen_artikel" %>
-          <%= build_medialistNew(@user.mobjects.where('mtype=?',"artikel"), "mobjects", nil) %>
-        <% when "personen_bewertungen" %>
-          <%= build_medialistNew(@user.mratings, "mratings", "objekte") %>
-        <% when "personen_anmeldungen" %>
-          <%= build_medialistNew(@user.madvisors.where('role=?',"eventteilnehmer"), "madvisors", "objekte") %>
-        <% when "personen_sensoren" %>
-          <%= build_medialistNew(@user.mobjects.where('mtype=?',"sensoren"), "mobjects", nil) %>
         <% when "personen_stellvertretungen" %>
-          <%= build_medialistNew(@user.deputies, "deputies", nil) %>
-
-        <% when "personen_sponsorantraege" %>
-         <% @actives = Mobject.where('mtype=? and requester_type=? and requester_id=?', "sponsorantraege", "User", @user.id) %>
-         <%= build_medialistNew(@actives, "mobjects", nil) if @actives and @actives.count > 0 %>
-
-        <% when "personen_kalendereintraege" %>
-          <div id='calendar'></div>
-          <div class="panel-body">
-          	<table class="table table-striped">
-              <thead>
-                <tr>
-          	      <small_cal>
-          	      <th></th>
-                  <th><%= (I18n.t :wie) %></th>
-                  <th colspan=2><%= (I18n.t :dokument) %></th>
-                  <th colspan=2><%= (I18n.t :werwann) %></th>
-                  </small_cal>
-                </tr>
-              </thead>
-              <body>
-              	<% if user_signed_in? %>
-              	  <% if @cals %>
-                  <% @cals.each do |ca| %>
-              			<% if true or (ca.user_id1 == current_user.id or ca.user_id2 == current_user.id) %>
-                      <tr>
-                        <td>
-                				  <% if ca.user_id1 == current_user.id %>
-                				      <% if !ca.confirmed %>
-                                <%= link_to user_path(:id => @user.id, :confirm_id => ca.id, :subject => @subject, :topic => :kalendereintraege) do %>
-                                  <i class="btn btn-primary btn-xs fa fa-ok"></i>
-                                <% end %>
-                              <% else %>
-                                <%= link_to user_path(:id => @user.id, :noconfirm_id => ca.id, :subject => @subject, :topic => :kalendereintraege) do %>
-                                  <i class="btn btn-primary btn-xs fa fa-remove"></i>
-                                <% end %>
-                              <% end %>
-                          <% end %>
-                          <%= link_to edit_appointment_path(ca) do %>
-                            <i class="btn btn-primary btn-xs fa fa-wrench"></i>
-                          <% end %>
-          				        <%= link_to ca, method: :delete, data: { confirm: (I18n.t :sindsiesicher) } do %>
-                            <i class="btn btn-danger btn-xs fa fa-trash"></i>
-                          <% end %>
-                        </td>
-                        <td>
-                          <% if false %>
-                          <% case ca.status %>
-                            <% when "?" %>
-                               <angefragt>
-                            <% when "NOK" %>
-                               <abgelehnt>
-                            <% when "OK" %>
-                               <bestaetigt>
-                            <% when "N/A" %>
-                               <geblockt>
-                            <% else %>
-                          <% end %>
-                          <% end %>
-                          <% if ca.status != "N/A" %>
-                              <% case ca.channel %>
-                                <% when "Geschäftsstelle" %>
-                                   <i class="fa fa-briefcase"></i>
-                                <% when "Treffpunkt" %>
-                                   <i class="fa fa-map-marker"></i>
-                                <% when "Wohnort Berater" %>
-                                   <i class="fa fa-home"></i>
-                                <% when "Wohnort Kunde" %>
-                                   <i class="fa fa-home"></i>
-                                <% when "Telefon" %>
-                                   <i class="fa fa-phone-alt"></i>
-                                <% when "VideoChat" %>
-                                   <i class="fa fa-facetime-video"></i>
-                                <% else %>
-                              <% end %>
-                          <% else %>
-                              <i class="fa fa-remove"></i>
-                          <% end %>
-                          <% case ca.status %>
-                            <% when "?" %>
-                               </angefragt>
-                            <% when "NOK" %>
-                               </abgelehnt>
-                            <% when "OK" %>
-                               </bestaetigt>
-                            <% when "N/A" %>
-                               </geblockt>
-                            <% else %>
-                          <% end %>
-                        </td>
-              				  <td>
-                          <%= link_to new_appointment_document_path(:appointment_id => ca.id) do %>
-                            <i class="btn btn-primary btn-xs fa fa-cloud-upload"></i><br>
-                          <% end %>
-                        </td>
-                        <td>
-                          <% ca.appointment_documents.each do |ad| %>
-                  	        <%= link_to ad.document.url, target: "_blank" do %>
-                              <i class="btn btn-primary btn-xs fa fa-cloud-download"></i>
-                            <% end %>
-            				        <%= link_to ad, method: :delete, data: { confirm: (I18n.t :sindsiesicher) } do %>
-                              <i class="btn btn-danger btn-xs fa fa-trash"></i>
-                            <% end %>
-                            <% ad.name %><br>  
-                          <% end %>
-                        </td>
-                        <td>
-                          <% @user2 = User.find(ca.user_id2) %>
-                          <%= showImage2(:small, @user2, true) %>
-                        </td>
-                        <td>
-                          <small_cal>
-                            <%= @user2.name + " " + @user2.lastname %><br>
-                          </small_cal>
-                          <small_cal>
-                            <%= ca.app_date.strftime("%d.%m.%Y") %><br>
-                            <%= ca.time_from.to_s+"-"+ca.time_to.to_s+" Uhr"%>
-                          </small_cal>
-                        </td>
-                      </tr>
-                    <% end %>
-                  <% end %>
-                  <% end %>
-                <% end %>          
-              </body>
-           	</table>
-          </div>
-  
-    	 <% when "personen_tickets" %>
-          <div class="panel-body">
-            <% @user.user_tickets.where('status<>?', "Filter Kampagne").each do |ut| %>
-            
-              <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
-                <div class="thumbnail" align="center">
-                  <% if ut.avatar_file_name %>
-                  <%= image_tag ut.avatar(:medium), class:"img-rounded" %>            
-                    <% end %>
-                  <anzeigetext>
-                    <%= ut.ticket.mcategory.name %><br>
-          					<%= ut.ticket.name %><br>
-          				</anzeigetext>
-          				<ticketstatuss><b>
-          				<%= ut.status %>
-                  </b></ticketstatuss><br>
-                  
-                  <% if ut.ticket.owner_type == "Msponsor" %>
-                    <ntext><br>
-                    <b><%= ut.ticket.owner.mobject.name %></b><br>
-                    <%= ut.ticket.owner.mobject.date_from.strftime("%d.%m.%Y") + " - " + ut.ticket.owner.mobject.date_to.strftime("%d.%m.%Y")  %><br>
-                    <%= link_to ut.ticket.owner.mobject do %>
-                      <%= showFirstImage2(:medium, ut.ticket.owner.mobject, ut.ticket.owner.mobject.mdetails) %><br>
-                    <% end %>
-                    <br>
-                  <% end %>
-                  <% if ut.ticket.owner_type == "Mobject" %>
-                    <%= link_to ut.ticket.owner do %>
-                      <%= showFirstImage2(:medium, ut.ticket.owner, ut.ticket.owner.mdetails) %><br>
-                    <% end %>
-                  <% end %>
-                  
-                  <%= showImage2(:small, ut.user, true) %>
-                  <%= ut.user.name + " " + ut.user.lastname %><br>
-                  <br>
-                  
-                  <% if ut.ticket.owner_type == "Msponsor" %>
-                    <b><%= (I18n.t :ueberreichtvon) %></b><br>
-                    <%= showImage2(:small, ut.ticket.owner.company, true) %>
-                    <%= ut.ticket.owner.company.name %>
-                  <% end %>
-  
-                  </ntext>
-  
-                  </p>
-            			<p>
-            			<% if user_signed_in? and current_user.id == ut.user_id %>
-              			<% case ut.status %>
-              			  <% when "persönlich", "übergeben" %>
-                        <%= link_to users_ticketstatus_path :userticket_id => ut.id, :status => "zurückgeben" do %>
-                          <i class="btn btn-primary btn btn-lg fa fa-thumbs-down"> zurückgeben</i>
-                        <% end %><br><br>
-                        <%= link_to users_ticketstatus_path :userticket_id => ut.id, :status => "aktivieren" do %>
-                          <i class="btn btn-primary btn btn-lg fa fa-thumbs-up"> aktivieren</i>
-                        <% end %>
-              			  <% when "zurückgegeben" %>
-                        <%= link_to users_ticketstatus_path :userticket_id => ut.id, :status => "aktivieren" do %>
-                          <i class="btn btn-primary btn btn-lg fa fa-thumbs-up"> aktivieren</i>
-                        <% end %><br><br>
-              			  <% when "aktiv" %>
-                        <%= link_to users_ticketstatus_path :userticket_id => ut.id, :status => "einlösen" do %>
-                          <i class="btn btn-primary btn btn-lg fa fa-shopping-cart"> einlösen</i>
-                        <% end %>
-              			  <% when "eingelöst" %>
-                        <% link_to users_ticketstatus_path :userticket_id => ut.id, :status => "einlösen" do %>
-                          <i class="btn btn-primary btn btn-lg fa fa-shopping-cart"> eingelöst</i>
-                        <% end %>
-                    <% end %>
-                  <% end %>
-            		</div>
-          		</div>
-            <% end %>
-          </div>
-            
-    	 <% when "personen_favoriten" %>
-          <i class="fa fa-map-marker pull-left" onclick="return initialize();"></i>
-          <div class="panel-body">
-            <%= build_medialistNew(@user.favourits, "favourits", nil) %>
-          </div>
-          <% if false %>
-          <% if $activeapps.include?("personen_mappositionenfavoriten") or (user_signed_in? and current_user.superuser) %>
-            <%= header((I18n.t :favoriten)) %>
-            <div class="panel-body">
-              <div id="map2">
-                <div id="map-canvas2"></div>
-                </div>
-            </div>
-          <% end %>
-          <% end %>
-          
-    	 <% when "personen_kundenbeziehungen" %>
-          <% hash = Hash.new %>
-          <% hash = {:user_id => @user.id} %>
-          <div class="panel-body">
-            <%= build_medialistNew(@user.customers, "partners", hash) %>
-          </div>
-          <%= header((I18n.t :nopartners)) %>
-          <div class="panel-body">
-            <%= build_medialistNew(Company.where('partner=?',true), "nopartners", hash) %>
-          </div>
-  
-    	 <% when "personen_transaktionen" %>
-          <div class="panel-body">
-            <%= build_medialistNew(@user.transactions, "transactions", hash) %>
-          </div>
-  
-    	 <% when "personen_emails" %>
-          <div class="panel-body">
-            <table class="table-striped" width="100%">
-            <% emails = Email.where('m_to=? or m_from=?', @user.id, @user.id).order(created_at: :desc) %>
-            <% if emails.count > 0 %>
-              <tr>
-                <th><%= (I18n.t :werwann) %></th>
-                <th><%= (I18n.t :message) %></th>
-              </tr>
-            <% end %>
-            <% emails.each do |e| %>
-              <tr>
-              <td>
-              <% if e.m_to == @user.id %>
-                <% @u = User.find(e.m_from) %>
-                <%= showImage2(:small, @u, true) if @u %><br>
-              <% else %>
-                <% @u = User.find(e.m_to) %>
-                <%= showImage2(:small, @u, true) if @u %><br>
-              <% end %>
-              <%= e.created_at.strftime("%A, %d.%m.%Y-%H:%M:%S") %><br>
-              </td>
-              <% if e.m_from == @user.id %>
-                <td style="text-align:right">
-              <% else %>
-                <td>
-              <% end %>
-              <% if user_signed_in? and e.m_to == current_user.id %>
-      	        <%= link_to new_email_path :m_from_id => current_user.id, :m_to_id => @u.id, :back_url => user_path(:id => @user.id, :topic => :emails) do %>
-                  <i class="btn btn-default btn-xs fa fa-envelope"></i>
-                <% end %>
-              <% end %>
-              <% if e.m_from == @user.id %>
-                <ntext>
-              <% end %>
-              <b><%= e.header %></b><br>
-              <%= e.body %><br>
-              <% if e.m_to == @user.id %>
-                </ntext>
-              <% end %>
-              </td>
-              </tr>
-            <% end %>
-            </table>
-          </div>
+          <%= build_medialistNew(@user.deputies, "deputies", nil, nil, nil) %>
 
     	 <% when "personen_charges" %>
-    	    <% if false %>
-          <%= build_medialistNew(@user.charges, "charges", nil) %>
+    	    <% if true %>
+            <%= build_medialistNew(@user.charges, "charges", nil, nil, nil) %>
           <br><br>
           <% end %>
-          <%= build_medialistNew(Appparam.where('info=?', "payable"), "appparams", "user") %>
-          <br><br>
+          <!--<%= build_medialistNew(Appparam.where('info=?', "payable"), "appparams", "user", nil, nil) %>-->
+          <!--<br><br>-->
 
     	 <% when "personen_zugriffsberechtigungen" %>
         <div class="row">
@@ -1142,190 +719,27 @@
             </div>
         </div>
 
-    	 <% when "personen_transaktionen" %>
-          <%= build_kachel_access("dsstandorte", "user", @user) %>
-          <div class="panel-body">
-            <%= build_medialistNew(@user.transactions, "transactions", hash) %>
-          </div>
-      <!--end inactive ########################################################################################################################-->
-  
       <% end %>
+      
+<!-SCRIPT --->
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-<% if @topic == "personen_info" and @user.longitude and @user.latitude %>
-  <script type="text/javascript">
-    var latitudes = [<%= @user.latitude %>];
-    var longitudes = [<%= @user.longitude %>];
-    function init_map(index) {
-        var myLocation = new google.maps.LatLng(latitudes[index], longitudes[index]);
-        var mapOptions = {
-            center: myLocation,
-            zoom: 16
-        };
-        var marker = new google.maps.Marker({
-            position: myLocation,
-            title: "<%= (I18n.t :standort) %>"
-        });
-        var map = new google.maps.Map(document.getElementById("map"),mapOptions);
-        marker.setMap(map);
-    }
-
-    <% if false %>
-    function initialize() {
-        var map;
-        var bounds = new google.maps.LatLngBounds();
-        var mapOptions = {
-            mapTypeId: 'roadmap'
-        };
-        // Display a map on the page
-        map = new google.maps.Map(document.getElementById("map2"), mapOptions);
-        map.setTilt(45);
-            
-        // Multiple Markers
-        var markers = <%= raw @locs %>;
-        var infoWindowContent = <%= raw @wins %>;
-        
-        // Display multiple markers on a map
-        var infoWindow = new google.maps.InfoWindow(), marker, i;
-        
-        // Loop through our array of markers & place each one on the map  
-        for( i = 0; i < markers.length; i++ ) {
-            var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
-            bounds.extend(position);
-            marker = new google.maps.Marker({
-                position: position,
-                map: map,
-                title: markers[i][0]
-            });
-            
-            // Allow each marker to have an info window    
-            google.maps.event.addListener(marker, 'click', (function(marker, i) {
-                return function() {
-                    infoWindow.setContent(infoWindowContent[i][0]);
-                    infoWindow.open(map, marker);
-                }
-            })(marker, i));
-    
-            // Automatically center the map fitting all markers on the screen
-            map.fitBounds(bounds);
-        }
-    
-        // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
-        var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
-            this.setZoom(10);
-            google.maps.event.removeListener(boundsListener);
-        });
-    };
-    <% end %>
-
+<script>
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
       var data = google.visualization.arrayToDataTable(<%= raw @stats %>);
       var options = {
         title: "<%= (I18n.t :aktivitaeten) %>",
+        backgroundColor:'transparent',
         pieHole: 0.4,
         height: 600,
       };
       var chart = new google.visualization.PieChart(document.getElementById('piechart'));
       chart.draw(data, options);
     };
-      
-  </script>
-<% end %>
-
-<% if @topic == "personen_notizen" %>
-    <script type="text/javascript">
-      window.notesdataset = <%= raw @notz %>;
-      google.charts.load('current', {packages:['wordtree']});
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable(notesdataset);
-
-        var options = {
-          wordtree: {
-            format: 'implicit',
-            word: '<%= @user.name+ "_" + @user.lastname %>'
-          }
-        };
-
-        var chart = new google.visualization.WordTree(document.getElementById('wordtree_basic'));
-        chart.draw(data, options);
-      }
-      window.setInterval(callme, 5000);
-
-      function callme() {
-          $.ajax({
-              //url: "https://tgcloud-horstwurm.c9users.io/home/readusernotes.json?user=<%= @user.id %>",
-              url: "http://mytgcloud.herokuapp.com/home/readusernotes.json?user=<%= @user.id %>",
-              dataType: "text",
-              success: function(data) {
-                  var json = $.parseJSON(data);
-                  notesdataset = [['Phrases']];
-                  for (var i=0;i<json.length;++i)
-                  {
-                    notesdataset.push([json[i].message]);
-                  }
-                  google.charts.setOnLoadCallback(drawChart);
-                }
-            });
-      }
-    </script>
-<% end %>
-
-<% if @topic == "personen_mappositionen" %>
-<script>
-function initPosMap() {
-    var map;
-    var bounds = new google.maps.LatLngBounds();
-    var mapOptions = {
-        mapTypeId: 'roadmap'
-    };
-                    
-    // Display a map on the page
-    map = new google.maps.Map(document.getElementById("map"), mapOptions);
-    map.setTilt(45);
-        
-    // Multiple Markers
-    var markers = <%= raw @locs %>;
-    var infoWindowContent = <%= raw @wins %>;
-
-    // Display multiple markers on a map
-    var infoWindow = new google.maps.InfoWindow(), marker, i;
-    
-    // Loop through our array of markers & place each one on the map  
-    for( i = 0; i < markers.length; i++ ) {
-        var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
-        bounds.extend(position);
-        marker = new google.maps.Marker({
-            position: position,
-            map: map,
-            title: markers[i][0]
-        });
-        
-        // Allow each marker to have an info window    
-        google.maps.event.addListener(marker, 'click', (function(marker, i) {
-            return function() {
-                infoWindow.setContent(infoWindowContent[i][0]);
-                infoWindow.open(map, marker);
-            }
-        })(marker, i));
-
-        // Automatically center the map fitting all markers on the screen
-        map.fitBounds(bounds);
-    }
-
-    // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
-    var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
-        this.setZoom(10);
-        google.maps.event.removeListener(boundsListener);
-    });
-    
-}
 </script>
-
-<% end %>
 
 <% if @topic == "personen_zeiterfassung" %>
   <script>
@@ -1357,6 +771,7 @@ function initPosMap() {
           <% end %>
           // colors: ['#ACC550'],
           // legend: { position: 'bottom' }
+          backgroundColor:'transparent',
         };
         // var chart = new google.visualization.ColumnChart(document.getElementById("auftragschartall"));
         var chart = new google.visualization.PieChart(document.getElementById("auftragschartall"));
@@ -1390,6 +805,7 @@ function initPosMap() {
               title: "<%= (I18n.t :rapportiertekosten) %>",
               <% end %>
               colors: ['<%= $graph_color1 %>'],
+              backgroundColor:'transparent',
               legend: { position: 'bottom' }
             };
             var chart = new google.visualization.ColumnChart(document.getElementById('<%="auftragschart"+t.mobject_id.to_s %>'));
@@ -1402,47 +818,10 @@ function initPosMap() {
   </script>
 <% end %>
 
-<!--########################################################################################################################-->
-<!--# inactive code-->
-<!--########################################################################################################################-->
-<% if false %>
-<% if @topic == "personen_kalendereintraege" %>
-  <script>
-    $('#calendar').fullCalendar({
-        now: '<%= DateTime.now %>',
-        allDaySlot: false,
-        timeFormat: 'H(:mm)',
-        defaultView: 'basicWeek',
-        defaultView: 'basicDay',
-        defaultView: 'basicWeek',
-        defaultView: 'listYear',
-        defaultView: 'month',
-        defaultView: 'agendaWeek',
-        slotDuration: '1:00:00',
-        contentHeight: 'auto',
-        <% if @user.time_from and @user.time_to %>
-          minTime: '<%= @user.time_from %>:00',
-          maxTime: '<%= @user.time_to %>:00',
-        <% end %>
-        textColor: 'white',
-        firstDay: 1,
-        weekNumbers: true,
-        events: [<%= raw @array %> ]
-      });
-  </script>
-<% end %>
-<% end %>
-
 <script>
 <% case @topic %>
-  <% when "personen_mappositionen" %>
-      document.addEventListener("turbolinks:load", function() {initPosMap();})
-
   <% when "personen_info" %>
-      document.addEventListener("turbolinks:load", function() {init_map(0); drawChart();})
-
-  <% when "personen_kalendereintraege" %>
-      document.addEventListener("turbolinks:load", function() {})
+      document.addEventListener("turbolinks:load", function() {drawChart();})
 
   <% when "personen_zeiterfassung" %>
       document.addEventListener("turbolinks:load", function() {drawChartall();})

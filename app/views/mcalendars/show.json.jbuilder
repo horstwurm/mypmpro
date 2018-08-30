@@ -1,1 +1,0 @@
-json.partial! "mcalendars/mcalendar", mcalendar: @mcalendar

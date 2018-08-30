@@ -1,1 +1,0 @@
-json.array! @signage_hits, partial: 'signage_hits/signage_hit', as: :signage_hit

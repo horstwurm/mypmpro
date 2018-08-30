@@ -1,1 +1,0 @@
-json.array! @idea_ratings, partial: 'idea_ratings/idea_rating', as: :idea_rating

@@ -103,6 +103,7 @@ en:
   ansprechpartner: "Rollen"
   zeiterfassung: "Zeiterfassung"
   ressourcenplanung: "Kapazitätsplanung"
+  ressourcenplanunggruppe: "Kapazitätsplanung"
   gruppen: "Benutzergruppen"
   
   # devise

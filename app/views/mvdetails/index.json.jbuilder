@@ -1,1 +1,0 @@
-json.array! @mvdetails, partial: 'mvdetails/mvdetail', as: :mvdetail

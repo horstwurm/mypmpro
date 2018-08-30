@@ -1,26 +1,27 @@
+<%= indexheader4((I18n.t :institutionen), "objekte", @mtype, @filter_id, @search) %>
 
-  <div class="row">
-    <% if user_signed_in? %>
-      <%= header("<button type='button' class='btn btn-default fa fa-filter' data-toggle='collapse' data-target='#demo'></button>" + @mtype.to_s + " " + @msubtype.to_s + " " + @filter_id.to_s + " " + @search.to_s + "<span class='badge'>" + @mobanz.to_s + "</span>") %>
-    <% else %>
-      <%= header(@mtype.to_s + " " + @msubtype.to_s + " " + @filter_id.to_s + " " + @search.to_s + "<span class='badge'>" + @mobanz.to_s + "</span>") %>
-    <% end %> 
-    <div id="demo" class="collapse">
-      <% if user_signed_in? %>
-		    <%= link_to new_search_path(:user_id => current_user.id, :search_domain => "objekte", :controller_name => @controller_name, :mtype => @mtype, :msubtype => @msubtype) do %>
-          <i class="btn btn-primary fa fa-plus">Abfrage</i>
-        <% end %>
-        <% if @msubtype %>
-          <% @searches = Search.where('search_domain=? and user_id=? and mtype=? and msubtype=?', "objekte", current_user.id, @mtype, @msubtype) %>
-        <% else %>
-          <% if @mtype %>
-            <% @searches = Search.where('search_domain=? and user_id=? and mtype=?', "objekte", current_user.id, @mtype) %>
-          <% end %>
-        <% end %>
-        <%= build_medialistNew(@searches, "searches", nil) %>
-      <% end %>
-    </div>
-  </div>
+  <!--<div class="row">-->
+  <!--  <% if user_signed_in? %>-->
+  <!--    <%= header("<button type='button' class='btn btn-default fa fa-filter' data-toggle='collapse' data-target='#demo'></button>" + @mtype.to_s + " " + @msubtype.to_s + " " + @filter_id.to_s + " " + @search.to_s + "<span class='badge'>" + @mobanz.to_s + "</span>") %>-->
+  <!--  <% else %>-->
+  <!--    <%= header(@mtype.to_s + " " + @msubtype.to_s + " " + @filter_id.to_s + " " + @search.to_s + "<span class='badge'>" + @mobanz.to_s + "</span>") %>-->
+  <!--  <% end %> -->
+  <!--  <div id="demo" class="collapse">-->
+  <!--    <% if user_signed_in? %>-->
+		<!--    <%= link_to new_search_path(:user_id => current_user.id, :search_domain => "objekte", :controller_name => @controller_name, :mtype => @mtype, :msubtype => @msubtype) do %>-->
+  <!--        <i class="btn btn-primary fa fa-plus">Abfrage</i>-->
+  <!--      <% end %>-->
+  <!--      <% if @msubtype %>-->
+  <!--        <% @searches = Search.where('search_domain=? and user_id=? and mtype=? and msubtype=?', "objekte", current_user.id, @mtype, @msubtype) %>-->
+  <!--      <% else %>-->
+  <!--        <% if @mtype %>-->
+  <!--          <% @searches = Search.where('search_domain=? and user_id=? and mtype=?', "objekte", current_user.id, @mtype) %>-->
+  <!--        <% end %>-->
+  <!--      <% end %>-->
+  <!--      <%= build_medialistNew(@searches, "searches", nil, nil, nil) %>-->
+  <!--    <% end %>-->
+  <!--  </div>-->
+  <!--</div>-->
 
   <div class="panel-body">
     <div class="row">
@@ -32,71 +33,6 @@
     </div>
   </div>
   
-  <% if @edition_id %>
-    <%= build_medialistNew(@mobjects, "mobjects", @edition_id) %>
-  <% else %>
-    <%= build_medialistNew(@mobjects, "mobjects", "panel") %>
-  <% end %>
-  
-  <div class="panel-body">
-    <div class="row">
-      <i class="fa fa-map-marker pull-left" onclick="return initMap();"></i>
-      <div class="col-md-12">
-          <div id="map"></div>
-      </div>
-    </div>
-  </div>
+    <%= build_medialistNew(@mobjects, "mobjects", "panel", nil, nil) %>
 
-<script>
-function initMap() {
-    var map;
-    var bounds = new google.maps.LatLngBounds();
-    var mapOptions = {
-        mapTypeId: 'roadmap'
-    };
-                    
-    // Display a map on the page
-    map = new google.maps.Map(document.getElementById("map"), mapOptions);
-    map.setTilt(45);
-        
-    // Multiple Markers
-    var markers = <%= raw @locs %>;
-    var infoWindowContent = <%= raw @wins %>;
-    
-    // Display multiple markers on a map
-    var infoWindow = new google.maps.InfoWindow(), marker, i;
-    
-    // Loop through our array of markers & place each one on the map  
-    for( i = 0; i < markers.length; i++ ) {
-        var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
-        bounds.extend(position);
-        marker = new google.maps.Marker({
-            position: position,
-            map: map,
-            title: markers[i][0]
-        });
-        
-        // Allow each marker to have an info window    
-        google.maps.event.addListener(marker, 'click', (function(marker, i) {
-            return function() {
-                infoWindow.setContent(infoWindowContent[i][0]);
-                infoWindow.open(map, marker);
-            }
-        })(marker, i));
 
-        // Automatically center the map fitting all markers on the screen
-        map.fitBounds(bounds);
-    }
-
-    // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
-    var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
-        this.setZoom(10);
-        google.maps.event.removeListener(boundsListener);
-    });
-    
-}
-</script>
-
-<script>
-  document.addEventListener("turbolinks:load", function() {initMap();})
-</script>

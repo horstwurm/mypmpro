@@ -1,1 +1,0 @@
-json.partial! "mvdetails/mvdetail", mvdetail: @mvdetail

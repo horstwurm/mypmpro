@@ -1,5 +1,7 @@
 class HomeController < ApplicationController
 
+protect_from_forgery except: :migrate
+
 def nutzung
 end
 
@@ -80,7 +82,7 @@ def index2
     @usanz = @users.count
 end
 
-def index3
+def services
   session[:page] = nil
 end
 
@@ -394,7 +396,7 @@ def index17
     $usemailgun = false
   end
   #UserMailer.welcome_email(User.last).deliver_now
-  redirect_to home_index3_path
+  redirect_to home_services_path
 end
 
 def index18
@@ -761,5 +763,183 @@ def readswitch
       render :json => msg.to_json
   end
 end
+
+def migrate
+  if params[:topic] == "user"
+    @user = JSON.parse(open("https://mytgcloud.herokuapp.com/home/getUser.json").read)
+    
+    if params[:actioncode] == "add"
+      @user.each do |p|
+        if p["email"] == params[:email] or params[:scope] == "all"
+          u = User.new 
+          u.email = p["email"] 
+          u.password = "password" 
+          u.name = p["name"] 
+          u.lastname = p["lastname"] 
+          u.address1 = p["address1"] 
+          u.address2 = p["address2"] 
+          u.address3 = p["address3"] 
+          u.phone1 = p["phone1"]
+          u.phone2 = p["phone2"] 
+          u.org = p["org"] 
+          u.costinfo = p["costinfo"] 
+          u.rate = p["rate"] 
+          u.status = "OK" 
+          u.anonymous = false 
+          u.active = true
+          if u.email == "horst.wurm@bluewin.ch" 
+            u.superuser=true
+          end 
+          u.save
+        end
+      end
+    end
+    
+    if params[:actioncode] == "del"
+      @user.each do |u|
+        if u["email"] == params[:email]
+          User.where('email=?',params[:email]).first.destroy
+        end
+      end
+    end
+  end
+
+  if params[:topic] == "projekte"
+    @projekte = JSON.parse(open("https://mytgcloud.herokuapp.com/home/getPP.json").read)
+    if params[:actioncode] == "add"
+      @projekte.each do |p|
+        if p["name"] == params[:oname]
+          @m = Mobject.new
+          @m.mcategory_id = (Mcategory.where('name=?',"CHANGE").first).id
+          @m.mtype = "projekte"
+          @m.parent = 0
+          @m.owner_type = "Company"
+          @m.owner_id = (Company.where('name=?',"Thurgauer Kantonalbank").first).id
+          @m.name = p["name"]
+          @m.description = p["description"]
+          @m.date_from = p["date_from"]
+          @m.date_to = p["date_to"]
+          @m.costinfo = p["costinfo"]
+          @m.orderinfo = p["orderinfo"]
+          @m.sum_paufwand_plan = p["sum_paufwand_plan"]
+          @m.sum_paufwand_ist = p["sum_paufwand_ist"]
+          @m.sum_pkosten_plan = p["sum_pkosten_plan"]
+          @m.sum_pkosten_ist = p["sum_pkosten_ist"]
+          @m.status = "OK"
+          @m.active = true
+          @m.save
+        end
+      end
+    end
+    
+    if params[:actioncode] == "del"
+      @projekte.each do |p|
+        if p["name"] == params[:oname]
+          @m = Mobject.where('name=?', params[:oname]).first
+          if @m
+            @m.destroy
+          end
+        end
+      end
+    end
+
+    if params[:actioncode] == "plannings"
+      @plans = JSON.parse(open("https://mytgcloud.herokuapp.com/home/getPlan.json?projekt_id="+params[:id].to_s).read) 
+      
+      @temp = Mobject.find(params[:newid])
+      if @temp
+        @temp.plannings.destroy_all
+      end
+      @array = []
+      @plans.each do |s|
+        if User.where('email=?',s["user_id"]).first
+        m = Planning.new
+        m.user_id = (User.where('email=?',s["user_id"]).first).id
+        m.mobject_id = params[:newid]
+        m.costortime = s["costortime"]
+        m.description = s["description"]
+        m.amount = s["amount"]
+        m.jahrmonat = s["jahrmonat"]
+        m.jahr = m.jahrmonat[0,4]
+        m.monat = m.jahrmonat[5,7]
+        m.save
+        
+        user_id = (User.where('email=?',s["user_id"]).first).id
+        mobject_id = params[:newid]
+        @re = Madvisor.where("user_id=? and mobject_id=? and role=?", m.user_id, m.mobject_id, "projekte").first
+        if !@re
+          @array << user_id.to_s + " " + mobject_id.to_s + " " + "projekte"
+          c=Madvisor.new
+          c.user_id=user_id
+          c.mobject_id=mobject_id
+          c.role="projekte"
+          c.grade="Projektmitarbeiter"
+          c.save
+        end
+        end
+      end
+    end
+
+    if params[:actioncode] == "timetracks"
+      @tt = JSON.parse(open("https://mytgcloud.herokuapp.com/home/getRep.json?projekt_id="+params[:id].to_s).read) 
+      
+      @temp = Mobject.find(params[:newid])
+      if @temp
+        @temp.timetracks.destroy_all
+      end
+      @tt.each do |s|
+        if User.where('email=?',s["user_id"]).first
+        m = Timetrack.new
+        m.user_id = (User.where('email=?',s["user_id"]).first).id
+        m.mobject_id = params[:newid]
+        m.costortime = s["costortime"]
+        m.activity = s["activity"]
+        m.amount = s["amount"]
+        m.datum = s["datum"]
+        m.jahrmonat = s["jahrmonat"]
+        m.save
+        
+        user_id = (User.where('email=?',s["user_id"]).first).id
+        mobject_id = params[:newid]
+        @record = Madvisor.where("user_id=? and mobject_id=? and role=?", m.user_id, m.mobject_id, "projekte").first
+        if !@record
+          c=Madvisor.new
+          c.user_id=m.user_id
+          c.mobject_id=m.mobject_id
+          c.role="projekte"
+          c.grade="Projektmitarbeiter"
+          c.save
+        end
+        end
+      end
+    end
+
+  end
+
+end
+
+def migrateDo
+  if params[:data_value]
+    @data = params[:data_value]
+    m = Mobject.new
+    m.name = params[:data_value]
+    m.mcategory_id = 1
+    m.owner_id = 1
+    m.owner_type = "Company"
+    m.online_pub=true
+    m.parent=0
+    m.mtype = "projekte"
+    m.status="OK"
+    m.active = true
+    m.save
+  else
+    @data = "not found!"
+  end
+  respond_to do |format|
+    format.json 
+      render :json => "ok".to_json
+  end
+end
+
 
 end

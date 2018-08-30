@@ -9,27 +9,28 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-                <a class="navbar-brand" href="#">TG<span class="logo-dec">Cloud</span></a>
+                <a class="navbar-brand" href="#">my<span class="logo-dec">PROJECT</span></a>
               </div>
               <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav navbar-right">
 
-      				<% if $controller_list.include?(controller_name) and (action_name == "index") %>
-      					<% @items = url_for(action: action_name, controller: controller_name) %>
-                <li class="">
-      					<%= form_tag @items, method: 'get' do %>
-      						<div class="form-inline">
-      							<div class="form-group">
-      								  <%= search_field_tag 'search', nil, class: 'form-control', placeholder: 'Suchen...' %>
-      								  <% button_tag "", type: 'submit', class: "btn btn-nav btn-xs fa fa-search" %>
-      							</div>
-      						</div>
-      					<% end %>
-                </li>
-      				<% end %>
+          				<!--<% if $controller_list.include?(controller_name) and (action_name == "index") %>-->
+          				<!--	<% @items = url_for(action: action_name, controller: controller_name) %>-->
+              <!--      <li class="">-->
+          				<!--	<%= form_tag @items, method: 'get' do %>-->
+              <!--     </li>-->
+           			<!--			<div class="form-inline">-->
+          				<!--			<div class="form-group">-->
+          				<!--				  <%= search_field_tag 'search', nil, class: 'form-control', placeholder: 'Suchen...' %>-->
+          				<!--				  <% button_tag "", type: 'submit', class: "btn btn-nav btn-xs fa fa-search" %>-->
+          				<!--			</div>-->
+          				<!--		</div>-->
+          				<!--	<% end %>-->
+          				<!--<% end %>-->
 
                   <li class="active"><a href="../#main-header">Home</a></li>
                   <li class=""><a href="../#myservices">Services</a></li>
+
                   <% if false %>
                   <li class=""><a href="../#yield">Data</a></li>
                   <li class=""><a href="../#feature">About</a></li>
@@ -39,7 +40,6 @@
                   <li class=""><a href="../#blog">Blog</a></li>
                   <li class=""><a href="../#contact">Kontakt</a></li>
                   <li class=""><a href="../#news">News</a></li>
-                  <% end %>
                   <li class=""><a href="../#news">Veranstaltungen</a></li>
                   <li class=""><a href="../#subscription">Abonnement</a></li>
                   <li class=""><a href="../#partner">Partner</a></li>
@@ -47,6 +47,8 @@
                   <% if user_signed_in? and (current_user.superuser or current_user.webmaster) %>
                     <li class=""><a href="../#superuser">Admin</a></li>
                   <% end %>
+                  <% end %>
+
                  </ul>
               </div>
             </div>
@@ -56,7 +58,7 @@
           <div class="container">
             <div class="row">
               <div class="banner-info text-center wow fadeIn delay-05s">
-                <h1 class="bnr-title">Willkommen bei TG<span>cloud</span></h1>
+                <h1 class="bnr-title">Willkommen bei my<span>PROJECT</span></h1>
                 <% if user_signed_in? %>
                   <%= contactChip(current_user) %>
                 <% end %>
@@ -68,12 +70,13 @@
                 <div class="row">
                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     
-                    <h2>TGCloud</h2>
+                    <h2>meineProjekte</h2>
 
                     <div class="news blue">
                       <!--<span>News</span>-->
                       <ul>
-                        <% Mobject.order(created_at: :desc).first(10).each do |m| %>
+                        <% Madvisor.where('user_id=?', current_user.id).each do |a| %>
+                            <% m = Mobject.find(a.mobject_id) %>
                             <li>
                               <div class="row">
                                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
@@ -103,7 +106,7 @@
                     
                     <% if user_signed_in? %>
 
-                      <h2>myNews</h2>
+                      <h2>News</h2>
   
                       <div class="news2 blue">
                         <!--<span>News2</span>-->
@@ -124,36 +127,38 @@
                                 </div>
                               </li>
                           <% end %>
-  
-                          <!--Favourits-->
-                          <% f = Favourit.where('object_name=? and object_id=?', "User", current_user.id).last(5) %>
+
+                          <!--Planungen-->
+                          <% f = Planning.where('user_id=?', current_user.id).last(5) %>
                           <% f.each do |m| %>
-                              <% u=User.find(m.user_id) %>
+                              <% o = Mobject.find(m.mobject_id) %>
                               <li>
                                 <div class="row">
                                   <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                    <%= showImage2(:small, u, true) %>
+                                    <%= showFirstImage2(:small, o, o.mdetails) %>
+                                    <%= o.name %>
                                   </div>
                                   <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-xs-9">
                                     <b><%= m.created_at.strftime("%d.%m.%Y") %></b><br>
-                                    <%= u.name + " " + u.lastname + " hat SIe als Favourit zugefügt" %>
+                                    <b><%= "Ressourcenplanung " + m.amount.to_s + "%" %></b><br>
                                   </div>
                                 </div>
                               </li>
                           <% end %>
-  
-                          <!--eMails-->
-                          <% f = Email.where('m_to=?', current_user.id).last(5) %>
+
+                          <!--Planungen-->
+                          <% f = Timetrack.where('user_id=?', current_user.id).last(5) %>
                           <% f.each do |m| %>
-                              <% u=User.find(m.m_from) %>
+                              <% o = Mobject.find(m.mobject_id) %>
                               <li>
                                 <div class="row">
                                   <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                    <%= showImage2(:small, u, true) %>
+                                    <%= showFirstImage2(:small, o, o.mdetails) %>
+                                    <%= o.name %>
                                   </div>
                                   <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-xs-9">
                                     <b><%= m.created_at.strftime("%d.%m.%Y") %></b><br>
-                                    <%= m.header + " " + m.body %>
+                                    <b><%= "Zeiterfassung " + m.amount.to_s + "h" %></b><br>
                                   </div>
                                 </div>
                               </li>
@@ -196,77 +201,8 @@
     <!--/ HEADER-->
     <!---->
 
-<% if false %>
-
-<% controller_name + action_name %>
-<% if (controller_name == "home" and action_name == "index11") or (controller_name == "home" and action_name == "index18") %>
-<% else %>
-<div class="nav-panel-black navbar-fixed-top">
-	<div class="container-fluid">
-		<marquee height="100%" scrolldelay="150"><%= ticker() %></marquee>	
-		<div class="row">
-			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 pull-left">
-				<%= link_to home_index3_path do %>
-			            <i class="fa fa-home" style="font-size:3em"></i>
-				<% end %>
-			</div>
-
-			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				<% if user_signed_in? %>
-					<%= contactChip(current_user) %>
-				<% end %>
-			</div>
-			
-			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 pull-right">
-				<% if user_signed_in? %>
-					<%= link_to(destroy_user_session_path, method: :delete) do %>
-				    	<i class="fa fa-log-out pull-right" style="font-size:3em"></i>
-					<% end %>
-				<% else %>
-					<%= link_to new_user_session_path do %>
-			            <i class="fa fa-log-in pull-right" style="font-size:3em"></i>
-					<% end %> 
-				<% end %>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<% if $controller_list.include?(controller_name) and (action_name == "index") %>
-					<% @items = url_for(action: action_name, controller: controller_name) %>
-					<%= form_tag @items, method: 'get' do %>
-						<div class="form-inline">
-							<div class="form-group">
-								  <%= search_field_tag 'search', nil, class: 'form-control', placeholder: 'Suchen...' %>
-								  <% button_tag "", type: 'submit', class: "btn btn-nav btn-xs fa fa-search" %>
-							</div>
-						</div>
-					<% end %>
-				<% end %>
-				
-				<% if !flash.empty? and false %>
-				    <% flash.each do |name, msg| %>
-				      <% content_tag(:div, msg, class:"alert alert-warning") %>
-				      <message><fade><%= msg %></fade></message> 
-				    <% end %>
-				<% end %>
-
-			</div>
-		</div>
-
-	</div>
-</div>
-<br><br><br><br><br>
-<% end %>
-
-<% if false %>
-	<%= render ("layouts/header2") %>
-<% end %>
-
 <script>
 $(document).ready(function(){
         $("fade").fadeOut(10000);
 });
 </script>
-
-<% end %>

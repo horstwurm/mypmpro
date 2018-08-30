@@ -11,56 +11,28 @@ class CompaniesController < ApplicationController
     if params[:page]
       session[:page] = params[:page]
     end
-    
-    @companies = Company.search(params[:filter_id], params[:search]).order(created_at: :desc).page(params[:page]).per_page(10)
-    @companz = @companies.count
-   counter = 0 
-   @locs = []
-   @wins = []
-   @companies.each do |c|
-      if c.longitude and c.latitude and c.geo_address
-        @locs << [c.name, c.latitude, c.longitude.to_s]
-        @wins << ["<img src=" + c.avatar(:small) + "<br><h3>" + c.name + "</h3><p>" + c.geo_address + "</p>"]
-      end
+    if params[:filter_id]
+      @filter_id = params[:filter_id]
     end
+    
+    @companies = Company.search(params[:filter_id], params[:search]).order(created_at: :desc).page(params[:page]).per_page(50)
+    @companz = @companies.count
 
   end
 
   # GET /companies/1
   def show
 
-   if params[:scope]
-     @c_scope = params[:scope]
-   else
-     @c_scope = "beantragt"
-   end 
-
-   if !@menu
-     @menu="f"
-   end
-   if params[:menu]
-     if params[:menu] == "f"
-       @menu = "t"
-     else
-       @menu = "f"
-     end
-   end
-    
      if params[:topic]
        @topic = params[:topic]
      else 
        @topic = "institutionen_info"
      end 
     
-    if params[:camp_id]
-      @campaign = SignageCamp.find(params[:camp_id])
-    end
-
     @mtypes = Mobject.select("mtype").distinct
     @stats = [["Aktivtäten","Anzahl"]]
     @stats << ["Partnerlinks", @company.partner_links.count ]
-    @stats << ["Kundenverbindungen", @company.customers.count ]
-    @stats << ["ZV Transaktionen", @company.transactions.where('ttype=?', "payment").count]
+    @stats << ["myPROJECT Zahlungen", @company.charges.count ]
     @mtypes.each do |t|
       @text = t.mtype
       @anz = @company.mobjects.where('mtype=?',t.mtype).count
@@ -69,47 +41,15 @@ class CompaniesController < ApplicationController
       end
     end
 
-    if @topic == "institutionen_sponsorantraege"
-
-      @sponsorstats1 = [["Status","Anzahl"]]
-      @antraege = @company.mobjects.select("sponsorenstatus as status, count(*) as anzahl").where('mtype=?',"sponsorantraege").group(:sponsorenstatus)
-      @antraege.each do |t|
-        if t.anzahl and t.status and t.anzahl > 0
-          @sponsorstats1 << [t.status, t.anzahl]
+    if @topic ==   "institutionen_projekte"
+        if params[:show]
+          @c_show = params[:show]
+        else
+          @c_show = "kachel"
         end
-      end
-
-      @sponsorstats2 = [["Status","CHF"]]
-      @antraege = @company.mobjects.select("sponsorenstatus as status, sum(sponsorenbetragantrag) as anzahl").where('mtype=?',"sponsorantraege").group(:sponsorenstatus)
-      @antraege.each do |t|
-        if t.anzahl and t.status and t.anzahl > 0
-          @sponsorstats2 << [t.status, t.anzahl]
-        end
-      end
-      
-      if !$sqllite
-      @sponsorstats3 = [["Monat","Anzahl"]]
-      #@antraege = @company.mobjects.select("strftime('%m', created_at) as monat, count(*) as anzahl").where('mtype=?',"sponsorantraege").group('monat')
-      @antraege = @company.mobjects.select("extract(month from created_at) as monat, count(*) as anzahl").where('mtype=?',"sponsorantraege").group('monat')
-      @antraege.each do |t|
-        if t.anzahl and t.monat and t.anzahl > 0
-          @sponsorstats3 << [t.monat, t.anzahl]
-        end
-      end
-
-      @sponsorstats4 = [["Monat","Betrag beantragt","Betrag genehmigt"]]
-      #@antraege = @company.mobjects.select("strftime('%m', created_at) as monat, sum(sponsorenbetragantrag) as sumantrag, sum(sponsorenbetraggenehmigt) as sumok").where('mtype=?',"sponsorantraege").group('monat')
-      @antraege = @company.mobjects.select("extract(month from created_at) as monat, sum(sponsorenbetragantrag) as sumantrag, sum(sponsorenbetraggenehmigt) as sumok").where('mtype=?',"sponsorantraege").group('monat')
-      @antraege.each do |t|
-        #if t.sumantrag and t.monat and t.sumantrag > 0 and t.sumok and t.sumok>0
-          @sponsorstats4 << [t.monat, t.sumantrag, t.sumok]
-        #end
-      end
-      end
-      
     end
 
-    if @topic ==   "institutionen_export"
+    if @topic ==   "institutionen_export" or "institutionen_projekte"
 
         if params[:writeexcel]
           @filename = "public/projectreport_company"+@company.id.to_s+".xls"
@@ -178,9 +118,9 @@ class CompaniesController < ApplicationController
   # GET /companies/new
   def new
       @company = Company.new
+      @company.name = ""
       @company.user_id = params[:user_id]
       @company.active = true
-      @company.social = false
       @company.status = "OK"
       @company.partner = false
   end

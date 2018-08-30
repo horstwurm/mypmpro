@@ -3,29 +3,14 @@ class Mobject < ActiveRecord::Base
 belongs_to :owner, polymorphic: true
 belongs_to :mcategory
 
-has_many :sponsor_ratings, dependent: :destroy
 has_many :mdetails, dependent: :destroy
-has_many :mvdetails, dependent: :destroy
-has_many :mratings, dependent: :destroy
 has_many :madvisors, dependent: :destroy
-has_many :mcalendars, dependent: :destroy
-has_many :mstats, dependent: :destroy
-has_many :msponsors, dependent: :destroy
-has_many :tickets, as: :owner, dependent: :destroy 
-has_many :comments, dependent: :destroy 
-has_many :editions, dependent: :destroy 
-has_many :mlikes, dependent: :destroy 
-has_many :questions, dependent: :destroy 
 has_many :timetracks, dependent: :destroy 
 has_many :plannings, dependent: :destroy 
-has_many :ideas, dependent: :destroy 
-has_many :crits, dependent: :destroy
-has_many :prices, dependent: :destroy
-has_many :sensors, dependent: :destroy
 
-before_validation :update_geo_address
-geocoded_by :geo_address
-after_validation :geocode
+#before_validation :update_geo_address
+#geocoded_by :geo_address
+#after_validation :geocode
 
 def update_geo_address
   self.geo_address = self.address1.to_s + " " + address2.to_s + " " + address3.to_s
@@ -94,6 +79,12 @@ end
 
 def self.mobshow(mtype,moblist)
     where('mtype=? and (online_pub=? or id IN (?))', mtype, true, moblist)
+end
+
+def self.mobshow2(mtype, moblist, year)
+    start="01.01."+year.to_s
+    ende="31.12."+year.to_s
+    where('mtype=? and ((date_from >=? and date_from <=?) or (date_to >=? and date_to <=?) or (date_from <=? and date_to>=?)) and (online_pub=? or id IN (?))', mtype, start, ende, start, ende, start, ende, true, moblist)
 end
 
 def wo_iterate(wo, include_sub, wolist)

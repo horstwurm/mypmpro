@@ -109,10 +109,21 @@ class MadvisorsController < ApplicationController
   # GET /madvisors/new
   def new
     @madvisor = Madvisor.new
+    
     @madvisor.mobject_id = params[:mobject_id]
+    @madvisor.role = Mobject.find(params[:mobject_id]).mtype
     @madvisor.user_id = params[:user_id]
-    @madvisor.role = params[:role]
-    @madvisor.grade = params[:grade]
+    if User.find(params[:user_id]).rate
+      @madvisor.rate = User.find(params[:user_id]).rate
+    else
+      @madvisor.rate = 0
+    end
+    case @madvisor.role
+      when "projekte"
+        @madvisor.grade = "Projektmitarbeiter"
+      when "gruppen"
+        @madvisor.grade = "Gruppenmitglied"
+      end
   end
 
   # GET /madvisors/1/edit
@@ -123,19 +134,16 @@ class MadvisorsController < ApplicationController
   def create
     @madvisor = Madvisor.new(madvisor_params)
     if @madvisor.save
-      if @madvisor.mobject.mtype == "projekte"
-        @topic = "objekte_projektberechtigungen"
+      case @madvisor.mobject.mtype
+        when "projekte"
+          @topic = "objekte_projektberechtigungen"
+          @text = "Berechtigung erteilt! "
+        when "gruppen"
+          @topic = "objekte_gruppenmitglieder"
+          @text = "Mitteilung! "
       end
-      if @madvisor.mobject.mtype == "angebote"
-        @topic = "objekte_ansprechpartner"
-      end
-       if @madvisor.mobject.mtype == "gruppen"
-        @topic = "objekte_gruppenmitglieder"
-      end
-      if @madvisor.mobject.mtype == "innovationswettbewerbe"
-        @topic = "objekte_jury"
-      end
-      redirect_to mobject_path(:id => @madvisor.mobject_id, :topic => @topic), notice: (In18.t :act_create)
+      UserMailer.user_access_info(User.find(@madvisor.user_id), "myPROJECT Information", @text + @madvisor.grade, @madvisor.mobject).deliver_now
+      redirect_to mobject_path(:id => @madvisor.mobject_id, :topic => @topic), notice: (I18n.t :act_create)
     else
       render :new
     end
@@ -143,20 +151,15 @@ class MadvisorsController < ApplicationController
 
   # PUT /madvisors/1
   def update
-    if @madvisor.mobject.mtype == "projekte"
-      @topic = "objekte_projektberechtigungen"
-    end
-    if @madvisor.mobject.mtype == "angebote"
-      @topic = "objekte_ansprechpartner"
-    end
-     if @madvisor.mobject.mtype == "gruppen"
-      @topic = "objekte_gruppenmitglieder"
-    end
-    if @madvisor.mobject.mtype == "innovationswettbewerbe"
-      @topic = "objekte_jury"
-    end
     if @madvisor.update(madvisor_params)
-      redirect_to mobject_path(:id => @madvisor.mobject_id, :topic => @topic), notice: (I18n.t :act_update)
+      case @madvisor.mobject.mtype
+        when "projekte"
+          @topic = "objekte_projektberechtigungen"
+        when "gruppen"
+          @topic = "objekte_gruppenmitglieder"
+      end
+      UserMailer.user_access_info(User.find(@madvisor.user_id), "myPROJECT Information", "Berechtigung geändert! - " + @madvisor.grade, @madvisor.mobject).deliver_now
+      redirect_to(mobject_path(:id => @madvisor.mobject_id, :topic => @topic), notice: (I18n.t :act_update))
     else
       render :edit
     end
@@ -165,20 +168,15 @@ class MadvisorsController < ApplicationController
   # DELETE /madvisors/1
   def destroy
     @id = @madvisor.mobject_id
-    if @madvisor.mobject.mtype == "projekte"
-      @topic = "objekte_projektberechtigungen"
-    end
-    if @madvisor.mobject.mtype == "angebote"
-      @topic = "objekte_ansprechpartner"
-    end
-     if @madvisor.mobject.mtype == "gruppen"
-      @topic = "objekte_gruppenmitglieder"
-    end
-    if @madvisor.mobject.mtype == "innovationswettbewerbe"
-      @topic = "objekte_jury"
+    case @madvisor.mobject.mtype
+      when "projekte"
+        @topic = "objekte_projektberechtigungen"
+      when "gruppen"
+        @topic = "objekte_gruppenmitglieder"
     end
     @madvisor.destroy
-      redirect_to mobject_path(:id => @id, :topic => @topic), notice: (I18n.t :act_delete)
+    #UserMailer.user_access_info(User.find(@madvisor.user_id), "myPROJECT Information", "Berechtigung erteilt! - " + @madvisor.grade, @madvisor.mobject).deliver_now
+    redirect_to(mobject_path(:id => @id, :topic => @topic), notice: (I18n.t :act_delete))
   end
 
   private
@@ -189,7 +187,7 @@ class MadvisorsController < ApplicationController
     
     # Never trust parameters from the scary internet, only allow the white list through.
     def madvisor_params
-      params.require(:madvisor).permit(:mobject_id, :user_id, :grade, :rate)
+      params.require(:madvisor).permit(:mobject_id, :user_id, :grade, :role, :rate)
     end
     
     

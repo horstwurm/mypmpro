@@ -23,7 +23,7 @@
       	  				    	<i class="btn btn-download"><%= (I18n.t :userstat) %></i>
       	  					  <% end %>
               		 <% end %>
-      						 <% if current_user.id == 1 %>
+      						 <% if current_user.email == "horst.wurm@bluewin.ch" %>
           						<%= link_to home_index17_path(:mailgunflag => true) do %>
         				    	  <i class="btn btn-more">Mailgun ON</i>
         				    	<% end %>
@@ -35,6 +35,9 @@
           				    <% end %>
           						<%= link_to home_temptest_path do %>
           				    		<i class="btn btn-more">test it</i>
+          				    <% end %>
+          						<%= link_to home_migrate_path do %>
+          				    		<i class="btn btn-more">Migrate TGCloud</i>
           				    <% end %>
         					 <% end %>
                 </div>

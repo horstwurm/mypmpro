@@ -1,45 +1,10 @@
-<!-- Corporate Design if defined -->
-<% if @company.company_params.first %> 
-  <% if @company.company_params.first.color1 and @company.company_params.first.color1 != "" %>
-    <% color1 = @company.company_params.first.color1 %>
-  <% else %>
-    <% color1 = $graph_color2 %>
-  <% end %>
-  <% if @company.company_params.first.color2 and @company.company_params.first.color2 != "" %>
-    <% color2 = @company.company_params.first.color2 %>
-  <% else %>
-    <% color2 = $grey %>
-  <% end %>
-<% else %>
-    <% color1 = $graph_color2 %>
-    <% color2 = $grey %>
-<% end %>
-<%= header_cicd(@company.name,@company,nil) %>
+<%= header4_cicd(@company.name, nil, @company, nil, "institutionen", @company, @topic) %>
 
-<%= navigate2("institutionen", @company, @topic) %>
-<script>
-  $("#myMenuNavbar").css("background-color", "<%= color1 %>");
-  $("#myMenuNavbar .nav-item .menu-selected").css("background-color", "<%= color2 %>");
-
-  $("#myMenuNavbar .nav-item").hover(
-    function() {
-      $( this ).css("background-color","<%= color2 %>");
-      $( this ).css("color","<%= "red" %>");
-    }, function() {
-      $( this ).css("background-color",""); //to remove property set it to ''
-    }
-  );
-</script>
-
-<div id="main">
-  <div class="row">
-      <div class='col-xs-12'>
-      
        <% case @topic %>
         <% when "institutionen_info" %>
         
           <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
               <div class="panel-body">
                  <% case @company.status %>
                     <% when "CHECK" %>
@@ -75,13 +40,7 @@
                   <cite><%= @company.created_at.strftime("%d.%m.%Y") %></cite><br>
               </div>
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
-              <i class="fa fa-map-marker pull-left" onclick="return init_map(0);"></i>
-              <div id="map">
-                <div id="map-canvas"></div>
-              </div>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
               <div class="panel-body">
                 <% if $activeapps.include?("institutionenaktivitaeten") or (user_signed_in? and current_user.superuser) %>
                     <i class="fa fa-map-marker pull-left" onclick="return drawChart();"></i>
@@ -92,182 +51,48 @@
           </div>
 
         <% when "institutionen_params" %>
-          <% @cp = @company.company_params.first %>
-          <% if !@cp %>
-            <% @cp = CompanyParam.new %>
-            <% @cp.company_id = @company.id %>
-            <% @cp.save %>
-          <% end %>
-          <%= controller.redirect_to edit_company_param_path(@cp) %>
+        
+          <%= build_medialistNew(@company.company_params, "company_params", nil, nil, nil) %>
 
         <% when "institutionen_projekte" %>
+            <% case @c_show %>
+              <% when "kachel" %>
+                <% btn_k = "active" %>
+                <% btn_p = "inactive" %>
+              <% when "tabelle" %>
+                <% btn_p = "active" %>
+                <% btn_k = "inactive" %>
+            <% end %>
+
+            <%= link_to company_path(:id => @company.id, :topic => "institutionen_projekte",  :mode => "Jahr", :year => @c_year, :show => "tabelle", :class => @c_class) do %>
+              <span><i class="btn btn-<%= btn_p %> fa fa-list"></i></span>
+            <% end %>
+            <%= link_to company_path(:id => @company.id, :topic => "institutionen_projekte",   :mode => "Jahr", :year => @c_year, :show => "kachel", :class => @c_class) do %>
+              <span><i class="btn btn-<%= btn_k %> fa fa-calendar"></i></span>
+            <% end %>
+              <%= link_to company_path(:id =>  @company.id, :topic => "institutionen_projekte",  :mode => "Jahr", :year => @c_year, :show => @c_show, :class => @c_class)  do %>
+                <span><i class="btn btn-active fa fa-calendar"> <%= @c_year %></i></span>
+              <% end %>
+              <%= link_to company_path(:id =>  @company.id, :topic => "institutionen_projekte",  :mode => "Jahr", :dir => "<", :year => @c_year, :show => @c_show, :class => @c_class )  do %>
+                <i class="btn btn-primary fa fa-chevron-left"></i>
+              <% end %>
+              <%= link_to company_path(:id =>  @company.id, :topic => "institutionen_projekte",  :mode => "Jahr", :dir => ">", :year => @c_year, :show => @c_show , :class => @c_class) do %>
+                <i class="btn btn-primary fa fa-chevron-right"></i>
+              <% end %>
+        
           <% moblist = zugriffsliste(@company.mobjects, "projekte", current_user) %>
-          <%= build_medialistNew(@company.mobjects.mobshow("projekte",moblist), "mobjects", nil) %>
-
-        <% when "institutionen_rollen" %>
-          <% carray = [] %>
-          <% marray = [] %>
-          <% @company.mobjects.each do |m| %>
-            <% carray << m.id %>
-            <% m.madvisors.each do |a| %>
-              <% if !marray.include? a.user_id %>
-                <% marray << a.user_id %>
-              <% end %>
-            <% end %>
-          <% end %>
-          
-          <%= header_cicd((I18n.t :berechtigungen), @company, nil) %>
-          <br>
-          <table class="table table-striped">
-            <tr>
-              <th>Name</th>
-              <th>Berechtigungen</th>
-            </tr>
-            <% User.where("id IN (?)", marray).order(:lastname).each do |u| %>
-              <tr>
-                <td>
-                  <%= showImage2(:medium, u, true) %>
-                  <%= u.name + " " + u.lastname %><br>
-                  <%= u.email %>
-                </td>
-                <td>
-                <table class="table table-striped">
-                  <% @mobs = u.madvisors.where('mobject_id in (?)', carray) %>
-                  <% @mobs.each do |m| %>
-                    <tr>
-                      <% @mob = Mobject.find(m.mobject_id) %>
-                      <td>
-        				        <%= link_to m, method: :delete, data: { confirm: 'Are you sure?' } do %>
-                          <i class="btn btn-danger btn-xs fa fa-trash"></i>
-                        <% end %>
-                      </td>
-                      <td><%= showFirstImage2(:small, @mob, @mob.mdetails) %></td>
-                      <td><%= @mob.mtype %></td>
-                      <td><%= @mob.name %></td>
-                      <td><%= m.grade %></td>
-                    </tr>
-                  <% end %>
-                </table>
-                </td>
-              </tr>
-            <% end %>
-          </table>
-
-        <% when "institutionen_kampagnen" %>
-          <%= build_medialistNew(@company.mobjects.where('mtype=?',"kampagnen"),"mobjects", nil) %>
-
-        <% when "institutionen_standorte" %>
-          <%= build_medialistNew(@company.mobjects.where('mtype=?',"standorte"), "mobjects", nil) %>
-
-        <% when "institutionen_sponsorantraege" %>
-          <% case @c_scope %>
-            <% when "beantragt" %>
-              <% btn_antrag = "active" %>
-              <% btn_ok = "inactive" %>
-              <% btn_nok = "inactive" %>
-              <% qString = "sponsorenstatus='beantragt' or sponsorenstatus='in Prüfung'" %>
-            <% when "genehmigt" %>
-              <% btn_antrag = "inactive" %>
-              <% btn_ok = "active" %>
-              <% btn_nok = "inactive" %>
-              <% qString = "sponsorenstatus='genehmigt' or sponsorenstatus='genehmigt mit Anpassungen'" %>
-            <% when "abgelehnt" %>
-              <% btn_antrag = "inactive" %>
-              <% btn_ok = "inactive" %>
-              <% btn_nok = "active" %>
-              <% qString = "sponsorenstatus='abgelehnt'" %>
-          <% end %>
-
-          <% access = false %>
-          <% if user_signed_in? %>
-            <% if current_user.superuser %>
-                <% access = true %>
-            <% end %>
-            <% if @company.company_params.first %>
-              <% @u = User.where('email=?', @company.company_params.first.role_sponsoring).first %>
-              <% if @u and current_user.id == @u.id %>
-                <% access = true %>
-              <% end %>
-            <% end %>
-          <% end %>
-          <% if access %>
-          
-          <%= link_to company_path(:id => @company.id, :topic => "institutionen_sponsorantraege", :scope => "beantragt")  do %>
-            <span><i class="btn btn-<%= btn_antrag %> fa fa-question"> beantragt</i></span>
-          <% end %>
-          <%= link_to company_path(:id => @company.id, :topic => "institutionen_sponsorantraege", :scope => "genehmigt")  do %>
-            <span><i class="btn btn-<%= btn_ok %> fa fa-check"> genehmigt</i></span>
-          <% end %>
-          <%= link_to company_path(:id => @company.id, :topic => "institutionen_sponsorantraege", :scope => "abgelehnt")  do %>
-            <span><i class="btn btn-<%= btn_nok %> fa fa-ban"> abgelehnt</i></span>
-          <% end %>
-
-         <% moblist = zugriffsliste(@company.mobjects.where(qString), "sponsorantraege", current_user) %>
-         <% @passives = @company.mobjects.mobshow("sponsorantraege",moblist) %>
-         <%= build_medialistNew(@passives, "mobjects", nil) if @passives and @passives.count > 0 %>
-         <% @actives = Mobject.where('mtype=? and requester_type=? and requester_id=?', "sponsorantraege", "Company", @company.id) %>
-         <%= build_medialistNew(@actives, "mobjects", nil) if @actives and @actives.count > 0 %>
-
-          <%= header_cicd("Statistik",@company,nil) %>
-          <div class="row">
-            <div class="col">
-              <div id="sponsor_piechart1"></div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              <div id="sponsor_piechart2"></div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              <div id="sponsor_linechart1"></div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              <div id="sponsor_linechart2"></div>
-            </div>
-          </div>
-          <% end %>
-
-        <% when "institutionen_sensoren" %>
-          <%= build_medialistNew(@company.mobjects.where('mtype=?',"sensoren"), "mobjects", nil) %>
+          <% if @c_show == "kachel" %>
+              <%= build_medialistNew(@company.mobjects.mobshow("projekte",moblist), "projekte", nil, nil, nil) %>
+          <% end %> 
+          <% if @c_show == "tabelle" %>
+              <%= build_mediaTable(@company.mobjects.mobshow2("projekte",moblist, @c_year), "projekte", @c_year, nil, nil) %>
+          <% end %> 
 
         <% when "institutionen_partnerlinks" %>
-          <%= build_medialistNew(@company.partner_links, "partner_links", nil) %>
+          <%= build_medialistNew(@company.partner_links, "partner_links", nil, nil, nil) %>
 
-        <!--########################################################################################################################-->
-        <!--# inactive code-->
-        <!--########################################################################################################################-->
-        <% when "institutionen_angebote" %>
-          <%= build_medialistNew(@company.mobjects.where('mtype=?',"angebote"), "mobjects", nil) %>
-        <% when "institutionen_stellenanzeigen" %>
-          <%= build_medialistNew(@company.mobjects.where('mtype=?',"stellenanzeigen"), "mobjects", nil) %>
-        <% when "institutionen_kleinanzeigen" %>
-          <%= build_medialistNew(@company.mobjects.where('mtype=?',"kleinanzeigen"), "mobjects", nil) %>
-        <% when "institutionen_vermietungen" %>
-          <%= build_medialistNew(@company.mobjects.where('mtype=?',"vermietungen"), "mobjectss", nil) %>
-        <% when "institutionen_veranstaltungen" %>
-          <%= build_medialistNew(@company.mobjects.where('mtype=?',"veranstaltungen"), "mobjects", nil) %>
-        <% when "institutionen_sponsorenengagements" %>
-          <%= build_medialistNew(@company.msponsors, "msponsors", "objekte") %>
-        <% when "institutionen_ausflugsziele" %>
-          <%= build_medialistNew(@company.mobjects.where('mtype=?',"ausflugsziele"), "mobjects", nil) %>
-        <% when "institutionen_ausschreibungen" %>
-          <%= build_medialistNew(@company.mobjects.where('mtype=?',"ausschreibungen"), "mobjects", nil) %>
-        <% when "institutionen_crowdfunding" %>
-          <%= build_medialistNew(@company.mobjects.where('mtype=?',"crowdfunding"), "mobjects", nil) %>
-        <% when "institutionen_crowdfundingbeitraege" %>
-          <%= build_medialistNew(@company.mstats, "mstats", nil) %>
-        <% when "institutionen_innovationswettbewerbe" %>
-          <%= build_medialistNew(@company.mobjects.where('mtype=?',"innovationswettbewerbe"), "mobjects", nil) %>
-        <% when "institutionen_umfragen" %>
-          <%= build_medialistNew(@company.mobjects.where('mtype=?',"umfragen"), "mobjects", nil) %>
-        <% when "institutionen_publikationen" %>
-          <%= build_medialistNew(@company.mobjects.where('mtype=?',"publikationen"), "mobjects", nil) %>
         <% when "institutionen_stellvertretungen" %>
-          <%= build_medialistNew(@company.deputies, "deputies", nil) %>
+          <%= build_medialistNew(@company.deputies, "deputies", nil, nil, nil) %>
 
         <% when "institutionen_export" %>
           <div class="row">
@@ -448,70 +273,18 @@
           <% end %>
 
     	 <% when "institutionen_charges" %>
-    	    <% if false %>
-          <%= build_medialistNew(@company.charges, "charges", nil) %>
-          <br><br>
+    	   <% if true %>
+              <%= build_medialistNew(@company.charges, "charges", nil, nil, nil) %>
           <% end %>
-          <%= build_medialistNew(Appparam.where('info=?', "payable"), "appparams", "company") %>
-          <br><br>
+          <!--<%= build_medialistNew(Appparam.where('info=?', "payable"), "appparams", "company", nil, nil) %>-->
 
-    	 <% when "institutionen_kundenbeziehungen" %>
-          <% hash = Hash.new %>
-          <% hash = {:company_id => @company.id} %>
-          <div class="panel-body">
-            <%= build_medialistNew(@company.customers, "partners", hash) %>
-          </div>
-          <div class="panel-body">
-            <%= build_medialistNew(Company.where('partner=?',true), "nopartners", hash) %>
-          </div>
-        <% when "institutionen_transaktionen" %>
-          <div class="panel-body">
-            <%= build_medialistNew(@company.transactions, "transactions", hash) %>
-          </div>
-          
-        <% when "institutionen_emails" %>
-          <div class="panel-body">
-            <% emails = Email.where('m_to=? or m_from=?', @company.user.id, @company.user.id).order(created_at: :desc) %>
-            <% emails.each do |e| %>
-              <% if e.m_to == @company.user.id %>
-                <% @u = User.find(e.m_from) %>
-                <%= showImage2(:small, @u, true) if @u %>
-              <% end %>
-              <% if e.m_from == @company.user.id %>
-                <% @u = User.find(e.m_to) %>
-                <%= showImage2(:small, @u, true) if @u %>
-              <% end %>
-              <%= e.header + e.body %><br>
-            <% end %>
-          </div>
 
       <% end %>
-    </div>
-    
-  </div>
-</div>
-</div>
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-<% if @topic == "institutionen_info" and @company.latitude and @company.longitude %>
+<% if @topic == "institutionen_info" %>
   <script type="text/javascript">
-
-    var latitudes = [<%= @company.latitude %>];
-    var longitudes = [<%= @company.longitude %>];
-    function init_map(index) {
-        var myLocation = new google.maps.LatLng(latitudes[index], longitudes[index]);
-        var mapOptions = {
-            center: myLocation,
-            zoom: 16
-        };
-        var marker = new google.maps.Marker({
-            position: myLocation,
-            title: "Property Location"
-        });
-        var map = new google.maps.Map(document.getElementById("map"),mapOptions);
-        marker.setMap(map);
-    }
 
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(drawChart);
@@ -520,6 +293,7 @@
       var options = {
         title: "<%= (I18n.t :aktivitaeten) %>",
         pieHole: 0.4,
+        backgroundColor:'transparent',
         height: 600,
       };
       var chart = new google.visualization.PieChart(document.getElementById('piechart'));
@@ -529,69 +303,10 @@
   </script>
 <% end %>
 
-<% if @topic == "institutionen_sponsorantraege" %>
-  <script type="text/javascript">
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawChart1);
-    function drawChart1() {
-      var data = google.visualization.arrayToDataTable(<%= raw @sponsorstats1 %>);
-      var options = {
-        title: "<%= (I18n.t :statusProzent) %>",
-        pieHole: 0.4,
-        height: 600,
-      };
-      var chart = new google.visualization.PieChart(document.getElementById('sponsor_piechart1'));
-      chart.draw(data, options);
-    };
-
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawChart2);
-    function drawChart2() {
-      var data = google.visualization.arrayToDataTable(<%= raw @sponsorstats2 %>);
-      var options = {
-        title: "<%= (I18n.t :statusBetrag) %>",
-        pieHole: 0.4,
-        height: 600,
-        pieSliceText: 'value',
-      };
-      var chart = new google.visualization.PieChart(document.getElementById('sponsor_piechart2'));
-      chart.draw(data, options);
-    };
-
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawChart3);
-    function drawChart3() {
-      var data = google.visualization.arrayToDataTable(<%= raw @sponsorstats3 %>);
-      var options = {
-        title: "<%= (I18n.t :monatAnzahl) %>",
-        colors: ['#ACC550'],
-        curveType: 'function',
-        legend: { position: 'bottom' }
-      };
-      var chart = new google.visualization.LineChart(document.getElementById('sponsor_linechart1'));
-      chart.draw(data, options);
-    };
-
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawChart4);
-    function drawChart4() {
-      var data = google.visualization.arrayToDataTable(<%= raw @sponsorstats4 %>);
-      var options = {
-        title: "<%= (I18n.t :monatBetrag) %>",
-        colors: ['#ACC550','#FFC550'],
-        curveType: 'function',
-        legend: { position: 'bottom' }
-      };
-      var chart = new google.visualization.LineChart(document.getElementById('sponsor_linechart2'));
-      chart.draw(data, options);
-    };
-  </script>
-<% end %>
-
 <script>
 <% case @topic %>
   <% when "institutionen_info" %>
-      document.addEventListener("turbolinks:load", function() {init_map(0); drawChart();})
+      document.addEventListener("turbolinks:load", function() {drawChart();})
 
 <% end %>
 </script>

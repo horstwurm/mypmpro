@@ -10,13 +10,8 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
 */
-//@import "bootstrap";
 @import "bootstrap.min";
 @import "font-awesome";
-
-//@import url(https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.3.1/css/mdb.min.css);
-//@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css);
-
 @import "style";
 @import "bootslider";
 @import "timeline";
@@ -30,5 +25,5 @@
 @import "jquery.bxslider";
 
 @import "owl.carousel";
-@import "owl.theme";
+@import "test"
 

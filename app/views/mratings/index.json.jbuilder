@@ -1,1 +1,0 @@
-json.array! @mratings, partial: 'mratings/mrating', as: :mrating

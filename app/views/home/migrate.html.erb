@@ -1,0 +1,285 @@
+<h1>Migrate from TGCloud</h1>
+
+<%= @array %><br>
+
+<% @compex = Company.where('name=?',"Thurgauer Kantonalbank").first %>
+<% if !@compex %>
+    <% @c = Company.new %>
+    <% @c.user_id = (User.where("email=?","curdin.schenkel@tkb.ch").first).id %>
+    <% @c.name = "Thurgauer Kantonalbank" %>
+    <% @c.address1 = "Bankplatz 1" %>
+    <% @c.address2 = "Weinfelden" %>
+    <% @c.address3 = "" %>
+    <% @c.status = "OK" %>
+    <% @c.active = true %>
+    <% @c.save %>
+    <% "MIGRATED!!!" + @c.name %><br>
+<% else %>
+    <% "NOT MIGRATED!!!" + @compex.name %><br>
+<% end %>
+
+<!--<!-USER MIGRATION--->
+<%= link_to home_migrate_path(:topic => "user", :actioncode => "add", :scope => "all") do %>
+  <span><i class="btn btn-default fa fa-user">User all</i></span>
+<% end %>
+<%= link_to home_migrate_path(:topic => "user") do %>
+  <span><i class="btn btn-default fa fa-user">User sel</i></span>
+<% end %>
+<!--<!-PROJEKTE MIGRATION--->
+<%= link_to home_migrate_path(:topic => "projekte") do %>
+  <span><i class="btn btn-default fa fa-list">Projekte sel</i></span>
+<% end %>
+
+<% if @user %>
+    <table class="table table-striped">
+    <thead>
+        <td>email</td>
+        <td>Name</td>
+        <td>Lastname</td>
+        <td>Action</td>
+    </thead>
+    <body>
+    <% @user.each do |p| %>
+        <tr>
+            <td><%= p["email"] %></td>
+            <td><%= p["name"] %></td>
+            <td><%= p["lastname"] %></td>
+            <% @userex = User.where('email=?',p["email"]).first %>
+            <td>
+            <% if !@userex %>
+                <%= link_to home_migrate_path(:topic => "user", :actioncode => "add", :email => p["email"]) do %>
+                  <i class="btn btn-primary fa fa-plus"></i>
+                <% end %>
+            <% else %>
+                <%= link_to home_migrate_path(:topic => "user", :actioncode => "del", :email => p["email"]) do %>
+                  <i class="btn btn-danger fa fa-trash"></i>
+                <% end %>
+            <% end %>
+            </td>
+        </tr>
+    <% end %>
+</body>    </table>
+<% end %>
+
+<% if @projekte %>
+    <table class="table table-striped">
+    <thead>
+        <td>Name</td>
+        <td>von</td>
+        <td>bis</td>
+        <td>Planungsdaten</td>
+        <td>Zeiterfassung</td>
+        <td>Berechtigungen</td>
+        <td>Action</td>
+    </thead>
+    <body>
+    <% @projekte.each do |p| %>
+        <% @mompex = Mobject.where('name=?', p["name"]).first %>
+        <tr>
+            <td><%= p["name"] %></td>
+            <td><%= p["date_from"] %></td>
+            <td>
+                <% if p["date_to"] and p["date_to"].to_date <= Date.today %>
+                    <b><%= p["date_to"] %></b>
+                <% else %>
+                    <%= p["date_to"] %>
+                <% end %>
+            </td>
+            <% if !@mompex %>
+                <td></td><td></td><td></td>
+                <td>
+                <%= link_to home_migrate_path(:topic => "projekte", :actioncode => "add", :oname => p["name"]) do %>
+                  <i class="btn btn-primary fa fa-plus"></i>
+                <% end %>
+                </td>
+            <% else %>
+                <td><%= @mompex.plannings.count if @mompex.plannings %>
+                    <%= link_to home_migrate_path(:topic => "projekte", :actioncode => "plannings", :id => p["mobject_id"], :newid => @mompex.id) do %>
+                      <i class="btn btn-primary btn-xs fa fa-wrench"></i>
+                    <% end %>
+                </td>
+                <td>
+                    <%= @mompex.timetracks.count if @mompex.timetracks %>
+                    <%= link_to home_migrate_path(:topic => "projekte", :actioncode => "timetracks", :id => p["mobject_id"], :newid => @mompex.id) do %>
+                      <i class="btn btn-primary btn-xs fa fa-wrench"></i>
+                    <% end %>
+                </td>
+                <td>
+                    <%= @mompex.madvisors.where('role=?',"projekte").count if @mompex.madvisors %>
+                </td>
+                <td>
+                    <%= link_to home_migrate_path(:topic => "projekte", :actioncode => "del", :oname => p["name"]) do %>
+                      <i class="btn btn-danger fa fa-trash"></i>
+                    <% end %>
+                </td>
+            <% end %>
+        </tr>
+    <% end %>
+</body>    </table>
+<% end %>
+
+<% if false %>
+<% require 'open-uri' %>
+<% require 'json' %>
+
+<h1>User</h1>
+
+<!--#migrate Users-->
+<% User.destroy_all if false %>
+<% result = JSON.parse(open("https://mytgcloud.herokuapp.com/home/getUser.json").read) %>
+<% result %>
+
+<% result.each do |p| %>
+    <% @userex = User.where('email=?',p["email"]).first %>
+    <% if !@userex %>
+        <% @u = User.new %>
+        <% @u.email = p["email"] %>
+        <% @u.password = "password" %>
+        <% @u.name = p["name"] %>
+        <% @u.lastname = p["lastname"] %>
+        <% @u.address1 = p["address1"] %>
+        <% @u.address2 = p["address2"] %>
+        <% @u.address3 = p["address3"] %>
+        <% @u.phone1 = p["phone1"] %>
+        <% @u.phone2 = p["phone2"] %>
+        <% @u.org = p["org"] %>
+        <% @u.costinfo = p["costinfo"] %>
+        <% @u.rate = p["rate"] %>
+        <% @u.status = "OK" %>
+        <% @u.anonymous = false %>
+        <% @u.active = true %>
+        <% if @u.email == "horst.wurm@bluewin.ch" %>
+            <%     @u.superuser=true %>
+        <% end %>
+        <% @u.save %>
+        <%= "MIGRATED!!!" + @u.name %><br>
+    <% else %>
+        <%= "NOT MIGRATED!!!" + @userex.name %><br>
+    <% end %>
+<% end %>
+
+<h1>Company</h1>
+<% @compex = Company.where('name=?',"Thurgauer Kantonalbank").first %>
+<% if !@compex %>
+    <% @c = Company.new %>
+    <% @c.user_id = (User.where("email=?","curdin.schenkel@tkb.ch").first).id %>
+    <% @c.name = "Thurgauer Kantonalbank" %>
+    <% @c.address1 = "Bankplatz 1" %>
+    <% @c.address2 = "Weinfelden" %>
+    <% @c.address3 = "" %>
+    <% @c.status = "OK" %>
+    <% @c.active = true %>
+    <% @c.save %>
+    <%= "MIGRATED!!!" + @c.name %><br>
+<% else %>
+    <%= "NOT MIGRATED!!!" + @compex.name %><br>
+<% end %>
+
+<h1>Projekte</h1>
+<% Mobject.where('mtype=?',"projekte").destroy_all if true %>
+<% result = JSON.parse(open("https://mytgcloud.herokuapp.com/home/getPP.json").read) %>
+<% result %>
+
+<% result.each do |p| %>
+    <% @mobex = Mobject.where('name=?',p["name"]).first %>
+    <% if !@mobex %>
+        <% @m = Mobject.new %>
+        <% @m.mcategory_id = (Mcategory.where('name=?',"CHANGE").first).id %>
+        <% @m.mtype = "projekte" %>
+        <% @m.parent = 0 %>
+        <% @m.owner_type = "Company" %>
+        <% @m.owner_id = (Company.where('name=?',"Thurgauer Kantonalbank").first).id %>
+        <% @m.name = p["name"] %>
+        <% @m.description = p["description"] %>
+        <% @m.date_from = p["date_from"] %>
+        <% @m.date_to = p["date_to"] %>
+        <% @m.costinfo = p["costinfo"] %>
+        <% @m.orderinfo = p["orderinfo"] %>
+
+        <% @m.sum_paufwand_plan = p["sum_paufwand_plan"] %>
+        <% @m.sum_paufwand_ist = p["sum_paufwand_ist"] %>
+        <% @m.sum_pkosten_plan = p["sum_pkosten_plan"] %>
+        <% @m.sum_pkosten_ist = p["sum_pkosten_ist"] %>
+
+        <% @m.status = "OK" %>
+        <% @m.active = true %>
+        <% @m.save %>
+        <%= "MIGRATED!!!" + @m.name %><br>
+    <% else %>
+        <%= "NOT MIGRATED!!!" + @mobex.name %><br>
+    <% end %>
+
+    <h2>Plannings</h2>
+    <% @mobex = (Mobject.where('name=?',p["name"]).first) %>
+    <% if @mobex %>
+        <% @mobex.plannings.destroy_all if false %>
+        <% result2 = JSON.parse(open("https://mytgcloud.herokuapp.com/home/getPlan.json?projekt_id="+p["mobject_id"].to_s).read) if true %>
+        <%= result2 if true %>
+        <%= "BUILD Plannings!!!" + @mobex.name %><br>
+    <% else %>
+        <%= "MIGRATED!!!" + @mobex.name %><br>
+    <% end %>
+    <% if @mobex %>
+        <% @mobex.timetracks.destroy_all if false %>
+        <% result2 = JSON.parse(open("https://mytgcloud.herokuapp.com/home/getRep.json?projekt_id="+p["mobject_id"].to_s).read) if true %>
+        <%= result2 if true %>
+        <%= "BUILD Timetracks!!!" + @mobex.name %><br>
+    <% else %>
+        <%= "MIGRATED!!!" + @mobex.name %><br>
+    <% end %>
+
+<% end %>
+<% end %>
+
+<h2><%=  @data %></h2>
+
+<div id="status">0</div>
+
+<% if false %>
+<script>
+$(document).ready(function(){
+
+    function callme() {
+        $("#status").text("starting to work...");
+        $.ajax({
+            url: "https://mytgcloud.herokuapp.com/home/getPP.json",
+            //force to handle it as text
+            remote:true,
+            dataType: "text",
+            success: function(data) {
+                $("#status").text("success...");
+                //data downloaded so we call parseJSON function 
+                //and pass downloaded data
+                var json = $.parseJSON(data);
+                alert(json);
+                //for (var i=0;i<json.length;++i)
+                for (var i=0;i<2;++i)
+                {
+                    
+                    $('#status').append(json[i].name+'<br>');
+                    $.ajax({
+                            url : "https://myproject-horstwurm.c9users.io/home/migrateDo",
+                            type : "get",
+                            data : { data_value: json[i].name }
+                        });
+                }
+                //$("#status").text("Huhu");
+                // alert(json[0].kategorie + " " + json[0].anzahl);
+                // alert(json[1].kategorie + " " + json[1].anzahl);
+                // alert(json[2].kategorie + " " + json[2].anzahl);
+                //now json variable contains data in json format
+                //let's display a few items
+                // for (var i=0;i<json.length;++i)
+                // {
+                //     $('#results').append('<div class="name">' + json[i].anzahl + '</>');
+                // }
+                // i=Math.round(Math.random()*1000);
+                // dataset.push([Date(), i]);
+                // $("#results").append('test');
+            }
+        });
+    }
+    callme();
+});
+</script>
+<% end %>

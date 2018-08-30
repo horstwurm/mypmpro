@@ -1,1 +1,0 @@
-json.partial! "signage_cals/signage_cal", signage_cal: @signage_cal

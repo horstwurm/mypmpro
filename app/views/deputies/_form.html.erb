@@ -1,3 +1,8 @@
+<br>
+<div class="contact-form">
+<div class="container"
+    <div class="jumbotron">
+
     <%= form_for @deputy do |f| %>
 
         <% if @deputy.errors.any? %>
@@ -10,31 +15,12 @@
               </ul>
             </div>
         <% end %>
+        
+                <%= header("Stellvertretung für "+@deputy.owner.name + " " + (@deputy.owner.lastname if @deputy.owner_type == "User")) %>
 
         <div class="row">
-            <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading header">
-                      <li_header>
-                        <% if @deputy.owner_type == "User" %>
-                          <%= link_to user_path(:id => @deputy.owner_id, :topic => "personen_stellvertretungen") do %>
-                            <i class="btn btn-primary fa fa-list"></i>
-                          <% end %>
-                        <% end %>
-                        <% if @deputy.owner_type == "Company" %>
-                          <%= link_to company_path(:id => @company.owner_id, :topic => "personen_stellvertretungen") do %>
-                            <i class="btn btn-primary fa fa-list"></i>
-                          <% end %>
-                        <% end %>
-                        <%= (I18n.t :timeslot) %>
-                      </li_header>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="panel-body">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">'
+
                     <div class="form-group">
                       <%= f.label (I18n.t :timeslot) %><br>
                       <div class="input-group">
@@ -47,13 +33,25 @@
                       </div>
                     </div>
                     <div class="actions">
-                       <%= f.submit (I18n.t :speichern), class:"btn btn-primary btn-lg"%>
+                       <%= f.submit (I18n.t :speichern), class:"btn btn-primary btn-lg btn-download"%>
+                        <% if @deputy.owner_type == "User" %>
+                          <%= link_to user_path(:id => @deputy.owner_id, :topic => "personen_stellvertretungen") do %>
+                            <i class="btn btn-primary btn-lg btn-download">Abbrechen</i>
+                          <% end %>
+                        <% end %>
+                        <% if @deputy.owner_type == "Company" %>
+                          <%= link_to company_path(:id => @company.owner_id, :topic => "personen_stellvertretungen") do %>
+                            <i class="btn btn-primary btn-lg btn-download">Abbrechen</i>
+                          <% end %>
+                        <% end %>
                     </div>
                     <%= f.hidden_field :owner_id, class:"form-control"  %>
                     <%= f.hidden_field :owner_type, class:"form-control"  %>
                     <%= f.hidden_field :userid, class:"form-control"  %>
-                </div>
-            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">'
+              <%= image_tag("stellvertretung.jpg", class: "img-responsive") %>
+          </div>
         </div>
     <% end %>
 

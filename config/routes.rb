@@ -32,7 +32,7 @@ Rails.application.routes.draw do
   get 'rooms/show'
 
   resources :credentials
-  root 'home#index3'
+  root 'home#services'
   
   resources :webmasters
   resources :user_tickets
@@ -50,7 +50,6 @@ Rails.application.routes.draw do
   get 'home/index1'
   #get 'home/index1/:ticket_id', to: 'home#index1'
   get 'home/index2'
-  get 'home/index3'
   get 'home/index6'
   get 'home/index7'
   get 'home/index8'
@@ -89,6 +88,8 @@ Rails.application.routes.draw do
   get 'home/temptest'
   get 'home/switch'
   get 'home/readswitch'
+  get 'home/migrate'
+  get 'home/migrateDo'
 
   resources :searches
   resources :partner_links
@@ -115,7 +116,8 @@ Rails.application.routes.draw do
   resources :appointments
   resources :appointment_documents
   resources :accounts
-  root 'home#index3'
+
+  root 'home#services'
 
   #devise_for :users, :controllers => {registrations: 'registrations'}
   #devise_for :users, :controllers => {registrations: 'registrations', passwords: 'passwords', confirmations: "confirmations"}

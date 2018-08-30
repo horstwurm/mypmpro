@@ -1,1 +1,0 @@
-json.partial! "signage_hits/signage_hit", signage_hit: @signage_hit

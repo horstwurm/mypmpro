@@ -1,3 +1,7 @@
+<br>
+<div class="contact-form">
+    <div class="container"
+    <div class="jumbotron">
 
     <%= form_for @email do |f| %>
 
@@ -12,28 +16,17 @@
             </div>
         <% end %>
 
+      <% @m_from = User.find(@email.m_from) %>
+      <% @m_to = User.find(@email.m_to) %>
+
+        <%= header("eMail an "+ @m_to.name + " " + @m_to.lastname) %>
+
         <div class="row">
-            <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading header">
-                      <li_header>
-                      <%= link_to @email.back_url do %>
-                        <i class="btn btn-primary btn-lg fa fa-list"></i>
-                      <% end %>
-                      <% @m_from = User.find(@email.m_from) %>
-                      <% @m_to = User.find(@email.m_to) %>
-                      eMail an <%= @m_to.name + " " + @m_to.lastname + " von " + @m_from.name + " " + @m_from.lastname  %>
-                      </li_header>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="panel-body">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">'
+
                     <div class="form-group">
                       <%= f.label "Betreff" %><br/>
-                      <%= f.text_field :header, class:"form-control"%>
+                      <%= f.text_field :header, autofocus: true, class:"form-control"%>
                     </div>
                     <div class="form-group">
                       <%= f.label "Nachricht" %><br/>
@@ -44,19 +37,16 @@
                      <%= f.hidden_field :status, class:"form-control" %>
                      <%= f.hidden_field :back_url, class:"form-control" %>
                      <div class="actions">
-                       <%= f.submit "Senden",  class:"btn btn-primary btn-lg"%>
+                       <%= f.submit "Speichern",  class:"btn btn-primary btn-lg btn-download"%>
+                      <%= link_to @email.back_url do %>
+                        <i class="btn btn-primary btn-lg btn-download">Abbrechen</i>
+                      <% end %>
                     </div>
-                </div>
-                
-            </div>
+
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">'
+            <%= image_tag("email.jpg", class: "img-responsive") %>
+          </div>
         </div>
+
     <% end %>                
-
-
-<script type="text/javascript">
-   var my_email= "my@email.com"
-   $(document).ready(function(){
-        $("#header").val(my_email);
-   });
-</script>
-

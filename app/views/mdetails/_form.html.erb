@@ -1,3 +1,8 @@
+<br>
+<div class="contact-form">
+<div class="container"
+    <div class="jumbotron">
+
   <%= form_for @mdetail, html: {multipart: true}  do |f| %>
 
     <div class="panel-body">
@@ -13,24 +18,11 @@
       <% end %>
     </div>
 
-     <div class="row">
-        <div class="col-md-6">
-            <div class="panel-body ueberschrift">
-                <h1><%= @mdetail.mobject.name %></h1> 
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="panel panel-body ueberschrift">
-                  <% if @mdetail.mobject.mtype == "artikel" %>
-                      <%= f.label I18n.t :textoptionen %><br>
-                      <%= f.radio_button :textoptions, "text" %> <%= I18n.t :text %><br>
-                      <%= f.radio_button :textoptions, "link" %> <%= I18n.t :link %><br>
-                      <%= f.radio_button :textoptions, "zitat" %> <%= I18n.t :zitat %><br>
-                      <%= f.radio_button :textoptions, "abstimmung" %> <%= I18n.t :abstimmung %><br>                      
-                      <%= f.radio_button :textoptions, "bewertung" %> <%= I18n.t :bewertung %><br>
-                      <%= f.radio_button :textoptions, "blog" %> <%= I18n.t :blog %><br>
-                  <% end %>
-                  <br>
+        <%= header_cicd(@mdetail.name, nil, @mdetail.mobject) %>
+
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">'
+
                   <div class="form-group">
                     <%= f.label I18n.t :bezeichnung %><br/>
                     <%= f.text_field :name, autofocus: true, class:"form-control"%>
@@ -39,47 +31,48 @@
                     <%= f.label I18n.t :beschreibung %><br/>
                     <%= f.text_area :description, rows: 5, class:"form-control"%>
                   </div>
+                  <!--<div class="form-group">-->
+                  <!--  <%= f.label I18n.t :reihenfolge %><br/>-->
+                  <!--  <%= f.number_field :sequence, class:"form-control"%>-->
+                  <!--</div>-->
                   <div class="form-group">
-                    <%= f.label I18n.t :reihenfolge %><br/>
-                    <%= f.number_field :sequence, class:"form-control"%>
+                     <%= f.label (I18n.t :dokument) %>
+                     <% @mdetail.document_file_name.to_s if @mdetail.document_file_name %>
+                     <%= f.file_field :document, class:"form-control" %>
                   </div>
                   <div class="form-group">
-                     <%= f.label (I18n.t :picture) + @mdetail.avatar_file_name.to_s %><br/>
+                     <%= f.label (I18n.t :picture) %>
+                     <%= @mdetail.avatar_file_name.to_s if @mdetail.avatar_file_name %>
                      <%= image_tag @mdetail.avatar.url(:medium) if @mdetail.avatar_file_name %>
-                  </div>
-                  <div class="form-group">
                      <%= f.file_field :avatar, class:"form-control" %>
                   </div>
                   <div class="form-group">
-                     <%= f.label (I18n.t :dokument) + " " + @mdetail.document_file_name.to_s %><br/>
+                     <%= f.label (I18n.t :videon) %>
+                     <%= @mdetail.video_file_name if @mdetail.video_file_name %>
+                     <%= image_tag("video.png",:size => :small) if @mdetail.video_file_name %>
+                     <%= f.file_field :video, class:"form-control" %>
                   </div>
-                  <div class="form-group">
-                     <%= f.file_field :document, class:"form-control" %>
-                  </div>
-                  <% if @mdetail.mobject.mtype == "kampagnen" %>
-                    <div class="form-group">
-                       <%= f.label (I18n.t :video) + @mdetail.video.url %><br/>
-                       <%= image_tag("video.png",:size => :small) if @mdetail.video_file_name %>
-                    </div>
-                    <div class="form-group">
-                       <%= f.file_field :video, class:"form-control" %>
-                    </div>
-                    <br>
-                  <% end %>
                   <div class="actions">
-                    <%= f.submit (I18n.t :speichern), class:"btn btn-primary btn-lg btn-submit"%>
+                    <%= f.submit (I18n.t :speichern), class:"btn btn-primary btn-lg btn-download"%>
                     <%= link_to mobject_path(:id => @mdetail.mobject_id, :topic => "objekte_details") do %>
-                      <i class="btn btn-default btn-lg btn-submit">Abbrechen</i>
+                      <i class="btn btn-primary btn-lg btn-download">Abbrechen</i>
                     <% end %>
                   </div>
                   <div>
                       <%= f.hidden_field :mobject_id, class:"form-control" %>
                       <%= f.hidden_field :mtype, class:"form-control" %>
                   </div>
-                </div>
-            </div>
+                  
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">'
+              <%= image_tag("anhang.jpg", class: "img-responsive") %>
+          </div>
         </div>
+
   <% end %>
+  </div>
+</div>
+<br>
 
 <script>
   document.addEventListener("turbolinks:load", function() {})

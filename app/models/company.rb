@@ -1,24 +1,17 @@
 class Company < ActiveRecord::Base
     
-    before_validation :update_geo_address
+    #before_validation :update_geo_address
       
-    geocoded_by :geo_address
-    after_validation :geocode
+    #geocoded_by :geo_address
+    #after_validation :geocode
 
     has_many :company_params, dependent: :destroy 
-    has_many :iots, as: :owner, dependent: :destroy 
     has_many :deputies, as: :owner, dependent: :destroy 
     has_many :charges, as: :owner, dependent: :destroy 
     has_many :mobjects, as: :owner, dependent: :destroy 
-    has_many :mstats, as: :owner, dependent: :destroy 
-    has_many :customers, as: :owner, dependent: :destroy 
-    has_many :transactions, as: :owner, dependent: :destroy 
-
     has_many :partner_links, dependent: :destroy 
-    has_many :msponsors, dependent: :destroy 
     belongs_to :user
     belongs_to :mcategory
-    
     validates :name, presence: true
     validates :user_id, presence: true
     

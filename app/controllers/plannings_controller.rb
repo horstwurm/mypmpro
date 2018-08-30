@@ -20,6 +20,7 @@ class PlanningsController < ApplicationController
     @planning.user_id = params[:user_id]
     @planning.jahr = params[:year].to_s
     @planning.monat = params[:month].to_s
+    @planning.description = ""
     if params[:scope]
       @planning.costortime = params[:scope]
     else
@@ -81,6 +82,6 @@ class PlanningsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def planning_params
-      params.require(:planning).permit(:user_id, :costortime, :mobject_id, :jahr, :monat, :amount)
+      params.require(:planning).permit(:user_id, :costortime, :mobject_id, :jahr, :monat, :amount, :description)
     end
 end

@@ -1,3 +1,8 @@
+<br>
+<div class="contact-form">
+<div class="container"
+    <div class="jumbotron">
+
     <%= form_for @madvisor do |f| %>
 
         <% if @madvisor.errors.any? %>
@@ -11,14 +16,23 @@
             </div>
         <% end %>
 
+        <%= header((I18n.t :projektberechtigungen) + " " + @madvisor.user.name + " " + @madvisor.user.lastname) %>
+
         <div class="row">
-          <div class="col-md-6">
-              <div class="panel-body ueberschrift">
-                  <h1><%= (I18n.t :stundensatz) + " " + @madvisor.user.name + " " + @madvisor.user.lastname %> für <%= @madvisor.mobject.name %></h1> 
-              </div>
-          </div>
-            <div class="col-md-6">
-                <div class="panel-body ueberschrift">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">'
+
+                  <% if @madvisor.mobject.mtype == "projekte" %>
+                    <div class="form-group">
+                      <%= f.radio_button :grade, 'Projektmitarbeiter'  %> 
+                      <%= label :contactmethod_email, 'Projektmitarbeiter' %><br>
+                      <%= f.radio_button :grade, 'Projektleiter' %>
+                      <%= label :contactmethod_sms, 'Projektleiter' %><br>
+                      <%= f.radio_button :grade, 'Projektassistenz' %>
+                      <%= label :contactmethod_sms, 'Projektassistenz' %><br>
+                      <%= f.radio_button :grade, 'Projektcontroller' %>
+                      <%= label :contactmethod_sms, 'Projektcontroller' %><br>
+                    </div>
+                    <br>
                     <div class="form-group">
                       <%= f.label "Stundensatz" %><br>
                       <div class="input-group">                          
@@ -26,15 +40,32 @@
                         <div class="input-group-addon"><%= (I18n.t :waehrung) %></div>
                       </div>
                     </div>
+                  <% end %>
+
+                  <% if @madvisor.mobject.mtype == "gruppen" %>
+                    <div class="form-group">
+                      <%= f.radio_button :grade, 'Gruppenmitglied'  %> 
+                      <%= label :contactmethod_email, 'Gruppenmitglied' %><br>
+                      <%= f.radio_button :grade, 'Gruppenleiter' %>
+                      <%= label :contactmethod_sms, 'Gruppenleiter' %><br>
+                    </div>
+                  <% end %>
+
                     <div class="actions">
-                       <%= f.submit (I18n.t :speichern), class:"btn btn-primary btn-lg btn-submit"%>
+                       <%= f.submit (I18n.t :speichern), class:"btn btn-primary btn-lg btn-download"%>
                         <%= link_to mobject_path(:id => @madvisor.mobject_id, :topic => "objekte_projektberechtigungen") do %>
-                          <i class="btn btn-default btn-lg btn-submit">Abbrechen</i>
+                          <i class="btn btn-primary btn-lg btn-download">Abbrechen</i>
                         <% end %>
                     </div>
                     <%= f.hidden_field :user_id, class:"form-control"  %>
                     <%= f.hidden_field :mobject_id, class:"form-control"  %>
-                </div>
-            </div>
+                    <%= f.hidden_field :role, class:"form-control"  %>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">'
+              <%= image_tag("berechtigung.jpg", class: "img-responsive") %>
+          </div>
         </div>
     <% end %>
+  </div>
+</div>
+<br>

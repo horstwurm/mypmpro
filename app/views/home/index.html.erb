@@ -274,7 +274,7 @@
       </div>
       <br>
       <% @companies = Company.where('partner=? and active=?', true, true) %>
-      <%= build_medialist("col-sm-6 col-md-4 col-lg-3", @companies, "companies", false) %>
+      <%= build_medialist("col-sm-6 col-md-4 col-lg-3", @companies, "companies", nil, nil, nil) %>
       <br>
       <br>
       <anzeigetext>
