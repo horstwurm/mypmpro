@@ -85,7 +85,7 @@
               <%= build_medialistNew(@company.mobjects.mobshow("projekte",moblist), "projekte", nil, nil, nil) %>
           <% end %> 
           <% if @c_show == "tabelle" %>
-              <%= build_mediaTable(@company.mobjects.mobshow2("projekte",moblist, @c_year), "projekte", @c_year, nil, nil) %>
+              <%= build_mediaTable(@company.mobjects.mobshow2("projekte",moblist, @c_year.to_s), "projekte", @c_year.to_s, nil, nil) %>
           <% end %> 
 
         <% when "institutionen_partnerlinks" %>
