@@ -82,8 +82,8 @@ def self.mobshow(mtype,moblist)
 end
 
 def self.mobshow2(mtype, moblist, year)
-    start=("01.01."+year).to_date
-    ende=("31.12."+year).to_date
+    start="01.01."+year.to_s
+    ende="31.12."+year.to_s
     where('mtype=? and ((date_from >=? and date_from <=?) or (date_to >=? and date_to <=?) or (date_from <=? and date_to>=?)) and (online_pub=? or id IN (?))', mtype, start, ende, start, ende, start, ende, true, moblist)
 end
 
