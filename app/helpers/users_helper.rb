@@ -145,8 +145,8 @@ def build_mediaTable(items, cname, year, par2, par3)
         else
           html_string = html_string + '<td><i class="fa fa-lock"></i></td>'
         end
-        html_string = html_string + "<td>" + showFirstImage2(:small, item, item.mdetails) + "</td>"
-        html_string = html_string + "<td>" + item.name #+ item.date_from.to_s + "-" + item.date_to.to_s + "</td>"
+        html_string = html_string + "<td>" + "______" + showFirstImage2(:small, item, item.mdetails) + "</td>"
+        html_string = html_string + "<td>" + item.name + "</td>"
 
         #html_string = html_string + "<td>" + item.date_from.strftime("%d.%m.%Y") + "</td>"
         #html_string = html_string + "<td>" + item.date_to.strftime("%d.%m.%Y") + "</td>"
