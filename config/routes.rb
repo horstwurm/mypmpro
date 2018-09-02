@@ -1,43 +1,20 @@
 Rails.application.routes.draw do
 
-  resources :sponsor_ratings
   resources :company_params
-  resources :publication_articles
-  resources :iots
-  resources :mvdetails
-  resources :notes
   resources :deputies
   
   #devise_for :users
   resources :charges
-  resources :sensors
-  resources :idea_crowdratings
-  resources :prices
-  resources :crits
-  resources :idea_ratings
-  resources :criterias
-  resources :ideas
   resources :plannings
   resources :timetracks
-  resources :user_answers
-  resources :answers
-  resources :questions
-  resources :mlikes
-  resources :comments
-  resources :edition_arcticles
-  resources :editions
   resources :qrcodes
-  resources :signage_hits
-  resources :signage_cals
   get 'rooms/show'
 
   resources :credentials
   root 'home#services'
   
   resources :webmasters
-  resources :user_tickets
-  resources :user_positions
-  resources :transactions
+
   get 'ticketuserview/index'
   get 'ticketuserview/index2'
   get 'users/ticketstatus'
@@ -90,22 +67,17 @@ Rails.application.routes.draw do
   get 'home/readswitch'
   get 'home/migrate'
   get 'home/migrateDo'
+  get 'home/services'
 
   resources :searches
   resources :partner_links
-  resources :mstats
-  resources :msponsors
-  resources :mratings
   resources :mobjects
   resources :mdetails
   resources :mcategories
-  resources :mcalendars
   resources :madvisors
   get 'listaccount/index'
 
-  resources :favourits
   resources :emails
-  resources :customers
   get 'customer_advisor/index'
 
   get 'customer_advisor/index2'
@@ -113,8 +85,6 @@ Rails.application.routes.draw do
   
   resources :companies
   resources :appparams
-  resources :appointments
-  resources :appointment_documents
   resources :accounts
 
   root 'home#services'

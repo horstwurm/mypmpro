@@ -20,6 +20,7 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 de:
+  gesamtstatus: "Status"
   position: "Kostenposition"
   mitarbeiter: "Projektmitarbeiter"
   uebersicht: "Übersicht"
@@ -210,7 +211,7 @@ de:
   noch: "noch"
   tage: "Tage"
   laufzeit: "Laufzeit"
-  qualitaet: "Qualitäts-Indikator"
+  qualitaet: "Qualität"
   risiko: "Risiko-Indikator"
   waehrung: "CHF"
   aktivitaeten: "Aktivitätsübersicht"

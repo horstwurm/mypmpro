@@ -295,8 +295,6 @@ def arduino
         msg << {:projekte => Mobject.where("mtype=?", "projekte").count}
         msg << {:aufwand => Timetrack.count}
         msg << {:kapa => Planning.count}
-        msg << {:wettbewerbe => Mobject.where('mtype=?',"innovationswettbewerbe").count}
-        msg << {:ideen => Idea.count}
         render :json => msg.to_json
     end
 end
@@ -826,6 +824,9 @@ def migrate
           @m.sum_pkosten_plan = p["sum_pkosten_plan"]
           @m.sum_pkosten_ist = p["sum_pkosten_ist"]
           @m.status = "OK"
+          @m.termin = "MID"
+          @m.kosten = "MID"
+          @m.qualitaet = "MID"
           @m.active = true
           @m.save
         end
@@ -881,8 +882,9 @@ def migrate
     end
 
     if params[:actioncode] == "timetracks"
-      @tt = JSON.parse(open("https://mytgcloud.herokuapp.com/home/getRep.json?projekt_id="+params[:id].to_s).read) 
-      
+
+      #@tt = JSON.parse(open("https://mytgcloud.herokuapp.com/home/getRep.json?projekt_id="+params[:id].to_s).read) 
+      @tt = JSON.parse(open("https://mytgcloud.herokuapp.com/home/getRepKum.json?projekt_id="+params[:id].to_s).read) 
       @temp = Mobject.find(params[:newid])
       if @temp
         @temp.timetracks.destroy_all
@@ -893,9 +895,11 @@ def migrate
         m.user_id = (User.where('email=?',s["user_id"]).first).id
         m.mobject_id = params[:newid]
         m.costortime = s["costortime"]
-        m.activity = s["activity"]
+        #m.activity = s["activity"]
+        m.activity ="Sammelbuchung Migration"
         m.amount = s["amount"]
-        m.datum = s["datum"]
+        #m.datum = s["datum"]
+        m.datum = (s["jahrmonat"] + "-01")
         m.jahrmonat = s["jahrmonat"]
         m.save
         

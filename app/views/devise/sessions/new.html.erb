@@ -8,6 +8,7 @@
       <br><br>
       <%= form_for(resource, as: resource_name, url: session_path(resource_name), class:"contactForm") do |f| %>
       <%= devise_error_messages! %>
+      <white>
       <div class="form-group">
         <i class="fa fa-envelope prefix"></i>
         <%= f.label I18n.t :email %>
@@ -23,6 +24,7 @@
            <%= f.check_box :remember_me, class:"customcheck" %><%= I18n.t(:remember_me) %>
         </label>
       </div>
+      </white>
       <div class="actions">
             <%= f.submit (I18n.t :anmelden), class:"btn btn-primary btn-lg btn-download" %>
             <%- if Devise.mappings[:user].recoverable? && controller_path != 'passwords' && controller_path != 'registrations' && $usemailgun %>

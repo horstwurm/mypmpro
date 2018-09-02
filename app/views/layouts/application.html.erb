@@ -12,7 +12,7 @@
 <% $graph_color1 = "#BE9E21" %>
 <% $graph_color2 = "#495469" %> 
 <% $grey = "lightgrey" %>
-<% $app_name = "myTGCloud" %>
+<% $app_name = "myProject" %>
 <% $sqllite = true %>
 <% I18n.locale = :de %>
 <!-- set some global varianbles -->
@@ -45,18 +45,21 @@
     
     <%= render 'layouts/yield' %>
 
+    <%= render 'layouts/partner' %>
+
+    <%= render 'layouts/dashboard' %>
+
     <% if user_signed_in? and (current_user.superuser or current_user.webmaster) %>
       <%= render 'layouts/superuser' %>
     <% end %>
 
+
     <% if false %>
+
       <%= render 'layouts/news' %>
-
-      <%= render 'layouts/dashboard' %>
-
       <%= render 'layouts/subscription' %>
 
-      <%= render 'layouts/partner' %>
+
     <% end %>
 
       <% flash.each do |name, msg| %>

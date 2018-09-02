@@ -66,7 +66,8 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "tkbnet_#{Rails.env}"
   config.action_mailer.perform_caching = false
   # CR001
-  config.action_mailer.default_url_options = { :host => 'https://mytgcloud.herokuapp.com' }
+  #config.action_mailer.default_url_options = { :host => 'https://mytgcloud.herokuapp.com' }
+  config.action_mailer.default_url_options = { :host => 'https://mypmpro.herokuapp.com' }
   config.action_mailer.delivery_method = :mailgun
   config.action_mailer.perform_deliveries = true
   config.action_mailer.smtp_settings = {

@@ -76,7 +76,10 @@
     <% @projekte.each do |p| %>
         <% @mompex = Mobject.where('name=?', p["name"]).first %>
         <tr>
-            <td><%= p["name"] %></td>
+            <td>
+                <%= p["name"] %>
+                <%= @mompex.id.to_s if @mompex %>
+            </td>
             <td><%= p["date_from"] %></td>
             <td>
                 <% if p["date_to"] and p["date_to"].to_date <= Date.today %>

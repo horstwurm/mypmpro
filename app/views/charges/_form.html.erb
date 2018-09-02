@@ -1,3 +1,8 @@
+<br>
+<div class="contact-form">
+    <div class="container"
+    <div class="jumbotron">
+
    <%= form_for @charge do |f| %>
 
         <% if @charge.errors.any? %>
@@ -11,14 +16,12 @@
             </div>
         <% end %>
 
+        <%= header("Zahlungsdetails "+ @charge.owner.fullname+ (I18n.t :tgcloudzahlung)) %>
+
         <div class="row">
-            <div class="col-md-6">
-                <div class="panel ueberschrift">
-                    <h1><%= header(@charge.owner.fullname + " " + (I18n.t :tgcloudzahlung)) %></h1>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="panel-body">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">'
+
+
                     <div class="form-group">
                       <div class="form-group">
                         <%= f.label I18n.t :service %>
@@ -55,16 +58,25 @@
                               <% end %>
                               data-locale="auto">
                       </script>
+                      
                     <% if false %>
                       <div class="actions">
                          <%= f.submit (I18n.t :speichern),  class:"btn btn-primary btn-lg btn-submit"%>
                       </div>
                     <% end %>
                      <%= link_to user_path(:id => @charge.owner_id, :topic => "personen_charges") do %>
-                       <i class="btn btn-default btn-lg btn-submit">Abbrechen</i>
+                       <i class="btn btn-default btn-lg btn-download">Abbrechen</i>
                      <% end %>
+                  </div>
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">'
+                    <%= image_tag("crowd.jpg", class: "img-responsive") %>
+                  </div>
                 </div>
-            </div>
-        </div>
+
     <% end %> 
 
+    
+    </div>
+    </div>
+</div>
+<br>
