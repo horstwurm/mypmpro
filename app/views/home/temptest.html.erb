@@ -169,22 +169,34 @@
 
             <div class="item">
                 <div id="slidebox-2-inner" class="slidebox no-gutter-xs">
-				#2
-                  <%= showImage2(:medium, User.find(2), true) %>
-                  jsaghf dsgfjds gjdhsj djghdsjh gdfjg jdfagjdf hjfdghj djfdhgjfd jgfhd jhgfdjhgjfdg h
-                  jsaghf dsgfjds gjdhsj djghdsjh gdfjg jdfagjdf hjfdghj djfdhgjfd jgfhd jhgfdjhgjfdg h
+                  <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                      <%= showImage2(:medium, User.find(1), true) %>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                      jsaghf dsgfjds gjdhsj djghdsjh gdfjg jdfagjdf hjfdghj djfdhgjfd jgfhd jhgfdjhgjfdg h
+                      jsaghf dsgfjds gjdhsj djghdsjh gdfjg jdfagjdf hjfdghj djfdhgjfd jgfhd jhgfdjhgjfdg h
+                      jsaghf dsgfjds gjdhsj djghdsjh gdfjg jdfagjdf hjfdghj djfdhgjfd jgfhd jhgfdjhgjfdg h
+                      jsaghf dsgfjds gjdhsj djghdsjh gdfjg jdfagjdf hjfdghj djfdhgjfd jgfhd jhgfdjhgjfdg h
+                  </div>
                 </div>
+              </div>
             </div>
 
             <div class="item">
                 <div id="slidebox-3-inner" class="slidebox no-gutter-xs">
-				#3
-                  <%= showImage2(:medium, User.find(3), true) %>
-                  jsaghf dsgfjds gjdhsj djghdsjh gdfjg jdfagjdf hjfdghj djfdhgjfd jgfhd jhgfdjhgjfdg h
-                  jsaghf dsgfjds gjdhsj djghdsjh gdfjg jdfagjdf hjfdghj djfdhgjfd jgfhd jhgfdjhgjfdg h
-                  jsaghf dsgfjds gjdhsj djghdsjh gdfjg jdfagjdf hjfdghj djfdhgjfd jgfhd jhgfdjhgjfdg h
-                  jsaghf dsgfjds gjdhsj djghdsjh gdfjg jdfagjdf hjfdghj djfdhgjfd jgfhd jhgfdjhgjfdg h
+                  <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                      <%= showImage2(:medium, User.find(1), true) %>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                      jsaghf dsgfjds gjdhsj djghdsjh gdfjg jdfagjdf hjfdghj djfdhgjfd jgfhd jhgfdjhgjfdg h
+                      jsaghf dsgfjds gjdhsj djghdsjh gdfjg jdfagjdf hjfdghj djfdhgjfd jgfhd jhgfdjhgjfdg h
+                      jsaghf dsgfjds gjdhsj djghdsjh gdfjg jdfagjdf hjfdghj djfdhgjfd jgfhd jhgfdjhgjfdg h
+                      jsaghf dsgfjds gjdhsj djghdsjh gdfjg jdfagjdf hjfdghj djfdhgjfd jgfhd jhgfdjhgjfdg h
+                  </div>
                 </div>
+              </div>
             </div>
 
         </div>
@@ -216,14 +228,18 @@
             <ul class="nav nav-pills nav-justified">
                 <li data-target="#transition-timer-carousel" data-slide-to="0" class="active first-li">
                     <%= link_to User.find(1) do %>
-                      <i fa-fa-user>click me</i>
+                      <i class="fa fa-first-order">Ressourcenplanung</i>
                     <% end %>
                 </li>
                 <li data-target="#transition-timer-carousel" data-slide-to="1" class="second-li">
-                    <a href="#">#2</a>
+                    <%= link_to User.find(1) do %>
+                      <i class="fa fa-safari">Zeiterfassung</i>
+                    <% end %>
                 </li>
                 <li data-target="#transition-timer-carousel" data-slide-to="2" class="third-li">
-                    <a href="#">#3</a>
+                    <%= link_to User.find(1) do %>
+                      <i class="fa fa-tasks">Projekte</i>
+                    <% end %>
                 </li>
             </ul>
         </div>
