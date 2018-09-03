@@ -1098,3 +1098,7 @@ div.ex3 {
     margin-left: auto;
     margin-right: auto;
 }
+
+div.ex3 a {
+  color:$colorgold;
+}

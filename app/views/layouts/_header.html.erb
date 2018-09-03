@@ -16,6 +16,17 @@
 
                   <li class="active"><a href="../#main-header">Home</a></li>
                   <li class=""><a href="../#myservices">Services</a></li>
+                  <li>
+                  <% if user_signed_in? %>
+        					  <%= link_to(destroy_user_session_path, method: :delete) do %>
+        				    	Logout
+        					  <% end %>
+        					<% else %>
+          					<%= link_to new_user_session_path do %>
+          			      LOGIN
+          					<% end %> 
+        					<% end %>
+      					  </li>
 
                   <% if false %>
                     <li class=""><a href="../#yield">Data</a></li>
@@ -51,18 +62,22 @@
                 <br>
                 <div class="brn-btn">
                   <% if user_signed_in? %>
-        					  <%= link_to(destroy_user_session_path, method: :delete) do %>
-        				    	<i class="btn btn-primary btn-lg btn-download">Abmelden</i>
-        					  <% end %>
+                    <% if false %>
+          					  <%= link_to(destroy_user_session_path, method: :delete) do %>
+          				    	<i class="btn btn-primary btn-lg btn-download">Abmelden</i>
+          					  <% end %>
+          					 <% end %>
         					<% else %>
                    <h2 class="bnr-sub-title">Starten Sie jetzt !!</h2>
                     <p class="bnr-para">Registrieren Sie sich noch heute<br> </p>
         					  <%= link_to new_user_registration_path do %>
         				    	<i class="btn btn-primary btn-lg btn-download">Registrieren</i>
         					  <% end %>
+        					  <% if false %>
           					<%= link_to new_user_session_path do %>
           			      <i class="btn btn-primary btn-lg btn-download">Anmelden</i>
           					<% end %> 
+          				  <% end %>
                   <% end %>
                 </div>
                 
@@ -78,7 +93,11 @@
                                     <div class="col-sm-8 col-sm-offset-2">
                                       <% current_user.madvisors.last(3).each do |m| %>
                                         <b><%= m.created_at.strftime("%d.%m.%Y") %></b><br>
-                                        <%= "Berechtigung " + m.grade + " für " + m.mobject.name + " erteilt" %>
+                                        <%= "Berechtigung " + m.grade + " für " %>
+                                        <%= link_to(m.mobject) do %>
+                                          <% m.mobject.name %>
+                                        <% end %>
+                                          erteilt
                                         <br><br>
                                       <% end %>
                                     </div>
@@ -94,7 +113,10 @@
                                     <div class="col-sm-8 col-sm-offset-2">
                                       <% current_user.timetracks.last(3).each do |m| %>
                                         <b><%= m.created_at.strftime("%d.%m.%Y") %></b><br>
-                                        <%= "Zeiterfassung " + m.amount.to_s + " für " + m.mobject.name %>
+                                        <%= "Zeiterfassung " + m.amount.to_s + "für " %>
+                                        <%= link_to(m.mobject) do %>
+                                          <% m.mobject.name %>
+                                        <% end %>
                                         <br><br>
                                       <% end %>
                                     </div>
@@ -104,26 +126,31 @@
                         </div>
                         <!-- Quote 3 -->
                         <div class="item">
+                            <div class="ex3">
                             <blockquote>
                                 <div class="row">
                                     <div class="col-sm-8 col-sm-offset-2">
                                       <% current_user.plannings.last(3).each do |m| %>
                                         <b><%= m.created_at.strftime("%d.%m.%Y") %></b><br>
-                                        <%= "Ressourcenplanung " + m.amount.to_s + "% für " + m.mobject.name %>
+                                        <%= "Ressourcenplanung " + m.amount.to_s + "% für " %>
+                                        <%= link_to(m.mobject) do %>
+                                          <% m.mobject.name %>
+                                        <% end %>
                                         <br><br>
                                       <% end %>
                                     </div>
                                 </div>
                             </blockquote>
+                            </div>
                         </div>
                     </div>
                     <!-- Bottom Carousel Indicators -->
                     <ol class="carousel-indicators">
                         <!--<li data-target="#quote-carousel" data-slide-to="1"><%= image_tag(User.find(1).avatar_file_name, :size => "128x128", :class => "img-responsive") %></li>-->
 
-                        <li data-target="#quote-carousel" data-slide-to="0" class="active"><%= image_tag("projekte.png", :size => "128x128", :class => "img-responsive") %></li>
-                        <li data-target="#quote-carousel" data-slide-to="1" ><%= image_tag("zeiterfassung.jpg", :size => "128x128", :class => "img-responsive") %></li>
-                        <li data-target="#quote-carousel" data-slide-to="2" ><%= image_tag("crowd.jpg", :size => "128x128", :class => "img-responsive") %></li>
+                        <li data-target="#quote-carousel" data-slide-to="0" class="active"><%= image_tag("projekte.png", :size => "128x128", :class => "img-responsive") %></li>Projekte
+                        <li data-target="#quote-carousel" data-slide-to="1" ><%= image_tag("zeiterfassung.jpg", :size => "128x128", :class => "img-responsive") %></li>Zeiterfassung
+                        <li data-target="#quote-carousel" data-slide-to="2" ><%= image_tag("crowd.jpg", :size => "128x128", :class => "img-responsive") %></li>Ressourcenplanung
                     </ol>
                 </div>
                 <% end %>
