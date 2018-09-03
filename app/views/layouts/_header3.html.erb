@@ -1,0 +1,207 @@
+    <div class="header">
+      <div class="bg-color">
+        <header id="main-header">
+          <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+              <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+                <a class="navbar-brand" href="#">my<span class="logo-dec">PROJECT</span></a>
+              </div>
+              <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav navbar-right">
+
+          				<!--<% if $controller_list.include?(controller_name) and (action_name == "index") %>-->
+          				<!--	<% @items = url_for(action: action_name, controller: controller_name) %>-->
+              <!--      <li class="">-->
+          				<!--	<%= form_tag @items, method: 'get' do %>-->
+              <!--     </li>-->
+           			<!--			<div class="form-inline">-->
+          				<!--			<div class="form-group">-->
+          				<!--				  <%= search_field_tag 'search', nil, class: 'form-control', placeholder: 'Suchen...' %>-->
+          				<!--				  <% button_tag "", type: 'submit', class: "btn btn-nav btn-xs fa fa-search" %>-->
+          				<!--			</div>-->
+          				<!--		</div>-->
+          				<!--	<% end %>-->
+          				<!--<% end %>-->
+
+                  <li class="active"><a href="../#main-header">Home</a></li>
+                  <li class=""><a href="../#myservices">Services</a></li>
+
+                  <% if false %>
+                  <li class=""><a href="../#yield">Data</a></li>
+                  <li class=""><a href="../#feature">About</a></li>
+                  <li class=""><a href="../#service">Services</a></li>
+                  <li class=""><a href="../#portfolio">Portfolio</a></li>
+                  <li class=""><a href="../#testimonial">Kundenfeedback</a></li>
+                  <li class=""><a href="../#blog">Blog</a></li>
+                  <li class=""><a href="../#contact">Kontakt</a></li>
+                  <li class=""><a href="../#news">News</a></li>
+                  <li class=""><a href="../#news">Veranstaltungen</a></li>
+                  <li class=""><a href="../#subscription">Abonnement</a></li>
+                  <li class=""><a href="../#partner">Partner</a></li>
+                  <li class=""><a href="../#dashboard">Cockpit</a></li>
+                  <% if user_signed_in? and (current_user.superuser or current_user.webmaster) %>
+                    <li class=""><a href="../#superuser">Admin</a></li>
+                  <% end %>
+                  <% end %>
+
+                 </ul>
+              </div>
+            </div>
+          </nav>
+        </header>
+        <div class="wrapper">
+          <div class="container">
+            <div class="row">
+              <div class="banner-info text-center wow fadeIn delay-05s">
+                <h1 class="bnr-title">Willkommen bei my<span>PROJECT</span></h1>
+                <% if user_signed_in? %>
+                  <%= contactChip(current_user) %>
+                <% end %>
+                <br>
+                <div class="brn-btn">
+                  <% if user_signed_in? %>
+                  
+              <div class="container">
+                <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    
+                    <h2>meineProjekte</h2>
+
+                    <div class="news blue">
+                      <!--<span>News</span>-->
+                      <ul>
+                        <% Madvisor.where('user_id=?', current_user.id).each do |a| %>
+                            <% m = Mobject.find(a.mobject_id) %>
+                            <li>
+                              <div class="row">
+                                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                  <%= showFirstImage2(:small, m, m.mdetails) %>
+                                </div>
+                                <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                  <b><%= m.created_at.strftime("%d.%m.%Y") %></b><br>
+                                  <%= m.mtype %>
+                                  <%= link_to m do %>
+                                    <%= m.name %> von 
+                                  <% end %>
+                                  <% if m.owner_type == "User" %>
+                                    <%= m.owner.name + " " + m.owner.lastname %>
+                                  <% end %>
+                                  <% if m.owner_type == "Company" %>
+                                    <%= m.owner.name %>
+                                  <% end %>
+                                </div>
+                              </div>
+                            </li>
+                        <% end %>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    
+                    <% if user_signed_in? %>
+
+                      <h2>News</h2>
+  
+                      <div class="news2 blue">
+                        <!--<span>News2</span>-->
+                        <ul>
+
+                          <!--Berechtigungen-->
+                          <% f = current_user.madvisors.last(5) %>
+                          <% f.each do |m| %>
+                              <li>
+                                <div class="row">
+                                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    <%= showFirstImage2(:small, m.mobject, m.mobject.mdetails) %>
+                                  </div>
+                                  <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                    <b><%= m.created_at.strftime("%d.%m.%Y") %></b><br>
+                                    Berechtigung für <%= m.mobject.name %>
+                                  </div>
+                                </div>
+                              </li>
+                          <% end %>
+
+                          <!--Planungen-->
+                          <% f = Planning.where('user_id=?', current_user.id).last(5) %>
+                          <% f.each do |m| %>
+                              <% o = Mobject.find(m.mobject_id) %>
+                              <li>
+                                <div class="row">
+                                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    <%= showFirstImage2(:small, o, o.mdetails) %>
+                                    <%= o.name %>
+                                  </div>
+                                  <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                    <b><%= m.created_at.strftime("%d.%m.%Y") %></b><br>
+                                    <b><%= "Ressourcenplanung " + m.amount.to_s + "%" %></b><br>
+                                  </div>
+                                </div>
+                              </li>
+                          <% end %>
+
+                          <!--Planungen-->
+                          <% f = Timetrack.where('user_id=?', current_user.id).last(5) %>
+                          <% f.each do |m| %>
+                              <% o = Mobject.find(m.mobject_id) %>
+                              <li>
+                                <div class="row">
+                                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    <%= showFirstImage2(:small, o, o.mdetails) %>
+                                    <%= o.name %>
+                                  </div>
+                                  <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                    <b><%= m.created_at.strftime("%d.%m.%Y") %></b><br>
+                                    <b><%= "Zeiterfassung " + m.amount.to_s + "h" %></b><br>
+                                  </div>
+                                </div>
+                              </li>
+                          <% end %>
+
+                        </ul>
+                      </div>
+
+                    <% end %>
+
+                  </div>
+
+                  </div>
+                </div>
+
+        					  <%= link_to(destroy_user_session_path, method: :delete) do %>
+        				    	<i class="btn btn-more">Abmelden</i>
+        					  <% end %>
+        					<% else %>
+                   <h2 class="bnr-sub-title">Starten Sie jetzt !!</h2>
+                    <p class="bnr-para">Registrieren Sie sich noch heute<br> </p>
+        					  <%= link_to new_user_registration_path do %>
+        				    	<i class="btn btn-download">Registrieren</i>
+        					  <% end %>
+          					<%= link_to new_user_session_path do %>
+          			      <i class="btn btn-more">Anmelden</i>
+          					<% end %> 
+                  <% end %>
+                </div>
+                <div class="overlay-detail">
+                  <a href="#yield"><i class="fa fa-angle-down"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/ HEADER-->
+    <!---->
+
+<script>
+$(document).ready(function(){
+        $("fade").fadeOut(10000);
+});
+</script>
