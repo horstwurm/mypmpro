@@ -1088,3 +1088,13 @@ div.scrollmenu {
     border-left: none;
     margin: 0;
 }
+
+div.ex3 {
+    align:center;
+    background-color: transparent;
+    height: 200px;
+    width: 600px;    
+    overflow-y: auto;
+    margin-left: auto;
+    margin-right: auto;
+}

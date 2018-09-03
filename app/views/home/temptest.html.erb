@@ -1,452 +1,72 @@
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
-
-<% if false %>
 <style>
-@font-face {
-    font-family:"AvenirLTStdRoman";
-    font-style:normal;
-    font-weight:normal;
-    src:url("/font/AvenirLTStd-Roman.eot");
-    src:url("/font/AvenirLTStd-Roman.eot?#iefix") format("embedded-opentype"),
-        url("/font/AvenirLTStd-Roman.woff") format("woff"),
-        url("/font/AvenirLTStd-Roman.ttf") format("truetype"),
-        url("/font/AvenirLTStd-Roman.svg#AvenirLTStdRoman") format("svg");
+    ul.timeline {
+    list-style-type: none;
+    position: relative;
 }
-
-
-.carousel-wrapper {background:#fff;overflow: hidden;}
-.transition-timer-carousel .carousel-caption {
-    width: 100%;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    text-align: left;
-    padding-top: 5px;
-    padding-left: 15%;
-    padding-right: 15%;
-}
-.transition-timer-carousel .carousel-caption .carousel-caption-header {margin-top: 10px;font-size: 24px;}
-.transition-timer-carousel .carousel-indicators {bottom: 0;margin-bottom: 0;}
-.transition-timer-carousel .carousel-control {z-index: 11;}
-
-/* progress bar */
-.transition-timer-carousel .transition-timer-carousel-progress-bar {
-    display: block;
-    height: 3px;
-    background-color: #34495e;
-    width: 0%;
-    margin: 0;
-    border: none;
-    z-index: 11;
-    position: absolute;
-}
-.transition-timer-carousel .transition-timer-carousel-left-progress-bar {
-    display: block;
-    height: 3px;
-    background-color: #34495e;
-    width: 0;
-    margin: 0;
-    border: none;
-    z-index: 11;
-    left: -15%;
-    position: absolute;
-}
-.transition-timer-carousel .transition-timer-carousel-progress-bar.animate, .transition-timer-carousel .transition-timer-carousel-left-progress-bar.animate{
-    /* We make the transition time shorter to avoid the slide transitioning
-    before the timer bar is "full" - change the 4.25s here to fit your
-    carousel's transition time */
-    -webkit-transition: width 4.25s linear;
-    -moz-transition: width 4.25s linear;
-    -ms-transition: width 4.25s linear;
-    -o-transition: width 4.25s linear;
-    transition: width 4.25s linear;
-}
-.transition-timer-carousel .transition-timer-carousel-left-progress-bar.stopanimation, .transition-timer-carousel .transition-timer-carousel-progress-bar.stopanimation{
-    /* class to fix IE bug that make transition continue even when you remove the class .animate */
-    -webkit-transition: none !important;
-    -moz-transition: none !important;
-    -o-transition: none !important;
-    transition: none !important;
-}
-.carousel-inner>.item>img{display: block;}
-.transition-timer-carousel .carousel-caption {display: block;position: absolute;}
-
-/* Slides specific settings */
-.slidebox{
-    width: 100%;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    height: 100%;
-    min-height: 302px;
-}
-#slidebox-1-inner{
-    background-color: #999;
-}
-#slidebox-2-inner{
-    background-color: #888;
-}
-#slidebox-3-inner{
-    background-color: #777;
-}
-
-/* Nav */
-.transition-timer-carousel .nav a {
-    color: #767676;
-    font-weight: bold;
-    line-height: 1.2;
-    margin-top: 26px;
-    font-size: 14px;
-}
-.nav-pills>li.active>a,
-.nav-pills>li.active>a:hover,
-.nav-pills>li.active>a:focus,
-.nav>li>a:focus, .nav>li>a:hover{color:#34495e;background: none;}
-.nav-pills>li{
-    cursor: pointer;
-    width: 33%;
-    display: block;
-    float: left;
-    margin: 0;
-    padding: 0;
-}
-.nav-pills>li.active{font-weight: bold;}
-#home-carousel  ul.nav{margin: 0;}
-
-/* indicators through ::before .nav-pills>li.active */
-.nav-pills>li::before{
-    border-radius: 50%;
-    box-sizing: border-box;
+ul.timeline:before {
+    content: ' ';
+    background: #d4d9df;
     display: inline-block;
-    content: '';
-    left:0;
-    right: 0;
     position: absolute;
-    margin: auto;
-    margin-top: -27px;;
-    height: 55px;
-    width: 55px;
-    background:#b4b4b4;
-    z-index: 12;
+    left: 29px;
+    width: 2px;
+    height: 100%;
+    z-index: 400;
 }
-.nav-pills>li.active::before, .nav-pills>li.active>a::before, .nav-pills>li.active>a:hover::before, .nav-pills>li.active>a:focus::before, .nav>li>a:focus::before, .nav>li>a:hover::before, .nav-pills>li:hover::before {
-    background:#34495e;
+ul.timeline > li {
+    margin: 20px 0;
+    padding-left: 20px;
+}
+ul.timeline > li:before {
+    content: ' ';
+    background: white;
+    display: inline-block;
+    position: absolute;
+    border-radius: 50%;
+    border: 3px solid #22c0e8;
+    left: 20px;
+    width: 20px;
+    height: 20px;
+    z-index: 400;
 }
 
-
-@media (min-width: 768px) {
-    .carousel-control, .carousel-indicators{display: none;}
+div.ex3 {
+    align:center;
+    background-color: transparent;
+    height: 200px;
+    width: 600px;    
+    overflow-y: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
-
-@media (max-width:767px) {
-    ul.nav{display: none;}
-    .transition-timer-carousel .transition-timer-carousel-progress-bar,
-    .transition-timer-carousel .transition-timer-carousel-left-progress-bar{display: none;}
-}  
 </style>
 
-<div class="carousel-wrapper" id="home-carousel">
-    <div id="transition-timer-carousel" class="carousel slide transition-timer-carousel" data-ride="carousel">
+<div class="ex3">
 
-        <!-- Wrapper for slides -->
-        <div class="carousel-inner">
+<div class="container mt-5 mb-5">
+	<div class="row">
+		<div class="col-md-6 offset-md-3">
 
-            <div class="item active">
-                <div id="slidebox-1-inner" class="slidebox no-gutter-xs">
-                  <div class="row">
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                      <%= showImage2(:medium, User.find(1), true) %>
-                    </div>
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                      jsaghf dsgfjds gjdhsj djghdsjh gdfjg jdfagjdf hjfdghj djfdhgjfd jgfhd jhgfdjhgjfdg h
-                      jsaghf dsgfjds gjdhsj djghdsjh gdfjg jdfagjdf hjfdghj djfdhgjfd jgfhd jhgfdjhgjfdg h
-                      jsaghf dsgfjds gjdhsj djghdsjh gdfjg jdfagjdf hjfdghj djfdhgjfd jgfhd jhgfdjhgjfdg h
-                      jsaghf dsgfjds gjdhsj djghdsjh gdfjg jdfagjdf hjfdghj djfdhgjfd jgfhd jhgfdjhgjfdg h
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="item">
-                <div id="slidebox-2-inner" class="slidebox no-gutter-xs">
-                  <div class="row">
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                      <%= showImage2(:medium, User.find(1), true) %>
-                    </div>
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                      jsaghf dsgfjds gjdhsj djghdsjh gdfjg jdfagjdf hjfdghj djfdhgjfd jgfhd jhgfdjhgjfdg h
-                      jsaghf dsgfjds gjdhsj djghdsjh gdfjg jdfagjdf hjfdghj djfdhgjfd jgfhd jhgfdjhgjfdg h
-                      jsaghf dsgfjds gjdhsj djghdsjh gdfjg jdfagjdf hjfdghj djfdhgjfd jgfhd jhgfdjhgjfdg h
-                      jsaghf dsgfjds gjdhsj djghdsjh gdfjg jdfagjdf hjfdghj djfdhgjfd jgfhd jhgfdjhgjfdg h
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="item">
-                <div id="slidebox-3-inner" class="slidebox no-gutter-xs">
-                  <div class="row">
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                      <%= showImage2(:medium, User.find(1), true) %>
-                    </div>
-                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                      jsaghf dsgfjds gjdhsj djghdsjh gdfjg jdfagjdf hjfdghj djfdhgjfd jgfhd jhgfdjhgjfdg h
-                      jsaghf dsgfjds gjdhsj djghdsjh gdfjg jdfagjdf hjfdghj djfdhgjfd jgfhd jhgfdjhgjfdg h
-                      jsaghf dsgfjds gjdhsj djghdsjh gdfjg jdfagjdf hjfdghj djfdhgjfd jgfhd jhgfdjhgjfdg h
-                      jsaghf dsgfjds gjdhsj djghdsjh gdfjg jdfagjdf hjfdghj djfdhgjfd jgfhd jhgfdjhgjfdg h
-                  </div>
-                </div>
-              </div>
-            </div>
-
-        </div>
-
-        <!-- Controls -->
-        <a class="left carousel-control" href="#transition-timer-carousel" role="button" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="right carousel-control" href="#transition-timer-carousel" role="button" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-
-        <!-- Timer "progress bar"-->
-        <hr class="transition-timer-carousel-left-progress-bar animate" />
-        <hr class="transition-timer-carousel-progress-bar animate" />
-
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-            <li data-target="#transition-timer-carousel" data-slide-to="0" class="active"></li>
-            <li data-target="#transition-timer-carousel" data-slide-to="1" ></li>
-            <li data-target="#transition-timer-carousel" data-slide-to="2"></li>
-        </ol>
-
-        <!-- Nav bar -->
-
-        <div class="container">
-            <ul class="nav nav-pills nav-justified">
-                <li data-target="#transition-timer-carousel" data-slide-to="0" class="active first-li">
-                    <%= link_to User.find(1) do %>
-                      <i class="fa fa-first-order">Ressourcenplanung</i>
-                    <% end %>
-                </li>
-                <li data-target="#transition-timer-carousel" data-slide-to="1" class="second-li">
-                    <%= link_to User.find(1) do %>
-                      <i class="fa fa-safari">Zeiterfassung</i>
-                    <% end %>
-                </li>
-                <li data-target="#transition-timer-carousel" data-slide-to="2" class="third-li">
-                    <%= link_to User.find(1) do %>
-                      <i class="fa fa-tasks">Projekte</i>
-                    <% end %>
-                </li>
-            </ul>
-        </div>
-
-    </div>
+			<h4>Latest News</h4>
+			<ul class="timeline">
+				<li>
+					<a target="_blank" href="https://www.totoprayogo.com/#">New Web Design</a>
+					<a href="#" class="float-right">21 March, 2014</a>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque scelerisque diam non nisi semper, et elementum lorem ornare. Maecenas placerat facilisis mollis. Duis sagittis ligula in sodales vehicula....</p>
+				</li>
+				<li>
+					<a href="#">21 000 Job Seekers</a>
+					<a href="#" class="float-right">4 March, 2014</a>
+					<p>Curabitur purus sem, malesuada eu luctus eget, suscipit sed turpis. Nam pellentesque felis vitae justo accumsan, sed semper nisi sollicitudin...</p>
+				</li>
+				<li>
+					<a href="#">Awesome Employers</a>
+					<a href="#" class="float-right">1 April, 2014</a>
+					<p>Fusce ullamcorper ligula sit amet quam accumsan aliquet. Sed nulla odio, tincidunt vitae nunc vitae, mollis pharetra velit. Sed nec tempor nibh...</p>
+				</li>
+			</ul>
+</div>
+</div>
 </div>
 
-<script>
-
-   function carouselMarqueur() {
-        windowW = $(window).width();
-        containerWidth = $('#home-carousel .carousel-indicators + .container').eq(0).width();
-        containerLeft = Math.round((windowW - containerWidth) / 2);
-        pillWidth = 55;
-        liWidth = $('.nav-pills li').eq(0).innerWidth();
-        bubleLeftFromBorderContainer = Math.round((liWidth - pillWidth) / 2);
-
-        hrRightStart = containerLeft + bubleLeftFromBorderContainer + pillWidth;
-        $(".transition-timer-carousel-progress-bar").css("left", hrRightStart + "px");
-
-        hrRightSlide1End = 2 * bubleLeftFromBorderContainer;
-
-        hrRightSlide2Start = hrRightSlide1End + pillWidth;
-        hrRightSlide2End = hrRightSlide2Start + (2 * bubleLeftFromBorderContainer);
-
-        hrRightSlide3Start = hrRightSlide2End + pillWidth;
-        hrRightSlide3End = hrRightSlide3Start + (2 * bubleLeftFromBorderContainer) + (2 * containerLeft);
-
-        hrLeftStart = -(bubleLeftFromBorderContainer + containerLeft);
-        $(".transition-timer-carousel-left-progress-bar").css("left", hrLeftStart + "px");
-        hrLeftEnd = -hrLeftStart + containerLeft + bubleLeftFromBorderContainer;
-    }
-
-    $(document).ready(function () {
-
-        /* call and change coords for the progress bar on resize */
-        carouselMarqueur();
-        $(window).resize(function () {
-            carouselMarqueur();
-        });
-    
-        //Events that reset and restart the progress bar when the slides change
-        $("#transition-timer-carousel").on("slide.bs.carousel", function (event) {
-            var currentSlide = $(event.relatedTarget).index();
-			
-            //The animate class gets removed so that it jumps straight back to indicated px
-            if (currentSlide == 0) {
-                $(".transition-timer-carousel-progress-bar", this)
-                        .addClass("stopanimation")
-                        .removeClass("animate")
-                        .css("width", "0");
-                $(".transition-timer-carousel-left-progress-bar", this)
-                        .addClass("stopanimation")
-                        .removeClass("animate")
-                        .css("width", hrLeftEnd + "px");
-                $('.nav li').removeClass('active');
-                $('.third-li').addClass('active');
-            }
-            else if (currentSlide == 1) {
-                $(".transition-timer-carousel-progress-bar", this)
-                        .addClass("stopanimation")
-                        .removeClass("animate")
-                        .css("width", hrRightSlide2Start + "px");
-
-                $(".transition-timer-carousel-left-progress-bar", this)
-                        .addClass("stopanimation")
-                        .removeClass("animate")
-                        .css("width", hrLeftEnd + "px");
-                $('.nav li').removeClass('active');
-                $('.first-li').addClass('active');
-            }
-            else if (currentSlide == 2) {
-                $(".transition-timer-carousel-progress-bar", this)
-                        .addClass("stopanimation")
-                        .removeClass("animate")
-                        .css("width", hrRightSlide3Start + "px");
-                $(".transition-timer-carousel-left-progress-bar", this)
-                        .addClass("stopanimation")
-                        .removeClass("animate")
-                        .css("width", "0");
-                $('.nav li').removeClass('active');
-                $('.second-li').addClass('active');
-            }
-        }).on("slid.bs.carousel", function (event) {
-            //The slide transition finished, so re-add the animate class so that
-            //the timer bar takes time to fill up to indicated px
-		
-            var currentSlide = $(event.relatedTarget).index();
-            if (currentSlide == 0) {
-                $(".transition-timer-carousel-progress-bar", this)
-                        .removeClass("stopanimation")
-                        .addClass("animate")
-                        .css("width", hrRightSlide1End + "px");
-                $('.nav li').removeClass('active');
-                $('.first-li').addClass('active');
-            }
-            else if (currentSlide == 1) {
-                $(".transition-timer-carousel-progress-bar", this)
-                        .removeClass("stopanimation")
-                        .addClass("animate")
-                        .css("width", hrRightSlide2End + "px");
-                $('.nav li').removeClass('active');
-                $('.second-li').addClass('active');
-            }
-            else if (currentSlide == 2) {
-                $(".transition-timer-carousel-progress-bar", this)
-                        .removeClass("stopanimation")
-                        .addClass("animate")
-                        .css("width", hrRightSlide3End + "px");
-                $(".transition-timer-carousel-left-progress-bar", this)
-                        .removeClass("stopanimation")
-                        .addClass("animate")
-                        .css("width", hrLeftEnd + "px");
-                $('.nav li').removeClass('active');
-                $('.third-li').addClass('active');
-            }
-        });
-
-        /* Kick off the initial slide animation when the document is ready */
-        $(".transition-timer-carousel-progress-bar", "#transition-timer-carousel")
-                .css("width", hrRightSlide1End + "px");
-        $(".transition-timer-carousel-left-progress-bar", "#transition-timer-carousel")
-                .removeClass("animate").css("width", hrLeftEnd + "px");
-
-        // bootstrap carousel native script modified
-		var clickEvent = false;
-        $('#transition-timer-carousel')
-                .on('click', '.nav li', function () {
-                    clickEvent = true;
-                    $('.nav li').removeClass('active');
-                    $(this).addClass('active');
-                })
-				// modif: "on slide" instead of "on slid". Goal: the buble colors in blue directly at the end of the progress bar, not after the transition.
-                .on('slide.bs.carousel', function () {
-                    if (!clickEvent) {
-                        var count = $('.nav').children().length - 1;
-                        var current = $('.nav li.active');
-                        current.removeClass('active').next().addClass('active');
-                        var id = parseInt(current.data('slide-to'));
-                        if (count == id) {
-                            $('.nav li').first().addClass('active');
-                        }
-                    }
-                    clickEvent = false;
-                });
-
-    });
-    
-</script>
-
-<script>
-      document.addEventListener("turbolinks:load", function() { carouselMarqueur();})
-</script>
-<% end %>
-
-<style>
-
-</style>
-
-<div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="carousel slide" data-ride="carousel" id="quote-carousel">
-                    <!-- Carousel Slides / Quotes -->
-                    <div class="carousel-inner text-center">
-                        <!-- Quote 1 -->
-                        <div class="item active">
-                            <blockquote>
-                                <div class="row">
-                                    <div class="col-sm-8 col-sm-offset-2">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. !</p>
-                                        <small>A person</small>
-                                    </div>
-                                </div>
-                            </blockquote>
-                        </div>
-                        <!-- Quote 2 -->
-                        <div class="item">
-                            <blockquote>
-                                <div class="row">
-                                    <div class="col-sm-8 col-sm-offset-2">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
-                                        <small>A person</small>
-                                    </div>
-                                </div>
-                            </blockquote>
-                        </div>
-                        <!-- Quote 3 -->
-                        <div class="item">
-                            <blockquote>
-                                <div class="row">
-                                    <div class="col-sm-8 col-sm-offset-2">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. .</p>
-                                        <small>A person</small>
-                                    </div>
-                                </div>
-                            </blockquote>
-                        </div>
-                    </div>
-                    <!-- Bottom Carousel Indicators -->
-                    <ol class="carousel-indicators">
-                        <li data-target="#quote-carousel" data-slide-to="0" class="active"><%= image_tag("firma.jpg", :size => "128x128", :class => "img-responsive") %></li>
-                        <li data-target="#quote-carousel" data-slide-to="1"><%= image_tag(User.find(1).avatar_file_name, :size => "128x128", :class => "img-responsive") %></li>
-                        <li data-target="#quote-carousel" data-slide-to="2"><img class="img-responsive" src="https://www.shareicon.net/download/2016/10/25/847810_man_512x512.png" alt=""></li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
+</div>
