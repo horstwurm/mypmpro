@@ -299,7 +299,7 @@ class MobjectsController < ApplicationController
       if @mobject.owner_type == "User"
         redirect_to user_path(:id => @mobject.owner_id, :topic => "personen_"+@mobject.mtype), notice: (I18n.t :act_create)
       else
-        redirect_to company_path(:id => @mobject.owner.id, :topic => "institutionen_"+@mobject.mtype), notice: (I18n.t :act_create)
+        redirect_to company_path(:id => @mobject.owner_id, :topic => "institutionen_"+@mobject.mtype), notice: (I18n.t :act_create)
       end
     else
       render :new
@@ -312,7 +312,7 @@ class MobjectsController < ApplicationController
       if @mobject.owner_type == "User"
         redirect_to user_path(:id => @mobject.owner_id, :topic => "personen_"+@mobject.mtype), notice: (I18n.t :act_update)
       else
-        redirect_to company_path(:id => @mobject.owne.id, :topic => "institutionen_"+@mobject.mtype), notice: (I18n.t :act_update)
+        redirect_to company_path(:id => @mobject.owner_id, :topic => "institutionen_"+@mobject.mtype), notice: (I18n.t :act_update)
       end
     else
       render :edit
