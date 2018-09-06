@@ -3,7 +3,6 @@ class Search < ActiveRecord::Base
     serialize :sql_string, Array
     
     validates :name, presence: true
-    validate :valid_ages?
     validate :upper?
 
     belongs_to :user
@@ -24,20 +23,6 @@ class Search < ActiveRecord::Base
         return true
     end
 
-      def valid_ages?
-        if age_from != nil and age_to != nil
-            if age_from > 0 or age_to > 0
-              if age_from < age_to
-                return true
-              end
-            end
-            if age_from == 0 and age_to == 0
-                return true
-            end
-            errors.add(:age_from, "invalid age")
-        end
-      end
-
     def build_sql(user)
         sql_string = []
         sql_string[0] ="active=?"
@@ -46,10 +31,13 @@ class Search < ActiveRecord::Base
         when "personen"
             sql_string[0] = sql_string[0] + " and anonymous=?"
             sql_string << false
-            if self.age_from != nil and self.age_from > 0
-                end_date = Date.new(Date.today.year - age_from, Date.today.month, Date.today.day)
-                sql_string[0] = sql_string[0] + " and dateofbirth <=?"
-                sql_string << end_date.to_s
+            if self.org != ""
+                sql_string[0] = sql_string[0] + " and org=?"
+                sql_string << self.org
+            end
+            if self.costinfo != ""
+                sql_string[0] = sql_string[0] + " and costinfo=?"
+                sql_string << self.costinfo
             end
             sql_string = find_keywords(sql_string, self.search_domain, self.keywords)
             self.counter = User.where(sql_string).count
@@ -65,7 +53,18 @@ class Search < ActiveRecord::Base
             self.sql_string = sql_string
 
         when "objekte"
-
+            if self.freecat1 != ""
+                sql_string[0] = sql_string[0] + " and freecat1=?"
+                sql_string << self.freecat1
+            end
+            if self.freecat2 != ""
+                sql_string[0] = sql_string[0] + " and freecat2=?"
+                sql_string << self.freecat2
+            end
+            if self.freecat3 != ""
+                sql_string[0] = sql_string[0] + " and freecat3=?"
+                sql_string << self.freecat3
+            end
             sql_string[0] = sql_string[0] + " and (online_pub=? or id IN (?))"
             sql_string << true
             mlist = []

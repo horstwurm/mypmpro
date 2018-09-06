@@ -1,3 +1,4 @@
+<% @search.search_domain %>
 <br>
 <div class="contact-form">
     <div class="container"
@@ -26,21 +27,25 @@
                     <%= f.label (I18n.t :bezeichnung) %><br/>
                     <%= f.text_field :name, autofocus: true, class:"form-control"%>
                   </div>
-                  <div class="form-group">
-                    <%= f.label (I18n.t :beschreibung) %><br/>
-                    <%= f.text_field :description, autofocus: true, class:"form-control"%>
-                  </div>
+                  <!--<div class="form-group">-->
+                  <!--  <%= f.label (I18n.t :beschreibung) %><br/>-->
+                  <!--  <%= f.text_field :description, autofocus: true, class:"form-control"%>-->
+                  <!--</div>-->
 
                  <% case @search.search_domain %>
                    <% when "personen" %>
-                    <!--<div class="form-group">-->
-                    <!--  <%= f.label (I18n.t :name) %><br/>-->
-                    <!--  <%= f.text_field :name, autofocus: true, class:"form-control"%>-->
-                    <!--</div>-->
+                    <div class="form-group">
+                      <%= f.label (I18n.t :organisation) %><br/>
+                      <%= f.text_field :org, autofocus: true, class:"form-control"%>
+                    </div>
+                    <div class="form-group">
+                      <%= f.label (I18n.t :kostenstelle) %><br/>
+                      <%= f.text_field :costinfo, autofocus: true, class:"form-control"%>
+                    </div>
 
                    <% when "institutionen" %>
                       <div class="form-group">
-                        <%= f.label (I18n.t :bezeichnung) %><br/>
+                        <%= f.label (I18n.t :name) %><br/>
                         <%= f.text_field :name, autofocus: true, class:"form-control"%>
                       </div>
                       <div class="form-group">
@@ -61,6 +66,14 @@
                           <div class="form-group">
                             <%= f.label (I18n.t :kategorie) %><br/>
                             <%= f.collection_select :mcategory_id, Mcategory.where('ctype=?',"projekte").order(:name), :id, :name, {:include_blank => true}, class:"form-control" %>
+                          </div>
+                          <div class="form-group">
+                            <%= f.label (I18n.t :freecat) %><br/>
+                            <%= f.text_field :freecat1, class:"form-control"%>
+                            <%= f.label (I18n.t :freecat) %><br/>
+                            <%= f.text_field :freecat2, class:"form-control"%>
+                            <%= f.label (I18n.t :freecat) %><br/>
+                            <%= f.text_field :freecat3, class:"form-control"%>
                           </div>
                           <div class="form-group">
                             <%= f.label "Datum von-bis:" %>
@@ -98,7 +111,7 @@
 
           </div>
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">'
-            <%= image_tag("abfrage.jpg", class: "img-responsive") %>
+            <%= image_tag("abfragen.jpg", class: "img-responsive") %>
           </div>
         </div>
 

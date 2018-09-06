@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <%= email_image_tag("thurcloud.png", :size => "200x200") %>
+    <h1><%= @text %></h1>
+
+    <b><%= (I18n.t @mobject.mtype) %></b><br>
+    <%= link_to @mobject do %>
+       <%= @mobject.name %>
+    <% end %>
+    </p>
+
+    <p>
+    <% if @mobject.mdetails.first %>
+      <% image_url = "https://"+url_for(@mobject.mdetails.first.avatar(:medium)) %>
+      <%= image_tag(image_url) %>
+    <% end %>
+    </p>
+    <p><%= (I18n.t :visitus) %><b><%= " " + @url %></b></p>
+  </body>
+</html>

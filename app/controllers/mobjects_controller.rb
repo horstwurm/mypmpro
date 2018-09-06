@@ -286,9 +286,6 @@ class MobjectsController < ApplicationController
       @mobject.owner_id = params[:company_id]
       @mobject.owner_type = "Company"
     end
-    @mobject.address1 = @mobject.owner.address1
-    @mobject.address2 = @mobject.owner.address2
-    @mobject.address3 = @mobject.owner.address3
   end
 
   # GET /mobjects/1/edit
@@ -298,36 +295,12 @@ class MobjectsController < ApplicationController
   # POST /mobjects
   def create
     @mobject = Mobject.new(mobject_params)
-
     if @mobject.save
-
-      # STD Berechtigung erstellen
-      if @mobject.mtype == "sponsorantraege"
-        if @mobject.owner.company_params.first.role_sponsoring
-          u = User.where('email=?',@mobject.owner.company_params.first.role_sponsoring).first
-          if u
-            m = Madvisor.new
-            m.mobject_id = @mobject.id
-            m.user_id = u.id
-            m.role = @mobject.mtype 
-            m.grade = "default"
-            m.save
-          end
-        end
-        # Bestätigungsemail an Antragsteller erstellen
-        if @mobject.requester_type == "User"
-          @user = User.find(@mobject.requester_id)
-          @status = @mobject.sponsorenstatus
-          UserMailer.user_sponsoring_info(@user, @mobject, @status).deliver_now
-        end
-        if @mobject.requester_type == "Company"
-          @company = Company.find(@mobject.requester_id)
-          @status = @mobject.sponsorenstatus
-          UserMailer.user_sponsoring_info(@company.user, @mobject, @status).deliver_now
-        end
+      if @mobject.owner_type == "User"
+        redirect_to user_path(:id => @mobject.owner_id, :topic => "personen_"+@mobject.mtype), notice: (I18n.t :act_create)
+      else
+        redirect_to company_path(:id => @mobject.owner.id, :topic => "institutionen_"+@mobject.mtype), notice: (I18n.t :act_create)
       end
-
-      redirect_to @mobject, notice: (I18n.t :act_create)
     else
       render :new
     end
@@ -336,7 +309,11 @@ class MobjectsController < ApplicationController
   # PUT /mobjects/1
   def update
     if @mobject.update(mobject_params)
-      redirect_to @mobject, notice: (I18n.t :act_update)
+      if @mobject.owner_type == "User"
+        redirect_to user_path(:id => @mobject.owner_id, :topic => "personen_"+@object.mtype), notice: (I18n.t :act_update)
+      else
+        redirect_to company_path(:id => @mobject.owne.id, :topic => "institutionen_"+@mobject.mtype), notice: (I18n.t :act_update)
+      end
     else
       render :edit
     end

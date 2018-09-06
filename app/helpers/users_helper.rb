@@ -922,6 +922,43 @@ def showImage2(size, item, linkit)
     return html_string.html_safe
 end
 
+def myheader4(header, user, company, mobject, obj, item, topic)
+  pos = topic.index("_")
+  infosymbol = (topic[pos+1..topic.length-1]).to_sym
+  txt = getinfo2(infosymbol)["infotext"]
+
+  color1 = $graph_color2
+  color2 = $grey
+  if company
+    company.company_params.each do |p|
+      if p.key.downcase == "color1"
+        color1 = p.value
+      end
+      if p.key.downcase == "color2"
+        color2 = p.value
+      end
+    end
+  end
+  if mobject and mobject.owner_type == "Company"
+    mobject.owner.company_params.each do |p|
+      if p.key.downcase == "color1"
+        color1 = p.value
+      end
+      if p.key.downcase == "color2"
+        color2 = p.value
+      end
+    end
+  end
+
+  html_string = ""
+  html_string = html_string + '<div class="panel-body" style="background-color:' + color1 + '; color:' + color2 + '">'
+      html_string = html_string + "<h3>"+text+" "+txt+"</h3>"
+      html_string = html_string + navigate3(obj, item, topic, txt)
+  html_string = html_string + "</div>"
+  return html_string.html_safe
+end
+
+
 def header(header)
     html_string = ""
     html_string = html_string + '<div class="panel-body ueberschrift">'
@@ -959,7 +996,7 @@ def header4_cicd(text, user, company, mobject, obj, item, topic)
       end
     end
   end
-  if mobject and mobject.owner_type = "Company"
+  if mobject and mobject.owner_type == "Company"
     mobject.owner.company_params.each do |p|
       if p.key.downcase == "color1"
         color1 = p.value
@@ -1003,7 +1040,7 @@ def header_cicd(header, company, mobject)
       end
     end
   end
-  if mobject and mobject_owner_type = "Company"
+  if mobject and mobject.owner_type = "Company"
     mobject.owner.company_params.each do |p|
       if p.key.downcase == "color1"
         color1 = p.value

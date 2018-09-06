@@ -1,3 +1,4 @@
+
 <br>
 <div class="contact-form">
 <div class="container"
@@ -16,7 +17,12 @@
             </div>
         <% end %>
 
-        <%= header_cicd(@mobject.mtype + " " + @mobject.name, nil, @mobject) %>
+        <% if @mobject_type == "projekte" %>
+          <%= header_cicd(@mobject.mtype + " " + @mobject.name, nil, @mobject) %>
+        <% end %>
+        <% if @mobject_type == "gruppen" %>
+          <%= header4(@mobject.mtype + " " + @mobject.name, nil, @mobject) %>
+        <% end %>
 
         <div class="row">
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">'
@@ -40,10 +46,33 @@
         <% if @mobject.mtype == "projekte" %>
           <div class="form-group">
             <%= f.label I18n.t :subkategorie %>
+            <% if @mobject.owner_type == "Company" %>
+              <% @company = @mobject.owner %>
+              <% @param = @company.company_params.where('key=?',"freecat1").first %>
+              <% if @param %>
+                <%= @param.value %>
+              <% end %>
+            <% end %>
             <%= f.text_field :freecat1, class:"form-control"%>
+
             <%= f.label I18n.t :subkategorie %>
+            <% if @mobject.owner_type == "Company" %>
+              <% @company = @mobject.owner %>
+              <% @param = @company.company_params.where('key=?',"freecat2").first %>
+              <% if @param %>
+                <%= @param.value %>
+              <% end %>
+            <% end %>
             <%= f.text_field :freecat2, class:"form-control"%>
+
             <%= f.label I18n.t :subkategorie %>
+            <% if @mobject.owner_type == "Company" %>
+              <% @company = @mobject.owner %>
+              <% @param = @company.company_params.where('key=?',"freecat3").first %>
+              <% if @param %>
+                <%= @param.value %>
+              <% end %>
+            <% end %>
             <%= f.text_field :freecat3, class:"form-control"%>
           </div>
           <div class="form-group">
@@ -113,14 +142,9 @@
           <input type="checkbox" name="my-checkbox1" checked>
           <%= f.label I18n.t :active %>
         </div>
-
-         <%= f.hidden_field :mtype, class:"form-control" %>
-         <%= f.hidden_field :parent %>
-         <%= f.hidden_field :status, class:"form-control" %>
-         <%= f.hidden_field :owner_id %>
-         <%= f.hidden_field :owner_type %>
         <div class="actions">
            <%= f.submit (I18n.t :speichern),  class:"btn btn-primary btn-lg btn-download"%>
+           <% @mobject.owner_type %>
           <% if @mobject.owner_type == "User" %>
             <%= link_to user_path(:id => @mobject.owner_id, :topic => "personen_" + @mobject.mtype) do %>
               <i class="btn btn-primary btn-lg btn-download">Abbrechen</i>
@@ -135,6 +159,11 @@
         <%= f.check_box :allow, :id => "allow", class:"form-control hidden" %>
         <%= f.check_box :active, :id => "active", class:"form-control hidden" %>
         <%= f.check_box :online_pub, :id => "online_pub", class:"form-control hidden" %>
+         <%= f.hidden_field :mtype, class:"form-control" %>
+         <%= f.hidden_field :parent %>
+         <%= f.hidden_field :status, class:"form-control" %>
+         <%= f.hidden_field :owner_id %>
+         <%= f.hidden_field :owner_type %>
           </div>
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">'
             <% if @mobject.mtype == "projekte" %>

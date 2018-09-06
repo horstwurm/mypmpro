@@ -19,7 +19,7 @@
                   <li>
                   <% if user_signed_in? %>
         					  <%= link_to(destroy_user_session_path, method: :delete) do %>
-        				    	Logout
+        					    LOGOUT
         					  <% end %>
         					<% else %>
           					<%= link_to new_user_session_path do %>
@@ -59,7 +59,6 @@
                 <% if user_signed_in? %>
                   <%= contactChip(current_user) %>
                 <% end %>
-                <br>
                 <div class="brn-btn">
                   <% if user_signed_in? %>
                     <% if false %>
@@ -73,14 +72,13 @@
         					  <%= link_to new_user_registration_path do %>
         				    	<i class="btn btn-primary btn-lg btn-download">Registrieren</i>
         					  <% end %>
-        					  <% if false %>
-          					<%= link_to new_user_session_path do %>
-          			      <i class="btn btn-primary btn-lg btn-download">Anmelden</i>
-          					<% end %> 
+          					  <% if false %>
+            					<%= link_to new_user_session_path do %>
+            			      <i class="btn btn-primary btn-lg btn-download">Anmelden</i>
+            					<% end %> 
           				  <% end %>
                   <% end %>
                 </div>
-                
                 <% if user_signed_in? %>
                 <div class="carousel slide" data-ride="carousel" id="quote-carousel">
                     <!-- Carousel Slides / Quotes -->
@@ -91,7 +89,7 @@
                             <blockquote>
                                 <div class="row">
                                     <div class="col-sm-8 col-sm-offset-2">
-                                      <% current_user.madvisors.last(3).each do |m| %>
+                                      <% current_user.madvisors.last(10).each do |m| %>
                                         <b><%= m.created_at.strftime("%d.%m.%Y") %></b><br>
                                         <%= "Berechtigung " + m.grade + " für " %>
                                         <%= link_to(m.mobject) do %>
@@ -111,7 +109,7 @@
                             <blockquote>
                                 <div class="row">
                                     <div class="col-sm-8 col-sm-offset-2">
-                                      <% current_user.timetracks.last(3).each do |m| %>
+                                      <% current_user.timetracks.last(10).each do |m| %>
                                         <b><%= m.created_at.strftime("%d.%m.%Y") %></b><br>
                                         <%= "Zeiterfassung " + m.amount.to_s + "für " %>
                                         <%= link_to(m.mobject) do %>
@@ -130,7 +128,7 @@
                             <blockquote>
                                 <div class="row">
                                     <div class="col-sm-8 col-sm-offset-2">
-                                      <% current_user.plannings.last(3).each do |m| %>
+                                      <% current_user.plannings.last(10).each do |m| %>
                                         <b><%= m.created_at.strftime("%d.%m.%Y") %></b><br>
                                         <%= "Ressourcenplanung " + m.amount.to_s + "% für " %>
                                         <%= link_to(m.mobject) do %>
@@ -148,9 +146,9 @@
                     <ol class="carousel-indicators">
                         <!--<li data-target="#quote-carousel" data-slide-to="1"><%= image_tag(User.find(1).avatar_file_name, :size => "128x128", :class => "img-responsive") %></li>-->
 
-                        <li data-target="#quote-carousel" data-slide-to="0" class="active"><%= image_tag("projekte.png", :size => "128x128", :class => "img-responsive") %></li>Projekte
-                        <li data-target="#quote-carousel" data-slide-to="1" ><%= image_tag("zeiterfassung.jpg", :size => "128x128", :class => "img-responsive") %></li>Zeiterfassung
-                        <li data-target="#quote-carousel" data-slide-to="2" ><%= image_tag("crowd.jpg", :size => "128x128", :class => "img-responsive") %></li>Ressourcenplanung
+                        <li data-target="#quote-carousel" data-slide-to="0" class="active"><%= image_tag("projekte.png", :size => "128x128", :class => "img-responsive") %></li>
+                        <li data-target="#quote-carousel" data-slide-to="1" ><%= image_tag("zeiterfassung.jpg", :size => "128x128", :class => "img-responsive") %></li>
+                        <li data-target="#quote-carousel" data-slide-to="2" ><%= image_tag("crowd.jpg", :size => "128x128", :class => "img-responsive") %></li>
                     </ol>
                 </div>
                 <% end %>

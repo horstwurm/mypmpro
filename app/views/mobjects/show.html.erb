@@ -1,6 +1,6 @@
 
 <!--def header4_cicd(text, user, company, mobject, obj, item, topic)-->
-<%= header4_cicd(@mobject.mtype+" "+@mobject.name,nil,nil,@mobject,"objekte",@mobject, @topic) %>
+<%= header4_cicd(@mobject.mtype + " " + @mobject.name, nil, nil, @mobject, "objekte", @mobject, @topic) %>
 
 <% case @topic %>
   <% when "objekte_info" %>
@@ -49,7 +49,7 @@
           <%= showImage2(:small, @mobject.owner, true) %>
           <br>
           <% if @mobject.owner_type == "User" %>
-            <%= @mobject.owner.name + " " + @mobject.owner.user.lastname %>
+            <%= @mobject.owner.name + " " + @mobject.owner.lastname %>
           <% else %>
             <%= @mobject.owner.name %>
           <% end %>
@@ -150,11 +150,13 @@
         <% end %>
 
         <% if @mobject.mtype == "gruppen" %>
-          <%= header_cicd((I18n.t :gruppenmitglieder), nil, @mobject) %>
-          <div class="panel-body">
-            <%= build_medialistNew(@mobject.madvisors.where('role=?', @mobject.mtype), "madvisors", "user", nil, nil) %>
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <%= header_cicd((I18n.t :gruppenmitglieder), nil, @mobject) if false %>
+            <div class="panel-body">
+              <%= build_medialistNew(@mobject.madvisors.where('role=?', @mobject.mtype), "madvisors", "user", nil, nil) %>
+            </div>
+            <br>
           </div>
-          <br>
         <% end %>
         
   </div>
