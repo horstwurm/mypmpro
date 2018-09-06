@@ -1,72 +1,63 @@
-<style>
-    ul.timeline {
-    list-style-type: none;
-    position: relative;
-}
-ul.timeline:before {
-    content: ' ';
-    background: #d4d9df;
-    display: inline-block;
-    position: absolute;
-    left: 29px;
-    width: 2px;
-    height: 100%;
-    z-index: 400;
-}
-ul.timeline > li {
-    margin: 20px 0;
-    padding-left: 20px;
-}
-ul.timeline > li:before {
-    content: ' ';
-    background: white;
-    display: inline-block;
-    position: absolute;
-    border-radius: 50%;
-    border: 3px solid #22c0e8;
-    left: 20px;
-    width: 20px;
-    height: 20px;
-    z-index: 400;
-}
 
-div.ex3 {
-    align:center;
-    background-color: transparent;
-    height: 200px;
-    width: 600px;    
-    overflow-y: auto;
-    margin-left: auto;
-    margin-right: auto;
-}
-</style>
-
-<div class="ex3">
-
-<div class="container mt-5 mb-5">
-	<div class="row">
-		<div class="col-md-6 offset-md-3">
-
-			<h4>Latest News</h4>
-			<ul class="timeline">
-				<li>
-					<a target="_blank" href="https://www.totoprayogo.com/#">New Web Design</a>
-					<a href="#" class="float-right">21 March, 2014</a>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque scelerisque diam non nisi semper, et elementum lorem ornare. Maecenas placerat facilisis mollis. Duis sagittis ligula in sodales vehicula....</p>
-				</li>
-				<li>
-					<a href="#">21 000 Job Seekers</a>
-					<a href="#" class="float-right">4 March, 2014</a>
-					<p>Curabitur purus sem, malesuada eu luctus eget, suscipit sed turpis. Nam pellentesque felis vitae justo accumsan, sed semper nisi sollicitudin...</p>
-				</li>
-				<li>
-					<a href="#">Awesome Employers</a>
-					<a href="#" class="float-right">1 April, 2014</a>
-					<p>Fusce ullamcorper ligula sit amet quam accumsan aliquet. Sed nulla odio, tincidunt vitae nunc vitae, mollis pharetra velit. Sed nec tempor nibh...</p>
-				</li>
-			</ul>
-</div>
-</div>
-</div>
-
+<div class="container">
+  <div class="row">
+    <h2>Media Slider Carousel BS3</h2>
+  </div>
+  <div class='row'>
+    <div class='col-md-8'>
+      <div class="carousel slide media-carousel" id="media">
+        <div class="carousel-inner">
+          <div class="item  active">
+            <div class="row">
+              <% for i in 0..20 %> 
+                  <div class="col-md-4">
+                    <%= showImage2(:medium, User.first, true) %>
+                    <%= User.first.name %>
+                    <!--<a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>-->
+                  </div>
+              <% end %>
+              <!--<div class="col-md-4">-->
+              <!--  <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>-->
+              <!--</div>-->
+              <!--<div class="col-md-4">-->
+              <!--  <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>-->
+              <!--</div>        -->
+            </div>
+          </div>
+          <div class="item">
+            <div class="row">
+              <% for i in 0..20 %> 
+                  <div class="col-md-4">
+                    <%= image_tag("anhang.jpg", :size => "100x100", class:"card-img-top img-responsive" ) %><br>
+                    <%= "download Dokuemnt" %>
+                    <!--<a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>-->
+                  </div>
+              <% end %>
+              <!--<div class="col-md-4">-->
+              <!--  <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>-->
+              <!--</div>-->
+              <!--<div class="col-md-4">-->
+              <!--  <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>-->
+              <!--</div>        -->
+            </div>
+          </div>
+          <div class="item">
+            <div class="row">
+              <div class="col-md-4">
+                <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
+              </div>          
+              <div class="col-md-4">
+                <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
+              </div>
+              <div class="col-md-4">
+                <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
+              </div>      
+            </div>
+          </div>
+        </div>
+        <a data-slide="prev" href="#media" class="left carousel-control">‹</a>
+        <a data-slide="next" href="#media" class="right carousel-control">›</a>
+      </div>                          
+    </div>
+  </div>
 </div>

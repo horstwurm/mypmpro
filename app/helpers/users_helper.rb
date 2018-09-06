@@ -34,13 +34,15 @@ def carousel2(mobject, size)
         html = html + image_tag(mobject.mtype + ".png", :size => size, class:"card-img-top img-responsive" )
       else
         html = html +  '<div class="owl-show">'
-        mobject.mdetails.each do |p|
+        mobject.mdetails.where('avatar_file_name !=?',"").each do |p|
           
           html = html + "<div class='row'>"
 
             html = html + "<div class='col-xs=12'>"
               if p.avatar_file_name == nil
-                html = html + "<div>" + image_tag(image_def("objekte", mobject.mtype), :size => size, class:"card-img-top img-responsive" ) + "</div>"
+                #html = html + "<div>" + image_tag(image_def("objekte", mobject.mtype), :size => size, class:"card-img-top img-responsive" ) + "</div>"
+                html = html + "<div>" + showFirstImage2(:medium, @mobject, @mobject.mdetails) + "</div>"
+                
               else
                 html = html + "<div>"+ (image_tag p.avatar(size), class:"img-rounded") + "</div>"
               end
@@ -55,13 +57,13 @@ def carousel2(mobject, size)
               end
             html = html + "</div>"
 
-            html = html + "<div class='col-xs=12'>"
-              if p.document_file_name
-                html = html + link_to(p.document.url, target: "_blank") do 
-                  content_tag(:i, nil, class:"btn btn-primary fa fa-cloud-download")
-                end
-              end
-            html = html + "</div>"
+            #html = html + "<div class='col-xs=12'>"
+              #if p.document_file_name
+                #html = html + link_to(p.document.url, target: "_blank") do 
+                  #content_tag(:i, nil, class:"btn btn-primary fa fa-cloud-download")
+                #end
+              #end
+            #html = html + "</div>"
 
           html = html + "</div>"
               
@@ -70,6 +72,98 @@ def carousel2(mobject, size)
       end
     end
     return html.html_safe
+end
+
+def carousel4(mobject, size)
+html = ""
+html = html + '<div class="container">'
+  html = html + "<div class='row'>"
+    html = html + "<div class='col-md-8'>"
+      html = html + '<div class="carousel slide media-carousel" id="media">'
+        html = html + '<div class="carousel-inner">'
+
+          html = html + '<div class="item  active">'
+            html = html + '<div class="row">'
+              if mobject.mdetails
+                mobject.mdetails.where('avatar_file_name!=?',"").each do |md| 
+                  html = html + '<div class="col-md-4">'
+                    html = html + image_tag(md.avatar(:medium), class:"card-img-top img-responsive" )
+                  html = html + "</div>"
+                end
+              end
+            html = html + "</div>"
+          html = html + "</div>"
+
+          html = html + '<div class="item">'
+            html = html + '<div class="row">'
+              if mobject.mdetails
+                mobject.mdetails.where('document_file_name!=?',"").each do |md| 
+                  html = html + '<div class="col-md-4">'
+                    html = html + image_tag("anhang.jpg", :size => "200x200", class:"card-img-top img-responsive" )
+                    html = html + link_to(md.document.url, target: "_blank") do 
+                      content_tag(:i, nil, class:"btn btn-default btn-xs fa fa-cloud-download")
+                    end
+                    html = html + md.name
+                  html = html + "</div>"
+                end
+              end
+            html = html + "</div>"
+          html = html + "</div>"
+
+        html = html + "</div>"
+        html = html + '<a data-slide="prev" href="#media" class="left carousel-control">‹</a>'
+        html = html + '<a data-slide="next" href="#media" class="right carousel-control">›</a>'
+      html = html + "</div>"
+    html = html + "</div>"
+  html = html + "</div>"
+html = html + "</div>"
+return html.html_safe
+end
+
+def carousel3(mobject, size)
+html = ""
+html = html + "<div id='carousel-example-generic' class='carousel slide' data-ride='carousel'>"
+  #<!-- Indicators -->
+  html = html + "<ol class='carousel-indicators'>"
+    html = html + "<li data-target='#carousel-example-generic' data-slide-to='0' class='active'></li>"
+    html = html + "<li data-target='#carousel-example-generic' data-slide-to='1'></li>"
+    html = html + "<li data-target='#carousel-example-generic' data-slide-to='2'></li>"
+  html = html + "</ol>"
+ 
+  #<!-- Wrapper for slides -->
+  html = html + "<div class='carousel-inner'>"
+    html = html + "<div class='item active'>"
+      #html = html + "<div class='box'>"
+                html = html + "<div>" + image_tag(image_def("objekte", mobject.mtype), :size => size, class:"card-img-top img-responsive" ) + "</div>"
+                #html = html + "<div>" + showFirstImage2(:medium, @mobject, @mobject.mdetails) + "</div>"
+      #html = html + "</div>"
+      html = html + "<div class='carousel-caption'>"
+      	html = html + "<h3>First Text</h3>"
+      html = html + "</div>"
+    html = html + "</div>"
+    html = html + "<div class='item'>"
+      html = html + "<div class='box'></div>"
+      html = html + "<div class='carousel-caption'>"
+      	html = html + "<h3>Second Text</h3>"
+      html = html + "</div>"
+    html = html + "</div>"
+    html = html + "<div class='item'>"
+      html = html + "<div class='box'></div>"
+      html = html + "<div class='carousel-caption'>"
+      	html = html + "<h3>Third Text</h3>"
+      html = html + "</div>"
+    html = html + "</div>"
+  html = html + "</div>"
+ 
+  #<!-- Controls -->
+  html = html + "<a class='left carousel-control' href='#carousel-example-generic' role='button' data-slide='prev'>"
+    html = html + "<span class='fa fa-chevron-left'></span>"
+  html = html + "</a>"
+  html = html + "<a class='right carousel-control' href='#carousel-example-generic' role='button' data-slide='next'>"
+    html = html + "<span class='fa fa-chevron-right'></span>"
+  html = html + "</a>"
+html = html + "</div>"  
+return html.html_safe
 end
 
 def align_text(txt)
@@ -1836,7 +1930,7 @@ def image_def (objekt, mtype)
       when "institutionen"
         pic = "company.jpg"
       when "objekte"
-        pic = "no_pic.jpg"
+        pic = "fragen.jpg"
     end
 end
 
