@@ -46,12 +46,12 @@
                      <%= image_tag @mdetail.avatar.url(:medium) if @mdetail.avatar_file_name %>
                      <%= f.file_field :avatar, class:"form-control" %>
                   </div>
-                  <div class="form-group">
-                     <%= f.label (I18n.t :videon) %>
-                     <%= @mdetail.video_file_name if @mdetail.video_file_name %>
-                     <%= image_tag("video.png",:size => :small) if @mdetail.video_file_name %>
-                     <%= f.file_field :video, class:"form-control" %>
-                  </div>
+                  <!--<div class="form-group">-->
+                  <!--   <%= f.label (I18n.t :videon) %>-->
+                  <!--   <%= @mdetail.video_file_name if @mdetail.video_file_name %>-->
+                  <!--   <%= image_tag("video.png",:size => :small) if @mdetail.video_file_name %>-->
+                  <!--   <%= f.file_field :video, class:"form-control" %>-->
+                  <!--</div>-->
                   <div class="actions">
                     <%= f.submit (I18n.t :speichern), class:"btn btn-primary btn-lg btn-download"%>
                     <%= link_to mobject_path(:id => @mdetail.mobject_id, :topic => "objekte_details") do %>
