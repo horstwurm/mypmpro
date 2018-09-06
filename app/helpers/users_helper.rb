@@ -40,7 +40,7 @@ def carousel2(mobject, size)
 
             html = html + "<div class='col-xs=12'>"
               if p.avatar_file_name == nil
-                html = html + "<div>" + image_tag(image_def("objekte", mobject.mtype, mobject.msubtype), :size => size, class:"card-img-top img-responsive" ) + "</div>"
+                html = html + "<div>" + image_tag(image_def("objekte", mobject.mtype), :size => size, class:"card-img-top img-responsive" ) + "</div>"
               else
                 html = html + "<div>"+ (image_tag p.avatar(size), class:"img-rounded") + "</div>"
               end
@@ -1827,7 +1827,7 @@ def build_kachel_access(topic, mode, user)
   return html_string.html_safe
 end
 
-def image_def (objekt, mtype, msubtype)
+def image_def (objekt, mtype)
     case objekt
       when $app_name
         pic = "connect.jpg"
