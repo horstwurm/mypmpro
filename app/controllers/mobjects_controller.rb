@@ -310,7 +310,7 @@ class MobjectsController < ApplicationController
   def update
     if @mobject.update(mobject_params)
       if @mobject.owner_type == "User"
-        redirect_to user_path(:id => @mobject.owner_id, :topic => "personen_"+@object.mtype), notice: (I18n.t :act_update)
+        redirect_to user_path(:id => @mobject.owner_id, :topic => "personen_"+@mobject.mtype), notice: (I18n.t :act_update)
       else
         redirect_to company_path(:id => @mobject.owne.id, :topic => "institutionen_"+@mobject.mtype), notice: (I18n.t :act_update)
       end
