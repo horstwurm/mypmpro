@@ -25,21 +25,40 @@ class UsersController < ApplicationController
 
     if params[:mode]
       @mode = params[:mode]
+      session[:mode] = params[:mode]
     end
 
     if params[:mode] == "deputy"
       if params[:user_id]
         @owner_id = params[:user_id]
         @owner_type = "User"
+        session[:owner_id] = params[:user_id]
+        session[:owner_type] = "User"
       end
       if params[:company_id]
         @owner_id = params[:company_id]
         @owner_type = "Company"
+        session[:owner_id] = params[:company_id]
+        session[:owner_type] = "Company"
       end
     end
 
-    if params[:mode] == "projekte" or "gruppen"
+    #sichere Parameter bis Objekte angelegt - werden dort wieder gelöscht
+    if params[:mode] == "projekte" or params[:mode] == "gruppen"
       @mobject_id = params[:mobject_id]
+      session[:mobject_id] = params[:mobject_id]
+    end
+    if session[:mode]
+      @mode = session[:mode]
+    end
+    if session[:mobject_id]
+      @mobject_id = session[:mobject_id]
+    end
+    if session[:owner_id]
+      @owner_id = session[:owner_id]
+    end
+    if session[:owner_type]
+      @owner_type = session[:owner_type]
     end
 
   end

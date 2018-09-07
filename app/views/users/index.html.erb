@@ -1,21 +1,5 @@
-<%= indexheader4((I18n.t :personen), "personen", nil, @filter_id, @search) %>
 
-<!--<div class="row">-->
-<!--    <% if user_signed_in? %>-->
-<!--        <%= header("<button type='button' class='btn btn-default fa fa-filter' data-toggle='collapse' data-target='#demo'></button> Privatpersonen <span class='badge'>" + @usanz.to_s + "</span>") %>-->
-<!--    <% else %>    -->
-<!--        <%= header((I18n.t :personen).downcase + " <span class='badge'>" + @usanz.to_s + "</span>") %>-->
-<!--    <% end %>    -->
-<!--    <div id="demo" class="collapse">-->
-<!--        <% if user_signed_in? %>-->
-<!--        	  <%= link_to new_search_path(:user_id => current_user.id, :search_domain => "personen", :controller_name => @controller_name) do %>-->
-<!--                  <i class="btn btn-primary fa fa-plus">Abfrage</i>-->
-<!--              <% end %>-->
-<!--              <% @searches = Search.where('search_domain=? and user_id=?', "personen", current_user.id) %>-->
-<!--              <%= build_medialistNew(@searches, "searches", nil, nil, nil) %>-->
-<!--        <% end %>-->
-<!--    </div>-->
-<!--</div>-->
+<%= indexheader4((I18n.t :personen), "personen", nil, @filter_id, @search, @mobject_id) %>
 
 <div class="digg_pagination">
     <%= will_paginate @users, :container => true, previous_label: "<", next_label: ">" %>
@@ -23,11 +7,11 @@
 
 <% case @mode %>
   <% when "deputy" %>
-    <%= build_medialistNew(User.all, "users", "deputy", @owner_id, @owner_type) %>
+    <%= build_medialistNew(@users, "users", "deputy", @owner_id, @owner_type) %>
   <% when "projekte" %>
-    <%= build_medialistNew(User.all, "users", "projekte", @mobject_id,nil) %>
+    <%= build_medialistNew(@users, "users", "projekte", @mobject_id,nil) %>
   <% when "gruppen" %>
-    <%= build_medialistNew(User.all, "users", "gruppen", @mobject_id,nil) %>
+    <%= build_medialistNew(@users, "users", "gruppen", @mobject_id,nil) %>
   <% else %>
     <%= build_medialistNew(@users, "users", nil, nil, nil) %>
 <% end %>

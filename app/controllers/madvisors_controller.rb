@@ -143,6 +143,10 @@ class MadvisorsController < ApplicationController
           @text = "Mitteilung! "
       end
       UserMailer.user_access_info(User.find(@madvisor.user_id), "myPROJECT Information", @text + @madvisor.grade, @madvisor.mobject).deliver_now
+      session[:mobject_id] = ""
+      session[:mode] = ""
+      session[:owner_id] = ""
+      session[:owner_type] = ""
       redirect_to mobject_path(:id => @madvisor.mobject_id, :topic => @topic), notice: (I18n.t :act_create)
     else
       render :new

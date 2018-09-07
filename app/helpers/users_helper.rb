@@ -1171,7 +1171,7 @@ def header3(objekt, item, topic, format)
   return html_string.html_safe
 end
 
-def indexheader4(text, objekttyp, mtype, filter_id, search)
+def indexheader4(text, objekttyp, mtype, filter_id, search, mobject)
   filter=""
   if filter_id
     filter = "("+Search.find(filter_id).name+")"
@@ -1188,7 +1188,7 @@ def indexheader4(text, objekttyp, mtype, filter_id, search)
         html_string = html_string + "<div class='col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12'>"
     			if $controller_list.include?(controller_name) and (action_name == "index")
     				@items = url_for(action: action_name, controller: controller_name)
-    				html_string = html_string + form_tag(@items, method: 'get', class: "form-inline pull-right") do
+    				html_string = html_string + form_tag(@items, method: 'get', :data => {:mode => mtype, :mobject_id => mobject}, class: "form-inline pull-right") do
               content_tag(:i, search_field_tag('search'), class: "fa fa-search")
     				end
     			end

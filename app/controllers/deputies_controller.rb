@@ -60,6 +60,10 @@ class DeputiesController < ApplicationController
     @deputy.owner_type = params[:owner_type]
     respond_to do |format|
       if @deputy.save
+        session[:mobject_id] = ""
+        session[:mode] = ""
+        session[:owner_id] = ""
+        session[:owner_type] = ""
         if @deputy.owner_type == "User"
           format.html { redirect_to user_path(:id => @deputy.owner_id, :topic => "personen_stellvertretungen"), notice: (I18n.t :act_create) }
         end
