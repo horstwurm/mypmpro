@@ -1157,3 +1157,15 @@ div.ex3 a {
  width: 100px;
  height: 100px
 }
+
+.color1 {
+  color: #BE9E21;
+}
+
+.projectbox {
+  background: white;
+  text-align: center;
+  padding:5px;
+  margin:2px;
+  width:20%;
+}
