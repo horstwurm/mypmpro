@@ -7,36 +7,38 @@
 
     <div class="container">
 
-      <br>
-      <div class="row">
-        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-12 projectbox">
-          <% @anz = @mobject.timetracks.select("user_id").distinct.count %>
-          <i class="fa fa-user fa-2x"></i>
-          <h2 class="timer count-title count-number color1" data-to="<%= @anz %>" data-speed="1500"></h2>
-          <p class="count-text ">Projektmitarbeiter</p>
+      <% if @mobject.mtype == "projekte" %>
+        <br>
+        <div class="row">
+          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-12 projectbox">
+            <% @anz = @mobject.timetracks.select("user_id").distinct.count %>
+            <i class="fa fa-user fa-2x"></i>
+            <h2 class="timer count-title count-number color1" data-to="<%= @anz %>" data-speed="1500"></h2>
+            <p class="count-text ">Projektmitarbeiter</p>
+          </div>
+  
+          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-12 projectbox">
+            <% @aufwand = @mobject.timetracks.where('costortime=?',"aufwand").sum(:amount) %>
+            <i class="fa fa-pencil fa-2x"></i>
+            <h2 class="timer count-title count-number color1" data-to="<%= @aufwand %>" data-speed="1500"></h2>
+            <p class="count-text ">Aufwand in h</p>
+          </div>
+  
+          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-12 projectbox">
+            <% @kosten = @mobject.timetracks.where('costortime=?',"kosten").sum(:amount) %>
+            <i class="fa fa-euro fa-2x"></i>
+            <h2 class="timer count-title count-number color1" data-to="<%= @kosten %>" data-speed="1500"></h2>
+            <p class="count-text ">Kosten in CHF</p>
+          </div>
+  
+          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-12 projectbox">
+            <% @tage = (Date.today - @mobject.date_from).to_i %>
+            <i class="fa fa-safari fa-2x"></i>
+            <h2 class="timer count-title count-number color1" data-to="<%= @tage %>" data-speed="1500"></h2>
+            <p class="count-text ">Projektlaufzeit in t</p>
+          </div>
         </div>
-
-        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-12 projectbox">
-          <% @aufwand = @mobject.timetracks.where('costortime=?',"aufwand").sum(:amount) %>
-          <i class="fa fa-pencil fa-2x"></i>
-          <h2 class="timer count-title count-number color1" data-to="<%= @aufwand %>" data-speed="1500"></h2>
-          <p class="count-text ">Aufwand in h</p>
-        </div>
-
-        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-12 projectbox">
-          <% @kosten = @mobject.timetracks.where('costortime=?',"kosten").sum(:amount) %>
-          <i class="fa fa-euro fa-2x"></i>
-          <h2 class="timer count-title count-number color1" data-to="<%= @kosten %>" data-speed="1500"></h2>
-          <p class="count-text ">Kosten in CHF</p>
-        </div>
-
-        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-12 projectbox">
-          <% @tage = (Date.today - @mobject.date_from).to_i %>
-          <i class="fa fa-safari fa-2x"></i>
-          <h2 class="timer count-title count-number color1" data-to="<%= @tage %>" data-speed="1500"></h2>
-          <p class="count-text ">Projektlaufzeit in t</p>
-        </div>
-      </div>
+      <% end %>
       
       <br>
       <%= carousel4(@mobject, :medium) %>
