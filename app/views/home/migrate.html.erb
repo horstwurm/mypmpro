@@ -146,8 +146,8 @@
             </td>
             <td>
                 <% if @mompex %>
-                    <%= @mompex.madvisors.where('role=?',"projekte").count %>
-                    <%= link_to home_migrate_path(:topic => "gruppen", :actioncode => "addmember", :group_name => p["name"]) do %>
+                    <%= @mompex.madvisors.where('role=?',"gruppen").count %>
+                    <%= link_to home_migrate_path(:topic => "gruppen", :actioncode => "addmember", :group_name => p["name"], :email => p["email"]) do %>
                       <i class="btn btn-primary fa fa-plus"></i>
                     <% end %>
                     <%= link_to home_migrate_path(:topic => "gruppen", :actioncode => "delmember", :group_name => p["name"]) do %>

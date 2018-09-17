@@ -469,7 +469,7 @@ def build_medialistNew(items, cname, par1, par2, par3)
                 else
                   html_string = html_string + '<i class="fa fa-lock"></i>'
                 end
-                html_string = html_string + " " + item.name
+                html_string = html_string + " " + item.name if item.name
               when "searches"
                 html_string = html_string + item.name
               when "madvisors"

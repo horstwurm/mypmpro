@@ -324,7 +324,6 @@ class MobjectsController < ApplicationController
     @ownerid = @mobject.owner_id
     @ownertype = @mobject.owner_type
     @mtype = @mobject.mtype
-    @msubtype = @mobject.msubtype
     @mobject.destroy
     if @ownertype == "User"
       redirect_to user_path(:id => @ownerid, :topic => "personen_"+@mtype), notice: (I18n.t :act_delete)

@@ -805,19 +805,16 @@ def migrate
 
   if params[:topic] == "gruppen"
     @gruppen = JSON.parse(open("https://mytgcloud.herokuapp.com/home/getUserGroups.json").read)
-    
     if params[:actioncode] == "addgroup"
-      @gruppen.each do |p|
         u = Mobject.new
-        u.owner_id = User.where('email=?',p["email"]).first.id
+        u.owner_id = User.where('email=?',params[:email]).first.id
         u.owner_type = "User"
         u.mtype="gruppen"
         u.mcategory_id = (Mcategory.where('name=?',"private").first).id
-        u.name = p["name"] 
+        u.name = params[:group_name] 
         u.status = "OK" 
         u.active = true
         u.save
-      end
     end
 
     if params[:actioncode] == "delgroup"
@@ -829,20 +826,23 @@ def migrate
 
     if params[:actioncode] == "addmember"
       @members = JSON.parse(open("https://mytgcloud.herokuapp.com/home/getGroupMembers.json?group_name="+params[:group_name]).read)
-      @members.each do |p|
-        u=Madvisor.new
-        u.mobject_id = Mobject.where('name=?',params[:group_name]).first.id
-        u.user_id = User.where('email=?',p["email"]).first.id
-        u.role="projekte"
-        u.grade = "Projektmitarbeiter" 
-        u.save
+      @mobject = Mobject.where('name=?',params[:group_name]).first
+      if @mobject
+        @members.each do |p|
+          u=Madvisor.new
+          u.mobject_id = @mobject.id
+          u.user_id = User.where('email=?',p["email"]).first.id
+          u.role="gruppen"
+          u.grade = "Gruppenmitglied" 
+          u.save
+        end
       end
     end
     
     if params[:actioncode] == "delmember"
       @mobject = Mobject.where('name=?',params[:group_name]).first
       if @mobject
-        @mobject.madvisors.where("role=?","projekte").destroy_all
+        @mobject.madvisors.where("role=?","gruppen").destroy_all
       end
     end
 
