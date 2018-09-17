@@ -991,5 +991,24 @@ def migrateDo
   end
 end
 
+def pmalexa
+  case params[:intent]
+    when "Projektinfo"
+      @p = Mobject.where('LOWER(name) LIKE ?',"%#{params[:slot].downcase}%").first
+      if @p
+        response = "Projekt gefunden"
+        response = {:slot => params[:slot], :projekt => "gefunden", :name => @p.name, :stunden => @p.timetracks.where('costortime=?',"aufwand").sum(:amount), :kosten => @p.timetracks.where('costortime=?',"kosten").sum(:amount)}
+      else
+        response = {:projekt => "Projekt nicht gefunden"}
+      end
+    else
+      response = {:message => "wrong intent"}
+  end
+  respond_to do |format|
+    format.json 
+      #msg = {:message => response}
+      render :json => response.to_json
+  end
+end
 
 end
