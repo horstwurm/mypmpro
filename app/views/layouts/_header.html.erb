@@ -15,12 +15,19 @@
                 <ul class="nav navbar-nav navbar-right">
 
                   <li class="active"><a href="../#main-header">Home</a></li>
-                  <li class=""><a href="../#myservices">Services</a></li>
+                  <li class=""><a href="../#myservices">Menü</a></li>
                   <li>
                   <% if user_signed_in? %>
-        					  <%= link_to(destroy_user_session_path, method: :delete) do %>
-        					    LOGOUT
-        					  <% end %>
+                    <li>
+            					<%= link_to user_path(:id => current_user.id) do %>
+            			      MYPROFILE
+            					<% end %> 
+          					</li>
+                    <li>
+          					  <%= link_to(destroy_user_session_path, method: :delete) do %>
+          					    LOGOUT
+          					  <% end %>
+          					</li>
         					<% else %>
           					<%= link_to new_user_session_path do %>
           			      LOGIN

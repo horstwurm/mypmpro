@@ -800,6 +800,52 @@ def migrate
         end
       end
     end
+
+  end
+
+  if params[:topic] == "gruppen"
+    @gruppen = JSON.parse(open("https://mytgcloud.herokuapp.com/home/getUserGroups.json").read)
+    
+    if params[:actioncode] == "addgroup"
+      @gruppen.each do |p|
+        u = Mobject.new
+        u.owner_id = User.where('email=?',p["email"]).first.id
+        u.owner_type = "User"
+        u.mtype="gruppen"
+        u.mcategory_id = (Mcategory.where('name=?',"private").first).id
+        u.name = p["name"] 
+        u.status = "OK" 
+        u.active = true
+        u.save
+      end
+    end
+
+    if params[:actioncode] == "delgroup"
+      @mobject = Mobject.where('name=?',params[:group_name]).first
+      if @mobject
+        @mobject.destroy
+      end
+    end
+
+    if params[:actioncode] == "addmember"
+      @members = JSON.parse(open("https://mytgcloud.herokuapp.com/home/getGroupMembers.json?group_name="+params[:group_name]).read)
+      @members.each do |p|
+        u=Madvisor.new
+        u.mobject_id = Mobject.where('name=?',params[:group_name]).first.id
+        u.user_id = User.where('email=?',p["email"]).first.id
+        u.role="projekte"
+        u.grade = "Projektmitarbeiter" 
+        u.save
+      end
+    end
+    
+    if params[:actioncode] == "delmember"
+      @mobject = Mobject.where('name=?',params[:group_name]).first
+      if @mobject
+        @mobject.madvisors.where("role=?","projekte").destroy_all
+      end
+    end
+
   end
 
   if params[:topic] == "projekte"
