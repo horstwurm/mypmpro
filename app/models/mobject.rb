@@ -7,6 +7,7 @@ has_many :mdetails, dependent: :destroy
 has_many :madvisors, dependent: :destroy
 has_many :timetracks, dependent: :destroy 
 has_many :plannings, dependent: :destroy 
+has_many :pplans, dependent: :destroy 
 
 #before_validation :update_geo_address
 #geocoded_by :geo_address

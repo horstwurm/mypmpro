@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :pplans
   resources :company_params
   resources :deputies
   

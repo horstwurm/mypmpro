@@ -355,6 +355,152 @@ html_string = html_string + '</div>'
 return html_string.html_safe
 end
 
+def build_projektTable(items, version)
+
+  html_string = ""
+  html_string = html_string + '<div class="scrollmenu">'
+    html_string = html_string + '<table class="table table-striped">'
+      html_string = html_string + '<thead>'
+        html_string = html_string + '<tr>'
+
+          html_string = html_string + '<th>Pos</th>'
+          html_string = html_string + '<th>Name</th>'
+          html_string = html_string + '<th>von</th>'
+          html_string = html_string + '<th>bis</th>'
+          html_string = html_string + '<th>ToC</th>'
+          html_string = html_string + '<th>PoC</th>'
+
+          mindat=Date.today
+          maxdat=Date.today
+          #items.where('version=?',version).each do |i|
+          items.each do |i|
+            if i.date_from < mindat
+              mindat = i.date_from
+            end
+            if i.date_to < maxdat
+              maxdat = i.date_to
+            end
+          end
+          
+          startyear = mindat.strftime("%Y").to_i
+          endyear = maxdat.strftime("%Y").to_i
+          startmon = mindat.strftime("%m").to_i
+          endmon = maxdat.strftime("%m").to_i
+
+          #html_string = html_string + startyear.to_s + startmon.to_s
+          #html_string = html_string + endyear.to_s + endmon.to_s
+
+          @header = []
+          @header = %w[Jan Feb Mar Apr May Jun Jul Aug Sep Okt Nov Dez]
+          @data = []
+          for i in startyear..endyear+1
+            for k in 1..12
+              html_string = html_string + '<th>' + @header[k-1] + '</th>'
+              is = i.to_s
+              ks = k.to_s
+              if is.length()==1
+                is = "0"+is
+              end
+              if ks.length()==1
+                ks = "0"+ks
+              end
+              @data << {:year => is, :month => ks}
+            end
+          end 
+
+        html_string = html_string + '</tr>'
+      html_string = html_string + '</thead>'
+      html_string = html_string + '<body>'
+    
+      items.order(:date_from).each do |item|
+
+          if !item.date_from
+            item.date_from = Date.today()-1
+          end
+          if !item.date_to
+            item.date_to = Date.today()
+          end
+    
+          html_string = html_string + '<tr>'
+    
+            html_string = html_string + '<td>'
+              html_string = html_string + link_to(edit_pplan_path(item)) do 
+                content_tag(:i, nil, class:"btn btn-primary btn-xs fa fa-wrench")
+              end
+              if false
+              html_string = html_string + link_to(mobject_path(:id => item.mobject_id, :topic => "objekte_projektplan", :action => "up")) do 
+                content_tag(:i, nil, class:"btn btn-default btn-xs fa fa-angle-down")
+              end
+              html_string = html_string + link_to(mobject_path(:id => item.mobject_id, :topic => "objekte_projektplan", :action => "down")) do 
+                content_tag(:i, nil, class:"btn btn-default btn-xs fa fa-angle-up")
+              end
+              end
+            html_string = html_string + '</td>'
+            html_string = html_string + "<td>" + item.task + "</td>"
+
+            html_string = html_string + '<td>' + item.date_from.strftime("%d.%m.%Y") + '</td>'
+            html_string = html_string + '<td>' + item.date_to.strftime("%d.%m.%Y") + '</td>'
+
+            soll = (item.date_to.to_date - item.date_from.to_date).to_i
+            ist = (DateTime.now.to_date - item.date_from.to_date).to_i
+            if soll > 0 and ist > 0
+              html_string = html_string + "<td>"
+                html_string = html_string + '<div class="progress">'
+                  html_string = html_string + '<div class="progress-bar progress-bar-warning" role="progressbar2" aria-valuenow="' + ist.to_s + '" aria-valuemin="0" aria-valuemax="' + soll.to_s + '" style="width:' + (ist*100/soll).to_s + '%">'
+                    html_string = html_string + '<span class="sr-only">40% Complete (success)</span>'
+                  html_string = html_string + '</div>'
+                html_string = html_string + '</div>'
+              html_string = html_string + "</td>"
+            else
+              html_string = html_string + "<td></td>"
+            end
+    
+            if item.poc > 0
+              html_string = html_string + "<td>"
+                html_string = html_string + '<div class="progress">'
+                  html_string = html_string + '<div class="progress-bar progress-bar-warning" role="progressbar2" aria-valuenow="' + ist.to_s + '" aria-valuemin="0" aria-valuemax="' + soll.to_s + '" style="width:' + (item.poc).to_s + '%">'
+                    html_string = html_string + '<span class="sr-only">40% Complete (success)</span>'
+                  html_string = html_string + '</div>'
+                html_string = html_string + '</div>'
+              html_string = html_string + "</td>"
+            else
+              html_string = html_string + "<td></td>"
+            end
+              
+            #html_string = html_string + @data.to_s
+            for i in 0..@data.length()-1
+              showme = false
+
+              if (item.date_from.year >= @data[i][:year].to_i and item.date_to.year <= @data[i][:year].to_i) and (item.date_from.month <= @data[i][:month].to_i and item.date_to.month >= @data[i][:month].to_i)
+                showme = true
+              end
+
+              compDate = (@data[i][:year] + "." + @data[i][:month] + ".01").to_date
+              if item.date_from <= compDate and item.date_to >= compDate
+                  showme = true
+              end
+
+              if showme
+                if item.tasktype == "Aktivität"
+                  html_string = html_string + "<td class='timeline'></td>"
+                end
+                if item.tasktype == "Meilenstein"
+                  html_string = html_string + "<td class='milestone'>"+content_tag(:i, nil, class:"fa fa-bandcamp")+"</td>"
+                end
+              else
+                html_string = html_string + "<td></td>"
+              end
+            end
+              
+          html_string = html_string + '</tr>'
+          
+      end # loop item
+      html_string = html_string + '</body>'
+    html_string = html_string + '</table>'
+  html_string = html_string + '</div>'
+return html_string.html_safe
+end
+
 def build_medialistNew(items, cname, par1, par2, par3)
 
   priceAnz = 0
@@ -1304,6 +1450,7 @@ def navigate3(object, item, topic, topictxt)
         # end
 
         html_string = html_string + build_nav3("objekte",item,"objekte_info",1)
+        html_string = html_string + build_nav3("objekte",item,"objekte_projektplan", item.pplans.count)
         html_string = html_string + build_nav3("objekte",item,"objekte_details",item.mdetails.where('mtype=?',"details").count)
         if item.mtype == "projekte"
           if user_signed_in?
@@ -1622,6 +1769,15 @@ def action_buttons4(object_type, item, topic)
                end
               end
 
+          when "objekte_projektplan"
+              if user_signed_in?
+                if isowner(item) or isdeputy(item.owner)
+                  html_string = html_string + link_to(new_pplan_path(:mobject_id => item.id)) do
+                    content_tag(:i, " " + (I18n.t :task), class:"btn btn-primary fa fa-plus  pull-right") 
+                  end
+               end
+              end
+
           when "objekte_substruktur"
              if user_signed_in?
                 if isowner(item) or isdeputy(item.owner)
@@ -1699,7 +1855,7 @@ def getinfo2(topic)
       info = "medium"
     when :stellvertretungen
       info = "share"
-    when :projekte
+    when :projekte, :projektplan
       info = "tasks"
     when :institutionen
       info = "industry"
@@ -2018,6 +2174,9 @@ def init_apps
 
     hash = Hash.new
     hash = {"domain" => "objekte", "right" => "info", "access" => true, "info" => "news"}
+    @array << hash
+    hash = Hash.new
+    hash = {"domain" => "objekte", "right" => "projektplan", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
     hash = {"domain" => "objekte", "right" => "details", "access" => true, "info" => "news"}

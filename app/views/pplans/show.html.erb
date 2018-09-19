@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Mobject:</strong>
+  <%= @pplan.mobject_id %>
+</p>
+
+<p>
+  <strong>Version:</strong>
+  <%= @pplan.version %>
+</p>
+
+<p>
+  <strong>Version name:</strong>
+  <%= @pplan.version_name %>
+</p>
+
+<p>
+  <strong>Date from:</strong>
+  <%= @pplan.date_from %>
+</p>
+
+<p>
+  <strong>Date to:</strong>
+  <%= @pplan.date_to %>
+</p>
+
+<p>
+  <strong>Tasktype:</strong>
+  <%= @pplan.tasktype %>
+</p>
+
+<p>
+  <strong>Position:</strong>
+  <%= @pplan.position %>
+</p>
+
+<p>
+  <strong>Poc:</strong>
+  <%= @pplan.poc %>
+</p>
+
+<%= link_to 'Edit', edit_pplan_path(@pplan) %> |
+<%= link_to 'Back', pplans_path %>

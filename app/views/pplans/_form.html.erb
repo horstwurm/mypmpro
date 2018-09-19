@@ -1,0 +1,96 @@
+<br>
+<div class="contact-form">
+<div class="container"
+    <div class="jumbotron">
+
+    <%= form_for @pplan do |f| %>
+
+        <% if @pplan.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(@pplan.errors.count, "error") + " " + (I18n.t :notsaved) %></h2>
+              <ul>
+                  <% @pplan.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+              </ul>
+            </div>
+        <% end %>
+
+        <%= header((I18n.t :task) + " " + @pplan.mobject.name) %>
+
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">'
+
+                    <div class="form-group">
+                      <%= f.label :tasklabel %><br>
+                      <%= f.text_field :task, autofocus: true, class:"form-control" %>
+                    </div>
+                    <div class="form-group">
+                      <%= f.radio_button :tasktype, 'Meilenstein'  %> 
+                      <%= label :tasktype, 'Meilenstein' %><br>
+                      <%= f.radio_button :tasktype, 'Aktivität'  %> 
+                      <%= label :tasktype, 'Aktivität' %><br>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                      <%= f.label "Datum von-bis:" %>
+                      <div class="input-group">
+                        <%= f.text_field :date_from, :value => (@pplan.date_from), :style => "text-align: Right", class:"form-control" %>
+                        <div class="input-group-addon"> Datum von</div>
+                      </div>
+                      <div class="input-group">
+                        <%= f.text_field :date_to, :value => (@pplan.date_to), :style => "text-align: Right", class:"form-control" %>
+                        <div class="input-group-addon"> Datum bis</div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <%= f.label "Erledigungsgrad in %" %><br>
+                      <div class="input-group"> 
+                        <%= f.number_field :poc, :value => @pplan.poc, :style => "text-align: Right", class:"form-control" %>
+                        <div class="input-group-addon"><%= (I18n.t :prozent) %></div>
+                      </div>
+                    </div>
+                    <div class="actions">
+                       <%= f.submit (I18n.t :speichern), class:"btn btn-primary btn-lg btn-download"%>
+                        <%= link_to mobject_path(:id => @pplan.mobject_id, :topic => "objekte_projektplan") do %>
+                          <i class="btn btn-primary btn-lg btn-download">Abbrechen</i>
+                        <% end %>
+                    </div>
+                    <%= f.hidden_field :mobject_id, class:"form-control"  %>
+                    <%= f.hidden_field :position, class:"form-control"  %>
+                    <%= f.hidden_field :version, class:"form-control"  %>
+                    <%= f.hidden_field :version_name, class:"form-control"  %>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">'
+              <%= image_tag("berechtigung.jpg", class: "img-responsive") %>
+          </div>
+        </div>
+    <% end %>
+  </div>
+</div>
+<br>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#pplan_date_from').datepicker({
+        format: "yyyy-mm-dd",
+        weekStart: 1,
+        language: "de",
+        daysOfWeekHighlighted: "0,6",
+        todayBtn: true,
+        todayHighlight: true,
+        firstDay: 1}
+    );
+    $('#pplan_date_to').datepicker({
+        format: "yyyy-mm-dd",
+        weekStart: 1,
+        language: "de",
+        daysOfWeekHighlighted: "0,6",
+        todayBtn: true,
+        todayHighlight: true,
+        firstDay: 1}
+    );
+  });
+</script>
+
+

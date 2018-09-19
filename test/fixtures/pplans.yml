@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  mobject_id: 1
+  version: 1
+  version_name: 
+  date_from: 2018-09-18
+  date_to: 2018-09-18
+  tasktype: MyString
+  position: 1
+  poc: 1
+
+two:
+  mobject_id: 1
+  version: 1
+  version_name: 
+  date_from: 2018-09-18
+  date_to: 2018-09-18
+  tasktype: MyString
+  position: 1
+  poc: 1

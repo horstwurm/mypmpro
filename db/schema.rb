@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180509150947) do
+ActiveRecord::Schema.define(version: 20180918111431) do
 
   create_table "appparams", force: :cascade do |t|
     t.string   "domain"
@@ -66,8 +66,8 @@ ActiveRecord::Schema.define(version: 20180509150947) do
     t.integer  "company_id"
     t.string   "key"
     t.string   "value"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "credentials", force: :cascade do |t|
@@ -177,8 +177,8 @@ ActiveRecord::Schema.define(version: 20180509150947) do
     t.float    "sum_pkosten_ist"
     t.float    "sum_paufwand_plan"
     t.float    "sum_pkosten_plan"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
     t.integer  "parent"
     t.boolean  "allow"
     t.integer  "allowdays"
@@ -219,6 +219,20 @@ ActiveRecord::Schema.define(version: 20180509150947) do
     t.index ["user_id"], name: "index_plannings_on_user_id"
   end
 
+  create_table "pplans", force: :cascade do |t|
+    t.integer  "mobject_id"
+    t.integer  "version"
+    t.string   "version_name"
+    t.string   "task"
+    t.date     "date_from"
+    t.date     "date_to"
+    t.string   "tasktype"
+    t.integer  "position"
+    t.integer  "poc"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
   create_table "searches", force: :cascade do |t|
     t.string   "search_domain"
     t.string   "controller"
@@ -239,8 +253,8 @@ ActiveRecord::Schema.define(version: 20180509150947) do
     t.datetime "date_created_at"
     t.string   "mtype"
     t.integer  "counter"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
     t.index ["user_id"], name: "index_searches_on_user_id"
   end
 

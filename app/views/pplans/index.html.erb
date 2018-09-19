@@ -1,0 +1,41 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Pplans</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Mobject</th>
+      <th>Version</th>
+      <th>Version name</th>
+      <th>Date from</th>
+      <th>Date to</th>
+      <th>Tasktype</th>
+      <th>Position</th>
+      <th>Poc</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @pplans.each do |pplan| %>
+      <tr>
+        <td><%= pplan.mobject_id %></td>
+        <td><%= pplan.version %></td>
+        <td><%= pplan.version_name %></td>
+        <td><%= pplan.date_from %></td>
+        <td><%= pplan.date_to %></td>
+        <td><%= pplan.tasktype %></td>
+        <td><%= pplan.position %></td>
+        <td><%= pplan.poc %></td>
+        <td><%= link_to 'Show', pplan %></td>
+        <td><%= link_to 'Edit', edit_pplan_path(pplan) %></td>
+        <td><%= link_to 'Destroy', pplan, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Pplan', new_pplan_path %>

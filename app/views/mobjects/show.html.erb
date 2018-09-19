@@ -197,6 +197,11 @@
       <%= build_medialistNew(@mobject.mdetails.order(:sequence), "mdetails", nil, nil, nil) %>
     </div>
 
+  <% when "objekte_projektplan" %>
+    <div class="panel-body">
+      <%= build_projektTable(@mobject.pplans, 1) %>
+    </div>
+
   <% when "objekte_projektberechtigungen" %>
     <div class="panel-body">
       <!--#groups = item.owner.mobjects.where('mtype=?',"gruppen")-->
