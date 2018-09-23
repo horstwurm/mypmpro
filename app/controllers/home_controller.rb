@@ -1015,12 +1015,12 @@ def getProjects
   @projects = Mobject.where('mtype=? and active=?',"projekte", true)
   plist = []
   @projects.each do |p|
-    plist << {"id" => p.id}
+    plist << p.id
   end
   if !plist
     response = {:message => "keine Projekte gefunden"}
   else
-    response = plist
+    response = {:ids => plist}
   end
   respond_to do |format|
     format.json 
