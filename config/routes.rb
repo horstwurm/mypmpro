@@ -69,6 +69,7 @@ Rails.application.routes.draw do
   get 'home/migrate'
   get 'home/migrateDo'
   get 'home/services'
+  get 'home/getProjects'
 
   resources :searches
   resources :partner_links

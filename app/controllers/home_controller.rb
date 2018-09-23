@@ -1011,4 +1011,22 @@ def pmalexa
   end
 end
 
+def getProjects
+  @projects = Mobject.where('mtype=? and active=?',"projekte", true)
+  plist = []
+  @projects.each do |p|
+    plist << {"id" => p.id}
+  end
+  if !plist
+    response = {:message => "keine Projekte gefunden"}
+  else
+    response = plist
+  end
+  respond_to do |format|
+    format.json 
+      #msg = {:message => response}
+      render :json => response.to_json
+  end
+end
+
 end
