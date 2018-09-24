@@ -1031,7 +1031,7 @@ end
 
 def getProject
   @project = Mobject.find(params[:mobject_id])
-  if !@projekt.gesamtstatus
+  if !@project.gesamtstatus
     @project.gesamtstatus = "OK"
     @project.save
   end
