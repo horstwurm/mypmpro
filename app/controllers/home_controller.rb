@@ -1029,4 +1029,18 @@ def getProjects
   end
 end
 
+def getProject
+  @project = Mobject.find(params[:mobject_id])
+  if @project
+    response = {:name => @project.name, :termin => @project.termin, :kosten => @project.kosten, :qualitaet => @project.qualitaet, :gesamtstatus => @project.gesamtstatus, :stunden_plan => @project.sum_paufwand_plan, :kosten_plan => @project.sum_pkosten_plan, :stunden_ist => @project.sum_paufwand_ist, :kosten_ist => @project.sum_pkosten_ist}
+  else
+    response = {:projekt => "Projekt nicht gefunden"}
+  end
+  respond_to do |format|
+    format.json 
+      #msg = {:message => response}
+      render :json => response.to_json
+  end
+end
+
 end
