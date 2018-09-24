@@ -1031,6 +1031,10 @@ end
 
 def getProject
   @project = Mobject.find(params[:mobject_id])
+  if !@projekt.gesamtstatus
+    @project.gesamtstatus = "OK"
+    @project.save
+  end
   if @project
     response = {:name => @project.name, :termin => @project.termin, :kosten => @project.kosten, :qualitaet => @project.qualitaet, :gesamtstatus => @project.gesamtstatus, :stunden_plan => @project.sum_paufwand_plan, :kosten_plan => @project.sum_pkosten_plan, :stunden_ist => @project.sum_paufwand_ist, :kosten_ist => @project.sum_pkosten_ist}
   else
