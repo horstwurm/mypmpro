@@ -76,6 +76,7 @@ end
 
 def carousel4(mobject, size)
 html = ""
+if mobject.mdetails.count>0
 html = html + '<div class="container">'
   html = html + "<div class='row'>"
     html = html + "<div class='col-md-8'>"
@@ -117,6 +118,7 @@ html = html + '<div class="container">'
     html = html + "</div>"
   html = html + "</div>"
 html = html + "</div>"
+end
 return html.html_safe
 end
 
@@ -512,7 +514,7 @@ def build_medialistNew(items, cname, par1, par2, par3)
       html_string = html_string + '<div class="col-md-12 text-center">'
         #html_string = html_string + '<h2 class="service-title pad-bt15">übersicht</h2>'
         #html_string = html_string + '<p class="sub-title pad-bt15">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod<br>tempor incididunt ut labore et dolore magna aliqua.</p>'
-        html_string = html_string + '<hr class="bottom-line">'
+        #html_string = html_string + '<hr class="bottom-line">'
       html_string = html_string + '</div>'
 
   items.each do |item|
@@ -1370,7 +1372,7 @@ def indexheader4(text, objekttyp, mtype, filter_id, search, mobject)
         #html_string = html_string + action_buttons4(object, item, topic)
 
       html_string = html_string + link_to(new_search_path(:user_id => current_user, :search_domain => objekttyp, :controller_name => controller_name, :mtype => mtype)) do
-         content_tag(:i, " "+(I18n.t :hinzufuegen), class: "btn btn-primary fa fa-plus pull-right")
+         content_tag(:i, " "+(I18n.t :abfrage), class: "btn btn-primary fa fa-plus pull-right")
       end
       if filter_id
         html_string = html_string + link_to(edit_search_path(:id => filter_id)) do
@@ -1756,7 +1758,7 @@ def action_buttons4(object_type, item, topic)
              end
              if item.parent and item.parent > 0 
                 html_string = html_string + link_to(mobject_path(:id => item.parent, :mtype => "projekte", :msubtype => nil, :topic => "objekte_info")) do
-                  content_tag(:i, " " + (I18n.t :edition), class:"btn btn-default fa fa-level-up  pull-right") 
+                  content_tag(:i, " " + (I18n.t :levelup), class:"btn btn-default fa fa-level-up  pull-right") 
                 end
              end 
 

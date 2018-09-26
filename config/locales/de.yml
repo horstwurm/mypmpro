@@ -20,6 +20,8 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 de:
+  levelup: "Hauptprojekt"
+  gesamtstatus: "Gesamtstatus"
   task: "Aktivität"
   projektplan: "Projektplanung"
   gesamtstatus: "Status"

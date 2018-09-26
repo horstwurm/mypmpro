@@ -24,8 +24,9 @@ class MadvisorsController < ApplicationController
         @madvisor.grade = "berechtigt"
       end
       @madvisor.save
-
-      UserMailer.user_access_info(User.find(@madvisor.user_id), "MYproject Information", "Berechtigung erteilt! - Standardberechtigung", @madvisor.mobject).deliver_now
+      if $usemailgun
+        UserMailer.user_access_info(User.find(@madvisor.user_id), "MYproject Information", "Berechtigung erteilt! - Standardberechtigung", @madvisor.mobject).deliver_now
+      end
 
     end
     if params[:madvisor_id]
@@ -50,8 +51,9 @@ class MadvisorsController < ApplicationController
         end
       end
       @madvisor.save
-      
-      UserMailer.user_access_info(User.find(@madvisor.user_id), "myProject Information", "Berechtigung erteilt! - " + @madvisor.grade, @madvisor.mobject).deliver_now
+      if $usemailgun
+        UserMailer.user_access_info(User.find(@madvisor.user_id), "myProject Information", "Berechtigung erteilt! - " + @madvisor.grade, @madvisor.mobject).deliver_now
+      end
 
     end
     if params[:senior_madvisor_id]
@@ -76,17 +78,18 @@ class MadvisorsController < ApplicationController
         end
       end
       @madvisor.save
-
-      UserMailer.user_access_info(User.find(@madvisor.user_id), "myProject Information", "Berechtigung erteilt! - " + @madvisor.grade, @madvisor.mobject).deliver_now
+      if $usemailgun
+        UserMailer.user_access_info(User.find(@madvisor.user_id), "myProject Information", "Berechtigung erteilt! - " + @madvisor.grade, @madvisor.mobject).deliver_now
+      end
 
     end
     if params[:delete_madvisor_id]
       @madvisor = Madvisor.where('mobject_id=? and user_id=?', session[:mobject_id], params[:delete_madvisor_id]).first
       if @madvisor
         @madvisor.destroy
-
-        UserMailer.user_access_info(User.find(@madvisor.user_id), "myProject Information", "Berechtigung gelöscht! - " + @madvisor.grade, @madvisor.mobject).deliver_now
-
+        if $usemailgun
+          UserMailer.user_access_info(User.find(@madvisor.user_id), "myProject Information", "Berechtigung gelöscht! - " + @madvisor.grade, @madvisor.mobject).deliver_now
+        end
       end
     end
 
@@ -142,7 +145,9 @@ class MadvisorsController < ApplicationController
           @topic = "objekte_gruppenmitglieder"
           @text = "Mitteilung! "
       end
-      UserMailer.user_access_info(User.find(@madvisor.user_id), "myPROJECT Information", @text + @madvisor.grade, @madvisor.mobject).deliver_now
+      if $usemailgun
+        UserMailer.user_access_info(User.find(@madvisor.user_id), "myPROJECT Information", @text + @madvisor.grade, @madvisor.mobject).deliver_now
+      end
       session[:mobject_id] = ""
       session[:mode] = ""
       session[:owner_id] = ""

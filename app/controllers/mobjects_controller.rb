@@ -296,6 +296,18 @@ class MobjectsController < ApplicationController
   def create
     @mobject = Mobject.new(mobject_params)
     if @mobject.save
+      #copy Berechtigungen
+      if @mobject.parent > 0
+        @parent = Mobject.find(@mobject.parent)
+        @parent.madvisors.where('role=?',"projekte").each do |pa|
+          @m = Madvisor.new
+          @m.mobject_id = @mobject.id
+          @m.user_id = pa.user_id
+          @m.role = "projekte"
+          @m.grade = pa.grade
+          @m.save
+        end
+      end
       if @mobject.owner_type == "User"
         redirect_to user_path(:id => @mobject.owner_id, :topic => "personen_"+@mobject.mtype), notice: (I18n.t :act_create)
       else

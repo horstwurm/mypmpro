@@ -76,12 +76,21 @@
             <%= f.text_field :freecat3, class:"form-control"%>
           </div>
           <div class="form-group">
-            <%= f.label I18n.t :risiko %>
+            <%= f.label I18n.t :gesamtstatus %>
             <%= f.select :gesamtstatus, options_for_select(["OK", "WARN", "NOK"], @mobject.gesamtstatus), {}, class:"form-control" %>
             <%= f.label I18n.t :risiken %>
-            <%= f.select :termin, options_for_select(["HIGH", "MID", "LOW"], @mobject.termin), {}, class:"form-control" %>
-            <%= f.select :kosten, options_for_select(["HIGH", "MID", "LOW"], @mobject.kosten), {}, class:"form-control" %>
-            <%= f.select :qualitaet, options_for_select(["HIGH", "MID", "LOW"], @mobject.qualitaet), {}, class:"form-control" %>
+            <div class="input-group">
+              <%= f.select :termin, options_for_select(["HIGH", "MID", "LOW"], @mobject.termin), {}, class:"form-control" %>
+              <div class="input-group-addon"> Terminrisiko</div>
+            </div>
+            <div class="input-group">
+              <%= f.select :kosten, options_for_select(["HIGH", "MID", "LOW"], @mobject.kosten), {}, class:"form-control" %>
+              <div class="input-group-addon"> Kostenrisiko</div>
+            </div>
+            <div class="input-group">
+              <%= f.select :qualitaet, options_for_select(["HIGH", "MID", "LOW"], @mobject.qualitaet), {}, class:"form-control" %>
+              <div class="input-group-addon"> Qualitätsrisiko</div>
+            </div>
           </div>
           <div class="form-group">
             <%= f.label "Datum von-bis:" %>
