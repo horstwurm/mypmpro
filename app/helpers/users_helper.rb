@@ -1280,7 +1280,7 @@ def header_cicd(header, company, mobject)
       end
     end
   end
-  if mobject and mobject.owner_type = "Company"
+  if mobject and mobject.owner_type == "Company"
     mobject.owner.company_params.each do |p|
       if p.key.downcase == "color1"
         color1 = p.value
