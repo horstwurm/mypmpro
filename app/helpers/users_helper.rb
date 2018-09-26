@@ -1454,7 +1454,7 @@ def navigate3(object, item, topic, topictxt)
         html_string = html_string + build_nav3("objekte",item,"objekte_details",item.mdetails.where('mtype=?',"details").count)
         if item.mtype == "projekte"
           if user_signed_in?
-            if isowner(item) or isdeputy(item.owner)
+            if isowner(item) or isdeputy(item.owner) or ispl(item)
               html_string = html_string + build_nav3("objekte",item,"objekte_substruktur", Mobject.where('parent=?',item.id).count)
             end
           end
@@ -1468,7 +1468,7 @@ def navigate3(object, item, topic, topictxt)
         end
 
         if user_signed_in?
-          if isowner(item) or isdeputy(item.owner)
+          if isowner(item) or isdeputy(item.owner) or ispl(item)
             html_string = html_string + build_nav3("objekte",item,"objekte_projektberechtigungen", item.madvisors.where('role=?',item.mtype).count)
           end
         end
@@ -1729,7 +1729,7 @@ def action_buttons4(object_type, item, topic)
        case topic
           when "objekte_info"
              if user_signed_in?
-               if isowner(item) or isdeputy(item.owner)
+               if isowner(item) or isdeputy(item.owner) or ispl(item)
          	        html_string = html_string + link_to(edit_mobject_path(item), title: (I18n.t :bearbeiten)) do
                      content_tag(:i, " "+(I18n.t :aendern), class: "btn btn-primary fa fa-wrench  pull-right")
                   end
@@ -1762,7 +1762,7 @@ def action_buttons4(object_type, item, topic)
 
           when "objekte_details"
               if user_signed_in?
-                if isowner(item) or isdeputy(item.owner)
+                if isowner(item) or isdeputy(item.owner) or ispl(item)
                   html_string = html_string + link_to(new_mdetail_path(:mobject_id => item.id, :mtype => "details")) do
                     content_tag(:i, " " + (I18n.t :details) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus  pull-right") 
                   end
@@ -1771,7 +1771,7 @@ def action_buttons4(object_type, item, topic)
 
           when "objekte_projektplan"
               if user_signed_in?
-                if isowner(item) or isdeputy(item.owner)
+                if isowner(item) or isdeputy(item.owner) or ispl(item)
                   html_string = html_string + link_to(new_pplan_path(:mobject_id => item.id)) do
                     content_tag(:i, " " + (I18n.t :task), class:"btn btn-primary fa fa-plus  pull-right") 
                   end
@@ -1780,7 +1780,7 @@ def action_buttons4(object_type, item, topic)
 
           when "objekte_substruktur"
              if user_signed_in?
-                if isowner(item) or isdeputy(item.owner)
+                if isowner(item) or isdeputy(item.owner) or ispl(item)
                   if item.owner_type == "User"
                     html_string = html_string + link_to(new_mobject_path :user_id => item.owner_id, :mtype => "projekte", :msubtype => nil, :parent => item.id) do
                       content_tag(:i, " " + (I18n.t :substruktur)+ " " + (I18n.t :hinzufuegen), class:"btn btn-default fa fa-plus orange  pull-right") 
@@ -1796,7 +1796,7 @@ def action_buttons4(object_type, item, topic)
 
           when "objekte_projektberechtigungen"
              if user_signed_in?
-                if isowner(item) or isdeputy(item.owner)
+                if isowner(item) or isdeputy(item.owner) or ispl(item)
                   html_string = html_string + link_to(users_path :mobject_id => item.id, :mode => item.mtype) do
                       content_tag(:i,  (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange  pull-right") 
                   end
@@ -2662,6 +2662,16 @@ def isowner(mobject)
   zugriff = false
   if (mobject.owner_type == "User" and mobject.owner_id == current_user.id) or (mobject.owner_type == "Company" and mobject.owner.user_id == current_user.id)
     zugriff = true
+  end
+  return zugriff
+end
+
+def ispl(mobject)
+  zugriff = false
+  if mobject.mtype == "projekte"
+    if mobject.madvisors.where('role=? and grade=? and user_id=?', "projekte", "Projektleiter", current_user.id).count > 0
+      zugriff = true
+    end
   end
   return zugriff
 end
