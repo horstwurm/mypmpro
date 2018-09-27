@@ -1,3 +1,6 @@
+<% if @status %>
+  <% @planning.status = @status %>
+<% end %>
 <br>
 <div class="contact-form">
 <div class="container"
@@ -45,8 +48,14 @@
         <% end %>
         <div class="actions">
            <%= f.submit (I18n.t :speichern), class:"btn btn-primary btn-lg btn-download"%>
-            <%= link_to user_path(:id => @planning.user_id, :topic => "personen_ressourcenplanung", :year => @planning.jahr, :mode => "Jahr") do %>
-              <i class="btn btn-primary btn-lg btn-download">Abbrechen</i>
+            <% if @planning.status == "PL" %>
+              <%= link_to mobject_path(:id => @planning.mobject_id, :topic => "objekte_ressourcenplanung") do %>
+                <i class="btn btn-primary btn-lg btn-download">Abbrechen</i>
+              <% end %>
+            <% else %>
+              <%= link_to user_path(:id => @planning.user_id, :topic => "personen_ressourcenplanung", :year => @planning.jahr, :mode => "Jahr") do %>
+                <i class="btn btn-primary btn-lg btn-download">Abbrechen</i>
+              <% end %>
             <% end %>
         </div>
           </div>
@@ -55,6 +64,7 @@
 
           </div>
         </div>
+        <%= f.hidden_field :status, class:"form-control"  %>
         <%= f.hidden_field :user_id, class:"form-control"  %>
         <%= f.hidden_field :mobject_id, class:"form-control"  %>
         <%= f.hidden_field :jahr, class:"form-control"  %>

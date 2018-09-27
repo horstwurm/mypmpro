@@ -909,6 +909,7 @@ def migrate
         m.jahrmonat = s["jahrmonat"]
         m.jahr = m.jahrmonat[0,4]
         m.monat = m.jahrmonat[5,7]
+        m.status="OK"
         m.save
         
         user_id = (User.where('email=?',s["user_id"]).first).id

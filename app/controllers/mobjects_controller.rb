@@ -308,10 +308,14 @@ class MobjectsController < ApplicationController
           @m.save
         end
       end
-      if @mobject.owner_type == "User"
-        redirect_to user_path(:id => @mobject.owner_id, :topic => "personen_"+@mobject.mtype), notice: (I18n.t :act_create)
+      if @mobject.parent > 0
+          redirect_to mobject_path(:id => @mobject.parent, :topic => "objekte_info"), notice: (I18n.t :act_create)
       else
-        redirect_to company_path(:id => @mobject.owner_id, :topic => "institutionen_"+@mobject.mtype), notice: (I18n.t :act_create)
+        if @mobject.owner_type == "User"
+          redirect_to user_path(:id => @mobject.owner_id, :topic => "personen_"+@mobject.mtype), notice: (I18n.t :act_create)
+        else
+          redirect_to company_path(:id => @mobject.owner_id, :topic => "institutionen_"+@mobject.mtype), notice: (I18n.t :act_create)
+        end
       end
     else
       render :new
@@ -321,10 +325,14 @@ class MobjectsController < ApplicationController
   # PUT /mobjects/1
   def update
     if @mobject.update(mobject_params)
-      if @mobject.owner_type == "User"
-        redirect_to user_path(:id => @mobject.owner_id, :topic => "personen_"+@mobject.mtype), notice: (I18n.t :act_update)
+      if @mobject.parent > 0
+          redirect_to mobject_path(:id => @mobject.parent, :topic => "objekte_info"), notice: (I18n.t :act_create)
       else
-        redirect_to company_path(:id => @mobject.owner_id, :topic => "institutionen_"+@mobject.mtype), notice: (I18n.t :act_update)
+        if @mobject.owner_type == "User"
+          redirect_to user_path(:id => @mobject.owner_id, :topic => "personen_"+@mobject.mtype), notice: (I18n.t :act_update)
+        else
+          redirect_to company_path(:id => @mobject.owner_id, :topic => "institutionen_"+@mobject.mtype), notice: (I18n.t :act_update)
+        end
       end
     else
       render :edit
@@ -336,11 +344,16 @@ class MobjectsController < ApplicationController
     @ownerid = @mobject.owner_id
     @ownertype = @mobject.owner_type
     @mtype = @mobject.mtype
+    @parent = @mobject.parent
     @mobject.destroy
-    if @ownertype == "User"
-      redirect_to user_path(:id => @ownerid, :topic => "personen_"+@mtype), notice: (I18n.t :act_delete)
+    if @parent > 0
+        redirect_to mobject_path(:id => @parent, :topic => "objekte_info"), notice: (I18n.t :act_create)
     else
-      redirect_to company_path(:id => @ownerid, :topic => "institutionen_"+@mtype), notice: (I18n.t :act_delete)
+      if @ownertype == "User"
+        redirect_to user_path(:id => @ownerid, :topic => "personen_"+@mtype), notice: (I18n.t :act_delete)
+      else
+        redirect_to company_path(:id => @ownerid, :topic => "institutionen_"+@mtype), notice: (I18n.t :act_delete)
+      end
     end
   end
 

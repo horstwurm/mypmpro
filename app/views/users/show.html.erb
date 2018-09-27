@@ -515,7 +515,7 @@
                           <% @plannings = Planning.where('mobject_id=? and user_id=? and costortime=? and jahr=?', w.id, @user.id, @c_scope, @c_year.to_s) %>
                           <% @plannings.each do |p| %>
                             <% h = Hash.new %>
-                            <% h = {:id => p.id, :monat => p.monat.to_i, :kapa => p.amount} %>
+                            <% h = {:id => p.id, :monat => p.monat.to_i, :kapa => p.amount, :status => p.status} %>
                             <% plans << h %>
                           <% end %>
     
@@ -561,7 +561,11 @@
                               <% for k in 0..plans.length-1 do %>
                                 <% if plans[k][:monat].to_i == @data[i].to_i %>
                                   <td class="color_kapa_booked">
-                                  <%= plans[k][:kapa].to_s+" %" %><br>
+                                  <%= plans[k][:kapa].to_s+" %" %>
+                                  <% if plans[k][:status] == "PL" %>
+                                    <i class="fa fa-info", style='color:red'"></i>
+                                  <% end %>
+                                  <br>
                                   <% if user_signed_in? and current_user == @user %>
                     				        <%= link_to edit_planning_path(:id => plans[k][:id]) do %>
                                       <i class="btn btn-primary btn-xs fa fa-pencil"></i>

@@ -1772,7 +1772,7 @@ def action_buttons4(object_type, item, topic)
               if user_signed_in?
                 if isowner(item) or isdeputy(item.owner) or ispl(item)
                   html_string = html_string + link_to(new_mdetail_path(:mobject_id => item.id, :mtype => "details")) do
-                    content_tag(:i, " " + (I18n.t :details) + " " + (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus  pull-right") 
+                    content_tag(:i, " " + (I18n.t :details), class:"btn btn-primary fa fa-plus  pull-right") 
                   end
                end
               end
@@ -1791,12 +1791,12 @@ def action_buttons4(object_type, item, topic)
                 if isowner(item) or isdeputy(item.owner) or ispl(item)
                   if item.owner_type == "User"
                     html_string = html_string + link_to(new_mobject_path :user_id => item.owner_id, :mtype => "projekte", :msubtype => nil, :parent => item.id) do
-                      content_tag(:i, " " + (I18n.t :substruktur)+ " " + (I18n.t :hinzufuegen), class:"btn btn-default fa fa-plus orange  pull-right") 
+                      content_tag(:i, " " + (I18n.t :substruktur), class:"btn btn-primary fa fa-plus pull-right") 
                     end
                   end
                   if item.owner_type == "Company"
                     html_string = html_string + link_to(new_mobject_path :company_id => item.owner_id, :mtype => "projekte", :msubtype => nil, :parent => item.id) do
-                      content_tag(:i, " " + (I18n.t :substruktur) + " " + (I18n.t :hinzufuegen), class:"btn btn-default fa fa-plus orange  pull-right") 
+                      content_tag(:i, " " + (I18n.t :substruktur), class:"btn btn-primary fa fa-plus pull-right") 
                     end
                   end
                end
@@ -1806,7 +1806,7 @@ def action_buttons4(object_type, item, topic)
              if user_signed_in?
                 if isowner(item) or isdeputy(item.owner) or ispl(item)
                   html_string = html_string + link_to(users_path :mobject_id => item.id, :mode => item.mtype) do
-                      content_tag(:i,  (I18n.t :hinzufuegen), class:"btn btn-primary fa fa-plus orange  pull-right") 
+                      content_tag(:i, " " + (I18n.t :Berechtigungen), class:"btn btn-primary fa fa-plus orange  pull-right") 
                   end
                   # #groups = item.owner.mobjects.where('mtype=?',"gruppen")
                   # groups = current_user.mobjects.where('mtype=?',"gruppen")

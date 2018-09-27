@@ -283,7 +283,8 @@
                   </th>
                 <% end %>
               </tr>
-              <% @mobuser = @mobject.plannings.select("user_id").distinct %>
+              <!--<% @mobuser = @mobject.plannings.select("user_id").distinct %>-->
+              <% @mobuser = @mobject.madvisors.select("user_id").distinct %>
               <% if @mobuser %>
                 <% @mobuser.each do |u| %>
 
@@ -294,7 +295,7 @@
                     <% @plannings = @mobject.plannings.where('user_id=? and costortime=? and jahr=?', @u.id, @c_scope, @c_year.to_s) %>
                     <% @plannings.each do |p| %>
                       <% h = Hash.new %>
-                      <% h = {:id => p.id, :monat => p.monat.to_i, :kapa => p.amount} %>
+                      <% h = {:id => p.id, :monat => p.monat.to_i, :kapa => p.amount, :status => p.status} %>
                       <% plans << h %>
                     <% end %>
 
@@ -340,15 +341,31 @@
                         <% for k in 0..plans.length-1 do %>
                           <% if plans[k][:monat].to_i == @data[i].to_i %>
                             <td class="color_kapa_booked">
-                            <%= plans[k][:kapa].to_s+" %" %><br>
-                            <% if user_signed_in? and current_user == @u %>
-              				        <%= link_to edit_planning_path(:id => plans[k][:id]) do %>
-                                <i class="btn btn-primary btn-xs fa fa-pencil"></i>
-                              <% end %>
+                            <%= plans[k][:kapa].to_s + " %" %>
+                            <% if plans[k][:status] == "PL" %>
+                              <i class="fa fa-info", style='color:red'"></i>
                             <% end %>
-                            <% if user_signed_in? and current_user == @u %>
-              				        <%= link_to Planning.find(plans[k][:id]), method: :delete, data: { confirm: (I18n.t :sindsiesicher) } do %>
-                                <i class="btn btn-danger btn-xs fa fa-trash"></i>
+                            <br>
+                            <% if user_signed_in? %>
+                                <% if current_user == @u %>
+                  				        <%= link_to edit_planning_path(:id => plans[k][:id]) do %>
+                                    <i class="btn btn-primary btn-xs fa fa-pencil"></i>
+                                  <% end %>
+                                <% else %>
+                  				        <%= link_to edit_planning_path(:id => plans[k][:id], :plaction => "PL") do %>
+                                    <i class="btn btn-default btn-xs fa fa-pencil"></i>
+                                  <% end %>
+                                <% end %>
+                            <% end %>
+                            <% if user_signed_in? %>
+                              <% if current_user == @u %>
+                				        <%= link_to Planning.find(plans[k][:id]), method: :delete, data: { confirm: (I18n.t :sindsiesicher) } do %>
+                                  <i class="btn btn-danger btn-xs fa fa-trash"></i>
+                                <% end %>
+                              <% else %>
+                				        <!--<%= link_to Planning.find(plans[k][:id]), method: :delete, data: { confirm: (I18n.t :sindsiesicher) } do %>-->
+                            <!--      <i class="btn btn-default btn-xs fa fa-trash"></i>-->
+                            <!--    <% end %>-->
                               <% end %>
                             <% end %>
                             <% @total[i] = @total[i] + plans[k][:kapa] %>
@@ -357,9 +374,15 @@
                         <% end  %>
                         <% if !kapa %>
                             <td>
-                            <% if user_signed_in? and current_user == @u %>
-              				        <%= link_to new_planning_path(:mobject_id => @mobject.id, :user_id => @u.id, :month => @data[i], :year => @c_year, :scope => @c_scope) do %>
-                                <i class="btn btn-primary btn-xs fa fa-plus"></i>
+                            <% if user_signed_in? %>
+                              <% if current_user == @u %>
+                				        <%= link_to new_planning_path(:mobject_id => @mobject.id, :user_id => @u.id, :month => @data[i], :year => @c_year, :scope => @c_scope) do %>
+                                  <i class="btn btn-primary btn-xs fa fa-plus"></i>
+                                <% end %>
+                              <% else %>
+                				        <%= link_to new_planning_path(:mobject_id => @mobject.id, :user_id => @u.id, :month => @data[i], :year => @c_year, :scope => @c_scope, :plaction => "PL") do %>
+                                  <i class="btn btn-default btn-xs fa fa-plus"></i>
+                                <% end %>
                               <% end %>
                             <% end %>
                         <% end %>

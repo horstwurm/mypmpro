@@ -26,10 +26,20 @@ class PlanningsController < ApplicationController
     else
       @planning.costortime = "aufwand"
     end
+    if params[:plaction]
+      @planning.status = "PL"
+    else
+      @planning.status = "OK"
+    end
   end
 
   # GET /plannings/1/edit
   def edit
+    if params[:plaction]
+      @status = "PL"
+    else
+      @status = "OK"
+    end
   end
 
   # POST /plannings
@@ -39,7 +49,11 @@ class PlanningsController < ApplicationController
 
     respond_to do |format|
       if @planning.save
-        format.html { redirect_to user_path(:id => @planning.user_id, :topic => "personen_ressourcenplanung", :scope => @planning.costortime, :year => @planning.jahr, :month => @planning.monat), notice: (I18n.t :act_create)}
+        if @planning.status == "PL"
+          format.html { redirect_to mobject_path(:id => @planning.mobject_id, :topic => "objekte_ressourcenplanung"), notice: (I18n.t :act_create)}
+        else
+          format.html { redirect_to user_path(:id => @planning.user_id, :topic => "personen_ressourcenplanung", :scope => @planning.costortime, :year => @planning.jahr, :month => @planning.monat), notice: (I18n.t :act_create)}
+        end
         format.json { render :show, status: :created, location: @planning }
       else
         format.html { render :new }
@@ -53,7 +67,11 @@ class PlanningsController < ApplicationController
   def update
     respond_to do |format|
       if @planning.update(planning_params)
-        format.html { redirect_to user_path(:id => @planning.user_id, :topic => "personen_ressourcenplanung", :scope => @planning.costortime, :year => @planning.jahr, :month => @planning.monat), notice: (I18n.t :act_update) }
+        if @planning.status == "PL"
+          format.html { redirect_to mobject_path(:id => @planning.mobject_id, :topic => "objekte_ressourcenplanung"), notice: (I18n.t :act_update)}
+        else
+          format.html { redirect_to user_path(:id => @planning.user_id, :topic => "personen_ressourcenplanung", :scope => @planning.costortime, :year => @planning.jahr, :month => @planning.monat), notice: (I18n.t :act_update) }
+        end
         format.json { render :show, status: :ok, location: @planning }
       else
         format.html { render :edit }
@@ -82,6 +100,6 @@ class PlanningsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def planning_params
-      params.require(:planning).permit(:user_id, :costortime, :mobject_id, :jahr, :monat, :amount, :description)
+      params.require(:planning).permit(:status, :user_id, :costortime, :mobject_id, :jahr, :monat, :amount, :description)
     end
 end
