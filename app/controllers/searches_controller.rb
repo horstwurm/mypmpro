@@ -79,14 +79,15 @@ class SearchesController < ApplicationController
 
   # DELETE /searches/1
   def destroy
+    @search_controller = @search.controller
     @search.destroy
-    case @search.controller
+    case @search_controller
         when "companies"
           redirect_to companies_path(:filter_id => nil), notice: (I18n.t :act_delete)
         when "users"
           redirect_to users_path(:filter_id => nil), notice: (I18n.t :act_delete)
         when "mobjects"
-          redirect_to users_path(:filter_id => nil), notice: (I18n.t :act_delete)
+          redirect_to mobjects_path(:filter_id => nil), notice: (I18n.t :act_delete)
       end
     #redirect_to searches_path(:user_id => current_user.id, :search_domain => @save_search_domain, :controller_name => @save_search_controller, :mtype => @save_search_mtype), notice: (I18n.t :act_delete)
   end

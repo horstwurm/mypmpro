@@ -939,13 +939,13 @@ def build_medialistNew(items, cname, par1, par2, par3)
                 end
                 if par1 == "projekte"
     	            html_string = html_string + link_to(new_madvisor_path(:user_id => item.id, :mobject_id => par2)) do 
-                    content_tag(:i, nil, class:"btn btn-primary btn-lg fa fa-check mediabutton")
+                    content_tag(:i, nil, class:"btn btn-primary btn-lg fa fa-plus mediabutton")
                   end
                   access=false
                 end
                 if par1 == "gruppen"
     	            html_string = html_string + link_to(new_madvisor_path(:user_id => item.id, :mobject_id => par2)) do 
-                    content_tag(:i, nil, class:"btn btn-primary btn-lg fa fa-check mediabutton")
+                    content_tag(:i, nil, class:"btn btn-primary btn-lg fa fa-plus mediabutton")
                   end
                   access=false
                 end
@@ -1251,7 +1251,7 @@ def header4_cicd(text, user, company, mobject, obj, item, topic)
 
   html_string = ""
   html_string = html_string + '<div class="panel-body" style="background-color:' + color1 + '; color:' + color2 + '">'
-      html_string = html_string + "<h3>"+text+" "+txt+"</h3>"
+      html_string = html_string + "<h3>" + text.upcase + "</h3>"
       html_string = html_string + navigate3(obj, item, topic, txt)
   html_string = html_string + "</div>"
   return html_string.html_safe
@@ -1320,18 +1320,20 @@ def header3(objekt, item, topic, format)
 end
 
 def indexheader4(text, objekttyp, mtype, filter_id, search, mobject)
+  html_string = ""
   filter=""
   if filter_id
     filter = "("+Search.find(filter_id).name+")"
   end
-  @s = Search.where('user_id=? and search_domain=?', current_user, objekttyp)
+  if user_signed_in?
+    @s = Search.where('user_id=? and search_domain=?', current_user, objekttyp)
+  end
   color1 = $graph_color2
   color2 = $grey
-  html_string = ""
   html_string = html_string + '<div class="panel-body" style="background-color:' + color1 + '; color:' + color2 + '">'
       html_string = html_string + "<div class='row'>"
         html_string = html_string + "<div class='col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12'>"
-          html_string = html_string + "<h3>" + text + " " + filter + "</h3>"
+          html_string = html_string + "<h3>" + text.upcase + " " + filter + "</h3>"
         html_string = html_string + "</div>"
         html_string = html_string + "<div class='col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12'>"
     			if $controller_list.include?(controller_name) and (action_name == "index")
@@ -1342,6 +1344,7 @@ def indexheader4(text, objekttyp, mtype, filter_id, search, mobject)
     			end
         html_string = html_string + "</div>"
       html_string = html_string + "</div>"
+      if @s
       html_string = html_string + "<div class='dropdown'>"
         html_string = html_string + "<button class='btn btn-default dropdown-toggle' type='button' id='menu1' data-toggle='dropdown'>"+" Abfragen " + @s.count.to_s
         html_string = html_string + "<span class='caret'></span></button>"
@@ -1371,8 +1374,10 @@ def indexheader4(text, objekttyp, mtype, filter_id, search, mobject)
 
         #html_string = html_string + action_buttons4(object, item, topic)
 
-      html_string = html_string + link_to(new_search_path(:user_id => current_user, :search_domain => objekttyp, :controller_name => controller_name, :mtype => mtype)) do
-         content_tag(:i, " "+(I18n.t :abfrage), class: "btn btn-primary fa fa-plus pull-right")
+      if user_signed_in?
+        html_string = html_string + link_to(new_search_path(:user_id => current_user, :search_domain => objekttyp, :controller_name => controller_name, :mtype => mtype)) do
+           content_tag(:i, " "+(I18n.t :abfrage), class: "btn btn-primary fa fa-plus pull-right")
+        end
       end
       if filter_id
         html_string = html_string + link_to(edit_search_path(:id => filter_id)) do
@@ -1383,6 +1388,7 @@ def indexheader4(text, objekttyp, mtype, filter_id, search, mobject)
         end
       end
       html_string = html_string + '</div>'
+      end
       
       #html_string = html_string + navigate3(obj, item, topic, txt)
   html_string = html_string + "</div>"
@@ -1409,7 +1415,7 @@ def navigate3(object, item, topic, topictxt)
           #html_string = html_string + "<ul class='dropdown-menu'>"
 
   html_string = html_string + "<div class='dropdown'>"
-    html_string = html_string + "<button class='btn btn-default dropdown-toggle' type='button' id='menu1' data-toggle='dropdown'>"+topictxt
+    html_string = html_string + "<button class='btn btn-default dropdown-toggle' type='button' id='menu1' data-toggle='dropdown'>"+topictxt 
     html_string = html_string + "<span class='caret'></span></button>"
     html_string = html_string + "<ul class='dropdown-menu' role='menu' aria-labelledby='menu1'>"
 
@@ -2002,9 +2008,9 @@ def simple_menue (domain, path)
   html_string = html_string + '<div class="col-md-4 col-sm-6 col-xs-12">'
     html_string = html_string + '<div class="service-item">'
       html_string = html_string + link_to(path) do
-        content_tag(:i, nil, class:"fa fa-" + getinfo2(domain.to_sym)["info"], style:"font-size:2em") 
+        content_tag(:i, nil, class:"fa fa-" + getinfo2(domain.to_sym)["info"], style:"font-size:3em") + " " + content_tag(:i, domain.upcase, style:"font-size:1em; color:black") 
       end
-      html_string = html_string + " " + domain.upcase
+      #html_string = html_string + " " + domain.upcase
       #html_string = html_string + '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>'
     html_string = html_string + '</div>'
   html_string = html_string + '</div>'
