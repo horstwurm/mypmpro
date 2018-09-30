@@ -1037,7 +1037,21 @@ def getProject
     @project.save
   end
   if @project
-    response = {:name => @project.name, :laufzeit => (Date.today - @project.date_from).to_i, :termin => @project.termin, :kosten => @project.kosten, :qualitaet => @project.qualitaet, :gesamtstatus => @project.gesamtstatus, :stunden_plan => @project.sum_paufwand_plan.to_i, :kosten_plan => @project.sum_pkosten_plan.to_i, :stunden_ist => @project.sum_paufwand_ist.to_i, :kosten_ist => @project.sum_pkosten_ist.to_i}
+    timeproz=0
+    if @project.date_from and @project.date_to
+      alldays = @project.date_to - @project.date_from
+      spentdays = Date.today - @project.date_from
+      timeproz = ((spentdays/alldays)*100).to_i
+    end
+    costproz=0
+    if @project.sum_pkosten_plan and @project.sum_pkosten_ist
+      costproz = ((sum_pkosten_ist/sum_pkosten_plan)*100).to_i
+    end
+    aufwproz=0
+    if @project.sum_paufwand_plan and @project.sum_paufwand_ist
+      aufwproz = ((sum_paufwand_ist/sum_paufwand_plan)*100).to_i
+    end
+    response = {:name => @project.name, :laufzeit => (Date.today - @project.date_from).to_i, :tproz => timeproz, :termin => @project.termin, :kosten => @project.kosten, :qualitaet => @project.qualitaet, :gesamtstatus => @project.gesamtstatus, :stunden_plan => @project.sum_paufwand_plan.to_i, :kosten_plan => @project.sum_pkosten_plan.to_i, :aproz => aufwproz, :kproz => costproz, :stunden_ist => @project.sum_paufwand_ist.to_i, :kosten_ist => @project.sum_pkosten_ist.to_i}
   else
     response = {:projekt => "Projekt nicht gefunden"}
   end
