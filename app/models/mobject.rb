@@ -79,7 +79,7 @@ def self.search(user, cw, year, filter, mtype, msubtype, search, parent)
 end
 
 def self.mobshow(mtype,moblist)
-    where('mtype=? and (online_pub=? or id IN (?))', mtype, true, moblist)
+    where('parent=? and mtype=? and (online_pub=? or id IN (?))', 0,mtype, true, moblist)
 end
 
 def self.mobshow2(mtype, moblist, year)
