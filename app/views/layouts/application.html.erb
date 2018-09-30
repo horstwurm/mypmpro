@@ -45,10 +45,6 @@
     
     <%= render 'layouts/yield' %>
 
-    <%= render 'layouts/partner' %>
-
-    <%= render 'layouts/dashboard' %>
-
     <% if user_signed_in? and (current_user.superuser or current_user.webmaster) %>
       <%= render 'layouts/superuser' %>
     <% end %>
@@ -56,6 +52,8 @@
 
     <% if false %>
 
+      <%= render 'layouts/partner' %>
+      <%= render 'layouts/dashboard' %>
       <%= render 'layouts/news' %>
       <%= render 'layouts/subscription' %>
 

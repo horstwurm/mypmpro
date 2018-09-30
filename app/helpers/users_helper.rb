@@ -1433,7 +1433,7 @@ def navigate3(object, item, topic, topictxt)
       html_string = html_string + build_nav3("personen",item,"personen_zugriffsberechtigungen", item.credentials.count)
       html_string = html_string + build_nav3("personen",item,"personen_stellvertretungen", item.deputies.count)
       if user_signed_in?
-        html_string = html_string + build_nav3("personen",item,"personen_charges", item.charges.count)
+        #html_string = html_string + build_nav3("personen",item,"personen_charges", item.charges.count)
       end
 
     when "institutionen"
@@ -1443,7 +1443,7 @@ def navigate3(object, item, topic, topictxt)
           html_string = html_string + build_nav3("institutionen",item,"institutionen_partnerlinks", item.partner_links.count)
         end
         if user_signed_in?
-          html_string = html_string + build_nav3("institutionen",item,"institutionen_charges", item.charges.count)
+          #html_string = html_string + build_nav3("institutionen",item,"institutionen_charges", item.charges.count)
           if current_user.id == item.user_id or isdeputy(item.user)
             html_string = html_string + build_nav3("institutionen",item,"institutionen_params", item.company_params.count)
           end
