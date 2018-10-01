@@ -1048,7 +1048,7 @@ def getProject
       costproz = ((sum_pkosten_ist/sum_pkosten_plan)*100).to_i
     end
     aufwproz=0
-    if @project.sum_paufwand_plan and @project.sum_paufwand_ist
+    if @project.sum_paufwand_plan and @project.sum_paufwand_ist and sum_paufwand_plan > 0
       aufwproz = ((sum_paufwand_ist/sum_paufwand_plan)*100).to_i
     end
     response = {:name => @project.name, :laufzeit => (Date.today - @project.date_from).to_i, :tproz => timeproz, :termin => @project.termin, :kosten => @project.kosten, :qualitaet => @project.qualitaet, :gesamtstatus => @project.gesamtstatus, :stunden_plan => @project.sum_paufwand_plan.to_i, :kosten_plan => @project.sum_pkosten_plan.to_i, :aproz => aufwproz, :kproz => costproz, :stunden_ist => @project.sum_paufwand_ist.to_i, :kosten_ist => @project.sum_pkosten_ist.to_i}
