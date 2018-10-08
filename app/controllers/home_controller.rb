@@ -718,6 +718,90 @@ def writeimage
 end
 
 def temptest
+
+  if params[:mode]
+    @c_mode = params[:mode]
+  else
+    @c_mode = "Jahr"
+  end
+
+  if params[:year]
+    @c_year = params[:year]
+  else
+    @c_year = Date.today.year
+  end
+
+  if params[:month]
+    @c_month = params[:month]
+  else
+    @c_month = Date.today.month
+  end
+
+  if params[:scope]
+    @c_scope = params[:scope]
+  else
+    @c_scope = "aufwand"
+  end
+  case @c_scope
+    when "aufwand"
+      @btn_sa = "active"
+      @btn_sc = "inactive"
+    when "kosten"
+      @btn_sa = "inactive"
+      @btn_sc = "active"
+  end
+
+  if params[:dir] == ">"
+    if @c_mode == "Monat"
+      if @c_month.to_i == 12
+        @c_month =  1
+        @c_year = @c_year.to_i + 1
+      else
+        @c_month = @c_month.to_i + 1
+      end
+    end
+    if @c_mode == "Jahr"
+      @c_year = @c_year.to_i + 1
+    end
+  end
+  if params[:dir] == "<"
+    if @c_mode == "Monat"
+      if @c_month.to_i == 1
+        @c_month =  12
+        @c_year = @c_year.to_i - 1
+      else
+        @c_month = @c_month.to_i - 1
+      end
+    end
+    if @c_mode == "Jahr"
+      @c_year = @c_year.to_i - 1
+    end
+  end
+
+  case @c_mode
+    when "Monat"
+      @date_start = Date.new(@c_year.to_i,@c_month.to_i,1)
+      @date_end = @date_start.end_of_month
+    when "Jahr"
+      @date_start = Date.new(@c_year.to_i,1,1)
+      @date_end = Date.new(@c_year.to_i,12,31)
+    when "alles"
+  end
+  case @c_mode
+    when "Monat"
+      @btn_m = "active"
+      @btn_y = "inactive"
+      @btn_a = "inactive"
+    when "Jahr"
+      @btn_y = "active"
+      @btn_m = "inactive"
+      @btn_a = "inactive"
+    when "alles"
+      @btn_y = "inactive"
+      @btn_m = "inactive"
+      @btn_a = "active"
+  end
+  
 end
 
 def switch

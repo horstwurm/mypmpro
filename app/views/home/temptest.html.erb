@@ -1,163 +1,200 @@
-<% if false %>
-<style>
-  .col_half { width: 49%; }
-.col_third { width: 32%; }
-.col_fourth { width: 23.5%; }
-.col_fifth { width: 18.4%; }
-.col_sixth { width: 15%; }
-.col_three_fourth { width: 74.5%;}
-.col_twothird{ width: 66%;}
-.col_half,
-.col_third,
-.col_twothird,
-.col_fourth,
-.col_three_fourth,
-.col_fifth{
-	position: relative;
-	display:inline;
-	display: inline-block;
-	float: left;
-	margin-right: 2%;
-	margin-bottom: 20px;
-}
-.end { margin-right: 0 !important; }
-/* Column Grids End */
-
-.wrapper { width: 980px; margin: 30px auto; position: relative;}
-.counter { background-color: #ffffff; padding: 20px 0; border-radius: 5px;}
-.count-title { font-size: 40px; font-weight: normal;  margin-top: 10px; margin-bottom: 0; text-align: center; }
-.count-text { font-size: 13px; font-weight: normal;  margin-top: 10px; margin-bottom: 0; text-align: center; }
-.fa-2x { margin: 0 auto; float: none; display: table; color: $colorgold; }
-
-</style>
+<%= link_to home_temptest_path(:topic => "institutionen_ressourcen", :year => @c_year, :month => @c_month, :mode => "alles", :scope => @c_scope)  do %>
+  <span><i class="btn btn-<%= @btn_a %> fa fa-fullscreen"> alles</i></span>
+<% end %>
+<%= link_to home_temptest_path(:topic => "institutionen_ressourcen", :year => @c_year, :month => @c_month, :mode => "Jahr", :scope => @c_scope)  do %>
+  <span><i class="btn btn-<%= @btn_y %> fa fa-calendar"> <%= @c_year %></i></span>
 <% end %>
 
-<h1>JQUERY NUMBER ANIMATION</h1>
-<h3>jQuery counter to count up to a target number</h3>
+<% if @c_mode != "alles" %>
+  <%= link_to home_temptest_path(:topic => "institutionen_ressourcen", :dir => "<", :year => @c_year, :month => @c_month, :mode => @c_mode, :scope => @c_scope) do %>
+    <i class="btn btn btn-primary fa fa-chevron-left"></i>
+  <% end %>
+  <%= link_to home_temptest_path(:topic => "institutionen_ressourcen", :dir => ">", :year => @c_year, :month => @c_month, :mode => @c_mode, :scope => @c_scope) do %>
+    <i class="btn btn-primary fa fa-chevron-right"></i>
+  <% end %>
+<% end %>
 
-<div class="wrapper">
-    <div class="counter col_fourth">
-      <i class="fa fa-wrench fa-2x"></i>
-      <h2 class="timer count-title count-number" data-to="<%= Mobject.where('mtype=?',"projekte").count %>" data-speed="1500"></h2>
-       <p class="count-text ">Projekte</p>
-    </div>
+<%= link_to home_temptest_path(:topic => "institutionen_ressourcen", :year => @c_year, :month => @c_month, :mode => @c_mode, :scope => "kosten") do %>
+  <span><i class="btn btn-<%= @btn_sc %> fa fa-euro"></i></span>
+<% end %>
+<%= link_to home_temptest_path(:topic => "institutionen_ressourcen",  :year => @c_year, :month => @c_month, :mode => @c_mode, :scope => "aufwand") do %>
+  <span><i class="btn btn-<%= @btn_sa %> fa fa-safari"></i></span>
+<% end %>
 
-    <div class="counter col_fourth">
-      <i class="fa fa-safari fa-2x"></i>
-      <h2 class="timer count-title count-number" data-to="<%= Planning.count %>" data-speed="1500"></h2>
-      <p class="count-text ">Ressourcenplanung</p>
-    </div>
+<%= link_to home_temptest_path(:topic => "institutionen_ressourcen",  :year => @c_year, :month => @c_month, :mode => @c_mode, :scope => @c_scope, :export => true) do %>
+  <span><i class="btn btn-inactive fa fa-book"></i></span>
+<% end %>
+        
+<!--<br><br>-->
+<!--PARAMS are...<br>-->
+<!--Scope <%= @c_scope %><br>-->
+<!--Mode  <%= @c_mode %><br>-->
+<!--start <%= @date_start %><br>-->
+<!--end   <%= @date_end %><br>-->
+<!--year  <%= @c_year %><br>-->
+<!--month <%= @c_month %><br>-->
+<!--<br><br>-->
 
-    <div class="counter col_fourth">
-      <i class="fa fa-pencil fa-2x"></i>
-      <h2 class="timer count-title count-number" data-to="<%= Timetrack.count %>" data-speed="1500"></h2>
-      <p class="count-text ">Zeiterfassungen</p>
-    </div>
+<!--<% Mobject.where('mtype=?',"projekte").each do |p| %>-->
+<!--    <%= dat = controlRes(p, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %><br>-->
+<!--<% end %>-->
 
-    <div class="counter col_fourth end">
-      <i class="fa fa-user fa-2x"></i>
-      <h2 class="timer count-title count-number" data-to="<%= User.count %>" data-speed="1500"></h2>
-      <p class="count-text ">Registrierte User</p>
+<div class="container">
+    <div class="col-md-12">
+        <div class="chart-container">
+            <canvas id="myChart0"></canvas>
+        </div>
     </div>
+    
+    <div class="col-md-12">
+        <div class="chart-container">
+            <canvas id="myChart0P"></canvas>
+        </div>
+    </div>
+    
+    <% Mobject.where('mtype=?',"projekte").each do |m| %>
+        <!--<%= m.name + " " + m.id.to_s %>-->
+        <!--<%= controlRes(m, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) if false %>-->
+        <!--<br><br>-->
+        <div class="col-md-4">
+            <div class="chart-container">
+                <canvas id="myChart<%= m.id %>"></canvas>
+            </div>
+        </div>
+    <% end %>
 </div>
 
 <script>
-  (function ($) {
-	$.fn.countTo = function (options) {
-		options = options || {};
-		
-		return $(this).each(function () {
-			// set options for current element
-			var settings = $.extend({}, $.fn.countTo.defaults, {
-				from:            $(this).data('from'),
-				to:              $(this).data('to'),
-				speed:           $(this).data('speed'),
-				refreshInterval: $(this).data('refresh-interval'),
-				decimals:        $(this).data('decimals')
-			}, options);
-			
-			// how many times to update the value, and how much to increment the value on each update
-			var loops = Math.ceil(settings.speed / settings.refreshInterval),
-				increment = (settings.to - settings.from) / loops;
-			
-			// references & variables that will change with each update
-			var self = this,
-				$self = $(this),
-				loopCount = 0,
-				value = settings.from,
-				data = $self.data('countTo') || {};
-			
-			$self.data('countTo', data);
-			
-			// if an existing interval can be found, clear it first
-			if (data.interval) {
-				clearInterval(data.interval);
-			}
-			data.interval = setInterval(updateTimer, settings.refreshInterval);
-			
-			// initialize the element with the starting value
-			render(value);
-			
-			function updateTimer() {
-				value += increment;
-				loopCount++;
-				
-				render(value);
-				
-				if (typeof(settings.onUpdate) == 'function') {
-					settings.onUpdate.call(self, value);
-				}
-				
-				if (loopCount >= loops) {
-					// remove the interval
-					$self.removeData('countTo');
-					clearInterval(data.interval);
-					value = settings.to;
-					
-					if (typeof(settings.onComplete) == 'function') {
-						settings.onComplete.call(self, value);
-					}
-				}
-			}
-			
-			function render(value) {
-				var formattedValue = settings.formatter.call(self, value, settings);
-				$self.html(formattedValue);
-			}
-		});
-	};
-	
-	$.fn.countTo.defaults = {
-		from: 0,               // the number the element should start at
-		to: 0,                 // the number the element should end at
-		speed: 1000,           // how long it should take to count between the target numbers
-		refreshInterval: 100,  // how often the element should be updated
-		decimals: 0,           // the number of decimal places to show
-		formatter: formatter,  // handler for formatting the value before rendering
-		onUpdate: null,        // callback method for every time the element is updated
-		onComplete: null       // callback method for when the element finishes updating
-	};
-	
-	function formatter(value, settings) {
-		return value.toFixed(settings.decimals);
-	}
-}(jQuery));
+$(document).ready(function(){
+    <% Mobject.where('mtype=?',"projekte").each do |p| %>
+        <% dat = controlRes(p, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>
+        var ctx<%= p.id %> = document.getElementById("myChart<%= p.id %>");
+        var myChart<%= p.id %> = new Chart(ctx<%= p.id %>, {
+          type: 'line',
+            data: {
+                labels: <%= raw ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"] %>,
+                    datasets: [{
+                        label: 'IST Aufwand in h',
+                        data: <%= raw dat[:dataTT] %>,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                        ],
+                        borderColor: [
+                            'rgba(54, 162, 235, 1)',
+                        ],
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'PLAN Aufwand in h',
+                        data: <%= raw dat[:dataPT] %>,
+                        backgroundColor: [
+                            'rgba(25, 99, 255, 0.2)',
+                        ],
+                        borderColor: [
+                            'rgba(54, 162, 235, 1)',
+                        ],
+                        borderWidth: 1
+                    }                    
+                    ]
+                },
+            options: {
+                title: {
+                    display: true,
+                    text: '<%= p.name %>'
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                }
+            }
+        })
+    <% end %>
 
-jQuery(function ($) {
-  // custom formatting example
-  $('.count-number').data('countToOptions', {
-	formatter: function (value, options) {
-	  return value.toFixed(options.decimals).replace(/\B(?=(?:\d{3})+(?!\d))/g, ',');
-	}
-  });
-  
-  // start all the timers
-  $('.timer').each(count);  
-  
-  function count(options) {
-	var $this = $(this);
-	options = $.extend({}, options || {}, $this.data('countToOptions') || {});
-	$this.countTo(options);
-  }
 });
 </script>
+
+<script>
+$(document).ready(function(){
+    var ctx0 = document.getElementById("myChart0");
+    var myChart0 = new Chart(ctx0, {
+      type: 'line',
+        data: {
+                labels: <%= raw ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"] %>,
+                datasets: [
+                    <% Mobject.where('mtype=?',"projekte").each do |p| %>
+                    <% dat = controlRes(p, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>
+                    {
+                    label: '<%= p.name %>',
+                    data: <%= raw dat[:dataTT] %>,
+                    backgroundColor: [
+                        'rgba(<%= rand(255) %>, <%= rand(255) %>, <%= rand(255) %>, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                    ],
+                    borderWidth: 1
+                    },
+                    <% end %>
+                ]
+            },
+        options: {
+            title: {
+                display: true,
+                text: 'Aufwand IST'
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    })
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    var ctx0P = document.getElementById("myChart0P");
+    var myChart0P = new Chart(ctx0P, {
+      type: 'line',
+        data: {
+                labels: <%= raw ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"] %>,
+                datasets: [
+                    <% Mobject.where('mtype=?',"projekte").each do |p| %>
+                    <% dat = controlRes(p, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>
+                    {
+                    label: '<%= p.name %>',
+                    data: <%= raw dat[:dataPT] %>,
+                    backgroundColor: [
+                        'rgba(<%= rand(255) %>, <%= rand(255) %>, <%= rand(255) %>, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                    ],
+                    borderWidth: 1
+                    },
+                    <% end %>
+                ]
+            },
+        options: {
+            title: {
+                display: true,
+                text: 'Aufwand PLAN'
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    })
+});
+</script>
+

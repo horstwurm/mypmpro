@@ -18,6 +18,7 @@
 //= require popper
 //= require bootstrap.min
 //= require bootstrap-sprockets
+//= require Chart.min
 
 //= require bootstrap-datepicker
 //= require bootstrap-switch

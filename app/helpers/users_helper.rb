@@ -2883,4 +2883,65 @@ def modalUserForm(user, mode, modalNo)
   return html.html_safe
 end
 
+def controlRes(mobject, scope, mode, von, bis, jahr, monat)
+  @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('mobject_id=? and costortime=? and datum>=? and datum<=?', mobject.id, scope, von, bis).group("jahrmonat").order(:jahrmonat)
+  @pts = Planning.select("jahrmonat, sum(amount) as summe").where('mobject_id=? and costortime=? and jahr=?',mobject.id, scope, jahr.to_s).group("jahrmonat").order(:jahrmonat)
+
+  @dataTT = []
+  @labelTT = []
+  @dataPT = []
+  @labelPT = []
+  @dataTTad = []
+  @dataPTad = []
+  @tts.each do |t|
+    @dataTT << t.summe
+    @labelTT << t.jahrmonat
+  end
+  for monat in 1..12
+    monats = monat.to_s
+    if monats.length == 1
+      monats = "0"+monats
+    end
+    c_jahrmonat = jahr.to_s + "-" + monats
+    found=false
+    for i in 0..@dataTT.length()-1
+      if c_jahrmonat == @labelTT[i]
+        found=true
+        datval = @dataTT[i]
+      end
+    end
+    if found
+      @dataTTad << datval
+    else
+      @dataTTad << 0
+    end
+  end
+  
+  @pts.each do |t|
+    @dataPT << ((t.summe * 170) / 100)
+    @labelPT << t.jahrmonat
+  end
+  for monat in 1..12
+    monats = monat.to_s
+    if monats.length == 1
+      monats = "0"+monats
+    end
+    c_jahrmonat = jahr.to_s + "-" + monats
+    found=false
+    for i in 0..@dataPT.length()-1
+      if c_jahrmonat == @labelPT[i]
+        found=true
+        datval = @dataPT[i]
+      end
+    end
+    if found
+      @dataPTad << datval
+    else
+      @dataPTad << 0
+    end
+  end
+
+  return {:dataTT => @dataTTad, :dataPT => @dataPTad}
+end
+
 end    
