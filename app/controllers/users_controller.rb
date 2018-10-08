@@ -90,6 +90,32 @@ class UsersController < ApplicationController
           @stats << [@text, @anz]
         end
         
+        @pieData = []
+        @pieLabel = []
+
+        @pieLabel << "Institutionen"
+        @pieData << @user.companies.count
+        
+        @pieLabel << "Zeiterfassungen"
+        @pieData << @user.timetracks.count
+
+        @pieLabel << "Ressourcenplanungen"
+        @pieData << @user.plannings.count
+
+        #@pieLabel << "myPROJECT Zahlungen"
+        #@pieData << @user.charges.count
+        #@pieLabel << "Messages"
+        #@pieData << Email.where('m_to=? or m_from=?', @user.id, @user.id).count
+        #@pieLabel << "Abfragen"
+        #@pieData << @user.searches.count
+
+        @mtypes.each do |t|
+          #if @user.mobjects.where('mtype=?',t.mtype).count > 0
+            @pieLabel << t.mtype
+            @pieData << @user.mobjects.where('mtype=?',t.mtype).count
+          #end
+        end
+
       when "personen_ressourcenplanung", "personen_zeiterfassung", "personen_export"
         if params[:writeexcel]
           @filename = "public/projectreport_user"+@user.id.to_s+".xls"

@@ -58,9 +58,12 @@
                 
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
               <% if $activeapps.include?("personen_aktivitaeten") or (user_signed_in? and current_user.superuser) %>
-                <div class="panel-body">
-                  <div id="piechart"></div>
-                </div>
+                <!--<div class="panel-body">-->
+                <!--  <div id="piechart"></div>-->
+                <!--</div>-->
+        <div class="chart-container">
+            <canvas id="myPieChart"></canvas>
+        </div>
               <% end %>
             </div>
           </div>
@@ -882,3 +885,43 @@ $(document).ready(function(){
     })
 });
 </script>
+
+<script>
+$(document).ready(function(){
+  var ctpie = document.getElementById("myPieChart");
+  var myPieChart = new Chart(ctpie, {
+    type: 'doughnut',
+      data: {
+          labels: <%= raw @pieLabel %>,
+              datasets: [{
+                  label: 'Aktivitäten',
+                  data: <%= raw @pieData %>,
+                  backgroundColor: [
+                      <% l = @pieData.length()-1 %>
+                      <% for i in 0..l %>
+                      'rgba(<%= rand(255) %>, <%= rand(255) %>, <%= rand(255) %>, 0.2)',
+                      <% end %>
+                  ],
+                  borderColor: [
+                      'rgba(54, 162, 235, 1)',
+                  ],
+                  borderWidth: 1
+              }]
+          },
+      options: {
+          title: {
+              display: true,
+              text: 'Aktivitäten'
+          },
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero:true
+                  }
+              }]
+          }
+      }
+  })
+});
+</script>
+
