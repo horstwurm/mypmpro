@@ -36,7 +36,7 @@
 <!--<br><br>-->
 
 <!--<% Mobject.where('mtype=?',"projekte").each do |p| %>-->
-<!--    <%= dat = controlRes(p, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %><br>-->
+<!--    <%= dat = controlRes(nil, p, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %><br>-->
 <!--<% end %>-->
 
 <div class="container">
@@ -67,7 +67,7 @@
 <script>
 $(document).ready(function(){
     <% Mobject.where('mtype=?',"projekte").each do |p| %>
-        <% dat = controlRes(p, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>
+        <% dat = controlRes(nil, p, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>
         var ctx<%= p.id %> = document.getElementById("myChart<%= p.id %>");
         var myChart<%= p.id %> = new Chart(ctx<%= p.id %>, {
           type: 'line',
@@ -125,7 +125,7 @@ $(document).ready(function(){
                 labels: <%= raw ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"] %>,
                 datasets: [
                     <% Mobject.where('mtype=?',"projekte").each do |p| %>
-                    <% dat = controlRes(p, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>
+                    <% dat = controlRes(nil, p, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>
                     {
                     label: '<%= p.name %>',
                     data: <%= raw dat[:dataTT] %>,
@@ -166,7 +166,7 @@ $(document).ready(function(){
                 labels: <%= raw ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"] %>,
                 datasets: [
                     <% Mobject.where('mtype=?',"projekte").each do |p| %>
-                    <% dat = controlRes(p, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>
+                    <% dat = controlRes(nil, p, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>
                     {
                     label: '<%= p.name %>',
                     data: <%= raw dat[:dataPT] %>,

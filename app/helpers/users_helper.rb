@@ -2883,9 +2883,14 @@ def modalUserForm(user, mode, modalNo)
   return html.html_safe
 end
 
-def controlRes(mobject, scope, mode, von, bis, jahr, monat)
-  @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('mobject_id=? and costortime=? and datum>=? and datum<=?', mobject.id, scope, von, bis).group("jahrmonat").order(:jahrmonat)
-  @pts = Planning.select("jahrmonat, sum(amount) as summe").where('mobject_id=? and costortime=? and jahr=?',mobject.id, scope, jahr.to_s).group("jahrmonat").order(:jahrmonat)
+def controlRes(user_id, mobject_id, scope, mode, von, bis, jahr, monat)
+  if user_id
+    @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('user_id=? and mobject_id=? and costortime=? and datum>=? and datum<=?', user_id, mobject_id, scope, von, bis).group("jahrmonat").order(:jahrmonat)
+    @pts = Planning.select("jahrmonat, sum(amount) as summe").where('user_id=? and mobject_id=? and costortime=? and jahr=?', user_id, mobject_id, scope, jahr.to_s).group("jahrmonat").order(:jahrmonat)
+  else
+    @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('mobject_id=? and costortime=? and datum>=? and datum<=?', mobject_id, scope, von, bis).group("jahrmonat").order(:jahrmonat)
+    @pts = Planning.select("jahrmonat, sum(amount) as summe").where('mobject_id=? and costortime=? and jahr=?',mobject_id, scope, jahr.to_s).group("jahrmonat").order(:jahrmonat)
+  end
 
   @dataTT = []
   @labelTT = []

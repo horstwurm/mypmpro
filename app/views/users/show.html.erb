@@ -483,6 +483,12 @@
                     <i class="btn btn-primary fa fa-chevron-right"></i>
                   <% end %>
                  <br><br>
+
+                  <div class="col-md-12">
+                      <div class="chart-container">
+                          <canvas id="myChart0P"></canvas>
+                      </div>
+                  </div>
   
                   <table class="table">
                     <tr>
@@ -833,3 +839,46 @@
 </script>
 
 <script>$('.dropdown-toggle').dropdown()</script>
+
+<script>
+$(document).ready(function(){
+    var ctx0P = document.getElementById("myChart0P");
+    var myChart0P = new Chart(ctx0P, {
+      type: 'line',
+        data: {
+                labels: <%= raw ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"] %>,
+                datasets: [
+                    <% @mobs = @user.madvisors.select("mobject_id").distinct %>
+                    <% @mobs.each do |m| %>
+                    <% @mobject = Mobject.find(m.mobject_id) %>
+                    <% dat = controlRes(@user.id, @mobject.id, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>
+                    {
+                    label: '<%= @mobject.name %>',
+                    data: <%= raw dat[:dataPT] %>,
+                    backgroundColor: [
+                        'rgba(<%= rand(255) %>, <%= rand(255) %>, <%= rand(255) %>, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                    ],
+                    borderWidth: 1
+                    },
+                    <% end %>
+                ]
+            },
+        options: {
+            title: {
+                display: true,
+                text: 'Aufwand PLAN'
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    })
+});
+</script>
