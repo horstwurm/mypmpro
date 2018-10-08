@@ -40,6 +40,22 @@ class CompaniesController < ApplicationController
         @stats << [@text, @anz]
       end
     end
+    
+    @pieData = []
+    @pieLabel = []
+
+    @pieLabel << "Werbelinks"
+    @pieData << @company.partner_links.count
+    
+    #@pieLabel << "myPROJECT Zahlungen"
+    #@pieData << @company.charges.count
+
+    @mtypes.each do |t|
+      #if @company.mobjects.where('mtype=?',t.mtype).count > 0
+        @pieLabel << t.mtype
+        @pieData << @company.mobjects.where('mtype=?',t.mtype).count
+      #end
+    end
 
     if @topic ==   "institutionen_projekte"
         if params[:show]
