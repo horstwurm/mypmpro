@@ -897,8 +897,7 @@ $(document).ready(function(){
                   label: 'Aktivitäten',
                   data: <%= raw @pieData %>,
                   backgroundColor: [
-                      <% l = @pieData.length()-1 %>
-                      <% for i in 0..l %>
+                      <% for i in 0..10 %>
                       'rgba(<%= rand(255) %>, <%= rand(255) %>, <%= rand(255) %>, 0.2)',
                       <% end %>
                   ],
