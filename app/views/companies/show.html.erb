@@ -316,6 +316,7 @@
 
 <script>$('.dropdown-toggle').dropdown()</script>
 
+<% if @topic == "institutionen_info" %>
 <script>
 $(document).ready(function(){
   var ctpie = document.getElementById("myPieChart");
@@ -353,4 +354,4 @@ $(document).ready(function(){
   })
 });
 </script>
-
+<% end %>

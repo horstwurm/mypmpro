@@ -843,6 +843,7 @@
 
 <script>$('.dropdown-toggle').dropdown()</script>
 
+<% if @topic == "personen_ressourcenplanung" %>
 <script>
 $(document).ready(function(){
     var ctx0P = document.getElementById("myChart0P");
@@ -885,7 +886,9 @@ $(document).ready(function(){
     })
 });
 </script>
+<% end %>
 
+<% if @topic == "personen_info" %>
 <script>
 $(document).ready(function(){
   var ctpie = document.getElementById("myPieChart");
@@ -923,4 +926,4 @@ $(document).ready(function(){
   })
 });
 </script>
-
+<% end %>

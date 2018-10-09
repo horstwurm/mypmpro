@@ -2946,7 +2946,16 @@ def controlRes(user_id, mobject_id, scope, mode, von, bis, jahr, monat)
     end
   end
 
-  return {:dataTT => @dataTTad, :dataPT => @dataPTad}
+  @dataTTkum = []  
+  @dataPTkum = []
+  @dataTTkum << @dataTTad[0]
+  @dataPTkum << @dataPTad[0]
+  for i in 1..@dataTTad.length-1
+    @dataTTkum << @dataTTad[i] + @dataTTkum[i-1]
+    @dataPTkum << @dataPTad[i] + @dataPTkum[i-1]
+  end
+
+  return {:dataTT => @dataTTad, :dataPT => @dataPTad, :dataTTkum => @dataTTkum, :dataPTkum => @dataPTkum}
 end
 
 end    
