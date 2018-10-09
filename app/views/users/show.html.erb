@@ -293,14 +293,6 @@
                   <% @date_start %>
                   <% @date_end %>
 
-                  <% if user_signed_in? %> 
-                    <% if @user.id == current_user.id or isdeputy(@user) %>
-                      <%= link_to new_timetrack_path(:user_id => @user.id, :scope => @c_scope, :datum => @c_datum) do %>
-                        <span><i class="btn btn-primary %> fa fa-plus"></i></span>
-                      <% end %>
-                    <% end %>
-                  <% end %>
-
                   <%= link_to user_path(:id => @user.id, :topic => "personen_zeiterfassung", :year => @c_year, :month => @c_month, :mode => "Datum", :scope => @c_scope, :tdatum => @c_datum) do %>
                     <span><i class="btn btn-<%= btn_d %> fa fa-calendar"> <%= @c_datum.strftime("%d.%m.%Y") %></i></span>
                   <% end %>
@@ -310,9 +302,9 @@
                   <%= link_to user_path(:id => @user.id, :topic => "personen_zeiterfassung",  :year => @c_year, :month => @c_month, :mode => "Jahr", :scope => @c_scope, :tdatum => @c_datum)  do %>
                     <span><i class="btn btn-<%= btn_y %> fa fa-calendar"> <%= @c_year %></i></span>
                   <% end %>
-                  <%= link_to user_path(:id => @user.id, :topic => "personen_zeiterfassung", :year => @c_year, :month => @c_month, :mode => "alles", :scope => @c_scope, :tdatum => @c_datum) do %>
-                    <span><i class="btn btn-<%= btn_a %> fa fa-calendar"> alles</i></span>
-                  <% end %>
+                  <!--<%= link_to user_path(:id => @user.id, :topic => "personen_zeiterfassung", :year => @c_year, :month => @c_month, :mode => "alles", :scope => @c_scope, :tdatum => @c_datum) do %>-->
+                  <!--  <span><i class="btn btn-<%= btn_a %> fa fa-calendar"> alles</i></span>-->
+                  <!--<% end %>-->
   
                   <%= link_to user_path(:id => @user.id, :topic => "personen_zeiterfassung",  :year => @c_year, :month => @c_month, :mode => "Jahr", :scope => "kosten", :tdatum => @c_datum)  do %>
                     <span><i class="btn btn-<%= btn_sc %> fa fa-euro"></i></span>
@@ -329,61 +321,60 @@
                       <i class="btn btn-primary fa fa-chevron-right"></i>
                     <% end %>
                  <% end %>
-                 <% case @c_mode %>
-                   <% when "alles" %>
-                     <% @timetracks = Timetrack.select("mobject_id").where('user_id=? and costortime=?', @user.id, @c_scope).distinct %>
-                   <% when "Datum" %>
-                     <% @timetracks = Timetrack.select("mobject_id").where('user_id=? and costortime=? and datum=?', @user.id, @c_scope, @c_datum.to_date).distinct %>
-                   <% else %>
-                     <% @timetracks = Timetrack.select("mobject_id").where('user_id=? and costortime=? and datum >=? and datum <=?', @user.id, @c_scope, @date_start, @date_end).distinct %>
-                 <% end  %>
                  <br><br>
 
+                <% case @c_mode %>
+                  <% when "alles" %>
+                    <% @tts = Timetrack.select("mobject_id, sum(amount) as sum").where('user_id=? and costortime=?', @user.id, @c_scope).group("mobject_id") %>
+                  <% when "Datum" %>
+                    <% @tts = Timetrack.select("mobject_id, sum(amount) as sum").where('user_id=? and costortime=? and datum=?', @user.id, @c_scope, @c_datum).group("mobject_id") %>
+                  <% else %>
+                    <% @tts = Timetrack.select("mobject_id, sum(amount) as sum").where('user_id=? and costortime=? and datum >=? and datum <=?', @user.id, @c_scope, @date_start, @date_end).group("mobject_id") %>
+                <% end %>
+                <% @pieLabel = [] %>
+                <% @pieData = [] %>
+                <% summe = 0 %>
+                <% @tts.each do |ts| %>
+                  <% @pieData << ts.sum %>
+                  <% @pieLabel << Mobject.find(ts.mobject_id).name %>
+                  <% summe = summe + ts.sum %>
+                <% end %>
+
+                <%= @c_scope %><br>
+                <%= @c_mode %><br>
+                <%= @c_year %><br>
+                <%= @c_month %><br>
+                <%= @c_datum %><br>
+
                 <div class="row">
-                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                    <div>
-                      <%= header((I18n.t :projekte)) %>
+                  <div class="col-md-4">
+                    <% if user_signed_in? %> 
+                      <% if @user.id == current_user.id or isdeputy(@user) %>
+                        <%= link_to new_timetrack_path(:user_id => @user.id, :scope => @c_scope, :datum => @c_datum) do %>
+                          <span><i class="btn btn-primary %> fa fa-plus"></i></span>
+                        <% end %>
+                      <% end %>
+                    <% end %>
+                    <div class="chart-container">
+                        <canvas id="userProjekte"></canvas>
                     </div>
-                    <div id="auftragschartall"></div>
                   </div>
-                </div>
-  
-                <% @mob = [] %>
-                <div class="row">
-                  <% @timetracks.each do |t| %>
-                  
-                    <% @mob << t.mobject_id %>
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                      <div>
-                        <%= header((I18n.t :projekte) + Mobject.find(t.mobject_id).name) %>
-                        <% if Madvisor.where('mobject_id=? and role=?', t.mobject_id, t.mobject.mtype).count > 0 %>
-                          <% if Mobject.find(t.mobject_id).active %>
-                            <%= link_to new_timetrack_path(:user_id => @user.id, :mobject_id => t.mobject_id, :scope => @c_scope, :datum => @c_datum) do %>
-                              <span><i class="btn btn-primary %> fa fa-plus"></i></span>
-                            <% end %>
+                  <% @mobs = @user.madvisors.select("mobject_id").where("role=?","projekte").distinct %>
+                  <% @mobs.each do |m| %>
+                    <!--<%= dat = controlRes(@user.id, m.mobject_id, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>-->
+                    <div class="col-md-4">
+                        <% if Mobject.find(m.mobject_id).active %>
+                          <%= link_to new_timetrack_path(:user_id => @user.id, :mobject_id => m.mobject_id, :scope => @c_scope, :datum => @c_datum) do %>
+                            <span><i class="btn btn-primary %> fa fa-plus"></i></span>
                           <% end %>
                         <% end %>
-                      </div>
-                      <div id="<%="auftragschart"+t.mobject_id.to_s %>"></div>
+                        <div class="chart-container">
+                            <canvas id="myMobjectChart<%= m.mobject_id %>"></canvas>
+                        </div>
                     </div>
                   <% end %>
                 </div>
                 
-                <div class="row">
-                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                    <div>
-                      <%= header((I18n.t :berechtigteprojekte)) %>
-                    </div>
-                    <% @user.madvisors.where('role=?',"projekte").each do |m| %>
-                      <% if !@mob.include?(m.mobject_id) and Mobject.find(m.mobject_id).active %>
-                        <%= link_to new_timetrack_path(:user_id => @user.id, :mobject_id => m.mobject_id, :scope => @c_scope, :datum => @c_datum) do %>
-                          <span><i class="btn btn-primary fa fa-plus"><%= m.mobject.name %></i></span>
-                        <% end %>
-                      <% end %>
-                    <% end %>
-                  </div>
-                </div>
-  
                 <% if @c_mode == "Datum" %>
                   <br><br>
                   <div class="row">
@@ -736,111 +727,6 @@
       
 <!-SCRIPT --->
 
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
-<script>
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
-    function drawChart() {
-      var data = google.visualization.arrayToDataTable(<%= raw @stats %>);
-      var options = {
-        title: "<%= (I18n.t :aktivitaeten) %>",
-        backgroundColor:'transparent',
-        pieHole: 0.4,
-        height: 600,
-      };
-      var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-      chart.draw(data, options);
-    };
-</script>
-
-<% if @topic == "personen_zeiterfassung" %>
-  <script>
-      google.charts.load('current', {'packages':['corechart']});
-
-      <% case @c_mode %>
-        <% when "alles" %>
-          <% @tts = Timetrack.select("mobject_id, sum(amount) as sum").where('user_id=? and costortime=?', @user.id, @c_scope).group("mobject_id") %>
-        <% when "Datum" %>
-          <% @tts = Timetrack.select("mobject_id, sum(amount) as sum").where('user_id=? and costortime=? and datum=?', @user.id, @c_scope, @c_datum).group("mobject_id") %>
-      <% else %>
-          <% @tts = Timetrack.select("mobject_id, sum(amount) as sum").where('user_id=? and costortime=? and datum >=? and datum <=?', @user.id, @c_scope, @date_start, @date_end).group("mobject_id") %>
-      <% end %>
-      window.datasetall = [['kategorie', 'anzahl']];
-      <% summe = 0 %>
-      <% @tts.each do |ts| %>
-        datasetall.push(['<%= Mobject.find(ts.mobject_id).name %>', <%= ts.sum %>]);
-        <% summe = summe + ts.sum %>
-      <% end %>
-      google.charts.setOnLoadCallback(drawChartall);
-      function drawChartall() {
-        var data = google.visualization.arrayToDataTable(datasetall);
-        var options = {
-          <% if @c_scope == "aufwand" %>
-          title: "<%= (I18n.t :rapportiertestunden) + " " + sprintf("%05.2f",summe) + " h"  %>",
-          <% end %>
-          <% if @c_scope == "kosten" %>
-          title: "<%= (I18n.t :rapportiertekosten) + " " + sprintf("%05.2f",summe) + " " + (I18n.t :waehrung) %>",
-          <% end %>
-          // colors: ['#ACC550'],
-          // legend: { position: 'bottom' }
-          backgroundColor:'transparent',
-        };
-        // var chart = new google.visualization.ColumnChart(document.getElementById("auftragschartall"));
-        var chart = new google.visualization.PieChart(document.getElementById("auftragschartall"));
-        chart.draw(data, options);
-      };
-      
-      <% @timetracks.each do |t| %>
-        <% case @c_mode %>
-          <% when "alles" %>
-            <% @tts = Timetrack.select("jahrmonat as gdate, sum(amount) as sum").where('user_id=? and costortime=? and mobject_id=?', @user.id, @c_scope, t.mobject_id).group("jahrmonat").order("gdate") %>
-          <% when "Datum" %>
-            <% @tts = Timetrack.select("date(datum) as gdate, sum(amount) as sum").where('user_id=? and costortime=? and mobject_id=? and datum=?', @user.id, @c_scope, t.mobject.id, @c_datum).group("datum").order("datum") %>
-          <% when "Monat" %>
-            <% @tts = Timetrack.select("date(datum) as gdate, sum(amount) as sum").where('user_id=? and costortime=? and mobject_id=? and datum >=? and datum <=?', @user.id, @c_scope, t.mobject.id, @date_start, @date_end).group("datum").order("datum") %>
-          <% when "Jahr" %>
-            <% @tts = Timetrack.select("jahrmonat as gdate, sum(amount) as sum").where('user_id=? and costortime=? and mobject_id=? and datum >=? and datum <=?', @user.id, @c_scope, t.mobject_id, @date_start, @date_end).group("jahrmonat").order("gdate") %>
-        <% end %>
-        <% if @tts %>
-          window.dataset<%= t.mobject_id.to_s %> = [['kategorie', 'anzahl']];
-          <% @tts.each do |ts| %>
-            dataset<%= t.mobject_id.to_s %>.push(['<%= ts.gdate.to_s %>', <%= ts.sum %>]);
-          <% end %>
-          google.charts.setOnLoadCallback(drawChart<%= t.mobject_id.to_s %>);
-          function drawChart<%= t.mobject_id.to_s %>() {
-            var data = google.visualization.arrayToDataTable(dataset<%= t.mobject_id.to_s %>);
-            var options = {
-              <% if @c_scope == "aufwand" %>
-              title: "<%= (I18n.t :rapportiertestunden) %>",
-              <% end %>
-              <% if @c_scope == "Kosten" %>
-              title: "<%= (I18n.t :rapportiertekosten) %>",
-              <% end %>
-              colors: ['<%= $graph_color1 %>'],
-              backgroundColor:'transparent',
-              legend: { position: 'bottom' }
-            };
-            var chart = new google.visualization.ColumnChart(document.getElementById('<%="auftragschart"+t.mobject_id.to_s %>'));
-            chart.draw(data, options);
-          };
-        <% end %>
-    
-      <% end %>
-
-  </script>
-<% end %>
-
-<script>
-<% case @topic %>
-  <% when "personen_info" %>
-      document.addEventListener("turbolinks:load", function() {drawChart();})
-
-  <% when "personen_zeiterfassung" %>
-      document.addEventListener("turbolinks:load", function() {drawChartall();})
-<% end %>
-</script>
-
 <script>$('.dropdown-toggle').dropdown()</script>
 
 <% if @topic == "personen_ressourcenplanung" %>
@@ -924,6 +810,100 @@ $(document).ready(function(){
           }
       }
   })
+});
+</script>
+<% end %>
+
+<% if @topic == "personen_zeiterfassung" %>
+<script>
+$(document).ready(function(){
+
+    <% @mobs = @user.madvisors.select("mobject_id").distinct %>
+    <% @mobs.each do |m| %>
+      <% @mobject = Mobject.find(m.mobject_id) %>
+      <% @date_start = "01.01." + @c_year.to_s %>
+      <% @date_end = "31.12." + @c_year.to_s %>
+      <% dat = controlRes(@user.id, m.mobject_id, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>
+      var ctu<%= m.mobject_id %> = document.getElementById("myMobjectChart<%= m.mobject_id %>");
+      var myMobjectChart<%= m.mobject_id %> = new Chart(ctu<%= m.mobject_id %>, {
+        type: 'line',
+          data: {
+                  labels: <%= raw ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"] %>,
+                  datasets: [
+                      {
+                      label: 'Aufwand IST in h',
+                      data: <%= raw dat[:dataTT] %>,
+                      backgroundColor: [
+                          'rgba(<%= rand(255) %>, <%= rand(0) %>, <%= rand(0) %>, 0.2)',
+                      ],
+                      borderColor: [
+                          'rgba(54, 162, 235, 1)',
+                      ],
+                      borderWidth: 1
+                      },
+                      {
+                      label: 'Aufwand PLAN in h',
+                      data: <%= raw dat[:dataPT] %>,
+                      backgroundColor: [
+                          'rgba(<%= rand(0) %>, <%= rand(0) %>, <%= rand(255) %>, 0.2)',
+                      ],
+                      borderColor: [
+                          'rgba(54, 162, 235, 1)',
+                      ],
+                      borderWidth: 1
+                      },
+                  ]
+              },
+          options: {
+              title: {
+                  display: true,
+                  text: '<%= @mobject.name %>'
+              },
+              scales: {
+                  yAxes: [{
+                      ticks: {
+                          beginAtZero:true
+                      }
+                  }]
+              }
+          }
+      })
+    <% end %>
+
+  var ctpie = document.getElementById("userProjekte");
+  var userProjekte = new Chart(ctpie, {
+    type: 'doughnut',
+      data: {
+          labels: <%= raw @pieLabel %>,
+              datasets: [{
+                  label: 'Aktivitäten',
+                  data: <%= raw @pieData %>,
+                  backgroundColor: [
+                      <% for i in 0..10 %>
+                      'rgba(<%= rand(255) %>, <%= rand(255) %>, <%= rand(255) %>, 0.2)',
+                      <% end %>
+                  ],
+                  borderColor: [
+                      'rgba(54, 162, 235, 1)',
+                  ],
+                  borderWidth: 1
+              }]
+          },
+      options: {
+          title: {
+              display: true,
+              text: 'Aktivitäten rapportiert <%= summe %> h'
+          },
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero:true
+                  }
+              }]
+          }
+      }
+  })
+
 });
 </script>
 <% end %>
