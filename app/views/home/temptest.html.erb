@@ -35,7 +35,7 @@
 <!--month <%= @c_month %><br>-->
 <!--<br><br>-->
 
-<!--<% Mobject.where('mtype=?',"projekte").each do |p| %>-->
+<!--<% Mobject.where('parent=? and mtype=?',0,"projekte").each do |p| %>-->
 <!--    <%= dat = controlRes(nil, p, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %><br>-->
 <!--<% end %>-->
 
@@ -52,7 +52,7 @@
         </div>
     </div>
     
-    <% Mobject.where('mtype=?',"projekte").each do |m| %>
+    <% Mobject.where('mtype=? and parent=?',"projekte",0).each do |m| %>
         <!--<%= m.name + " " + m.id.to_s %>-->
         <!--<%= controlRes(m, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) if false %>-->
         <!--<br><br>-->
@@ -66,7 +66,7 @@
 
 <script>
 $(document).ready(function(){
-    <% Mobject.where('mtype=?',"projekte").each do |p| %>
+    <% Mobject.where('mtype=? and parent=?',"projekte",0).each do |p| %>
         <% dat = controlRes(nil, p, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>
         var ctx<%= p.id %> = document.getElementById("myChart<%= p.id %>");
         var myChart<%= p.id %> = new Chart(ctx<%= p.id %>, {
@@ -124,7 +124,7 @@ $(document).ready(function(){
         data: {
                 labels: <%= raw ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"] %>,
                 datasets: [
-                    <% Mobject.where('mtype=?',"projekte").each do |p| %>
+                    <% Mobject.where('mtype=? and parent=?',"projekte",0).each do |p| %>
                     <% dat = controlRes(nil, p, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>
                     {
                     label: '<%= p.name %>',
@@ -165,7 +165,7 @@ $(document).ready(function(){
         data: {
                 labels: <%= raw ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"] %>,
                 datasets: [
-                    <% Mobject.where('mtype=?',"projekte").each do |p| %>
+                    <% Mobject.where('mtype=? and parent=?',"projekte",0).each do |p| %>
                     <% dat = controlRes(nil, p, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>
                     {
                     label: '<%= p.name %>',

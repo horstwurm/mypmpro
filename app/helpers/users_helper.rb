@@ -2873,14 +2873,49 @@ def modalUserForm(user, mode, modalNo)
   return html.html_safe
 end
 
+def subids(mobject_id, subs)
+  @subprojects = Mobject.where('parent=?', mobject_id)
+  @subprojects.each do |p|
+    subs << p.id
+    subids(p.id, subs)
+  end
+  return subs
+end
+
 def controlRes(user_id, mobject_id, scope, mode, von, bis, jahr, monat)
+
+  #substruktur 
+  @subs = []
+  @subs << mobject_id
+  @subs = subids(mobject_id, @subs)
   
-  if user_id
+  if false
+  @subprojects = Mobject.where('parent=?', mobject_id)
+  @subprojects.each do |p|
+    sub = controlRes(user_id, p.id, scope, mode, von, bis, jahr, monat)    
+    for i in 0..11
+      @dataTTad[i] = @dataTTad[i] + sub[:dataTT][i]
+      @dataPTad[i] = @dataPTad[i] + sub[:dataPT][i]
+    end
+  end
+  end
+  
+  if false
+  if user_id 
     @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('user_id=? and mobject_id=? and costortime=? and datum>=? and datum<=?', user_id, mobject_id, scope, von, bis).group("jahrmonat").order(:jahrmonat)
     @pts = Planning.select("jahrmonat, sum(amount) as summe").where('user_id=? and mobject_id=? and costortime=? and jahr=?', user_id, mobject_id, scope, jahr.to_s).group("jahrmonat").order(:jahrmonat)
   else
     @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('mobject_id=? and costortime=? and datum>=? and datum<=?', mobject_id, scope, von, bis).group("jahrmonat").order(:jahrmonat)
     @pts = Planning.select("jahrmonat, sum(amount) as summe").where('mobject_id=? and costortime=? and jahr=?',mobject_id, scope, jahr.to_s).group("jahrmonat").order(:jahrmonat)
+  end
+  end
+
+  if user_id
+    @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('user_id=? and mobject_id in (?) and costortime=? and datum>=? and datum<=?', user_id, @subs, scope, von, bis).group("jahrmonat").order(:jahrmonat)
+    @pts = Planning.select("jahrmonat, sum(amount) as summe").where('user_id=? and mobject_id in (?) and costortime=? and jahr=?', user_id, @subs, scope, jahr.to_s).group("jahrmonat").order(:jahrmonat)
+  else
+    @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('mobject_id in (?) and costortime=? and datum>=? and datum<=?', @subs, scope, von, bis).group("jahrmonat").order(:jahrmonat)
+    @pts = Planning.select("jahrmonat, sum(amount) as summe").where('mobject_id in (?) and costortime=? and jahr=?',@subs, scope, jahr.to_s).group("jahrmonat").order(:jahrmonat)
   end
 
   @dataTT = []
