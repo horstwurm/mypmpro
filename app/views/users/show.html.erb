@@ -821,8 +821,8 @@ $(document).ready(function(){
     <% @mobs = @user.madvisors.select("mobject_id").distinct %>
     <% @mobs.each do |m| %>
       <% @mobject = Mobject.find(m.mobject_id) %>
-      <% @date_start = "01.01." + @c_year.to_s %>
-      <% @date_end = "31.12." + @c_year.to_s %>
+      <% @date_start = @c_year.to_s + ".01.01" %>
+      <% @date_end = @c_year.to_s + ".12.31" %>
       <% dat = controlRes(@user.id, m.mobject_id, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>
       var ctu<%= m.mobject_id %> = document.getElementById("myMobjectChart<%= m.mobject_id %>");
       var myMobjectChart<%= m.mobject_id %> = new Chart(ctu<%= m.mobject_id %>, {
