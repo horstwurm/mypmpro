@@ -2937,79 +2937,16 @@ def controlRes(user_id, mobject_id, scope, mode, von, bis, jahr, monat)
     end
   end
 
-  @dataTTkum = []  
-  @dataPTkum = []
-  @dataTTkum << @dataTTad[0]
-  @dataPTkum << @dataPTad[0]
-  for i in 1..@dataTTad.length-1
-    @dataTTkum << @dataTTad[i] + @dataTTkum[i-1]
-    @dataPTkum << @dataPTad[i] + @dataPTkum[i-1]
-  end
-
-  return {:dataTT => @dataTTad, :dataPT => @dataPTad, :dataTTkum => @dataTTkum, :dataPTkum => @dataPTkum}
-end
-
-def controlResB(user_id, mobject_id, scope, mode, von, bis, jahr, monat)
-  if user_id
-    @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('user_id=? and mobject_id=? and costortime=? and datum>=? and datum<=?', user_id, mobject_id, scope, von, bis).group("jahrmonat").order(:jahrmonat)
-    @pts = Planning.select("jahrmonat, sum(amount) as summe").where('user_id=? and mobject_id=? and costortime=? and jahr=?', user_id, mobject_id, scope, jahr.to_s).group("jahrmonat").order(:jahrmonat)
-  else
-    @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('mobject_id=? and costortime=? and datum>=? and datum<=?', mobject_id, scope, von, bis).group("jahrmonat").order(:jahrmonat)
-    @pts = Planning.select("jahrmonat, sum(amount) as summe").where('mobject_id=? and costortime=? and jahr=?',mobject_id, scope, jahr.to_s).group("jahrmonat").order(:jahrmonat)
-  end
-
-  @dataTT = []
-  @labelTT = []
-  @dataPT = []
-  @labelPT = []
-  @dataTTad = []
-  @dataPTad = []
-  @tts.each do |t|
-    @dataTT << t.summe
-    @labelTT << t.jahrmonat
-  end
-  for monat in 1..12
-    monats = monat.to_s
-    if monats.length == 1
-      monats = "0"+monats
-    end
-    c_jahrmonat = jahr.to_s + "-" + monats
-    found=false
-    for i in 0..@dataTT.length()-1
-      if c_jahrmonat == @labelTT[i]
-        found=true
-        datval = @dataTT[i]
-      end
-    end
-    if found
-      @dataTTad << datval
-    else
-      @dataTTad << 0
+  #substruktur 
+  if false
+  @subprojects = Mobject.where('parent=?', mobject_id)
+  @subprojects.each do |p|
+    sub = controlRes(user_id, p.id, scope, mode, von, bis, jahr, monat)    
+    for i in 0..11
+      @dataTTad[i] = @dataTTad[i] + sub[:dataTT][i]
+      @dataPTad[i] = @dataPTad[i] + sub[:dataPT][i]
     end
   end
-  
-  @pts.each do |t|
-    @dataPT << ((t.summe * 170) / 100)
-    @labelPT << t.jahrmonat
-  end
-  for monat in 1..12
-    monats = monat.to_s
-    if monats.length == 1
-      monats = "0"+monats
-    end
-    c_jahrmonat = jahr.to_s + "-" + monats
-    found=false
-    for i in 0..@dataPT.length()-1
-      if c_jahrmonat == @labelPT[i]
-        found=true
-        datval = @dataPT[i]
-      end
-    end
-    if found
-      @dataPTad << datval
-    else
-      @dataPTad << 0
-    end
   end
 
   @dataTTkum = []  
