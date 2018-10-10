@@ -1427,7 +1427,7 @@ def navigate3(object, item, topic, topictxt)
       html_string = html_string + build_nav3("personen",item,"personen_info",1)
       html_string = html_string + build_nav3("personen",item,"personen_zeiterfassung", item.timetracks.count)
       html_string = html_string + build_nav3("personen",item,"personen_ressourcenplanung", item.plannings.count)
-      html_string = html_string + build_nav3("personen",item,"personen_projekte", item.mobjects.where('mtype=? and parent=?',"projekte",0).count)
+      #html_string = html_string + build_nav3("personen",item,"personen_projekte", item.mobjects.where('mtype=? and parent=?',"projekte",0).count)
       html_string = html_string + build_nav3("personen",item,"personen_gruppen", item.mobjects.where('mtype=?',"gruppen").count)
       html_string = html_string + build_nav3("personen",item,"personen_institutionen",item.companies.count)
       html_string = html_string + build_nav3("personen",item,"personen_zugriffsberechtigungen", item.credentials.count)
@@ -1438,7 +1438,10 @@ def navigate3(object, item, topic, topictxt)
 
     when "institutionen"
         html_string = html_string + build_nav3("institutionen",item,"institutionen_info",1)
-        html_string = html_string + build_nav3("institutionen",item,"institutionen_projekte", item.mobjects.where('mtype=? and parent=?',"projekte",0).count)
+        html_string = html_string + build_nav3("institutionen",item,"institutionen_projektliste", item.mobjects.where('mtype=? and parent=?',"projekte",0).count)
+        html_string = html_string + build_nav3("institutionen",item,"institutionen_projektplan", item.mobjects.where('mtype=? and parent=?',"projekte",0).count)
+        html_string = html_string + build_nav3("institutionen",item,"institutionen_projektressourcen", item.mobjects.where('mtype=? and parent=?',"projekte",0).count)
+        html_string = html_string + build_nav3("institutionen",item,"institutionen_projektilv", item.mobjects.where('mtype=? and parent=?',"projekte",0).count)
         if item.partner
           html_string = html_string + build_nav3("institutionen",item,"institutionen_partnerlinks", item.partner_links.count)
         end
@@ -1599,7 +1602,7 @@ def action_buttons4(object_type, item, topic)
           if user_signed_in?
             if current_user.id == item.id or isdeputy(item) or current_user.superuser
               html_string = html_string + link_to(new_mobject_path(:user_id => current_user.id, :mtype => subtopic(topic), :msubtype => nil)) do
-                 content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :hinzufuegen), class: "btn btn-primary fa fa-plus orange pull-right")
+                 content_tag(:i, " " + (I18n.t subtopic(topic)), class: "btn btn-primary fa fa-plus orange pull-right")
               end
             end
             if topic == "personen_projekte"
@@ -1612,7 +1615,7 @@ def action_buttons4(object_type, item, topic)
           end
           if topic == "personen_projekte"
             html_string = html_string + link_to(mobjects_path :mtype => getTopicName(topic)) do
-              content_tag(:i, " " + (I18n.t subtopic(topic).to_sym) + " " + (I18n.t :suchen), class: "btn btn-default fa fa-search pull-right")
+              content_tag(:i, " " + (I18n.t subtopic(topic).to_sym), class: "btn btn-default fa fa-search pull-right")
             end
           end
 
@@ -1667,23 +1670,22 @@ def action_buttons4(object_type, item, topic)
             content_tag(:i, " " + (I18n.t :suchen), class:"btn btn-default fa fa-search  pull-right") 
           end
 
-        when "institutionen_projekte"
+        when "institutionen_projektliste"
           html_string = html_string + link_to(mobjects_path :mtype => getTopicName(topic)) do
-            content_tag(:i, " " + (I18n.t subtopic(topic).to_sym) + " " + (I18n.t :suchen), class: "btn btn-default fa fa-search  pull-right")
+            content_tag(:i, " " + (I18n.t :suchen), class: "btn btn-default fa fa-search  pull-right")
           end
           if user_signed_in?
             if (item.user_id == current_user.id) or isdeputy(item) or current_user.superuser
               html_string = html_string + link_to(new_mobject_path :company_id => item.id, :mtype => subtopic(topic), :msubtype => nil) do
-                content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :hinzufuegen), class: "btn btn-primary fa fa-plus orange  pull-right")
+                #content_tag(:i, " " + (I18n.t subtopic(topic)), class: "btn btn-primary fa fa-plus orange  pull-right")
+                content_tag(:i, " " + (I18n.t :projekte), class: "btn btn-primary fa fa-plus orange  pull-right")
               end
             end
-            if topic == "institutionen_projekte"
-              if current_user.id == item.id or isdeputy(item) or current_user.superuser
-                html_string = html_string + link_to(company_path(:id => @company.id, :topic => "institutionen_export")) do
-                  content_tag(:i, " " + (I18n.t subtopic(topic)) + " " + (I18n.t :exportieren), class: "btn btn-default fa fa-download  pull-right")
-                end
-              end
-            end
+          end
+
+        when "institutionen_projektilv"
+          html_string = html_string + link_to(company_path(:id => item.id, :topic => "institutionen_projektilv", :year => @c_year, :month => @c_month, :mode => @c_mode, :writeexcel => true)) do
+            content_tag(:i, " " + (I18n.t :excel), class: "btn btn-default fa fa-th  pull-right")
           end
           
         when "institutionen_partnerlinks"
@@ -1853,7 +1855,7 @@ def getinfo2(topic)
       info = "medium"
     when :stellvertretungen
       info = "share"
-    when :projekte, :projektplan
+    when :projekte, :projektliste, :projektplan
       info = "tasks"
     when :institutionen
       info = "industry"
@@ -1867,11 +1869,11 @@ def getinfo2(topic)
       info = "lock"
     when :news
       info = "alert"
-    when :personen, :gruppenmitglieder
+    when :personen, :gruppenmitglieder, :projektressourcen
       info = "user"
     when :details
       info = "search"
-    when :charges
+    when :charges, :projektilv
       info = "euro"
     when :zugriffsberechtigungen, :projektberechtigungen
       info = "lock"
@@ -2155,7 +2157,16 @@ def init_apps
     hash = {"domain" => "institutionen", "right" => "info", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
-    hash = {"domain" => "institutionen", "right" => "projekte", "access" => true, "info" => "news"}
+    hash = {"domain" => "institutionen", "right" => "projektliste", "access" => true, "info" => "news"}
+    @array << hash
+    hash = Hash.new
+    hash = {"domain" => "institutionen", "right" => "projektplan", "access" => true, "info" => "news"}
+    @array << hash
+    hash = Hash.new
+    hash = {"domain" => "institutionen", "right" => "projektressourcen", "access" => true, "info" => "news"}
+    @array << hash
+    hash = Hash.new
+    hash = {"domain" => "institutionen", "right" => "projektilv", "access" => true, "info" => "news"}
     @array << hash
     hash = Hash.new
     hash = {"domain" => "institutionen", "right" => "partnerlinks", "access" => true, "info" => "news"}

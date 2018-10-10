@@ -20,6 +20,9 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 de:
+  projektliste: "Projektliste"
+  projektressourcen: "Ressourcenplanung"
+  projektilv: "Leistungsverrechnung"
   levelup: "Hauptprojekt"
   gesamtstatus: "Gesamtstatus"
   task: "Aktivität"

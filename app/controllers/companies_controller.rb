@@ -57,15 +57,7 @@ class CompaniesController < ApplicationController
       #end
     end
 
-    if @topic ==   "institutionen_projekte"
-        if params[:show]
-          @c_show = params[:show]
-        else
-          @c_show = "kachel"
-        end
-    end
-
-    if @topic ==   "institutionen_export" or "institutionen_projekte"
+    if @topic ==   "institutionen_projektilv" or @topic ==  "institutionen_projektplan" or @topic == "institutionen_projektressourcen"
 
         if params[:writeexcel]
           @filename = "public/projectreport_company"+@company.id.to_s+".xls"
@@ -84,11 +76,20 @@ class CompaniesController < ApplicationController
           @c_month = Date.today.month
         end
 
+        if params[:scope]
+          @c_scope = params[:scope]
+        else
+          @c_scope = "aufwand"
+        end
+
         if params[:mode]
           @c_mode = params[:mode]
         else
-          if @topic == "institutionen_export"
+          if @topic == "institutionen_projektilv"
             @c_mode = "Monat"
+          end
+          if @topic == "institutionen_projektressourcen"
+            @c_mode = "Jahr"
           end
         end
 
