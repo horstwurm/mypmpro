@@ -1821,14 +1821,14 @@ def action_buttons4(object_type, item, topic)
 
           when "objekte_auftragscontrolling"
             if user_signed_in?
-              html_string = html_string + link_to(mobject_path(:id => @mobject.id, :topic => "objekte_auftragscontrolling", :year => @c_year, :month => @c_month, :mode => @c_mode, :scope => @c_scope, :export => true)) do
-                content_tag(:i, " " + (I18n.t :excel), class:"btn btn-default fa fa-book  pull-right") 
+              html_string = html_string + link_to(mobject_path(:id => @mobject.id, :topic => "objekte_auftragscontrolling", :year => @c_year, :month => @c_month, :mode => @c_mode, :scope => @c_scope, :writeexcel => true)) do
+                content_tag(:i, " " + (I18n.t :excel), class:"btn btn-default fa fa-th  pull-right") 
               end
-              if @export and @filename
-    	          html_string = html_string +link_to(@filename.remove("public")) do
-                  content_tag(:i, " " + (I18n.t :download) , class:"btn btn-default fa fa-download  pull-right") 
-                end
-              end
+              # if @export and @filename
+    	         # html_string = html_string +link_to(@filename.remove("public")) do
+              #     content_tag(:i, " " + (I18n.t :download) , class:"btn btn-default fa fa-download  pull-right") 
+              #   end
+              # end
 
             end
 
@@ -2292,123 +2292,6 @@ def current_period(p, item)
       end
   end
   return false
-end
-
-def exportWriter (mobject, istsoll, istsollkum, istsollau, iso)
-  filename = "public/report_" + DateTime.now.to_s + ".xls"
-  workbook = WriteExcel.new(filename)
-        
-  # Add worksheet(s)
-  worksheet  = workbook.add_worksheet
-
-  # header format
-  f_header0 = workbook.add_format
-  f_header0.set_bold  
-  # f_header0.set_color('blue')
-  f_header0.set_size(20)
-  # format.set_align('right')
-
-  f_header1 = workbook.add_format
-  f_header1.set_color('white')
-  #f_header1.set_bg_color('black')
-  f_header1.set_bg_color(57)
-
-  f_param = workbook.add_format
-  f_param.set_bold
-  f_param.set_color('red')
-
-  # col sizes
-  worksheet.set_column(0,20,20)
-  
-  row = 0
-  col = 0
-  worksheet.write(row, col, (I18n.t :auftragscontrolling) + " " + DateTime.now.strftime("%d.%m.%y-%H:%M"), f_header0)
-  row = row + 2
-  worksheet.write(row, col, (I18n.t :parameter), f_header1)
-  row = row + 1
-  worksheet.write(row, col, (I18n.t :periode))
-  worksheet.write(row, col+1, @c_mode, f_param)
-  row = row + 1
-  worksheet.write(row, col, (I18n.t :kategorie))
-  worksheet.write(row, col+1, @c_scope, f_param)
-  row = row + 1
-  worksheet.write(row, col, (I18n.t :projekte))
-  worksheet.write(row, col+1, mobject.name, f_param)
-  row = row + 1
-  worksheet.write(row, col, (I18n.t :substruktur))
-  if @include_sub
-    wosub = (I18n.t :ja)
-  else
-    wosub = (I18n.t :nein)
-  end
-  worksheet.write(row, col+1, wosub, f_param)
-  row=row+2
-
-  worksheet.write(row, 0, (I18n.t :datumvonbis), f_header1)
-  worksheet.write(row+1, 0, (I18n.t :ist))
-  worksheet.write(row+2, 0, (I18n.t :soll))
-  worksheet.write(row+3, 0, (I18n.t :delta))
-  for i in 1..istsoll.length-1
-    worksheet.write(row, i, istsoll[i][0],f_header1)
-    worksheet.write(row+1, i, istsoll[i][1])
-    worksheet.write(row+2, i, istsoll[i][2])
-    if istsoll[i][2]-istsoll[i][1] < 0
-      worksheet.write(row+3, i, istsoll[i][2]-istsoll[i][1], f_param)
-    else
-      worksheet.write(row+3, i, istsoll[i][2]-istsoll[i][1])
-    end 
-  end
-  
-  row=row+6
-  worksheet.write(row, 0, (I18n.t :kumuliert), f_header1)
-  worksheet.write(row+1, 0, (I18n.t :ist))
-  worksheet.write(row+2, 0, (I18n.t :soll))
-  worksheet.write(row+3, 0, (I18n.t :delta))
-  for i in 1..istsollkum.length-1
-    worksheet.write(row, i, istsollkum[i][0],f_header1)
-    worksheet.write(row+1, i, istsollkum[i][1])
-    worksheet.write(row+2, i, istsollkum[i][2])
-    if istsollkum[i][2]-istsollkum[i][1] < 0
-      worksheet.write(row+3, i, istsollkum[i][2]-istsollkum[i][1], f_param)
-    else
-      worksheet.write(row+3, i, istsollkum[i][2]-istsollkum[i][1])
-    end 
-  end
-
-  row=row+6
-  for k in 0..iso.length-1
-
-    maiso = iso[k]
-    @user = User.find(maiso[i][0])
-    if @user
-      @name = @user.name + " " + @user.lastname
-    else
-      @name = "unbekannt"
-    end
-    
-    worksheet.write(row, 0, @name, f_header1)
-    worksheet.write(row+1, 0, (I18n.t :ist))
-    worksheet.write(row+2, 0, (I18n.t :soll))
-    worksheet.write(row+3, 0, (I18n.t :delta))
-
-    for i in 1..maiso.length-1
-      worksheet.write(row, i, maiso[i][1],f_header1)
-      worksheet.write(row+1, i, maiso[i][2])
-      worksheet.write(row+2, i, maiso[i][3])
-      if maiso[i][3] - maiso[i][2] < 0
-        worksheet.write(row+3, i, maiso[i][3] - maiso[i][2], f_param)
-      else
-        worksheet.write(row+3, i, maiso[i][3] - maiso[i][2])
-      end 
-    end
-
-    row = row + 4
-
-  end
-
-  workbook.close
-  return filename
-
 end
 
 def exportWriterRessourcen (data, header)
@@ -2899,28 +2782,6 @@ def controlRes(user_id, mobject_id, scope, mode, von, bis, jahr, monat)
   @subs = []
   @subs << mobject_id
   @subs = subids(mobject_id, @subs)
-  
-  if false
-  @subprojects = Mobject.where('parent=?', mobject_id)
-  @subprojects.each do |p|
-    sub = controlRes(user_id, p.id, scope, mode, von, bis, jahr, monat)    
-    for i in 0..11
-      @dataTTad[i] = @dataTTad[i] + sub[:dataTT][i]
-      @dataPTad[i] = @dataPTad[i] + sub[:dataPT][i]
-    end
-  end
-  end
-  
-  if false
-  if user_id 
-    @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('user_id=? and mobject_id=? and costortime=? and datum>=? and datum<=?', user_id, mobject_id, scope, von, bis).group("jahrmonat").order(:jahrmonat)
-    @pts = Planning.select("jahrmonat, sum(amount) as summe").where('user_id=? and mobject_id=? and costortime=? and jahr=?', user_id, mobject_id, scope, jahr.to_s).group("jahrmonat").order(:jahrmonat)
-  else
-    @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('mobject_id=? and costortime=? and datum>=? and datum<=?', mobject_id, scope, von, bis).group("jahrmonat").order(:jahrmonat)
-    @pts = Planning.select("jahrmonat, sum(amount) as summe").where('mobject_id=? and costortime=? and jahr=?',mobject_id, scope, jahr.to_s).group("jahrmonat").order(:jahrmonat)
-  end
-  end
-
   if user_id
     @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('user_id=? and mobject_id in (?) and costortime=? and datum>=? and datum<=?', user_id, @subs, scope, von, bis).group("jahrmonat").order(:jahrmonat)
     @pts = Planning.select("jahrmonat, sum(amount) as summe").where('user_id=? and mobject_id in (?) and costortime=? and jahr=?', user_id, @subs, scope, jahr.to_s).group("jahrmonat").order(:jahrmonat)
@@ -2983,18 +2844,6 @@ def controlRes(user_id, mobject_id, scope, mode, von, bis, jahr, monat)
     end
   end
 
-  #substruktur 
-  if false
-  @subprojects = Mobject.where('parent=?', mobject_id)
-  @subprojects.each do |p|
-    sub = controlRes(user_id, p.id, scope, mode, von, bis, jahr, monat)    
-    for i in 0..11
-      @dataTTad[i] = @dataTTad[i] + sub[:dataTT][i]
-      @dataPTad[i] = @dataPTad[i] + sub[:dataPT][i]
-    end
-  end
-  end
-
   @dataTTkum = []  
   @dataPTkum = []
   @dataTTkum << @dataTTad[0]
@@ -3005,6 +2854,313 @@ def controlRes(user_id, mobject_id, scope, mode, von, bis, jahr, monat)
   end
 
   return {:dataTT => @dataTTad, :dataPT => @dataPTad, :dataTTkum => @dataTTkum, :dataPTkum => @dataPTkum}
+end
+
+def exportProjekt (mobject, scope)
+  filename = "public/projectreport_projekt"+mobject.id.to_s+".xls"
+  workbook = WriteExcel.new(filename)
+        
+  # Add worksheet(s)
+  worksheet  = workbook.add_worksheet
+
+  # header format
+  f_header0 = workbook.add_format
+  f_header0.set_bold  
+  # f_header0.set_color('blue')
+  f_header0.set_size(20)
+  # format.set_align('right')
+
+  f_header1 = workbook.add_format
+  f_header1.set_color('white')
+  #f_header1.set_bg_color('black')
+  f_header1.set_bg_color(57)
+
+  f_param = workbook.add_format
+  f_param.set_bold
+  f_param.set_color('red')
+
+  # col sizes
+  worksheet.set_column(0,40,20)
+  
+  row = 0
+  col = 0
+  worksheet.write(row, col, (I18n.t :auftragscontrolling) + " " + DateTime.now.strftime("%d.%m.%y-%H:%M"), f_header0)
+  row = row + 2
+  worksheet.write(row, col, (I18n.t :parameter), f_header1)
+  row = row + 1
+  worksheet.write(row, col, (I18n.t :periode))
+  worksheet.write(row, col+1, @c_mode, f_param)
+  row = row + 1
+  worksheet.write(row, col, (I18n.t :kategorie))
+  worksheet.write(row, col+1, @c_scope, f_param)
+  row = row + 1
+  worksheet.write(row, col, (I18n.t :projekte))
+  worksheet.write(row, col+1, mobject.name, f_param)
+  row = row + 1
+  worksheet.write(row, col, (I18n.t :substruktur))
+  if @include_sub
+    wosub = (I18n.t :ja)
+  else
+    wosub = (I18n.t :nein)
+  end
+  worksheet.write(row, col+1, wosub, f_param)
+  row=row+2
+
+  worksheet.write(row, 0, (I18n.t :datumvonbis), f_header1)
+  worksheet.write(row+1, 0, (I18n.t :ist))
+  worksheet.write(row+2, 0, (I18n.t :soll))
+  worksheet.write(row+3, 0, (I18n.t :delta))
+
+  #alle Unterstrukturen
+  @subs = []
+  @subs << mobject.id
+  @subs = subids(mobject.id, @subs)
+
+  @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('mobject_id in (?) and costortime=?', @subs, scope).group("jahrmonat").order(:jahrmonat)
+  @pts = Planning.select("jahrmonat, sum(amount) as summe").where('mobject_id in (?) and costortime=?', @subs, scope).group("jahrmonat").order(:jahrmonat)
+
+  #datum range
+  if @tts
+    @start = @tts.first.jahrmonat
+    @end = @tts.last.jahrmonat
+  end
+  if @pts
+    if @pts.first.jahrmonat < @start
+      @start = @pts.first.jahrmonat
+    end
+    if @pts.last.jahrmonat > @end
+      @end = @pts.last.jahrmonat
+    end
+  end
+
+  row = row + 5
+  #Datum Range
+  range = getDatumRange(@start, @end)
+  col=1
+  for i in 0..range.length-1
+    worksheet.write(row, col, range[i], f_header1)
+    col=col+1
+  end
+
+  data = getReportData(range, @tts)
+  row = row + 1
+  worksheet.write(row, 0, "Aufwand IST", f_header1)
+  worksheet.write(row+1, 0, "Aufwand IST kumuliert", f_header1)
+  col=1
+  for i in 0..data[:data].length-1
+    worksheet.write(row, col, data[:data][i])
+    worksheet.write(row+1, col, data[:datakum][i])
+    col=col+1
+  end
+  
+  data = getReportData(range, @pts)
+  row = row + 3
+  worksheet.write(row, 0, "Aufwand PLAN", f_header1)
+  worksheet.write(row+1, 0, "Aufwand PLAN kumuliert", f_header1)
+  col=1
+  for i in 0..data[:data].length-1
+    worksheet.write(row, col, data[:data][i])
+    worksheet.write(row+1, col, data[:datakum][i])
+    col=col+1
+  end
+
+  if @tts and 1 > 2
+    
+    @dataTT = []
+    @labelTT = []
+    @tts.each do |t|
+      @dataTT << t.summe
+      @labelTT << t.jahrmonat
+    end
+    @start = @labelTT[0]
+    @end = @labelTT[@dataTT.length-1]
+    
+    @dataPT = []
+    @labelPT = []
+    @pts.each do |t|
+      @dataPT << t.summe
+      @labelPT << t.jahrmonat
+    end
+    if @dataPT.length > 0
+      if @labelPT[0] < @start
+        @start = @labelPT[0]
+      end
+      if @labelPT[@dataPT.length-1] > @end
+        @end = @labelPT[@dataPT.length-1]
+      end
+    end
+
+    row = row + 5
+    worksheet.write(row, 0, @start)
+    worksheet.write(row+1, 0, @end)
+
+    if true
+    row = row + 3
+    @datum = @start
+    col=1
+    while @datum <= @end do
+
+      worksheet.write(row, col, @datum)
+      
+      found = 0
+      for i in 0..@dataTT.length-1
+        if @labelTT[i] == @datum
+          found = @dataTT[i]
+        end
+      end
+      worksheet.write(row+1, col, found)
+      found = 0
+      for i in 0..@dataPT.length-1
+        if @labelPT[i] == @datum
+          found = @dataPT[i]
+        end
+      end
+      worksheet.write(row+2, col, found)
+      
+      #calculate next date
+      year = @datum[0..3].to_i
+      month = @datum[5..6].to_i
+      if month == 12
+        months = "01"
+        year = year + 1
+      else
+        month = month + 1
+        months = month.to_s
+        if months.length == 1
+          months = "0" + months
+        end
+      end
+      @datum = year.to_s + "-" + months
+      col=col+1
+    end
+    end
+    
+    row = row + 5
+    worksheet.write(row, 1, @labelTT.to_s)
+    worksheet.write(row+1, 1, @dataTT.to_s)
+    row = row + 3
+    worksheet.write(row, 1, @labelPT.to_s)
+    worksheet.write(row+1, 1, @dataPT.to_s)
+    
+  end
+
+if false
+  row = row + 5
+  col = 1
+  worksheet.write(row, col, t.jahrmonat, f_header1)
+  worksheet.write(row+1, col, t.summe, f_param)
+  col = col + 1
+
+  for i in 1..istsoll.length-1
+    worksheet.write(row, i, istsoll[i][0],f_header1)
+    worksheet.write(row+1, i, istsoll[i][1])
+    worksheet.write(row+2, i, istsoll[i][2])
+    if istsoll[i][2]-istsoll[i][1] < 0
+      worksheet.write(row+3, i, istsoll[i][2]-istsoll[i][1], f_param)
+    else
+      worksheet.write(row+3, i, istsoll[i][2]-istsoll[i][1])
+    end 
+  end
+  
+  row=row+6
+  worksheet.write(row, 0, (I18n.t :kumuliert), f_header1)
+  worksheet.write(row+1, 0, (I18n.t :ist))
+  worksheet.write(row+2, 0, (I18n.t :soll))
+  worksheet.write(row+3, 0, (I18n.t :delta))
+  for i in 1..istsollkum.length-1
+    worksheet.write(row, i, istsollkum[i][0],f_header1)
+    worksheet.write(row+1, i, istsollkum[i][1])
+    worksheet.write(row+2, i, istsollkum[i][2])
+    if istsollkum[i][2]-istsollkum[i][1] < 0
+      worksheet.write(row+3, i, istsollkum[i][2]-istsollkum[i][1], f_param)
+    else
+      worksheet.write(row+3, i, istsollkum[i][2]-istsollkum[i][1])
+    end 
+  end
+
+  row=row+6
+  for k in 0..iso.length-1
+
+    maiso = iso[k]
+    @user = User.find(maiso[i][0])
+    if @user
+      @name = @user.name + " " + @user.lastname
+    else
+      @name = "unbekannt"
+    end
+    
+    worksheet.write(row, 0, @name, f_header1)
+    worksheet.write(row+1, 0, (I18n.t :ist))
+    worksheet.write(row+2, 0, (I18n.t :soll))
+    worksheet.write(row+3, 0, (I18n.t :delta))
+
+    for i in 1..maiso.length-1
+      worksheet.write(row, i, maiso[i][1],f_header1)
+      worksheet.write(row+1, i, maiso[i][2])
+      worksheet.write(row+2, i, maiso[i][3])
+      if maiso[i][3] - maiso[i][2] < 0
+        worksheet.write(row+3, i, maiso[i][3] - maiso[i][2], f_param)
+      else
+        worksheet.write(row+3, i, maiso[i][3] - maiso[i][2])
+      end 
+    end
+
+    row = row + 4
+
+  end
+end
+
+  workbook.close
+  return filename
+
+end
+
+def getReportData(range, data)
+  dataTT = []
+  dataTTkum = []
+  if data
+    #init data
+    for i in 0..range.length-1
+      dataTT << 0
+    end
+    #fill data in right position
+    data.each do |t|
+      found = 0
+      for i in 0..range.length-1
+        if range[i] == t.jahrmonat
+          dataTT[i] = t.summe
+        end
+      end
+    end
+    dataTTkum[0] = dataTT[0]
+    for i in 1..range.length-1
+      dataTTkum[i] = dataTTkum[i-1]+dataTT[i]
+    end
+  end
+  return {:data => dataTT, :datakum => dataTTkum}
+end
+
+def getDatumRange(start, ende)
+  datum = start
+  labelTT = []
+  while datum <= ende do
+    labelTT << datum
+    #calculate next date
+    year = datum[0..3].to_i
+    month = datum[5..6].to_i
+    if month == 12
+      months = "01"
+      year = year + 1
+    else
+      month = month + 1
+      months = month.to_s
+      if months.length == 1
+        months = "0" + months
+      end
+    end
+    datum = year.to_s + "-" + months
+  end
+  return labelTT
 end
 
 end    

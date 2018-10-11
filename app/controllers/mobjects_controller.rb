@@ -55,9 +55,17 @@ class MobjectsController < ApplicationController
     end
 
    if @topic == "objekte_auftragscontrolling"
-      if params[:export]
-        @export = true
+
+      if params[:writeexcel]
+        @filename = "public/projectreport_projekt"+@mobject.id.to_s+".xls"
+      else
+        @filename = nil
       end
+
+      # if params[:export]
+      #   @export = true
+      # end
+
       if params[:year]
         @c_year = params[:year]
       else

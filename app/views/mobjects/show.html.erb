@@ -876,8 +876,14 @@
           <span><i class="btn btn-<%= btn_sa %> fa fa-safari"></i></span>
         <% end %>
         
-        <%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_auftragscontrolling", :year => @c_year, :month => @c_month, :mode => @c_mode, :scope => @c_scope, :export => true) do %>
-          <span><i class="btn btn-inactive fa fa-book"></i></span>
+        <!--<%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_auftragscontrolling", :year => @c_year, :month => @c_month, :mode => @c_mode, :scope => @c_scope, :export => true) do %>-->
+        <!--  <span><i class="btn btn-inactive fa fa-book"></i></span>-->
+        <!--<% end %>-->
+
+        <% if @filename %>
+	        <%= link_to @filename.remove("public") do %>
+            <span><i class="btn btn-active fa fa-cloud-download"></i></span>
+          <% end %>
         <% end %>
         
        <br><br>
@@ -909,14 +915,10 @@
         <% end %>
       </div>
 
-      <% if @export %>
-        <% @filename = exportWriter(@mobject, @istsoll, @istsollkum, @istsollau, @isoallrep) %>
-        <% link_to @filename, @filename.remove("public") %>
-        <%= link_to @filename.remove("public") do %>
-          <span><i class="btn btn-active fa fa-cloud-download"></i></span>
-        <% end %>
+      <% if @filename %>
+        <% exportProjekt(@mobject, @c_scope) %>
       <% end %>
-      
+
     </div>
 
   <% when "objekte_substruktur" %>
