@@ -2941,7 +2941,6 @@ def exportProjekt (mobject, scope)
     worksheet.write(row, col, range[i], f_header1)
     col=col+1
   end
-
   data = getReportData(range, @tts)
   row = row + 1
   worksheet.write(row, 0, "Aufwand IST", f_header1)
@@ -2952,7 +2951,6 @@ def exportProjekt (mobject, scope)
     worksheet.write(row+1, col, data[:datakum][i])
     col=col+1
   end
-  
   data = getReportData(range, @pts)
   row = row + 3
   worksheet.write(row, 0, "Aufwand PLAN", f_header1)
@@ -2962,6 +2960,36 @@ def exportProjekt (mobject, scope)
     worksheet.write(row, col, data[:data][i])
     worksheet.write(row+1, col, data[:datakum][i])
     col=col+1
+  end
+
+  for m in 0..@subs.length-1
+  
+
+    @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('mobject_id =? and costortime=?', @subs[m], scope).group("jahrmonat").order(:jahrmonat)
+    @pts = Planning.select("jahrmonat, sum(amount) as summe").where('mobject_id = ? and costortime=?', @subs[m], scope).group("jahrmonat").order(:jahrmonat)
+
+    data = getReportData(range, @tts)
+    row = row + 3
+    worksheet.write(row, 0, "Aufwand IST", f_header1)
+    worksheet.write(row+1, 0, "Aufwand IST kumuliert", f_header1)
+    col=1
+    for i in 0..data[:data].length-1
+      worksheet.write(row, col, data[:data][i])
+      worksheet.write(row+1, col, data[:datakum][i])
+      col=col+1
+    end
+
+    data = getReportData(range, @pts)
+    row = row + 3
+    worksheet.write(row, 0, "Aufwand PLAN", f_header1)
+    worksheet.write(row+1, 0, "Aufwand PLAN kumuliert", f_header1)
+    col=1
+    for i in 0..data[:data].length-1
+      worksheet.write(row, col, data[:data][i])
+      worksheet.write(row+1, col, data[:datakum][i])
+      col=col+1
+    end
+
   end
 
   if @tts and 1 > 2
