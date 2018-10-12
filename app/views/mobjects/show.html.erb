@@ -1469,6 +1469,7 @@ $(document).ready(function(){
     <% end %>
 
     <% @users = @mobject.madvisors.select("user_id").where('role=?',"projekte").distinct %>
+    <% if @users != nil %>
     <% @users.each do |u| %>
       <% @user = User.find(u.user_id) %>
       <% @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('mobject_id=? and costortime=?', @subs[i], @c_scope).group("jahrmonat").order(:jahrmonat) %>
@@ -1519,6 +1520,7 @@ $(document).ready(function(){
               }
           }
       })
+    <% end %>
     <% end %>
 
 });
