@@ -853,21 +853,21 @@
         <% @date_start %>
         <% @date_end %>
 
-        <%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_auftragscontrolling", :year => @c_year, :month => @c_month, :mode => "alles", :scope => @c_scope)  do %>
-          <span><i class="btn btn-<%= btn_a %> fa fa-fullscreen"> alles</i></span>
-        <% end %>
-        <%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_auftragscontrolling", :year => @c_year, :month => @c_month, :mode => "Jahr", :scope => @c_scope)  do %>
-          <span><i class="btn btn-<%= btn_y %> fa fa-calendar"> <%= @c_year %></i></span>
-        <% end %>
+        <!--<%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_auftragscontrolling", :year => @c_year, :month => @c_month, :mode => "alles", :scope => @c_scope)  do %>-->
+        <!--  <span><i class="btn btn-<%= btn_a %> fa fa-fullscreen"> alles</i></span>-->
+        <!--<% end %>-->
+        <!--<%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_auftragscontrolling", :year => @c_year, :month => @c_month, :mode => "Jahr", :scope => @c_scope)  do %>-->
+        <!--  <span><i class="btn btn-<%= btn_y %> fa fa-calendar"> <%= @c_year %></i></span>-->
+        <!--<% end %>-->
         
-        <% if @c_mode != "alles" %>
-          <%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_auftragscontrolling", :dir => "<", :year => @c_year, :month => @c_month, :mode => @c_mode, :scope => @c_scope) do %>
-            <i class="btn btn btn-primary fa fa-chevron-left"></i>
-          <% end %>
-          <%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_auftragscontrolling", :dir => ">", :year => @c_year, :month => @c_month, :mode => @c_mode, :scope => @c_scope) do %>
-            <i class="btn btn-primary fa fa-chevron-right"></i>
-          <% end %>
-        <% end %>
+        <!--<% if @c_mode != "alles" %>-->
+        <!--  <%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_auftragscontrolling", :dir => "<", :year => @c_year, :month => @c_month, :mode => @c_mode, :scope => @c_scope) do %>-->
+        <!--    <i class="btn btn btn-primary fa fa-chevron-left"></i>-->
+        <!--  <% end %>-->
+        <!--  <%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_auftragscontrolling", :dir => ">", :year => @c_year, :month => @c_month, :mode => @c_mode, :scope => @c_scope) do %>-->
+        <!--    <i class="btn btn-primary fa fa-chevron-right"></i>-->
+        <!--  <% end %>-->
+        <!--<% end %>-->
         
         <%= link_to mobject_path(:id => @mobject.id, :topic => "objekte_auftragscontrolling", :year => @c_year, :month => @c_month, :mode => @c_mode, :scope => "kosten") do %>
           <span><i class="btn btn-<%= btn_sc %> fa fa-euro"></i></span>
@@ -930,7 +930,7 @@
       <% @users = @mobject.madvisors.select("user_id").distinct %>
       <div class="row">
         <% @users.each do |u| %>
-          <div class="col-md-4">
+          <div class="col-md-6">
             <div class="chart-container">
               <canvas id="myUserChart<%= u.user_id %>"></canvas>
             </div>
@@ -1471,16 +1471,19 @@ $(document).ready(function(){
     <% @users = @mobject.madvisors.select("user_id").distinct %>
     <% @users.each do |u| %>
       <% @user = User.find(u.user_id) %>
-      <% dat = controlRes(@user.id, @mobject.id, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>
+      <% @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('mobject_id=? and costortime=?', @subs[i], @c_scope).group("jahrmonat").order(:jahrmonat) %>
+      <% @pts = Planning.select("jahrmonat, sum(amount) as summe").where('mobject_id=? and costortime=?', @subs[i], @c_scope).group("jahrmonat").order(:jahrmonat) %>
+      <% dataIst = getReportData(range, @tts) %>
+      <% dataPlan = getReportData(range, @pts) %>
       var ctu<%= u.user_id %> = document.getElementById("myUserChart<%= u.user_id %>");
       var myUserChart<%= u.user_id %> = new Chart(ctu<%= u.user_id %>, {
         type: 'line',
           data: {
-                  labels: <%= raw ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"] %>,
+                  labels: <%= raw range %>,
                   datasets: [
                       {
-                      label: 'Aufwand IST in h',
-                      data: <%= raw dat[:dataTT] %>,
+                      label: 'IST',
+                      data: <%= raw dataIst[:datakum] %>,
                       backgroundColor: [
                           'rgba(<%= rand(255) %>, <%= rand(0) %>, <%= rand(0) %>, 0.2)',
                       ],
@@ -1490,8 +1493,8 @@ $(document).ready(function(){
                       borderWidth: 1
                       },
                       {
-                      label: 'Aufwand PLAN in h',
-                      data: <%= raw dat[:dataPT] %>,
+                      label: 'PLAN',
+                      data: <%= raw dataPlan[:datakum] %>,
                       backgroundColor: [
                           'rgba(<%= rand(0) %>, <%= rand(0) %>, <%= rand(255) %>, 0.2)',
                       ],
@@ -1505,7 +1508,7 @@ $(document).ready(function(){
           options: {
               title: {
                   display: true,
-                  text: '<%= @user.name + " " + @user.lastname %>'
+                  text: 'Aufwand kumuliert in h <%= @user.name + " " + @user.lastname %>'
               },
               scales: {
                   yAxes: [{
