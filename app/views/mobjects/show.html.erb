@@ -892,6 +892,11 @@
        <%= "--->" + @subs.to_s %>
        <% end %>
 
+      <!--Substuktur ??-->
+      <% @subs = [] %>
+      <% @subs << @mobject.id %>
+      <% @subs = subids(@mobject.id, @subs) %>
+
       <div class="row">
         <div class="col-md-6">
           <div class="chart-container">
@@ -904,6 +909,24 @@
           </div>
         </div>
       </div>
+
+      <% if @subs.length > 1 %>
+        <div class="row">
+          <% for i in 0..@subs.length-1 %>
+            <div class="col-md-6">
+              <div class="chart-container">
+                <canvas id="mySubProjectChart<%= i %>"></canvas>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="chart-container">
+                <canvas id="mySubProjectChart2<%= i %>"></canvas>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+
       <% @users = @mobject.madvisors.select("user_id").distinct %>
       <div class="row">
         <% @users.each do |u| %>
@@ -1080,7 +1103,7 @@ $(document).ready(function(){
 </script>
 <% end %>
 
-<% if @topic == "objekte_auftragscontrolling" %>
+<% if @topic == "objekte_auftragscontrolling_b" %>
 <script>
 $(document).ready(function(){
     var ctkum = document.getElementById("projektKum");
@@ -1174,6 +1197,276 @@ $(document).ready(function(){
             }
         }
     })
+
+    <% @users = @mobject.madvisors.select("user_id").distinct %>
+    <% @users.each do |u| %>
+      <% @user = User.find(u.user_id) %>
+      <% dat = controlRes(@user.id, @mobject.id, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>
+      var ctu<%= u.user_id %> = document.getElementById("myUserChart<%= u.user_id %>");
+      var myUserChart<%= u.user_id %> = new Chart(ctu<%= u.user_id %>, {
+        type: 'line',
+          data: {
+                  labels: <%= raw ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"] %>,
+                  datasets: [
+                      {
+                      label: 'Aufwand IST in h',
+                      data: <%= raw dat[:dataTT] %>,
+                      backgroundColor: [
+                          'rgba(<%= rand(255) %>, <%= rand(0) %>, <%= rand(0) %>, 0.2)',
+                      ],
+                      borderColor: [
+                          'rgba(54, 162, 235, 1)',
+                      ],
+                      borderWidth: 1
+                      },
+                      {
+                      label: 'Aufwand PLAN in h',
+                      data: <%= raw dat[:dataPT] %>,
+                      backgroundColor: [
+                          'rgba(<%= rand(0) %>, <%= rand(0) %>, <%= rand(255) %>, 0.2)',
+                      ],
+                      borderColor: [
+                          'rgba(54, 162, 235, 1)',
+                      ],
+                      borderWidth: 1
+                      },
+                  ]
+              },
+          options: {
+              title: {
+                  display: true,
+                  text: '<%= @user.name + " " + @user.lastname %>'
+              },
+              scales: {
+                  yAxes: [{
+                      ticks: {
+                          beginAtZero:true
+                      }
+                  }]
+              }
+          }
+      })
+    <% end %>
+
+});
+</script>
+<% end %>
+
+<% if @topic == "objekte_auftragscontrolling" %>
+
+  #substruktur 
+  <% @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('mobject_id in (?) and costortime=?', @subs, @c_scope).group("jahrmonat").order(:jahrmonat) %>
+  <% @pts = Planning.select("jahrmonat, sum(amount) as summe").where('mobject_id in (?) and costortime=?', @subs, @c_scope).group("jahrmonat").order(:jahrmonat) %>
+  #datum range
+  <% @start = Date.today.year.to_s + "-" + "01" %>
+  <% @end = Date.today.year.to_s + "-" + "12" %>
+  <% if @tts.first != nil %>
+    <% @start = @tts.first.jahrmonat %>
+    <% @end = @tts.last.jahrmonat %>
+  <% end %>
+  <% if @pts.first != nil %>
+    <% if @pts.first.jahrmonat < @start %>
+      <% @start = @pts.first.jahrmonat %>
+    <% end %>
+    <% if @pts.last.jahrmonat > @end %>
+      <% @end = @pts.last.jahrmonat %>
+    <% end %>
+  <% end %>
+  <% range = getDatumRange(@start, @end) %>
+  <% dataIst = getReportData(range, @tts) %>
+  <% dataPlan = getReportData(range, @pts) %>
+
+<script>
+$(document).ready(function(){
+    <!--kumuliert über alles-->
+    var ctkum = document.getElementById("projektKum");
+    var projektKum = new Chart(ctkum, {
+      type: 'line',
+        data: {
+                labels: <%= raw range %>,
+                datasets: [
+                    {
+                    label: 'IST',
+                    data: <%= raw dataIst[:datakum] %>,
+                    backgroundColor: [
+                        'rgba(<%= rand(255) %>, <%= rand(255) %>, <%= rand(255) %>, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                    ],
+                    borderWidth: 1
+                    },
+                    {
+                    label: 'PLAN',
+                    data: <%= raw dataPlan[:datakum] %>,
+                    backgroundColor: [
+                        'rgba(<%= rand(255) %>, <%= rand(255) %>, <%= rand(255) %>, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                    ],
+                    borderWidth: 1
+                    }
+                ]
+            },
+        options: {
+            title: {
+                display: true,
+                text: 'Aufwand in h (kumuliert)'
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    })
+
+    var ctabs = document.getElementById("projektabs");
+    var projektKum = new Chart(ctabs, {
+      type: 'line',
+        data: {
+                labels: <%= raw range %>,
+                datasets: [
+                    {
+                    label: 'IST',
+                    data: <%= raw dataIst[:data] %>,
+                    backgroundColor: [
+                        'rgba(<%= rand(255) %>, <%= rand(255) %>, <%= rand(255) %>, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                    ],
+                    borderWidth: 1
+                    },
+                    {
+                    label: 'PLAN',
+                    data: <%= raw dataPlan[:data] %>,
+                    backgroundColor: [
+                        'rgba(<%= rand(255) %>, <%= rand(255) %>, <%= rand(255) %>, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                    ],
+                    borderWidth: 1
+                    }
+                ]
+            },
+        options: {
+            title: {
+                display: true,
+                text: 'Aufwand in h pro Monat'
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    })
+
+    <% if @subs.length > 1 %>
+        <% for i in 0..@subs.length-1 %>
+          <%= i %>
+          <% @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('mobject_id=? and costortime=?', @subs[i], @c_scope).group("jahrmonat").order(:jahrmonat) %>
+          <% @pts = Planning.select("jahrmonat, sum(amount) as summe").where('mobject_id=? and costortime=?', @subs[i], @c_scope).group("jahrmonat").order(:jahrmonat) %>
+          <% dataIst = getReportData(range, @tts) %>
+          <% dataPlan = getReportData(range, @pts) %>
+          var csub<%= i %> = document.getElementById("mySubProjectChart<%= i %>");
+          var mySubProjectChart<%= i %> = new Chart(csub<%= i %>, {
+            type: 'line',
+              data: {
+                      labels: <%= raw range %>,
+                      datasets: [
+                          {
+                          label: 'Aufwand IST in h',
+                          data: <%= raw dataIst[:datakum] %>,
+                          backgroundColor: [
+                              'rgba(<%= rand(255) %>, <%= rand(0) %>, <%= rand(0) %>, 0.2)',
+                          ],
+                          borderColor: [
+                              'rgba(54, 162, 235, 1)',
+                          ],
+                          borderWidth: 1
+                          },
+                          {
+                          label: 'Aufwand PLAN in h',
+                          data: <%= raw dataPlan[:datakum] %>,
+                          backgroundColor: [
+                              'rgba(<%= rand(0) %>, <%= rand(0) %>, <%= rand(255) %>, 0.2)',
+                          ],
+                          borderColor: [
+                              'rgba(54, 162, 235, 1)',
+                          ],
+                          borderWidth: 1
+                          },
+                      ]
+                  },
+              options: {
+                  title: {
+                      display: true,
+                      text: 'Aufwand in h kumuliert <%= Mobject.find(@subs[i]).name %>'
+                  },
+                  scales: {
+                      yAxes: [{
+                          ticks: {
+                              beginAtZero:true
+                          }
+                      }]
+                  }
+              }
+          })
+
+          var csub2<%= i %> = document.getElementById("mySubProjectChart2<%= i %>");
+          var mySubProjectChart2<%= i %> = new Chart(csub2<%= i %>, {
+            type: 'line',
+              data: {
+                      labels: <%= raw range %>,
+                      datasets: [
+                          {
+                          label: 'Aufwand IST in h',
+                          data: <%= raw dataIst[:data] %>,
+                          backgroundColor: [
+                              'rgba(<%= rand(255) %>, <%= rand(0) %>, <%= rand(0) %>, 0.2)',
+                          ],
+                          borderColor: [
+                              'rgba(54, 162, 235, 1)',
+                          ],
+                          borderWidth: 1
+                          },
+                          {
+                          label: 'Aufwand PLAN in h',
+                          data: <%= raw dataPlan[:data] %>,
+                          backgroundColor: [
+                              'rgba(<%= rand(0) %>, <%= rand(0) %>, <%= rand(255) %>, 0.2)',
+                          ],
+                          borderColor: [
+                              'rgba(54, 162, 235, 1)',
+                          ],
+                          borderWidth: 1
+                          },
+                      ]
+                  },
+              options: {
+                  title: {
+                      display: true,
+                      text: 'Aufwand in h pro Monat <%= Mobject.find(@subs[i]).name %>'
+                  },
+                  scales: {
+                      yAxes: [{
+                          ticks: {
+                              beginAtZero:true
+                          }
+                      }]
+                  }
+              }
+          })
+        <% end %>
+    <% end %>
 
     <% @users = @mobject.madvisors.select("user_id").distinct %>
     <% @users.each do |u| %>
