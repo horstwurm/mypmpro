@@ -2880,6 +2880,11 @@ def exportProjekt (mobject, scope)
   #f_header1.set_bg_color('black')
   f_header2.set_bg_color('red')
 
+  f_header3 = workbook.add_format
+  f_header3.set_color('white')
+  f_header3.set_bg_color('grey')
+  #f_header2.set_bg_color('red')
+
   f_param = workbook.add_format
   f_param.set_bold
   f_param.set_color('red')
@@ -2983,6 +2988,7 @@ def exportProjekt (mobject, scope)
         col=col+1
       end
 
+      #alle MA
       #if m == 0
         #@tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('mobject_id in (?) and costortime=?', @subs, scope).group("jahrmonat").order(:jahrmonat)
         #@pts = Planning.select("jahrmonat, sum(amount) as summe").where('mobject_id in (?) and costortime=?', @subs, scope).group("jahrmonat").order(:jahrmonat)
@@ -3009,21 +3015,21 @@ def exportProjekt (mobject, scope)
         data = getReportData(range, @ttsma)
         row = row + 3
         @user = User.find(malist[ma])
-        worksheet.write(row, 0, @user.name + " " + @user.lastname, f_header1)
+        worksheet.write(row, 0, @user.name + " " + @user.lastname, f_header3)
         row = row + 1
-        worksheet.write(row, 0, scope + " IST kumuliert")
-        worksheet.write(row+1, 0, scope + " IST")
+        worksheet.write(row, 0, scope + " IST kumuliert", f_header1)
+        worksheet.write(row+1, 0, scope + " IST", f_header1)
         col=1
         for i in 0..data[:data].length-1
-          worksheet.write(row, col, data[:datakum][i])
+          worksheet.write(row, col, data[:datakum][i], f_header3)
           worksheet.write(row+1, col, data[:data][i])
           col=col+1
         end
 
         data = getReportData(range, @ptsma)
         row = row + 2
-        worksheet.write(row, 0, scope + " PLAN kumuliert")
-        worksheet.write(row+1, 0, scope + " PLAN")
+        worksheet.write(row, 0, scope + " PLAN kumuliert", f_header1)
+        worksheet.write(row+1, 0, scope + " PLAN", f_header1)
         col=1
         for i in 0..data[:data].length-1
           worksheet.write(row, col, data[:datakum][i])
