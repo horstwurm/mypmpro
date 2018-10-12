@@ -1671,12 +1671,12 @@ def action_buttons4(object_type, item, topic)
           end
 
         when "institutionen_projektliste"
-          html_string = html_string + link_to(mobjects_path :mtype => getTopicName(topic)) do
+          html_string = html_string + link_to(mobjects_path :mtype => "projekte") do
             content_tag(:i, " " + (I18n.t :suchen), class: "btn btn-default fa fa-search  pull-right")
           end
           if user_signed_in?
             if (item.user_id == current_user.id) or isdeputy(item) or current_user.superuser
-              html_string = html_string + link_to(new_mobject_path :company_id => item.id, :mtype => subtopic(topic), :msubtype => nil) do
+              html_string = html_string + link_to(new_mobject_path :company_id => item.id, :mtype => "projekte", :msubtype => nil) do
                 #content_tag(:i, " " + (I18n.t subtopic(topic)), class: "btn btn-primary fa fa-plus orange  pull-right")
                 content_tag(:i, " " + (I18n.t :projekte), class: "btn btn-primary fa fa-plus orange  pull-right")
               end
@@ -2896,15 +2896,17 @@ def exportProjekt (mobject, scope)
   @subs << mobject.id
   @subs = subids(mobject.id, @subs)
 
-  @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('mobject_id in (?) and costortime=?', @subs, scope).group("jahrmonat").order(:jahrmonat)
-  @pts = Planning.select("jahrmonat, sum(amount) as summe").where('mobject_id in (?) and costortime=?', @subs, scope).group("jahrmonat").order(:jahrmonat)
+  @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('mobject_id in(?) and costortime=?', @subs, scope).group("jahrmonat").order(:jahrmonat)
+  @pts = Planning.select("jahrmonat, sum(amount) as summe").where('mobject_id in(?) and costortime=?', @subs, scope).group("jahrmonat").order(:jahrmonat)
 
   #datum range
-  if @tts
+  @start = Date.today.year.to_s + "-" + "01"
+  @end = Date.today.year.to_s + "-" + "12"
+  if @tts.first != nil
     @start = @tts.first.jahrmonat
     @end = @tts.last.jahrmonat
   end
-  if @pts
+  if @pts.first != nil
     if @pts.first.jahrmonat < @start
       @start = @pts.first.jahrmonat
     end
@@ -2923,10 +2925,11 @@ def exportProjekt (mobject, scope)
     worksheet.write(row, col, range[i], f_header1)
     col=col+1
   end
+
   data = getReportData(range, @tts)
   row = row + 1
-  worksheet.write(row, 0, scope + " IST", f_header1)
-  worksheet.write(row+1, 0, scope + " IST kumuliert", f_header1)
+  worksheet.write(row, 0, scope + " IST kumuliert", f_header1)
+  worksheet.write(row+1, 0, scope + " IST", f_header1)
   col=1
   for i in 0..data[:data].length-1
     worksheet.write(row, col, data[:datakum][i], f_header2)
@@ -2947,17 +2950,18 @@ def exportProjekt (mobject, scope)
   # nur wenn Unterprojekte
     for m in 0..@subs.length-1
 
-      if m == 0
-        @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('mobject_id in (?) and costortime=?', @subs, scope).group("jahrmonat").order(:jahrmonat)
-        @pts = Planning.select("jahrmonat, sum(amount) as summe").where('mobject_id in (?) and costortime=?', @subs, scope).group("jahrmonat").order(:jahrmonat)
-      else
+      #if m == 0
+        #@tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('mobject_id in (?) and costortime=?', @subs, scope).group("jahrmonat").order(:jahrmonat)
+        #@pts = Planning.select("jahrmonat, sum(amount) as summe").where('mobject_id in (?) and costortime=?', @subs, scope).group("jahrmonat").order(:jahrmonat)
+      #else
         @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('mobject_id =? and costortime=?', @subs[m], scope).group("jahrmonat").order(:jahrmonat)
         @pts = Planning.select("jahrmonat, sum(amount) as summe").where('mobject_id = ? and costortime=?', @subs[m], scope).group("jahrmonat").order(:jahrmonat)
-      end
+      #end
   
       data = getReportData(range, @tts)
       row = row + 3
       worksheet.write(row, 0, Mobject.find(@subs[m]).name , f_header0)
+      
       row = row + 1
       worksheet.write(row, 0, scope + " IST kumuliert", f_header1)
       worksheet.write(row+1, 0, scope + " IST", f_header1)
@@ -2977,6 +2981,58 @@ def exportProjekt (mobject, scope)
         worksheet.write(row, col, data[:datakum][i])
         worksheet.write(row+1, col, data[:data][i])
         col=col+1
+      end
+
+      #if m == 0
+        #@tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('mobject_id in (?) and costortime=?', @subs, scope).group("jahrmonat").order(:jahrmonat)
+        #@pts = Planning.select("jahrmonat, sum(amount) as summe").where('mobject_id in (?) and costortime=?', @subs, scope).group("jahrmonat").order(:jahrmonat)
+      #else
+        @ttsma = Timetrack.select("user_id").where('mobject_id =? and costortime=?', @subs[m], scope).distinct
+        @ptsma = Planning.select("user_id").where('mobject_id=? and costortime=?', @subs[m], scope).distinct
+      #end
+      malist = []
+      @ttsma.each do |ma|
+        malist << ma.user_id
+      end
+      @ptsma.each do |ma|
+        if !malist.include?(ma.user_id)
+          malist << ma.user_id
+        end
+      end
+
+      if true
+      for ma in 0..malist.length-1 do
+
+        @ttsma = Timetrack.select("jahrmonat, sum(amount) as summe").where('user_id=? and mobject_id =? and costortime=?', malist[ma], @subs[m], scope).group("jahrmonat").order(:jahrmonat)
+        @ptsma = Planning.select("jahrmonat, sum(amount) as summe").where('user_id = ? and mobject_id = ? and costortime=?', malist[ma], @subs[m], scope).group("jahrmonat").order(:jahrmonat)
+
+        data = getReportData(range, @ttsma)
+        row = row + 3
+        @user = User.find(malist[ma])
+        worksheet.write(row, 0, @user.name + " " + @user.lastname, f_header1)
+        row = row + 1
+        worksheet.write(row, 0, scope + " IST kumuliert")
+        worksheet.write(row+1, 0, scope + " IST")
+        col=1
+        for i in 0..data[:data].length-1
+          worksheet.write(row, col, data[:datakum][i])
+          worksheet.write(row+1, col, data[:data][i])
+          col=col+1
+        end
+
+        data = getReportData(range, @ptsma)
+        row = row + 2
+        worksheet.write(row, 0, scope + " PLAN kumuliert")
+        worksheet.write(row+1, 0, scope + " PLAN")
+        col=1
+        for i in 0..data[:data].length-1
+          worksheet.write(row, col, data[:datakum][i])
+          worksheet.write(row+1, col, data[:data][i])
+          col=col+1
+        end
+
+      end
+      row = row + 1
       end
   
     end
