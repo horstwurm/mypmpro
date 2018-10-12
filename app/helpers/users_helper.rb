@@ -2872,8 +2872,13 @@ def exportProjekt (mobject, scope)
 
   f_header1 = workbook.add_format
   f_header1.set_color('white')
+  f_header1.set_bg_color('black')
+  #f_header1.set_bg_color(57)
+
+  f_header2 = workbook.add_format
+  f_header2.set_color('white')
   #f_header1.set_bg_color('black')
-  f_header1.set_bg_color(57)
+  f_header2.set_bg_color('red')
 
   f_param = workbook.add_format
   f_param.set_bold
@@ -2884,32 +2889,7 @@ def exportProjekt (mobject, scope)
   
   row = 0
   col = 0
-  worksheet.write(row, col, (I18n.t :auftragscontrolling) + " " + DateTime.now.strftime("%d.%m.%y-%H:%M"), f_header0)
-  row = row + 2
-  worksheet.write(row, col, (I18n.t :parameter), f_header1)
-  row = row + 1
-  worksheet.write(row, col, (I18n.t :periode))
-  worksheet.write(row, col+1, @c_mode, f_param)
-  row = row + 1
-  worksheet.write(row, col, (I18n.t :kategorie))
-  worksheet.write(row, col+1, @c_scope, f_param)
-  row = row + 1
-  worksheet.write(row, col, (I18n.t :projekte))
-  worksheet.write(row, col+1, mobject.name, f_param)
-  row = row + 1
-  worksheet.write(row, col, (I18n.t :substruktur))
-  if @include_sub
-    wosub = (I18n.t :ja)
-  else
-    wosub = (I18n.t :nein)
-  end
-  worksheet.write(row, col+1, wosub, f_param)
-  row=row+2
-
-  worksheet.write(row, 0, (I18n.t :datumvonbis), f_header1)
-  worksheet.write(row+1, 0, (I18n.t :ist))
-  worksheet.write(row+2, 0, (I18n.t :soll))
-  worksheet.write(row+3, 0, (I18n.t :delta))
+  worksheet.write(row, col, (I18n.t :auftragscontrolling) + " " + Mobject.find(mobject).name + " " + DateTime.now.strftime("%d.%m.%y-%H:%M"), f_header0)
 
   #alle Unterstrukturen
   @subs = []
@@ -2933,7 +2913,9 @@ def exportProjekt (mobject, scope)
     end
   end
 
-  row = row + 5
+  row = row + 3
+  worksheet.write(row, 0, Mobject.find(mobject).name , f_header0)
+  row = row + 1
   #Datum Range
   range = getDatumRange(@start, @end)
   col=1
@@ -2943,54 +2925,61 @@ def exportProjekt (mobject, scope)
   end
   data = getReportData(range, @tts)
   row = row + 1
-  worksheet.write(row, 0, "Aufwand IST", f_header1)
-  worksheet.write(row+1, 0, "Aufwand IST kumuliert", f_header1)
+  worksheet.write(row, 0, scope + " IST", f_header1)
+  worksheet.write(row+1, 0, scope + " IST kumuliert", f_header1)
   col=1
   for i in 0..data[:data].length-1
-    worksheet.write(row, col, data[:data][i])
-    worksheet.write(row+1, col, data[:datakum][i])
+    worksheet.write(row, col, data[:datakum][i], f_header2)
+    worksheet.write(row+1, col, data[:data][i])
     col=col+1
   end
   data = getReportData(range, @pts)
-  row = row + 3
-  worksheet.write(row, 0, "Aufwand PLAN", f_header1)
-  worksheet.write(row+1, 0, "Aufwand PLAN kumuliert", f_header1)
+  row = row + 2
+  worksheet.write(row, 0, scope + " PLAN kumuliert", f_header1)
+  worksheet.write(row+1, 0, scope + " PLAN", f_header1)
   col=1
   for i in 0..data[:data].length-1
-    worksheet.write(row, col, data[:data][i])
-    worksheet.write(row+1, col, data[:datakum][i])
+    worksheet.write(row, col, data[:datakum][i])
+    worksheet.write(row+1, col, data[:data][i])
     col=col+1
   end
 
-  for m in 0..@subs.length-1
+  # nur wenn Unterprojekte
+    for m in 0..@subs.length-1
+
+      if m == 0
+        @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('mobject_id in (?) and costortime=?', @subs, scope).group("jahrmonat").order(:jahrmonat)
+        @pts = Planning.select("jahrmonat, sum(amount) as summe").where('mobject_id in (?) and costortime=?', @subs, scope).group("jahrmonat").order(:jahrmonat)
+      else
+        @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('mobject_id =? and costortime=?', @subs[m], scope).group("jahrmonat").order(:jahrmonat)
+        @pts = Planning.select("jahrmonat, sum(amount) as summe").where('mobject_id = ? and costortime=?', @subs[m], scope).group("jahrmonat").order(:jahrmonat)
+      end
   
-
-    @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('mobject_id =? and costortime=?', @subs[m], scope).group("jahrmonat").order(:jahrmonat)
-    @pts = Planning.select("jahrmonat, sum(amount) as summe").where('mobject_id = ? and costortime=?', @subs[m], scope).group("jahrmonat").order(:jahrmonat)
-
-    data = getReportData(range, @tts)
-    row = row + 3
-    worksheet.write(row, 0, "Aufwand IST", f_header1)
-    worksheet.write(row+1, 0, "Aufwand IST kumuliert", f_header1)
-    col=1
-    for i in 0..data[:data].length-1
-      worksheet.write(row, col, data[:data][i])
-      worksheet.write(row+1, col, data[:datakum][i])
-      col=col+1
+      data = getReportData(range, @tts)
+      row = row + 3
+      worksheet.write(row, 0, Mobject.find(@subs[m]).name , f_header0)
+      row = row + 1
+      worksheet.write(row, 0, scope + " IST kumuliert", f_header1)
+      worksheet.write(row+1, 0, scope + " IST", f_header1)
+      col=1
+      for i in 0..data[:data].length-1
+        worksheet.write(row, col, data[:datakum][i], f_header2)
+        worksheet.write(row+1, col, data[:data][i])
+        col=col+1
+      end
+  
+      data = getReportData(range, @pts)
+      row = row + 2
+      worksheet.write(row, 0, scope + " PLAN kumuliert", f_header1)
+      worksheet.write(row+1, 0, scope + " PLAN", f_header1)
+      col=1
+      for i in 0..data[:data].length-1
+        worksheet.write(row, col, data[:datakum][i])
+        worksheet.write(row+1, col, data[:data][i])
+        col=col+1
+      end
+  
     end
-
-    data = getReportData(range, @pts)
-    row = row + 3
-    worksheet.write(row, 0, "Aufwand PLAN", f_header1)
-    worksheet.write(row+1, 0, "Aufwand PLAN kumuliert", f_header1)
-    col=1
-    for i in 0..data[:data].length-1
-      worksheet.write(row, col, data[:data][i])
-      worksheet.write(row+1, col, data[:datakum][i])
-      col=col+1
-    end
-
-  end
 
   if @tts and 1 > 2
     
