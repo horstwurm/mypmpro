@@ -1,6 +1,6 @@
 
 <!--def header4_cicd(text, user, company, mobject, obj, item, topic)-->
-<%= header4_cicd(@mobject.mtype + " " + @mobject.name, nil, nil, @mobject, "objekte", @mobject, @topic) %>
+<%= header4_cicd(@mobject.mtype, @mobject.name, nil, nil, @mobject, "objekte", @mobject, @topic) %>
 
 <% case @topic %>
   <% when "objekte_info" %>

@@ -925,15 +925,18 @@ def build_medialistNew(items, cname, par1, par2, par3)
                 end
 
               when "users"
-  	            html_string = html_string + link_to(new_email_path(:m_to_id => item.id, :m_from_id => current_user.id, :back_url => request.original_url)) do 
-                  content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-envelope mediabutton")
+                # wenn Auswahl für andere Funktion nicht anzeigen
+                if par1 != "deputy" and par1 != "projekte" and par1 != "gruppen"
+    	            html_string = html_string + link_to(new_email_path(:m_to_id => item.id, :m_from_id => current_user.id, :back_url => request.original_url)) do 
+                    content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-envelope mediabutton")
+                  end
+                  if item.id == current_user.id or isdeputy(item)
+                    access=true
+                  end 
                 end
-                if item.id == current_user.id or isdeputy(item)
-                  access=true
-                end 
                 if par1 == "deputy"
     	            html_string = html_string + link_to(new_deputy_path(:user_id => item.id, :owner_id => par2, :owner_type => par3)) do 
-                    content_tag(:i, nil, class:"btn btn-primary btn-lg fa fa-check mediabutton")
+                    content_tag(:i, nil, class:"btn btn-primary btn-lg fa fa-plus mediabutton")
                   end
                   access=false
                 end
@@ -992,8 +995,8 @@ def build_medialistNew(items, cname, par1, par2, par3)
              end
           end
 
-          #kein Info button wenn kein weiterer drill down
-          if cname != "mdetails" and cname != "madvisors" and cname != "partner_links" and cname != "appparams"
+          #kein Info button wenn kein weiterer drill down oder par 
+          if cname != "mdetails" and cname != "madvisors" and cname != "partner_links" and cname != "appparams" and par1 != "deputy" and par1 != "projekte" and par1 != "gruppen"
             html_string = html_string + link_to(item, :topic => "info") do 
               content_tag(:i, nil, class:"btn btn-default btn-lg fa fa-info")
             end
@@ -1221,7 +1224,7 @@ def header4(text, obj, item, topic)
     return html_string.html_safe
 end
 
-def header4_cicd(text, user, company, mobject, obj, item, topic)
+def header4_cicd(text1, text2, user, company, mobject, obj, item, topic)
   pos = topic.index("_")
   infosymbol = (topic[pos+1..topic.length-1]).to_sym
   txt = getinfo2(infosymbol)["infotext"]
@@ -1251,7 +1254,7 @@ def header4_cicd(text, user, company, mobject, obj, item, topic)
 
   html_string = ""
   html_string = html_string + '<div class="panel-body" style="background-color:' + color1 + '; color:' + color2 + '">'
-      html_string = html_string + "<h3>" + text.upcase + "</h3>"
+      html_string = html_string + "<h3>" + content_tag(:i, text1, class:"goldheader") + " " + text2 + "</h3>"
       html_string = html_string + navigate3(obj, item, topic, txt)
   html_string = html_string + "</div>"
   return html_string.html_safe
@@ -1747,7 +1750,12 @@ def action_buttons4(object_type, item, topic)
                end
             end
             if item.owner_type == "Company"
-               html_string = html_string + link_to(company_path(:id => item.owner.id, :topic => "institutionen_"+item.mtype)) do
+               if item.mtype == "projekte"
+                 topic = "projektliste"
+               else
+                 topic = item.mtype
+               end
+               html_string = html_string + link_to(company_path(:id => item.owner.id, :topic => "institutionen_"+topic)) do
                 content_tag(:i, " "+ (I18n.t :uebersicht), class:"btn btn-default fa fa-eye pull-right") 
                end
             end

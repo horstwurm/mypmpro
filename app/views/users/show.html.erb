@@ -1,4 +1,4 @@
-<%= header4(@user.fullname,"personen", @user, @topic) %>
+<%= header4_cicd("personen", @user.fullname,@user, nil, nil, "personen", @user, @topic) %>
 
       <% case @topic %>
         <% when "personen_info" %>
@@ -339,6 +339,9 @@
                   <% @pieLabel << Mobject.find(ts.mobject_id).name %>
                   <% summe = summe + ts.sum %>
                 <% end %>
+                
+                <!--<%= @pieLabel %>-->
+                <!--<%= @pieData %>-->
 
                 <!--<%= @c_scope %><br>-->
                 <!--<%= @c_mode %><br>-->
@@ -818,58 +821,6 @@ $(document).ready(function(){
 <script>
 $(document).ready(function(){
 
-    <% @mobs = @user.madvisors.select("mobject_id").distinct %>
-    <% @mobs.each do |m| %>
-      <% @mobject = Mobject.find(m.mobject_id) %>
-      <% @date_start = @c_year.to_s + ".01.01" %>
-      <% @date_end = @c_year.to_s + ".12.31" %>
-      <% dat = controlRes(@user.id, m.mobject_id, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>
-      var ctu<%= m.mobject_id %> = document.getElementById("myMobjectChart<%= m.mobject_id %>");
-      var myMobjectChart<%= m.mobject_id %> = new Chart(ctu<%= m.mobject_id %>, {
-        type: 'line',
-          data: {
-                  labels: <%= raw ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"] %>,
-                  datasets: [
-                      {
-                      label: 'Aufwand IST in h',
-                      data: <%= raw dat[:dataTT] %>,
-                      backgroundColor: [
-                          'rgba(<%= rand(255) %>, <%= rand(0) %>, <%= rand(0) %>, 0.2)',
-                      ],
-                      borderColor: [
-                          'rgba(54, 162, 235, 1)',
-                      ],
-                      borderWidth: 1
-                      },
-                      {
-                      label: 'Aufwand PLAN in h',
-                      data: <%= raw dat[:dataPT] %>,
-                      backgroundColor: [
-                          'rgba(<%= rand(0) %>, <%= rand(0) %>, <%= rand(255) %>, 0.2)',
-                      ],
-                      borderColor: [
-                          'rgba(54, 162, 235, 1)',
-                      ],
-                      borderWidth: 1
-                      },
-                  ]
-              },
-          options: {
-              title: {
-                  display: true,
-                  text: '<%= @mobject.name %>'
-              },
-              scales: {
-                  yAxes: [{
-                      ticks: {
-                          beginAtZero:true
-                      }
-                  }]
-              }
-          }
-      })
-    <% end %>
-
   var ctpie = document.getElementById("userProjekte");
   var userProjekte = new Chart(ctpie, {
     type: 'doughnut',
@@ -903,6 +854,68 @@ $(document).ready(function(){
           }
       }
   })
+
+    <% @mobs = @user.madvisors.select("mobject_id").where('role=?',"projekte").distinct %>
+    <% @mobs.each do |m| %>
+      <% @mobject = Mobject.find(m.mobject_id) %>
+      
+      <!--<% @date_start = @c_year.to_s + ".01.01" %>-->
+      <!--<% @date_end = @c_year.to_s + ".12.31" %>-->
+      <!--<% dat = controlRes(@user.id, m.mobject_id, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>-->
+
+      <% @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('user_id = ? and mobject_id=? and costortime=?', @user.id, m.mobject_id, @c_scope).group("jahrmonat").order(:jahrmonat) %>
+      <% @pts = Planning.select("jahrmonat, sum(amount) as summe").where('user_id = ? and mobject_id=? and costortime=?', @user.id, m.mobject_id, @c_scope).group("jahrmonat").order(:jahrmonat) %>
+      <% @start = @c_year.to_s + ".01.01" %>
+      <% @end = @c_year.to_s + ".12.31" %>
+      <% range = getDatumRange(@start, @end) %>
+      <% dataIst = getReportData(range, @tts) %>
+      <% dataPlan = getReportData(range, @pts) %>
+
+      var ctu<%= m.mobject_id %> = document.getElementById("myMobjectChart<%= m.mobject_id %>");
+      var myMobjectChart<%= m.mobject_id %> = new Chart(ctu<%= m.mobject_id %>, {
+        type: 'line',
+          data: {
+                  labels: <%= raw range %>,
+                  datasets: [
+                      {
+                      label: 'Aufwand IST in h',
+                      data: <%= raw dataIst[:data] %>,
+                      backgroundColor: [
+                          'rgba(<%= rand(255) %>, <%= rand(0) %>, <%= rand(0) %>, 0.2)',
+                      ],
+                      borderColor: [
+                          'rgba(54, 162, 235, 1)',
+                      ],
+                      borderWidth: 1
+                      },
+                      {
+                      label: 'Aufwand PLAN in h',
+                      data: <%= raw dataPlan[:data] %>,
+                      backgroundColor: [
+                          'rgba(<%= rand(0) %>, <%= rand(0) %>, <%= rand(255) %>, 0.2)',
+                      ],
+                      borderColor: [
+                          'rgba(54, 162, 235, 1)',
+                      ],
+                      borderWidth: 1
+                      },
+                  ]
+              },
+          options: {
+              title: {
+                  display: true,
+                  text: '<%= @mobject.name %>'
+              },
+              scales: {
+                  yAxes: [{
+                      ticks: {
+                          beginAtZero:true
+                      }
+                  }]
+              }
+          }
+      })
+    <% end %>
 
 });
 </script>
