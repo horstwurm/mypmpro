@@ -261,9 +261,14 @@
             <% end %>
            <br><br>
            
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <div class="chart-container">
                     <canvas id="myChart0P"></canvas>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="chart-container">
+                    <canvas id="myChart0PK"></canvas>
                 </div>
             </div>
 
@@ -887,10 +892,10 @@
         <% end %>
         
        <br><br>
-       <% if false %>
-       <% dat = controlRes(nil, @mobject.id, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>
-       <%= "--->" + @subs.to_s %>
-       <% end %>
+       <!--<% if false %>-->
+       <!--<% dat = controlRes(nil, @mobject.id, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>-->
+       <!--<%= "--->" + @subs.to_s %>-->
+       <!--<% end %>-->
 
       <!--Substuktur ??-->
       <% @subs = [] %>
@@ -1059,21 +1064,31 @@ jQuery(function ($) {
 <script>$('.dropdown-toggle').dropdown()</script>
 
 <% if @topic == "objekte_ressourcenplanung" %>
+<% @start = @c_year.to_s + "-01" %>
+<% @end = @c_year.to_s + "-12" %>
+<% range = getDatumRange(@start, @end) %>
+
 <script>
 $(document).ready(function(){
     var ctx0P = document.getElementById("myChart0P");
     var myChart0P = new Chart(ctx0P, {
       type: 'line',
         data: {
-                labels: <%= raw ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"] %>,
+                labels: <%= raw range %>,
                 datasets: [
-                    <% @mobuser = @mobject.madvisors.select("user_id").distinct %>
+                    <% @mobuser = @mobject.madvisors.select("user_id").where('role=?',"projekte").distinct %>
                     <% @mobuser.each do |u| %>
                     <% @user = User.find(u.user_id) %>
-                    <% dat = controlRes(@user.id, @mobject.id, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>
+                    <!--<% dat = controlRes(@user.id, @mobject.id, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>-->
+
+                    <% @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('user_id = ? and mobject_id=? and costortime=?', u.user_id, @mobject.id, @c_scope).group("jahrmonat").order(:jahrmonat) %>
+                    <% @pts = Planning.select("jahrmonat, sum(amount) as summe").where('user_id = ? and mobject_id=? and costortime=?', u.user_id, @mobject.id, @c_scope).group("jahrmonat").order(:jahrmonat) %>
+                    <% dataIst = getReportData(range, @tts) %>
+                    <% dataPlan = getReportData(range, @pts) %>
+
                     {
                     label: '<%= @user.name + " " + @user.lastname %>',
-                    data: <%= raw dat[:dataPT] %>,
+                    data: <%= raw dataPlan[:data] %>,
                     backgroundColor: [
                         'rgba(<%= rand(255) %>, <%= rand(255) %>, <%= rand(255) %>, 0.2)',
                     ],
@@ -1089,6 +1104,51 @@ $(document).ready(function(){
             title: {
                 display: true,
                 text: 'Aufwand PLAN'
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    })
+    
+    var ctx0PK = document.getElementById("myChart0PK");
+    var myChart0PK = new Chart(ctx0PK, {
+      type: 'line',
+        data: {
+                labels: <%= raw range %>,
+                datasets: [
+                    <% @mobuser = @mobject.madvisors.select("user_id").where('role=?',"projekte").distinct %>
+                    <% @mobuser.each do |u| %>
+                    <% @user = User.find(u.user_id) %>
+                    <!--<% dat = controlRes(@user.id, @mobject.id, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>-->
+
+                    <% @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('user_id = ? and mobject_id=? and costortime=?', u.user_id, @mobject.id, @c_scope).group("jahrmonat").order(:jahrmonat) %>
+                    <% @pts = Planning.select("jahrmonat, sum(amount) as summe").where('user_id = ? and mobject_id=? and costortime=?', u.user_id, @mobject.id, @c_scope).group("jahrmonat").order(:jahrmonat) %>
+                    <% dataIst = getReportData(range, @tts) %>
+                    <% dataPlan = getReportData(range, @pts) %>
+
+                    {
+                    label: '<%= @user.name + " " + @user.lastname %>',
+                    data: <%= raw dataPlan[:datakum] %>,
+                    backgroundColor: [
+                        'rgba(<%= rand(255) %>, <%= rand(255) %>, <%= rand(255) %>, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                    ],
+                    borderWidth: 1
+                    },
+                    <% end %>
+                ]
+            },
+        options: {
+            title: {
+                display: true,
+                text: 'Aufwand PLAN kumuliert'
             },
             scales: {
                 yAxes: [{

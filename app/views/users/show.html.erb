@@ -733,21 +733,30 @@
 <script>$('.dropdown-toggle').dropdown()</script>
 
 <% if @topic == "personen_ressourcenplanung" %>
+<% @start = @c_year.to_s + "-01" %>
+<% @end = @c_year.to_s + "-12" %>
+<% range = getDatumRange(@start, @end) %>
 <script>
 $(document).ready(function(){
     var ctx0P = document.getElementById("myChart0P");
     var myChart0P = new Chart(ctx0P, {
       type: 'line',
         data: {
-                labels: <%= raw ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"] %>,
+                labels: <%= raw range %>,
                 datasets: [
-                    <% @mobs = @user.madvisors.select("mobject_id").distinct %>
+                    <% @mobs = @user.madvisors.select("mobject_id").where('role=?',"projekte").distinct %>
                     <% @mobs.each do |m| %>
                     <% @mobject = Mobject.find(m.mobject_id) %>
-                    <% dat = controlRes(@user.id, @mobject.id, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>
+
+                    <% @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('user_id = ? and mobject_id=? and costortime=?', @user.id, m.mobject_id, @c_scope).group("jahrmonat").order(:jahrmonat) %>
+                    <% @pts = Planning.select("jahrmonat, sum(amount) as summe").where('user_id = ? and mobject_id=? and costortime=?', @user.id, m.mobject_id, @c_scope).group("jahrmonat").order(:jahrmonat) %>
+                    <% dataIst = getReportData(range, @tts) %>
+                    <% dataPlan = getReportData(range, @pts) %>
+
+                    <!--<% dat = controlRes(@user.id, @mobject.id, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>-->
                     {
                     label: '<%= @mobject.name %>',
-                    data: <%= raw dat[:dataPT] %>,
+                    data: <%= raw dataPlan[:data] %>,
                     backgroundColor: [
                         'rgba(<%= rand(255) %>, <%= rand(255) %>, <%= rand(255) %>, 0.2)',
                     ],
@@ -865,8 +874,8 @@ $(document).ready(function(){
 
       <% @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('user_id = ? and mobject_id=? and costortime=?', @user.id, m.mobject_id, @c_scope).group("jahrmonat").order(:jahrmonat) %>
       <% @pts = Planning.select("jahrmonat, sum(amount) as summe").where('user_id = ? and mobject_id=? and costortime=?', @user.id, m.mobject_id, @c_scope).group("jahrmonat").order(:jahrmonat) %>
-      <% @start = @c_year.to_s + ".01.01" %>
-      <% @end = @c_year.to_s + ".12.31" %>
+      <% @start = @c_year.to_s + "-01" %>
+      <% @end = @c_year.to_s + "-12" %>
       <% range = getDatumRange(@start, @end) %>
       <% dataIst = getReportData(range, @tts) %>
       <% dataPlan = getReportData(range, @pts) %>

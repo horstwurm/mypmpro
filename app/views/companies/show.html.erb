@@ -118,7 +118,7 @@
                   <!--<%= m.name + " " + m.id.to_s %>-->
                   <!--<%= controlRes(m, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) if false %>-->
                   <!--<br><br>-->
-                  <div class="col-md-4">
+                  <div class="col-md-6">
                       <div class="chart-container">
                           <canvas id="myChart<%= m.id %>"></canvas>
                       </div>
@@ -393,18 +393,27 @@ $(document).ready(function(){
 <% end %>
 
 <% if @topic == "institutionen_projektressourcen" %>
+<% @start = @c_year.to_s + "-01" %>
+<% @end = @c_year.to_s + "-12" %>
+<% range = getDatumRange(@start, @end) %>
 <script>
   $(document).ready(function(){
     <% @company.mobjects.where('mtype=? and parent=?',"projekte",0).each do |p| %>
-        <% dat = controlRes(nil, p, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>
+
+        <% @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('mobject_id=? and costortime=?', p.id, @c_scope).group("jahrmonat").order(:jahrmonat) %>
+        <% @pts = Planning.select("jahrmonat, sum(amount) as summe").where('mobject_id=? and costortime=?', p.id, @c_scope).group("jahrmonat").order(:jahrmonat) %>
+        <% dataIst = getReportData(range, @tts) %>
+        <% dataPlan = getReportData(range, @pts) %>
+
+        // <% dat = controlRes(nil, p, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>
         var ctx<%= p.id %> = document.getElementById("myChart<%= p.id %>");
         var myChart<%= p.id %> = new Chart(ctx<%= p.id %>, {
           type: 'line',
             data: {
-                labels: <%= raw ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"] %>,
+                labels: <%= raw range %>,
                     datasets: [{
                         label: 'IST Aufwand in h',
-                        data: <%= raw dat[:dataTT] %>,
+                        data: <%= raw dataIst[:data] %>,
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
                         ],
@@ -415,7 +424,7 @@ $(document).ready(function(){
                     },
                     {
                         label: 'PLAN Aufwand in h',
-                        data: <%= raw dat[:dataPT] %>,
+                        data: <%= raw dataPlan[:data] %>,
                         backgroundColor: [
                             'rgba(25, 99, 255, 0.2)',
                         ],
@@ -446,13 +455,17 @@ $(document).ready(function(){
     var myChart0 = new Chart(ctx0, {
       type: 'line',
         data: {
-                labels: <%= raw ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"] %>,
+                labels: <%= raw range %>,
                 datasets: [
                     <% @company.mobjects.where('mtype=? and parent=?',"projekte",0).each do |p| %>
-                    <% dat = controlRes(nil, p, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>
+                    // <% dat = controlRes(nil, p, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>
+                    <% @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('mobject_id=? and costortime=?', p.id, @c_scope).group("jahrmonat").order(:jahrmonat) %>
+                    <% @pts = Planning.select("jahrmonat, sum(amount) as summe").where('mobject_id=? and costortime=?', p.id, @c_scope).group("jahrmonat").order(:jahrmonat) %>
+                    <% dataIst = getReportData(range, @tts) %>
+                    <% dataPlan = getReportData(range, @pts) %>
                     {
                     label: '<%= p.name %>',
-                    data: <%= raw dat[:dataTT] %>,
+                    data: <%= raw dataIst[:data] %>,
                     backgroundColor: [
                         'rgba(<%= rand(255) %>, <%= rand(255) %>, <%= rand(255) %>, 0.2)',
                     ],
@@ -483,13 +496,17 @@ $(document).ready(function(){
     var myChart0P = new Chart(ctx0P, {
       type: 'line',
         data: {
-                labels: <%= raw ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"] %>,
+                labels: <%= raw range %>,
                 datasets: [
                     <% @company.mobjects.where('mtype=? and parent=?',"projekte",0).each do |p| %>
-                    <% dat = controlRes(nil, p, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>
+                    // <% dat = controlRes(nil, p, @c_scope, @c_mode, @date_start, @date_end, @c_year, @c_month) %>
+                    <% @tts = Timetrack.select("jahrmonat, sum(amount) as summe").where('mobject_id=? and costortime=?', p.id, @c_scope).group("jahrmonat").order(:jahrmonat) %>
+                    <% @pts = Planning.select("jahrmonat, sum(amount) as summe").where('mobject_id=? and costortime=?', p.id, @c_scope).group("jahrmonat").order(:jahrmonat) %>
+                    <% dataIst = getReportData(range, @tts) %>
+                    <% dataPlan = getReportData(range, @pts) %>
                     {
                     label: '<%= p.name %>',
-                    data: <%= raw dat[:dataPT] %>,
+                    data: <%= raw dataPlan[:data] %>,
                     backgroundColor: [
                         'rgba(<%= rand(255) %>, <%= rand(255) %>, <%= rand(255) %>, 0.2)',
                     ],
